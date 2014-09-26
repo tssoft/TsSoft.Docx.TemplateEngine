@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsSoft.Docx.TemplateEngine", "TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine.csproj", "{4B5E0531-87D6-4EC1-864B-DA398D17E3B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsSoft.Docx.TemplateEngine.Test", "TsSoft.Docx.TemplateEngine.Test\TsSoft.Docx.TemplateEngine.Test.csproj", "{66F3508A-0B94-49B1-98D6-7BA4E454A534}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B5E0531-87D6-4EC1-864B-DA398D17E3B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B5E0531-87D6-4EC1-864B-DA398D17E3B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B5E0531-87D6-4EC1-864B-DA398D17E3B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B5E0531-87D6-4EC1-864B-DA398D17E3B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66F3508A-0B94-49B1-98D6-7BA4E454A534}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66F3508A-0B94-49B1-98D6-7BA4E454A534}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66F3508A-0B94-49B1-98D6-7BA4E454A534}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66F3508A-0B94-49B1-98D6-7BA4E454A534}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
