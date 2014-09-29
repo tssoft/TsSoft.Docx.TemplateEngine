@@ -44,9 +44,11 @@
   <ItemGroup>
     <Compile Include="DocxGenerator.cs" />
     <Compile Include="DocxPackage.cs" />
-    <Compile Include="IDocxGenerationService.cs" />
+    <Compile Include="Parsers\GeneralParser.cs" />
+    <Compile Include="Parsers\TableParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreamExtension.cs" />
+    <Compile Include="Tags\DocumentTag.cs" />
     <Compile Include="Tags\ITagProcessor.cs" />
     <Compile Include="Tags\TableProcessor.cs" />
     <Compile Include="Tags\TextProcessor.cs" />
