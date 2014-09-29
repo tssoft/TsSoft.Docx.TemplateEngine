@@ -56,6 +56,7 @@
     <Compile Include="Tags\BaseTagTest.cs" />
     <Compile Include="Tags\TextProcessorTest.cs" />
     <Compile Include="DocxGeneratorTest.cs" />
+    <Compile Include="Tags\DataReaderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine.csproj">
