@@ -9,8 +9,6 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         [TestMethod]
         public void TestMethod1()
         {
-            var e = new System.Text.UTF8Encoding();
-            Assert.AreEqual("UTF-8", e.BodyName);
             //var asm = Assembly.GetExecutingAssembly().GetManifestResourceStream("TextProcessorTest.docx");
             //ValidateTagsRemoved(null);
         }
