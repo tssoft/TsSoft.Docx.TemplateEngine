@@ -51,6 +51,7 @@
     <Compile Include="Tags\DocumentTag.cs" />
     <Compile Include="Tags\ITagProcessor.cs" />
     <Compile Include="Tags\TableProcessor.cs" />
+    <Compile Include="Tags\TableTag.cs" />
     <Compile Include="Tags\TextProcessor.cs" />
   </ItemGroup>
   <ItemGroup />
