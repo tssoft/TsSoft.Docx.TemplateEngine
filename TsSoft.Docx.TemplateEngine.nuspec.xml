@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>TsSoft.Docx.TemplateEngine</id>
+    <version>REPLACEME</version>
+    <authors>TS Soft</authors>
+    <owners>TS Soft</owners>
+    <licenseUrl>http://creativecommons.org/licenses/by/3.0/</licenseUrl>
+    <!--projectUrl>TODO</projectUrl-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>REPLACEME</description>
+    <copyright>REPLACEME</copyright>
+    <tags>docx openxml word msword template reporting</tags>
+    <!--dependencies>
+    </dependencies-->
+  </metadata>
+  <files>
+	<file src="TsSoft.Docx.TemplateEngine.dll" target="lib\net35" />
+  </files>
+</package>

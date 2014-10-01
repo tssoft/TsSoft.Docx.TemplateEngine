@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TsSoft.Docx.TemplateEngine")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Library for generating DOCX documents based on templates in DOCX format with all features of MS Word available")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("TS Soft")]
 [assembly: AssemblyProduct("TsSoft.Docx.TemplateEngine")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2014")]
+[assembly: AssemblyCopyright("Copyright © TS Soft 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

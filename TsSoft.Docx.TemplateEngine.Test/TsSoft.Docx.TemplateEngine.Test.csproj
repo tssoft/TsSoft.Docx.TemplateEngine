@@ -53,6 +53,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Parsers\TableParserTest.cs" />
+    <Compile Include="Parsers\TextParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tags\BaseTagTest.cs" />
     <Compile Include="Tags\TextProcessorTest.cs" />
@@ -70,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Parsers\table.xml" />
+    <EmbeddedResource Include="Parsers\TextParserTest.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
