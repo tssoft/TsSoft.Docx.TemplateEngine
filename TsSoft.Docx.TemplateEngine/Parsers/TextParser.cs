@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
+using TsSoft.Docx.TemplateEngine.Tags;
 
 namespace TsSoft.Docx.TemplateEngine.Parsers
 {
-    class TextParser
+    internal class TextParser : GeneralParser
     {
-        public void Do(XElement startElement)
+        public TextTag Do(XElement startElement)
         {
-
+            ValidateStartTag(startElement, "Text");
+            return new TextTag { Expression = startElement.Value };
         }
     }
 }

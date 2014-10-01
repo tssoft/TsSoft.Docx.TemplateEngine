@@ -57,6 +57,7 @@
     <Compile Include="Tags\TableTag.cs" />
     <Compile Include="Tags\TextProcessor.cs" />
     <Compile Include="Tags\TextTag.cs" />
+    <Compile Include="WordMl.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
