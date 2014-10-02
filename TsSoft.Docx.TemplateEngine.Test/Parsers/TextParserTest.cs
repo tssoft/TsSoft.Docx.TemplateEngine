@@ -15,7 +15,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             var docStream = AssemblyResourceHelper.GetResourceStream(this, "TextParserTest.xml");
             var doc = XDocument.Load(docStream);
             var parser = new TextParser();
-            var tag = parser.Do(doc.Descendants(TableParser.SdtName).First());
+            var tag = parser.Do(doc.Descendants(WordMl.SdtName).First());
             Assert.IsNotNull(tag);
             Assert.AreEqual("//test/text", tag.Expression);
         }
