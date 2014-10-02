@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using System.Xml.Linq;
 using TsSoft.Commons.Utils;
 
 namespace TsSoft.Docx.TemplateEngine.Test
@@ -17,6 +18,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 var pkg = new DocxPackage(stream);
                 pkg.Load();
                 Assert.IsNotNull(pkg.DocumentPartXml);
+                pkg.DocumentPartXml.AddFirst(new XComment("Hellol, world!"));
                 pkg.Save();
             }
         }

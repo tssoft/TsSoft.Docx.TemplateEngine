@@ -50,6 +50,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreamExtension.cs" />
     <Compile Include="Tags\DataReader.cs" />
+    <Compile Include="Tags\DataReaderFactory.cs" />
     <Compile Include="Tags\DocumentTag.cs" />
     <Compile Include="Tags\DocxHelper.cs" />
     <Compile Include="Tags\ITagProcessor.cs" />

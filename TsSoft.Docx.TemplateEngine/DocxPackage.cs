@@ -11,7 +11,6 @@ namespace TsSoft.Docx.TemplateEngine
     internal class DocxPackage
     {
         private const string OfficeDocumentRelType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
-        public const string WordMlNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         private Stream docxStream;
 
         public XDocument DocumentPartXml { get; private set; }
