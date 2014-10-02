@@ -2,7 +2,7 @@
 
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
-    internal class TextProcessor<E> : ITagProcessor<E>
+    internal class TextProcessor : ITagProcessor
     {
         public void Process(TextTag textTag)
         {
