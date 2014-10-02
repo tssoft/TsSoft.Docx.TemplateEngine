@@ -5,11 +5,32 @@ using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
-    internal class GeneralParser
+    internal class GeneralParser : ITagParser
     {
-        public virtual ITagProcessor Parse(XElement startElement)
+        public virtual void Parse(ITagProcessor parentProcessor, XElement startElement)
         {
-            return null;
+            XElement sdtElement = startElement.NextElement(x => x.Name == WordMl.SdtName);
+            while (sdtElement != null)
+            {
+                ITagParser parser = null;
+                // TODO Ignore case
+                switch (GetTagName(sdtElement))
+                {
+                    case "Text":
+                        parser = new TextParser();
+                        break;
+                    case "Table":
+                        break;
+                    case "Repeater":
+                        break;
+                    case "If":
+                        break;
+                }
+                if (parser != null)
+                {
+                    parser.Parse(parentProcessor, sdtElement);
+                }
+            }
         }
 
         protected void ValidateStartTag(XElement startElement, string tagName)
@@ -29,6 +50,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 // TODO
                 throw new Exception();
             }
+        }
+
+        protected string GetTagName(XElement startElement)
+        {
+            var tagElement = startElement.Descendants(WordMl.TagName).SingleOrDefault();
+            if (tagElement == null)
+            {
+                return null;
+            }
+            var nameAttribute = tagElement.Attribute(WordMl.ValAttributeName);
+            return (nameAttribute != null) ? nameAttribute.Value : null;
         }
     }
 }

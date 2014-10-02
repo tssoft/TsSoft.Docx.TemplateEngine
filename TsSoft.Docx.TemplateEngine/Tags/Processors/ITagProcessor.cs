@@ -1,7 +1,11 @@
 ﻿namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 {
-    internal abstract class ITagProcessor
+    internal interface ITagProcessor
     {
-        public DataReader DataReader { get; set; }
+        DataReader DataReader { get; set; }
+
+        void Process();
+
+        void AddProcessor(ITagProcessor processor);
     }
 }

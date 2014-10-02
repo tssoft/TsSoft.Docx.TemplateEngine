@@ -1,15 +1,10 @@
 ﻿namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 {
-    internal class TextProcessor : ITagProcessor
+    internal class TextProcessor : AbstractProcessor
     {
         public TextTag TextTag { get; set; }
 
-        public TextProcessor(TextTag textTag)
-        {
-            this.TextTag = textTag;
-        }
-
-        public void Process()
+        public override void Process()
         {
             var element = TextTag.TagNode;
             var text = DataReader.ReadText(TextTag.Expression);

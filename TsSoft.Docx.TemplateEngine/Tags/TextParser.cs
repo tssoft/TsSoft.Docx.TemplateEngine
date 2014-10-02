@@ -1,16 +1,17 @@
 ﻿using System.Xml.Linq;
-using TsSoft.Docx.TemplateEngine.Tags;
 using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
     internal class TextParser : GeneralParser
     {
-        public override ITagProcessor Parse(XElement startElement)
+        public override void Parse(ITagProcessor parentProcessor, XElement startElement)
         {
             ValidateStartTag(startElement, "Text");
             var tag = new TextTag { Expression = startElement.Value };
-            return new TextProcessor(tag);
+            var processor = new TextProcessor { TextTag = tag };
+            parentProcessor.AddProcessor(processor);
+            base.Parse(parentProcessor, startElement.NextElement());
         }
     }
 }
