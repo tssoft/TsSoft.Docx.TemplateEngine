@@ -16,15 +16,6 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestFillDocx()
         {
-            //c:\Temp\document.xml
-            var doc = XDocument.Load(@"c:\Temp\document.xml");
-            XNamespace ns = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
-            var n = doc.Descendants(ns + "sdt").Skip(1).First();
-            //.Descendants(ns + "tag").Attributes(ns + "val").First().Value
-            Assert.AreEqual(100,  n.DescendantNodesAndSelf());
-
-
-            //var generator = new DocxGenerator<object>();
         }
     }
 }

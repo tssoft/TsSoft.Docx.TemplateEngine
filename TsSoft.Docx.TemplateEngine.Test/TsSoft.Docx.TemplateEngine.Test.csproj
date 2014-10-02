@@ -65,6 +65,7 @@
     <Compile Include="Tags\TextProcessorTest.cs" />
     <Compile Include="DocxGeneratorTest.cs" />
     <Compile Include="Tags\DataReaderTest.cs" />
+    <Compile Include="DocxPackageTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine.csproj">
@@ -81,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="DocxPackageTest.docx" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
