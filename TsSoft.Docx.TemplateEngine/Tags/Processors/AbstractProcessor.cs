@@ -12,6 +12,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         {
             foreach (var processor in processors)
             {
+                processor.DataReader = DataReader;
                 processor.Process();
             }
         }
