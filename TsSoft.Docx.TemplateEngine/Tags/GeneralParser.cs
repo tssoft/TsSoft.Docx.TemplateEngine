@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
+using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
-namespace TsSoft.Docx.TemplateEngine.Parsers
+namespace TsSoft.Docx.TemplateEngine.Tags
 {
     internal class GeneralParser
     {
+        public virtual ITagProcessor Parse(XElement startElement)
+        {
+            return null;
+        }
+
         protected void ValidateStartTag(XElement startElement, string tagName)
         {
             if (startElement == null)

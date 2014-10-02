@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace TsSoft.Docx.TemplateEngine.Tags
+namespace TsSoft.Docx.TemplateEngine
 {
     internal class DataReader
     {

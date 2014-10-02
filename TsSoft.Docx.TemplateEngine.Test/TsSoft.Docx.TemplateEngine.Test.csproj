@@ -58,14 +58,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Parsers\TableParserTest.cs" />
-    <Compile Include="Parsers\TextParserTest.cs" />
+    <Compile Include="Tags\TableParserTest.cs" />
+    <Compile Include="Tags\TextParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tags\BaseTagTest.cs" />
-    <Compile Include="Tags\DataReaderFactoryTest.cs" />
-    <Compile Include="Tags\TextProcessorTest.cs" />
+    <Compile Include="Tags\Processors\BaseTagTest.cs" />
+    <Compile Include="DataReaderFactoryTest.cs" />
+    <Compile Include="Tags\Processors\TextProcessorTest.cs" />
     <Compile Include="DocxGeneratorTest.cs" />
-    <Compile Include="Tags\DataReaderTest.cs" />
+    <Compile Include="DataReaderTest.cs" />
     <Compile Include="DocxPackageTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,12 +75,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Tags\TextProcessorTest.docx" />
+    <EmbeddedResource Include="Tags\Processors\TextProcessorTest.docx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Parsers\table.xml" />
-    <EmbeddedResource Include="Tags\DataReaderTest.xml" />
-    <EmbeddedResource Include="Parsers\TextParserTest.xml" />
+    <Content Include="Tags\table.xml" />
+    <EmbeddedResource Include="DataReaderTest.xml" />
+    <EmbeddedResource Include="Tags\TextParserTest.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

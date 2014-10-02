@@ -3,9 +3,9 @@ using System;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
-using TsSoft.Docx.TemplateEngine.Parsers;
+using TsSoft.Docx.TemplateEngine.Tags;
 
-namespace TsSoft.Docx.TemplateEngine.Test.Parsers
+namespace TsSoft.Docx.TemplateEngine.Test.Tags
 {
     /// <summary>
     /// Test TableParser class

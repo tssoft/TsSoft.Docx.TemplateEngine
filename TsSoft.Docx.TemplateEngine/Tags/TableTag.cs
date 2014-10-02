@@ -3,13 +3,14 @@
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
     /// <summary>
-    /// Table properties
+    /// Table
     /// </summary>
-    /// <author>Георгий Поликарпов</author>
-    class TableTag
+    internal class TableTag
     {
         public string ItemsSource { get; set; }
+
         public int DynamicRow { get; set; }
+
         public XElement Table { get; set; }
     }
 }

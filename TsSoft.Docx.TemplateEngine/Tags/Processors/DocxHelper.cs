@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace TsSoft.Docx.TemplateEngine.Tags
+namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 {
     internal class DocxHelper
     {

@@ -44,19 +44,19 @@
   <ItemGroup>
     <Compile Include="DocxGenerator.cs" />
     <Compile Include="DocxPackage.cs" />
-    <Compile Include="Parsers\GeneralParser.cs" />
-    <Compile Include="Parsers\TableParser.cs" />
-    <Compile Include="Parsers\TextParser.cs" />
+    <Compile Include="Tags\GeneralParser.cs" />
+    <Compile Include="Tags\TableParser.cs" />
+    <Compile Include="Tags\TextParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreamExtension.cs" />
-    <Compile Include="Tags\DataReader.cs" />
-    <Compile Include="Tags\DataReaderFactory.cs" />
-    <Compile Include="Tags\DocumentTag.cs" />
-    <Compile Include="Tags\DocxHelper.cs" />
-    <Compile Include="Tags\ITagProcessor.cs" />
-    <Compile Include="Tags\TableProcessor.cs" />
+    <Compile Include="DataReader.cs" />
+    <Compile Include="DataReaderFactory.cs" />
+    <Compile Include="Tags\Processors\DocumentTag.cs" />
+    <Compile Include="Tags\Processors\DocxHelper.cs" />
+    <Compile Include="Tags\Processors\ITagProcessor.cs" />
+    <Compile Include="Tags\Processors\TableProcessor.cs" />
     <Compile Include="Tags\TableTag.cs" />
-    <Compile Include="Tags\TextProcessor.cs" />
+    <Compile Include="Tags\Processors\TextProcessor.cs" />
     <Compile Include="Tags\TextTag.cs" />
     <Compile Include="WordMl.cs" />
   </ItemGroup>

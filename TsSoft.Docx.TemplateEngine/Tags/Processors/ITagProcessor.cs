@@ -1,4 +1,4 @@
-﻿namespace TsSoft.Docx.TemplateEngine.Tags
+﻿namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 {
     internal abstract class ITagProcessor
     {

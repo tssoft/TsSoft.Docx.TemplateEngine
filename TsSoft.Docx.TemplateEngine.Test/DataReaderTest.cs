@@ -15,7 +15,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         {
             const string message = "Hello, world!";
             var testData = new DataReaderTestData { Message = message };
-            var dataReader = DataReaderFactory.Get<DataReaderTestData>(testData);
+            var dataReader = DataReaderFactory.CreateReader<DataReaderTestData>(testData);
             Assert.AreEqual(message, dataReader.ReadText("//Message"));
         }
 
@@ -23,14 +23,14 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         public void TestGetReader()
         {
             var document = GetXmlDocument();
-            var dataReader = DataReaderFactory.Get<XmlDocument>(document);
+            var dataReader = DataReaderFactory.CreateReader<XmlDocument>(document);
 
             const string path = "/Test/Certificates/Certificate";
             var reader = dataReader.GetReader(path);
             Assert.IsNotNull(reader);
 
             var node = document.SelectSingleNode(path);
-            var expectedReader = DataReaderFactory.Get<XmlNode>(node);
+            var expectedReader = DataReaderFactory.CreateReader<XmlNode>(node);
             Assert.AreEqual(expectedReader, reader);
 
             const string wrongPath = "/Test/Documents/Document";
@@ -42,7 +42,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         public void TestGetReaders()
         {
             var document = GetXmlDocument();
-            var dataReader = DataReaderFactory.Get<XmlDocument>(document);
+            var dataReader = DataReaderFactory.CreateReader<XmlDocument>(document);
 
             const string path = "/Test/Certificates/Certificate";
             var readers = dataReader.GetReaders(path);
@@ -55,7 +55,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var dataReadersEnumerator = readers.GetEnumerator();
             foreach (XmlNode node in nodes)
             {
-                var expectedReader = DataReaderFactory.Get<XmlNode>(node);
+                var expectedReader = DataReaderFactory.CreateReader<XmlNode>(node);
                 dataReadersEnumerator.MoveNext();
                 Assert.AreEqual(expectedReader, dataReadersEnumerator.Current);
             }
@@ -71,7 +71,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void TestGetReaderNullPath()
         {
-            var dataReader = DataReaderFactory.Get<XmlDocument>(GetXmlDocument());
+            var dataReader = DataReaderFactory.CreateReader<XmlDocument>(GetXmlDocument());
             dataReader.GetReader(null);
         }
 
@@ -79,7 +79,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void TestGetReadersNullPath()
         {
-            var dataReader = DataReaderFactory.Get<XmlDocument>(GetXmlDocument());
+            var dataReader = DataReaderFactory.CreateReader<XmlDocument>(GetXmlDocument());
             var readers = dataReader.GetReaders(null);
             readers.GetEnumerator().MoveNext();
         }
