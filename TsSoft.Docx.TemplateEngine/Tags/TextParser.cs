@@ -11,7 +11,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var tag = new TextTag { Expression = startElement.Value };
             var processor = new TextProcessor { TextTag = tag };
             parentProcessor.AddProcessor(processor);
-            base.Parse(parentProcessor, startElement.NextElement());
         }
     }
 }

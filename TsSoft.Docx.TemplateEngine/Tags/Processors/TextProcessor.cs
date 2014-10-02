@@ -6,6 +6,7 @@
 
         public override void Process()
         {
+            base.Process();
             var element = TextTag.TagNode;
             var text = DataReader.ReadText(TextTag.Expression);
             element.AddBeforeSelf(DocxHelper.CreateTextElement(text));

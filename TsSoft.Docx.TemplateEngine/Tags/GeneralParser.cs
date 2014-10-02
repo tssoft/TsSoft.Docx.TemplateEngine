@@ -12,24 +12,32 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             XElement sdtElement = startElement.NextElement(x => x.Name == WordMl.SdtName);
             while (sdtElement != null)
             {
-                ITagParser parser = null;
-                // TODO Ignore case
-                switch (GetTagName(sdtElement))
-                {
-                    case "Text":
-                        parser = new TextParser();
-                        break;
-                    case "Table":
-                        break;
-                    case "Repeater":
-                        break;
-                    case "If":
-                        break;
-                }
-                if (parser != null)
-                {
-                    parser.Parse(parentProcessor, sdtElement);
-                }
+                ParseSdt(parentProcessor, sdtElement);
+            }
+        }
+
+        protected void ParseSdt(ITagProcessor parentProcessor, XElement sdtElement)
+        {
+            ITagParser parser = null;
+            // TODO Ignore case
+            switch (GetTagName(sdtElement))
+            {
+                case "Text":
+                    parser = new TextParser();
+                    break;
+
+                case "Table":
+                    break;
+
+                case "Repeater":
+                    break;
+
+                case "If":
+                    break;
+            }
+            if (parser != null)
+            {
+                parser.Parse(parentProcessor, sdtElement);
             }
         }
 
