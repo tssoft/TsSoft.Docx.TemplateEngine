@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Test>
+  <Certificates>
+    <Certificate>
+      <Subject>Информатика</Subject>
+      <IssueDate>01.04.2014</IssueDate>
+      <ExpireDate>01.10.2015</ExpireDate>
+    </Certificate>
+    <Certificate>
+      <Subject>Математика</Subject>
+      <IssueDate>01.03.2014</IssueDate>
+      <ExpireDate>01.09.2015</ExpireDate>
+    </Certificate>
+    <Certificate>
+      <Subject>Языки программирования</Subject>
+      <IssueDate>01.01.2011</IssueDate>
+      <ExpireDate>01.01.2012</ExpireDate>
+    </Certificate>
+  </Certificates>
+</Test>

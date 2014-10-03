@@ -1,61 +1,78 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
+using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
     /// <summary>
     /// Parse table tag
     /// </summary>
-    /// <author>Георгий Поликарпов</author>
     class TableParser : GeneralParser
     {
-        public Tags.TableTag Do(XElement startElement)
+        /// <summary>
+        /// Do parsing
+        /// </summary>
+        public override void Parse(ITagProcessor parentProcessor, XElement startElement)
         {
-            if (startElement == null)
+            ValidateStartTag(startElement, "Table");
+
+            if (parentProcessor == null)
             {
-                throw new ArgumentNullException("startElement");
+                throw new ArgumentNullException();
             }
 
             var endTableTag = TraverseUtils.NextTagElements(startElement, "EndTable").FirstOrDefault();
             if (endTableTag == null || TraverseUtils.TagElementsBetween(startElement, endTableTag, "Table").Any())
             {
-                throw new Exception(string.Format(MessageStrings.ClosingTagNotFound, "Table"));
+                throw new Exception("Table closing tag wasn't found");
             }
 
-            var table = new Tags.TableTag();
+            var tag = new TableTag();
+            tag.TagTable = startElement;
+            tag.TagEndTable = endTableTag;
+
 
             var itemsElement = TraverseUtils.TagElementsBetween(startElement, endTableTag, "Items").FirstOrDefault();
             if (itemsElement == null || itemsElement.Value == "")
             {
-                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "Items"));
+                throw new Exception("Table data source wasn't found");
             }
-            table.ItemsSource = itemsElement.Value;
+            tag.ItemsSource = itemsElement.Value;
+
 
             var dynamicRowElement = TraverseUtils.TagElementsBetween(startElement, endTableTag, "DynamicRow").FirstOrDefault();
             if (dynamicRowElement != null)
             {
-                table.DynamicRow = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
+                int dynamicRowValue;
+                tag.DynamicRow = int.TryParse(dynamicRowElement.Value, out dynamicRowValue)
+                                     ? dynamicRowValue
+                                     : (int?) null;
             }
+
 
             var contentElement = TraverseUtils.TagElementsBetween(startElement, endTableTag, "Content").FirstOrDefault();
             if (contentElement == null)
             {
-                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "Content"));
+                throw new Exception("Context tag wasn't found");
             }
+
+            tag.TagContent = contentElement;
             var endContentElement = TraverseUtils.TagElementsBetween(contentElement, endTableTag, "EndContent").FirstOrDefault();
-            if (endContentElement == null || TraverseUtils.TagElementsBetween(contentElement, endContentElement, "Content").Any())
+            if (endContentElement == null)
             {
-                throw new Exception(string.Format(MessageStrings.ClosingTagNotFound, "Content"));
+                throw new Exception("Context closing tag wasn't found");
             }
+            tag.TagEndContent = endContentElement;
+
             var tableElement = contentElement.ElementsAfterSelf(WordMl.WordMlNamespace + "tbl").FirstOrDefault(element => element.IsBefore(endContentElement));
             if (tableElement != null)
             {
-                table.Table = tableElement;
+                tag.Table = tableElement;
             }
 
-            return table;
+            var processor = new TableProcessor {TableTag = tag};
+            parentProcessor.AddProcessor(processor);
         }
-
     }
 }

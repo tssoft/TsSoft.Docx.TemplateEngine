@@ -61,6 +61,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Tags\Processors\TableProcessorTest.cs" />
     <Compile Include="Tags\TableParserTest.cs" />
     <Compile Include="Tags\TagProcessorMock.cs" />
     <Compile Include="Tags\TextParserTest.cs" />
@@ -84,14 +85,20 @@
     <EmbeddedResource Include="Tags\Processors\TextProcessorTest.docx" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Tags\TableParserTest.xml" />
     <EmbeddedResource Include="Tags\Repeater_Ok.xml" />
-    <EmbeddedResource Include="Tags\table.xml" />
     <EmbeddedResource Include="DataReaderTest.xml" />
     <EmbeddedResource Include="Tags\TextParserTest.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\Processors\TableProcessorTemplateTest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\Processors\TableProcessorDataTest.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
