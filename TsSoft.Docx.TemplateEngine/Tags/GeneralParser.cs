@@ -46,7 +46,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             if (startElement == null)
             {
                 // TODO
-                throw new ArgumentNullException(string.Format(MessageStrings.ArgumentNull, "startElement"));
+                throw new ArgumentNullException("startElement");
             }
             if (startElement.Name != WordMl.SdtName)
             {

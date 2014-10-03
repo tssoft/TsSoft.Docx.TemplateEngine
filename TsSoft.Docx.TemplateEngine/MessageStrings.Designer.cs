@@ -61,15 +61,6 @@ namespace TsSoft.Docx.TemplateEngine {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The method argument &quot;%s&quot; cannot be null.
-        /// </summary>
-        internal static string ArgumentNull {
-            get {
-                return ResourceManager.GetString("ArgumentNull", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to A closing tag &quot;%s&quot; was not found.
         /// </summary>
         internal static string ClosingTagNotFound {

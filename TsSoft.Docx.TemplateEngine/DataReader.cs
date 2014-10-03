@@ -25,8 +25,7 @@ namespace TsSoft.Docx.TemplateEngine
         {
             if (path == null)
             {
-                throw new ArgumentNullException(
-                    string.Format(MessageStrings.ArgumentNull, pathArgumentName));
+                throw new ArgumentNullException(pathArgumentName);
             }
 
             var newElement = rootElement.XPathSelectElement(path);
@@ -38,8 +37,7 @@ namespace TsSoft.Docx.TemplateEngine
         {
             if (path == null)
             {
-                throw new ArgumentNullException(
-                    string.Format(MessageStrings.ArgumentNull, pathArgumentName));
+                throw new ArgumentNullException(pathArgumentName);
             }
 
             var newElements = rootElement.XPathSelectElements(path);

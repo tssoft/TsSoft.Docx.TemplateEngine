@@ -23,7 +23,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         {
             if (startElement == null)
             {
-                throw new ArgumentNullException(string.Format(MessageStrings.ArgumentNull, "startElement"));
+                throw new ArgumentNullException("startElement");
             }
 
             var endTableTag = NextTagElements(startElement, "EndTable").FirstOrDefault();
