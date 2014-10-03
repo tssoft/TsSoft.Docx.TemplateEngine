@@ -93,13 +93,14 @@ namespace TsSoft.Docx.TemplateEngine.Test
             Assert(entityDataReaderMock);
         }
 
-        private void Assert(Mock<DataReader> dataReaderMock)
+        private void Assert(IMock<DataReader> dataReaderMock)
         {
             docxPackageMock.Verify(p => p.Load(), Times.Once);
 
             parserMock.Verify(p => p.Parse(It.IsAny<AbstractProcessor>(), It.IsAny<XElement>()), Times.Once);
             parserMock.Verify(p => p.Parse(processorMock.Object, root), Times.Once);
 
+            processorMock.VerifySet(p => p.DataReader = It.IsAny<DataReader>(), Times.Once);
             processorMock.VerifySet(p => p.DataReader = dataReaderMock.Object, Times.Once);
             processorMock.Verify(p => p.Process(), Times.Once);
 
