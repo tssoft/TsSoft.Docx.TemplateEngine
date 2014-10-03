@@ -46,17 +46,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             if (startElement == null)
             {
                 // TODO
-                throw new Exception();
+                throw new ArgumentNullException(string.Format(MessageStrings.ArgumentNull, "startElement"));
             }
             if (startElement.Name != WordMl.SdtName)
             {
                 // TODO
-                throw new Exception();
+                throw new Exception(MessageStrings.NotATag);
             }
             if (null == startElement.Descendants(WordMl.TagName).SingleOrDefault(x => x.Attribute(WordMl.ValAttributeName).Value == tagName))
             {
                 // TODO
-                throw new Exception();
+                throw new Exception(MessageStrings.NotExpectedTag);
             }
         }
 

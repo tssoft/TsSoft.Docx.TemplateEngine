@@ -23,13 +23,13 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         {
             if (startElement == null)
             {
-                throw new ArgumentNullException("Аргумент не может быть null");
+                throw new ArgumentNullException(string.Format(MessageStrings.ArgumentNull, "startElement"));
             }
 
             var endTableTag = NextTagElements(startElement, "EndTable").FirstOrDefault();
             if (endTableTag == null || TagElementsBetween(startElement, endTableTag, "Table").Any())
             {
-                throw new Exception("Отсутсвует закрывающий тег таблицы.");
+                throw new Exception(string.Format(MessageStrings.ClosingTagNotFound, "Table"));
             }
 
             var table = new Tags.TableTag();
@@ -37,7 +37,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var itemsElement = TagElementsBetween(startElement, endTableTag, "Items").FirstOrDefault();
             if (itemsElement == null || itemsElement.Value == "")
             {
-                throw new Exception("Отсутсвует источник данных для таблицы.");
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "Items"));
             }
             table.ItemsSource = itemsElement.Value;
 
@@ -50,12 +50,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var contentElement = TagElementsBetween(startElement, endTableTag, "Content").FirstOrDefault();
             if (contentElement == null)
             {
-                throw new Exception("Отсутсвует тег контента.");
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "Content"));
             }
             var endContentElement = TagElementsBetween(contentElement, endTableTag, "EndContent").FirstOrDefault();
             if (endContentElement == null || TagElementsBetween(contentElement, endContentElement, "Content").Any())
             {
-                throw new Exception("Отсутсвует закрывающий тег контента.");
+                throw new Exception(string.Format(MessageStrings.ClosingTagNotFound, "Content"));
             }
             var tableElement = contentElement.ElementsAfterSelf(WordMlNamespace + "tbl").Where(element => element.IsBefore(endContentElement)).FirstOrDefault();
             if (tableElement != null)

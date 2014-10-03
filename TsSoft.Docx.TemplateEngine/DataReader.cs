@@ -8,6 +8,7 @@ namespace TsSoft.Docx.TemplateEngine
     internal class DataReader
     {
         private readonly XElement rootElement;
+        private const string pathArgumentName = "path";
 
         public DataReader(XElement rootElement)
         {
@@ -24,7 +25,8 @@ namespace TsSoft.Docx.TemplateEngine
         {
             if (path == null)
             {
-                throw new ArgumentNullException("Входные параметры не может быть null");
+                throw new ArgumentNullException(
+                    string.Format(MessageStrings.ArgumentNull, pathArgumentName));
             }
 
             var newElement = rootElement.XPathSelectElement(path);
@@ -36,7 +38,8 @@ namespace TsSoft.Docx.TemplateEngine
         {
             if (path == null)
             {
-                throw new ArgumentNullException("Входные параметры не может быть null");
+                throw new ArgumentNullException(
+                    string.Format(MessageStrings.ArgumentNull, pathArgumentName));
             }
 
             var newElements = rootElement.XPathSelectElements(path);
