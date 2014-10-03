@@ -1,6 +1,6 @@
 ﻿using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
+using TsSoft.Docx.TemplateEngine.Tags;
+using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine
 {
@@ -8,19 +8,23 @@ namespace TsSoft.Docx.TemplateEngine
     {
         public void GenerateDocx(Stream templateStream, Stream outputStream, E dataEntity)
         {
-            using (var dataStream = new MemoryStream())
-            using (var writer = new StreamWriter(dataStream))
-            {
-                var serializer = new XmlSerializer(typeof(E));
-                serializer.Serialize(writer, dataEntity);
-                dataStream.Seek(0, SeekOrigin.Begin);
-                templateStream.Seek(0, SeekOrigin.Begin);
-                templateStream.CopyTo(outputStream);
-            }
-        }
+            templateStream.Seek(0, SeekOrigin.Begin);
+            templateStream.CopyTo(outputStream);
 
-        internal void FillData(Stream outputStream, XmlDocument dataXmlDocument)
-        { 
+            var package = new DocxPackage(outputStream);
+            package.Load();
+
+            var parser = new GeneralParser();
+            var rootProcessor = new RootProcessor();
+            parser.Parse(rootProcessor, package.DocumentPartXml.Root);
+
+            DataReader reader = DataReaderFactory.CreateReader<E>(dataEntity);
+            rootProcessor.DataReader = reader;
+            rootProcessor.Process();
+
+            package.Save();
         }
     }
+
+    internal class RootProcessor : AbstractProcessor { }
 }

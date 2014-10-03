@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace TsSoft.Docx.TemplateEngine.Tags
+namespace TsSoft.Docx.TemplateEngine
 {
     internal class DataReader
     {
         private readonly XElement rootElement;
+        private const string pathArgumentName = "path";
 
         public DataReader()
         {
@@ -28,7 +29,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         {
             if (path == null)
             {
-                throw new ArgumentNullException("Входные параметры не может быть null");
+                throw new ArgumentNullException(pathArgumentName);
             }
 
             var newElement = rootElement.XPathSelectElement(path);
@@ -40,7 +41,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         {
             if (path == null)
             {
-                throw new ArgumentNullException("Входные параметры не может быть null");
+                throw new ArgumentNullException(pathArgumentName);
             }
 
             var newElements = rootElement.XPathSelectElements(path);

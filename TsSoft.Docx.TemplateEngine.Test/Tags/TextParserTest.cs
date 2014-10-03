@@ -2,21 +2,25 @@
 using System.Linq;
 using System.Xml.Linq;
 using TsSoft.Commons.Utils;
-using TsSoft.Docx.TemplateEngine.Parsers;
+using TsSoft.Docx.TemplateEngine.Tags;
+using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
-namespace TsSoft.Docx.TemplateEngine.Test.Parsers
+namespace TsSoft.Docx.TemplateEngine.Test.Tags
 {
     [TestClass]
-    public class TextParserTest //: BaseTagTest
+    public class TextParserTest
     {
         [TestMethod]
-        public void TestParser()
+        public void TestParse()
         {
             using (var docStream = AssemblyResourceHelper.GetResourceStream(this, "TextParserTest.xml"))
             {
                 var doc = XDocument.Load(docStream);
+                var processorMock = new TagProcessorMock<TextProcessor>();
                 var parser = new TextParser();
-                var tag = parser.Do(doc.Descendants(WordMl.SdtName).First());
+                parser.Parse(processorMock, doc.Descendants(WordMl.SdtName).First());
+                var processor = processorMock.InnerProcessor;
+                var tag = processor.TextTag;
                 Assert.IsNotNull(tag);
                 Assert.AreEqual("//test/text", tag.Expression);
             }

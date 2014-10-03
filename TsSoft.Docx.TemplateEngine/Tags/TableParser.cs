@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
+using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
-namespace TsSoft.Docx.TemplateEngine.Parsers
+namespace TsSoft.Docx.TemplateEngine.Tags
 {
     /// <summary>
     /// Parse table tag
@@ -14,13 +15,13 @@ namespace TsSoft.Docx.TemplateEngine.Parsers
         {
             if (startElement == null)
             {
-                throw new ArgumentNullException("Аргумент не может быть null");
+                throw new ArgumentNullException("startElement");
             }
 
             var endTableTag = TraverseUtils.NextTagElements(startElement, "EndTable").FirstOrDefault();
             if (endTableTag == null || TraverseUtils.TagElementsBetween(startElement, endTableTag, "Table").Any())
             {
-                throw new Exception("Отсутсвует закрывающий тег таблицы.");
+                throw new Exception(string.Format(MessageStrings.ClosingTagNotFound, "Table"));
             }
 
             var table = new Tags.TableTag();
@@ -28,7 +29,7 @@ namespace TsSoft.Docx.TemplateEngine.Parsers
             var itemsElement = TraverseUtils.TagElementsBetween(startElement, endTableTag, "Items").FirstOrDefault();
             if (itemsElement == null || itemsElement.Value == "")
             {
-                throw new Exception("Отсутсвует источник данных для таблицы.");
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "Items"));
             }
             table.ItemsSource = itemsElement.Value;
 
@@ -41,12 +42,12 @@ namespace TsSoft.Docx.TemplateEngine.Parsers
             var contentElement = TraverseUtils.TagElementsBetween(startElement, endTableTag, "Content").FirstOrDefault();
             if (contentElement == null)
             {
-                throw new Exception("Отсутсвует тег контента.");
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "Content"));
             }
             var endContentElement = TraverseUtils.TagElementsBetween(contentElement, endTableTag, "EndContent").FirstOrDefault();
             if (endContentElement == null || TraverseUtils.TagElementsBetween(contentElement, endContentElement, "Content").Any())
             {
-                throw new Exception("Отсутсвует закрывающий тег контента.");
+                throw new Exception(string.Format(MessageStrings.ClosingTagNotFound, "Content"));
             }
             var tableElement = contentElement.ElementsAfterSelf(WordMl.WordMlNamespace + "tbl").Where(element => element.IsBefore(endContentElement)).FirstOrDefault();
             if (tableElement != null)

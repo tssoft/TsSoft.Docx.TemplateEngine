@@ -5,7 +5,7 @@ namespace TsSoft.Docx.TemplateEngine
     internal static class StreamExtension
     {
         /// <summary>
-        /// Since we targeting 3.5, we need custom implementation
+        /// Since we are targeting .NET 3.5, we need a custom implementation
         /// </summary>
         /// <param name="input"></param>
         /// <param name="output"></param>

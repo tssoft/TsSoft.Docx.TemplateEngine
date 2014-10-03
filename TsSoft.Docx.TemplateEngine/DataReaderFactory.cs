@@ -2,11 +2,11 @@
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace TsSoft.Docx.TemplateEngine.Tags
+namespace TsSoft.Docx.TemplateEngine
 {
     internal static class DataReaderFactory
     {
-        public static DataReader Get<E>(E dataEntity)
+        public static DataReader CreateReader<E>(E dataEntity)
         {
             if (dataEntity == null)
             {

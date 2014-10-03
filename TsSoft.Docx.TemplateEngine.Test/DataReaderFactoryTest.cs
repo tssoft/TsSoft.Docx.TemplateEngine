@@ -10,7 +10,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
     public class DataReaderFactoryTest
     {
         [TestMethod]
-        public void TestGet()
+        public void TestCreateReader()
         {
             var testData = new DataReaderFactoryTestData
             {
@@ -20,15 +20,15 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             XElement element = new XElement("TestData");
             element.Add(new XElement("Message", testData.Message));
             var expected = new DataReader(element);
-            var actual = DataReaderFactory.Get<DataReaderFactoryTestData>(testData);
+            var actual = DataReaderFactory.CreateReader<DataReaderFactoryTestData>(testData);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         [ExpectedException(typeof(System.ArgumentNullException))]
-        public void TestGetNullArgument()
+        public void TestCreateReaderNullArgument()
         {
-            DataReaderFactory.Get<DataReaderTestData>(null);
+            DataReaderFactory.CreateReader<DataReaderTestData>(null);
         }
     }
 
