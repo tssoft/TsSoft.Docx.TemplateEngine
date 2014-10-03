@@ -1,4 +1,4 @@
-
+﻿
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }
 
             var tableRows = TableTag.Table.Elements(WordMl.TableRowName);
-            var dynamicRow = TableTag.DynamicRow.HasValue ? tableRows.ElementAt((int)TableTag.DynamicRow.Value - 1) : tableRows.Last();
+            var dynamicRow = TableTag.DynamicRow.HasValue ? tableRows.ElementAt(TableTag.DynamicRow.Value - 1) : tableRows.Last();
 
             ReplaceValues(dynamicRow);
 

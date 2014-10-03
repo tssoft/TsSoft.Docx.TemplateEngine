@@ -16,20 +16,13 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
     {
         private XElement documentRoot;
 
+
         [TestInitialize]
         public void Initialize()
         {
-            using (var docStream = AssemblyResourceHelper.GetResourceStream(this, "TableParserTest.xml"))
-            {
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(docStream);
-                using (XmlNodeReader nodeReader = new XmlNodeReader(xmlDoc))
-                {
-                    nodeReader.MoveToContent();
-                    var document = XDocument.Load(nodeReader);
-                    documentRoot = document.Root.Element(WordMl.BodyName);
-                }
-            }
+            var docStream = AssemblyResourceHelper.GetResourceStream(this, "TableParserTest.xml");
+            var doc = XDocument.Load(docStream);
+            documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
 
         }
 
