@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using TsSoft.Docx.TemplateEngine.Tags.Processors;
@@ -9,71 +8,92 @@ namespace TsSoft.Docx.TemplateEngine.Tags
     /// <summary>
     /// Parse table tag
     /// </summary>
-    /// <author>Георгий Поликарпов</author>
     class TableParser : GeneralParser
     {
-        public static readonly XNamespace WordMlNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
-        public static readonly XName SdtName = WordMlNamespace + "sdt";
-        public static readonly XName SdtPrName = WordMlNamespace + "sdtPr";
-        public static readonly XName TagName = WordMlNamespace + "tag";
-        public static readonly XName SdtContentName = WordMlNamespace + "sdtContent";
-        public static readonly XName ValAttributeName = WordMlNamespace + "val";
-
-        public Tags.TableTag Do(XElement startElement)
+        /// <summary>
+        /// Do parsing
+        /// </summary>
+        public override void Parse(ITagProcessor parentProcessor, XElement startElement)
         {
-            if (startElement == null)
+            ValidateStartTag(startElement, "Table");
+
+            if (parentProcessor == null)
             {
-                throw new ArgumentNullException(string.Format(MessageStrings.ArgumentNull, "startElement"));
+                throw new ArgumentNullException(string.Format(MessageStrings.ArgumentNull, "parentProcessor"));
             }
 
-            var endTableTag = NextTagElements(startElement, "EndTable").FirstOrDefault();
-            if (endTableTag == null || TagElementsBetween(startElement, endTableTag, "Table").Any())
+            var endTableElement = TagElement(startElement, "EndTable");
+            if (endTableElement == null || TagElementBetween(startElement, endTableElement, "Table") != null)
             {
-                throw new Exception(string.Format(MessageStrings.ClosingTagNotFound, "Table"));
+                throw new Exception("Table closing tag wasn't found");
             }
 
-            var table = new Tags.TableTag();
+            var tag = new TableTag();
+            tag.TagTable = startElement;
+            tag.TagEndTable = endTableElement;
 
-            var itemsElement = TagElementsBetween(startElement, endTableTag, "Items").FirstOrDefault();
-            if (itemsElement == null || itemsElement.Value == "")
+            var itemsElement = TagElementBetween(startElement, endTableElement, "Items");
+            if (itemsElement == null || itemsElement.Value == string.Empty)
             {
-                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "Items"));
+                throw new Exception("Table data source wasn't found");
             }
-            table.ItemsSource = itemsElement.Value;
+            tag.ItemsSource = itemsElement.Value;
 
-            var dynamicRowElement = TagElementsBetween(startElement, endTableTag, "DynamicRow").FirstOrDefault();
+            var dynamicRowElement = TagElementBetween(startElement, endTableElement, "DynamicRow");
             if (dynamicRowElement != null)
             {
-                table.DynamicRow = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
+                int dynamicRowValue;
+                tag.DynamicRow = int.TryParse(dynamicRowElement.Value, out dynamicRowValue)
+                                     ? dynamicRowValue
+                                     : (int?) null;
             }
 
-            var contentElement = TagElementsBetween(startElement, endTableTag, "Content").FirstOrDefault();
+            var contentElement = TagElementBetween(startElement, endTableElement, "Content");
             if (contentElement == null)
             {
-                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "Content"));
+                throw new Exception("Context tag wasn't found");
             }
-            var endContentElement = TagElementsBetween(contentElement, endTableTag, "EndContent").FirstOrDefault();
-            if (endContentElement == null || TagElementsBetween(contentElement, endContentElement, "Content").Any())
+            tag.TagContent = contentElement;
+            var endContentElement = TagElementBetween(contentElement, endTableElement, "EndContent");
+            if (endContentElement == null)
             {
-                throw new Exception(string.Format(MessageStrings.ClosingTagNotFound, "Content"));
+                throw new Exception("Context closing tag wasn't found");
             }
-            var tableElement = contentElement.ElementsAfterSelf(WordMlNamespace + "tbl").Where(element => element.IsBefore(endContentElement)).FirstOrDefault();
+            tag.TagEndContent = endContentElement;
+
+            var tableElement = contentElement.ElementsAfterSelf(WordMl.TableName).FirstOrDefault(element => element.IsBefore(endContentElement));
             if (tableElement != null)
             {
-                table.Table = tableElement;
+                tag.Table = tableElement;
             }
 
-            return table;
+            var processor = new TableProcessor {TableTag = tag};
+            parentProcessor.AddProcessor(processor);
         }
 
-        private IEnumerable<XElement> NextTagElements(XElement startElement, string tagName)
+        private XElement TagElement(XElement startElement, string tagName)
         {
-            return startElement.ElementsAfterSelf(SdtName).Where(element => element.Element(SdtPrName).Element(TagName).Attribute(ValAttributeName).Value == tagName);
+            return
+                startElement.ElementsAfterSelf(WordMl.SdtName)
+                            .FirstOrDefault(
+                                element =>
+                                element.Element(WordMl.SdtPrName)
+                                       .Element(WordMl.TagName)
+                                       .Attribute(WordMl.ValAttributeName)
+                                       .Value == tagName);
         }
 
-        private IEnumerable<XElement> TagElementsBetween(XElement startElement, XElement endElement, string tagName)
+        private XElement TagElementBetween(XElement startElement, XElement endElement, string tagName)
         {
-            return NextTagElements(startElement, tagName).Where(element => element.IsBefore(endElement));
+            return
+                startElement.ElementsAfterSelf(WordMl.SdtName)
+                            .FirstOrDefault(
+                                element =>
+                                element.Element(WordMl.SdtPrName)
+                                       .Element(WordMl.TagName)
+                                       .Attribute(WordMl.ValAttributeName)
+                                       .Value == tagName
+                                && element.IsBefore(endElement));
         }
     }
 }
