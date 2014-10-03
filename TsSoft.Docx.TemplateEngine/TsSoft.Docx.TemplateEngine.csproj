@@ -57,6 +57,10 @@
     <Compile Include="Tags\GeneralParser.cs" />
     <Compile Include="Tags\ITagParser.cs" />
     <Compile Include="Tags\Processors\AbstractProcessor.cs" />
+    <Compile Include="Tags\RepeaterElement.cs" />
+    <Compile Include="Tags\RepeaterParser.cs" />
+    <Compile Include="Tags\Processors\RepeaterProcessor.cs" />
+    <Compile Include="Tags\RepeaterTag.cs" />
     <Compile Include="Tags\TableParser.cs" />
     <Compile Include="Tags\TextParser.cs" />
     <Compile Include="Parsers\TraverseUtils.cs" />

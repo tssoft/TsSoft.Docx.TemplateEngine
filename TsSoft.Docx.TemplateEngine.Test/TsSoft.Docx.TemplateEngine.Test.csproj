@@ -64,7 +64,7 @@
     <Compile Include="Tags\TableParserTest.cs" />
     <Compile Include="Tags\TagProcessorMock.cs" />
     <Compile Include="Tags\TextParserTest.cs" />
-    <Compile Include="Parsers\RepeaterParserTest.cs" />
+    <Compile Include="Tags\RepeaterParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tags\Processors\BaseTagTest.cs" />
     <Compile Include="DataReaderFactoryTest.cs" />
@@ -72,7 +72,7 @@
     <Compile Include="DocxGeneratorTest.cs" />
     <Compile Include="DataReaderTest.cs" />
     <Compile Include="DocxPackageTest.cs" />
-    <Compile Include="Tags\RepeaterProcessorTest.cs" />
+    <Compile Include="Tags\Processors\RepeaterProcessorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine.csproj">
@@ -84,11 +84,8 @@
     <EmbeddedResource Include="Tags\Processors\TextProcessorTest.docx" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Parsers\Repeater_Ok.xml" />
-
-
-
-    <Content Include="Tags\table.xml" />
+    <EmbeddedResource Include="Tags\Repeater_Ok.xml" />
+    <EmbeddedResource Include="Tags\table.xml" />
     <EmbeddedResource Include="DataReaderTest.xml" />
     <EmbeddedResource Include="Tags\TextParserTest.xml" />
   </ItemGroup>

@@ -5,8 +5,9 @@ using System.Xml.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TsSoft.Docx.TemplateEngine.Tags;
+using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
-namespace TsSoft.Docx.TemplateEngine.Test.Tags
+namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 {
     [TestClass]
     public class RepeaterProcessorTest

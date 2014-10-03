@@ -7,7 +7,7 @@ using TsSoft.Commons.Utils;
 using TsSoft.Docx.TemplateEngine.Parsers;
 using TsSoft.Docx.TemplateEngine.Tags;
 
-namespace TsSoft.Docx.TemplateEngine.Test.Parsers
+namespace TsSoft.Docx.TemplateEngine.Test.Tags
 {
     [TestClass]
     public class RepeaterParserTest
@@ -27,7 +27,8 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
         [TestMethod]
         public void TestRepeaterNotClosed()
         {
-            var endRepeater = TraverseUtils.TagElement(documentRoot, "EndRepeater");
+            const string tagName = "EndRepeater";
+            var endRepeater = TraverseUtils.TagElement(documentRoot, tagName);
             endRepeater.Remove();
             var parser = new RepeaterParser();
             try
@@ -37,14 +38,15 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             }
             catch (Exception e)
             {
-                Assert.AreEqual("Required tag EndRepeater not found", e.Message);
+                Assert.AreEqual(String.Format(MessageStrings.TagNotFoundOrEmpty, tagName), e.Message);
             }
         } 
         
         [TestMethod]
         public void TestContentNotClosed()
         {
-            var endContent = TraverseUtils.TagElement(documentRoot, "EndContent");
+            const string tagName = "EndContent";
+            var endContent = TraverseUtils.TagElement(documentRoot, tagName);
             endContent.Remove();
             var parser = new RepeaterParser();
             try
@@ -54,14 +56,15 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             }
             catch (Exception e)
             {
-                Assert.AreEqual("Required tag EndContent not found", e.Message);
+                Assert.AreEqual(String.Format(MessageStrings.TagNotFoundOrEmpty, tagName), e.Message);
             }
         }  
         
         [TestMethod]
         public void TestNoItems()
         {
-            var items = TraverseUtils.TagElement(documentRoot, "Items");
+            string tagName = "Items";
+            var items = TraverseUtils.TagElement(documentRoot, tagName);
             items.Remove();
             var parser = new RepeaterParser();
             try
@@ -71,7 +74,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             }
             catch (Exception e)
             {
-                Assert.AreEqual("Required tag Items not found", e.Message);
+                Assert.AreEqual(String.Format(MessageStrings.TagNotFoundOrEmpty, tagName), e.Message);
             }
         }
 
@@ -79,12 +82,12 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
         public void TestOkay()
         {
             var parser = new RepeaterParser();
-            RepeaterTag result = parser.Do(documentRoot.Descendants(WordMl.SdtName).First());
+            var result = parser.Do(documentRoot.Descendants(WordMl.SdtName).First());
 
-            List<RepeaterElement> repeaterElements = result.Content.ToList();
+            var repeaterElements = result.Content.ToList();
             Assert.AreEqual(1, repeaterElements.Count);
             
-            List<RepeaterElement> childrenOfFirstElement = repeaterElements.First().Elements.ToList();
+            var childrenOfFirstElement = repeaterElements.First().Elements.ToList();
             Assert.AreEqual(9, childrenOfFirstElement.Count);
             Assert.AreEqual("./Subject", childrenOfFirstElement[3].Expression);
             Assert.AreEqual(true, childrenOfFirstElement[5].IsIndex);

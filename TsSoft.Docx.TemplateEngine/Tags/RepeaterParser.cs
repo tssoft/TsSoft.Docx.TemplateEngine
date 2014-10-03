@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using TsSoft.Docx.TemplateEngine.Tags;
+using TsSoft.Docx.TemplateEngine.Parsers;
 
-namespace TsSoft.Docx.TemplateEngine.Parsers
+namespace TsSoft.Docx.TemplateEngine.Tags
 {
     internal class RepeaterParser : GeneralParser
     {

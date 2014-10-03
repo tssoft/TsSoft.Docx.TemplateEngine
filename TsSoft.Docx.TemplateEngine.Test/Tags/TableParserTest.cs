@@ -3,6 +3,8 @@ using System;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
+using TsSoft.Commons.Utils;
+using TsSoft.Docx.TemplateEngine.Parsers;
 using TsSoft.Docx.TemplateEngine.Tags;
 
 namespace TsSoft.Docx.TemplateEngine.Test.Tags
@@ -14,26 +16,14 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
     [TestClass]
     public class TableParserTest
     {
-        public static readonly XNamespace WordMlNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
-        public static readonly XName SdtName = WordMlNamespace + "sdt";
-        public static readonly XName SdtPrName = WordMlNamespace + "sdtPr";
-        public static readonly XName TagName = WordMlNamespace + "tag";
-        public static readonly XName SdtContentName = WordMlNamespace + "sdtContent";
-        public static readonly XName ValAttributeName = WordMlNamespace + "val";
         private XElement documentRoot;
 
         [TestInitialize]
         public void Initialize()
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load("../../Parsers/table.xml");
-            using (XmlNodeReader nodeReader = new XmlNodeReader(xmlDoc))
-            {
-                nodeReader.MoveToContent();
-                var document = XDocument.Load(nodeReader);
-
-                documentRoot = document.Root.Element(WordMlNamespace + "body");
-            }
+            var docStream = AssemblyResourceHelper.GetResourceStream(this, "table.xml");
+            var doc = XDocument.Load(docStream);
+            documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
         }
 
         [TestMethod]
@@ -42,7 +32,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            var pElement = root.Element(WordMlNamespace + "p");
+            var pElement = root.Element(WordMl.WordMlNamespace + "p");
             var itemsElement = TraverseUtils.TagElement(root, "Items");
             var itemsSource = itemsElement.Value;
             itemsElement.AddBeforeSelf(pElement);
@@ -53,7 +43,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             contentElement.AddBeforeSelf(pElement);
             var endContentElement = TraverseUtils.TagElement(root, "EndContent");
             endContentElement.AddBeforeSelf(pElement);
-            var tableElement = root.Element(WordMlNamespace + "tbl");
+            var tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
             tableElement.AddBeforeSelf(pElement);
             var endTableElement = TraverseUtils.TagElement(root, "EndTable");
             endTableElement.AddBeforeSelf(pElement);
@@ -102,9 +92,9 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
             int dynamicRowValue = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
             var itemsSource = TraverseUtils.TagElement(root, "Items").Value;
-            var tableElement = root.Element(WordMlNamespace + "tbl");
+            var tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
             var newTableElement = new XElement(tableElement);
-            newTableElement.Elements(WordMlNamespace + "tr").Last().Remove();
+            newTableElement.Elements(WordMl.WordMlNamespace + "tr").Last().Remove();
             tableElement.AddAfterSelf(newTableElement);
 
             var startElement = TraverseUtils.TagElement(root, "Table");
@@ -127,7 +117,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             SetTagElementValue(newDynamicRowElement, (dynamicRowValue + 10).ToString());
             dynamicRowElement.AddAfterSelf(newDynamicRowElement);
             var itemsSource = TraverseUtils.TagElement(root, "Items").Value;
-            var tableElement = root.Element(WordMlNamespace + "tbl");
+            var tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
             var startElement = TraverseUtils.TagElement(root, "Table");
 
             var result = parser.Do(startElement);
@@ -143,7 +133,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var newItemsElement = new XElement(itemsElement);
             SetTagElementValue(newItemsElement, @"//wrongPath");
             itemsElement.AddAfterSelf(newItemsElement);
-            tableElement = root.Element(WordMlNamespace + "tbl");
+            tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
             startElement = TraverseUtils.TagElement(root, "Table");
 
             result = parser.Do(startElement);
@@ -157,9 +147,9 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             itemsSource = TraverseUtils.TagElement(root, "Items").Value;
             var contentElement = TraverseUtils.TagElement(root, "Content");
             var newContentElement = new XElement(contentElement);
-            tableElement = root.Element(WordMlNamespace + "tbl");
+            tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
             var newTableElement = new XElement(tableElement);
-            newTableElement.Elements(WordMlNamespace + "tr").Last().Remove();
+            newTableElement.Elements(WordMl.WordMlNamespace + "tr").Last().Remove();
             var endContentElement = TraverseUtils.TagElement(root, "EndContent");
             var newEndContentElement = new XElement(endContentElement);
             endContentElement.AddBeforeSelf(newEndContentElement);
@@ -183,7 +173,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
             var dynamicRowValue = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
             var itemsSource = TraverseUtils.TagElement(root, "Items").Value;
-            var tableElement = root.Element(WordMlNamespace + "tbl");
+            var tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
             tableElement.Remove();
             TraverseUtils.TagElement(root, "DynamicRow").AddAfterSelf(tableElement);
 
@@ -203,7 +193,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var root = new XElement(documentRoot);
             SetTagElementValue(TraverseUtils.TagElement(root, "DynamicRow"), "");
             var itemsSource = TraverseUtils.TagElement(root, "Items").Value;
-            var tableElement = root.Element(WordMlNamespace + "tbl");
+            var tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
 
             var startElement = TraverseUtils.TagElement(root, "Table");
 
@@ -283,7 +273,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var root = new XElement(documentRoot);
             TraverseUtils.TagElement(root, "DynamicRow").Remove();
             var itemsSource = TraverseUtils.TagElement(root, "Items").Value;
-            var tableElement = root.Element(WordMlNamespace + "tbl");
+            var tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
 
             var startElement = TraverseUtils.TagElement(root, "Table");
 
@@ -329,11 +319,11 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             parser.Do(startElement);
         }
 
-      
+
 
         private void SetTagElementValue(XElement element, string value)
         {
-            element.Element(SdtContentName).Element(WordMlNamespace + "p").Element(WordMlNamespace + "r").Element(WordMlNamespace + "t").Value = value;
+            element.Element(WordMl.SdtContentName).Element(WordMl.WordMlNamespace + "p").Element(WordMl.WordMlNamespace + "r").Element(WordMl.WordMlNamespace + "t").Value = value;
         }
     }
 }

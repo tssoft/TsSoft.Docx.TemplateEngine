@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
+using TsSoft.Docx.TemplateEngine.Parsers;
 using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Tags
@@ -43,20 +44,45 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         protected void ValidateStartTag(XElement startElement, string tagName)
         {
-            if (startElement == null)
-            {
-                // TODO
-                throw new ArgumentNullException("startElement");
-            }
-            if (startElement.Name != WordMl.SdtName)
-            {
-                // TODO
-                throw new Exception(MessageStrings.NotATag);
-            }
+            AssureElementExists(startElement);
             if (null == startElement.Descendants(WordMl.TagName).SingleOrDefault(x => x.Attribute(WordMl.ValAttributeName).Value == tagName))
             {
                 // TODO
                 throw new Exception(MessageStrings.NotExpectedTag);
+            }
+        }
+
+        protected XElement TryGetRequiredTag(XElement startElement, string tagName)
+        {
+            var tag = TraverseUtils.NextTagElements(startElement, tagName).SingleOrDefault();
+            if (tag == null)
+            {
+                throw new Exception(String.Format(MessageStrings.TagNotFoundOrEmpty, tagName));
+            }
+            return tag;
+        }
+
+        protected XElement TryGetRequiredTag(XElement startElement, XElement endElement, string tagName)
+        {
+            var tag = TraverseUtils.TagElementsBetween(startElement, endElement, tagName).SingleOrDefault();
+            if (tag == null)
+            {
+                throw new Exception(String.Format(MessageStrings.TagNotFoundOrEmpty, tagName));
+            }
+            return tag;
+        }
+
+        private void AssureElementExists(XElement element)
+        {
+            if (element == null)
+            {
+                // TODO
+                throw new Exception();
+            }
+            if (element.Name != WordMl.SdtName)
+            {
+                // TODO
+                throw new Exception();
             }
         }
 

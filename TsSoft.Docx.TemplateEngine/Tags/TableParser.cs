@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
-using TsSoft.Docx.TemplateEngine.Tags.Processors;
+using TsSoft.Docx.TemplateEngine.Parsers;
 
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
@@ -49,7 +49,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             {
                 throw new Exception(string.Format(MessageStrings.ClosingTagNotFound, "Content"));
             }
-            var tableElement = contentElement.ElementsAfterSelf(WordMl.WordMlNamespace + "tbl").Where(element => element.IsBefore(endContentElement)).FirstOrDefault();
+            var tableElement = contentElement.ElementsAfterSelf(WordMl.WordMlNamespace + "tbl").FirstOrDefault(element => element.IsBefore(endContentElement));
             if (tableElement != null)
             {
                 table.Table = tableElement;

@@ -27,16 +27,16 @@ namespace TsSoft.Docx.TemplateEngine.Parsers
 
         public static XElement TagElement(XElement root, string tagName)
         {
-            return root.Elements(WordMl.SdtName).Where(element => element.Element(WordMl.SdtPrName).Element(WordMl.TagName).Attribute(WordMl.ValAttributeName).Value == tagName).First();
-        } 
+            return root.Elements(WordMl.SdtName).First(element => element.Element(WordMl.SdtPrName).Element(WordMl.TagName).Attribute(WordMl.ValAttributeName).Value == tagName);
+        }
 
         public static bool IsTag(this XElement self, String tagName)
         {
-            return self.Descendants(WordMl.SdtPrName)
-                .Descendants(WordMl.TagName)
-                .SingleOrDefault(e => e.Attribute(WordMl.ValAttributeName).Value.Equals(tagName)) != null;
-        } 
-        
+            return self.IsSdt() ? self.Elements(WordMl.SdtPrName)
+                .Elements(WordMl.TagName)
+                .SingleOrDefault(e => e.Attribute(WordMl.ValAttributeName).Value.Equals(tagName)) != null : false;
+        }
+
         public static bool IsSdt(this XElement self)
         {
             return self.Name.Equals(WordMl.SdtName);
