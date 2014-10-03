@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using TsSoft.Docx.TemplateEngine.Parsers;
+using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
@@ -15,22 +15,40 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private const string IndexTag = "ItemIndex";
         private const string ItemTag = "Item";
 
-        public RepeaterTag Do(XElement openingElement)
+        public override void Parse(ITagProcessor parentProcessor, XElement startElement)
         {
-            ValidateStartTag(openingElement, TagName);
-            var enclosingRepeaterTag = TryGetRequiredTag(openingElement, EndTagName);
-            var itemsTag = TryGetRequiredTag(openingElement, enclosingRepeaterTag, ItemsTagName);
-            var startContent = TryGetRequiredTag(openingElement, enclosingRepeaterTag, StartContentTagName);
-            var endContent = TryGetRequiredTag(openingElement, enclosingRepeaterTag, EndContentTagName);
+            ValidateStartTag(startElement, TagName);
+            var endRepeater = TryGetRequiredTag(startElement, EndTagName);
+            var itemsTag = TryGetRequiredTag(startElement, endRepeater, ItemsTagName);
+            var startContent = TryGetRequiredTag(startElement, endRepeater, StartContentTagName);
+            var endContent = TryGetRequiredTag(startElement, endRepeater, EndContentTagName);
+
 
             IEnumerable<RepeaterElement> repeaterElements = TraverseUtils.ElementsBetween(startContent, endContent).Select(makeRepeaterElement);
-            return new RepeaterTag
+            var repeaterTag = new RepeaterTag
+                {
+                    Source = itemsTag.Value,
+                    StartContent = startContent,
+                    EndContent = endContent,
+                    Content = repeaterElements,
+                    StartRepeater = startElement,
+                    EndRepeater = endRepeater,
+                };
+
+            var repeaterProcessor = new RepeaterProcessor
+                {
+                    RepeaterTag = repeaterTag,
+                };
+
+
+            //TODO implement
+            var foundTags = new List<XElement>();
+            foreach (var foundTag in foundTags)
             {
-                Source = itemsTag.Value,
-                Start = startContent,
-                End = endContent,
-                Content = repeaterElements
-            };
+                base.Parse(parentProcessor, foundTag);
+            }
+
+            parentProcessor.AddProcessor(repeaterProcessor);
         }
 
         private RepeaterElement makeRepeaterElement(XElement xElement)

@@ -1,10 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
-using System.Xml;
 using System.Xml.Linq;
 using TsSoft.Commons.Utils;
-using TsSoft.Docx.TemplateEngine.Parsers;
 using TsSoft.Docx.TemplateEngine.Tags;
 
 namespace TsSoft.Docx.TemplateEngine.Test.Tags

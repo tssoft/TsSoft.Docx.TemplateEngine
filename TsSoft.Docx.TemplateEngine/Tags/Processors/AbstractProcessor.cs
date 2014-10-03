@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 {
@@ -20,6 +22,21 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         public void AddProcessor(ITagProcessor processor)
         {
             processors.Add(processor);
+        }
+
+        /// <summary>
+        /// Removes all elements between and including passed elements
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        public void CleanUp(XElement from, XElement to)
+        {
+            foreach (var element in from.ElementsAfterSelf().Where(e => e.IsBefore(to)))
+            {
+                element.Remove();
+            }
+            from.Remove();
+            to.Remove();
         }
     }
 }

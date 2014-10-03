@@ -9,8 +9,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
     {
         public String Source { get; set; }
 
-        public IEnumerable<RepeaterElement> Content { get; set; } 
-        public XElement Start { get; set; }
-        public XElement End { get; set; }
+        public IEnumerable<RepeaterElement> Content { get; set; }
+        public XElement StartContent { get; set; }
+        public XElement EndContent { get; set; }
+        public XElement StartRepeater { get; set; }
+        public XElement EndRepeater { get; set; }
     }
 }

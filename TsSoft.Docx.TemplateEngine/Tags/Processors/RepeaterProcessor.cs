@@ -8,20 +8,23 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 {
     internal class RepeaterProcessor : AbstractProcessor
     {
-        public void Do(RepeaterTag repeaterTag)
+
+        public RepeaterTag RepeaterTag { get; set; }
+
+        public override void Process()
         {
-            var current = repeaterTag.Start;
-            var dataReaders = DataReader.GetReaders(repeaterTag.Source).DefaultIfEmpty().ToList();
+            var current = RepeaterTag.StartContent;
+            var dataReaders = DataReader.GetReaders(RepeaterTag.Source).DefaultIfEmpty().ToList();
             for (var index = 0; index < dataReaders.Count; index++)
             {
-                current = ProcessElements(repeaterTag.Content, dataReaders[index], current, null, index + 1);
+                current = ProcessElements(RepeaterTag.Content, dataReaders[index], current, null, index + 1);
             }
-            foreach (var repeaterElement in repeaterTag.Content)
+            foreach (var repeaterElement in RepeaterTag.Content)
             {
                 repeaterElement.XElement.Remove();
             }
-            repeaterTag.Start.Remove();
-            repeaterTag.End.Remove();
+            CleanUp(RepeaterTag.StartRepeater, RepeaterTag.StartContent);
+            CleanUp(RepeaterTag.EndContent, RepeaterTag.EndRepeater);
         }
 
         private XElement ProcessElements(IEnumerable<RepeaterElement> elements, DataReader dataReader, XElement start, XElement parent, int index)

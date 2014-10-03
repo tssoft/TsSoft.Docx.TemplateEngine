@@ -10,15 +10,18 @@ using TsSoft.Docx.TemplateEngine.Tags.Processors;
 namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 {
     [TestClass]
-    public class RepeaterProcessorTest
+    public class RepeaterProcessorTest : BaseProcessorTest
     {
         [TestMethod]
         public void TestDo()
         {
             var processor = new RepeaterProcessor();
 
-            var end = new XElement(WordMl.SdtName);
-            var start = new XElement(WordMl.SdtName);
+            var startRepeater = new XElement(WordMl.SdtName, "StartRepeater");
+            var endRepeater = new XElement(WordMl.SdtName, "EndRepeater");
+            var endContent = new XElement(WordMl.SdtName, "EndContent");
+            var startContent = new XElement(WordMl.SdtName, "StartContent");
+            var items = new XElement(WordMl.SdtName, "Items");
 
             const string subject = "subject";
             var subjectElement = new XElement(subject);
@@ -34,7 +37,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
             const string wrapper = "wrapper";
             var wrapperElement = new XElement(wrapper, indexAndDateElement);
 
-            var body = new XElement("body", start, subjectElement, wrapperElement, end);
+            var body = new XElement("body", startRepeater, items, startContent, subjectElement, wrapperElement, endContent, endRepeater);
 
             var thirdLevelContent = new List<RepeaterElement>
             {
@@ -73,7 +76,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                 }
             };
 
-            Console.Write(body.ToString());
+            Console.WriteLine(body.ToString());
 
             const string subject1Value = "Subject1";
             var subject1 = new XElement("Subject") { Value = subject1Value };
@@ -100,22 +103,25 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                 });
 
             processor.DataReader = dataReaderMock.Object;
+            processor.RepeaterTag = new RepeaterTag
+                {
+                    Content = firstLevelContent,
+                    EndContent = endContent,
+                    StartContent = startContent,
+                    Source = xPath,
+                    StartRepeater = startRepeater,
+                    EndRepeater = endRepeater
+                };
+            
+            processor.Process();
 
-            processor.Do(new RepeaterTag
-            {
-                Content = firstLevelContent,
-                End = end,
-                Start = start,
-                Source = xPath,
-            });
 
+            Console.WriteLine(body.ToString());
 
-            Console.WriteLine("\n");
-            Console.Write(body.ToString());
+            ValidateTagsRemoved(body);
 
-            Assert.IsTrue(!body.Descendants(WordMl.SdtName).Any());
             var subjects = body.Elements(WordMl.RName).ToList();
-            Assert.AreEqual(4, body.Elements().ToList().Count);
+            Assert.AreEqual(4, body.Elements().Count());
 
             Assert.AreEqual(2, subjects.Count);
             Assert.AreEqual(subject1Value, subjects[0].Value);

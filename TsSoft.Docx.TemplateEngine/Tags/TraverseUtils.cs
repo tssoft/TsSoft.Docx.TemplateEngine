@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace TsSoft.Docx.TemplateEngine.Parsers
+namespace TsSoft.Docx.TemplateEngine.Tags
 {
     internal static class TraverseUtils
     {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
-using TsSoft.Docx.TemplateEngine.Parsers;
 
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
