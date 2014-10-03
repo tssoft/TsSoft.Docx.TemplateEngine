@@ -10,5 +10,6 @@ namespace TsSoft.Docx.TemplateEngine
         public static readonly XName TagName = WordMlNamespace + "tag";
         public static readonly XName SdtContentName = WordMlNamespace + "sdtContent";
         public static readonly XName ValAttributeName = WordMlNamespace + "val";
+        public static readonly XName RName = WordMlNamespace + "r";
     }
 }

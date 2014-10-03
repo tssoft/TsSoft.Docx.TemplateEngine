@@ -9,6 +9,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
     {
         private readonly XElement rootElement;
 
+        public DataReader()
+        {
+        }
+
         public DataReader(XElement rootElement)
         {
             this.rootElement = rootElement;
@@ -32,7 +36,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return newElement != null ? new DataReader(newElement) : null;
         }
 
-        public IEnumerable<DataReader> GetReaders(string path)
+        public virtual IEnumerable<DataReader> GetReaders(string path)
         {
             if (path == null)
             {

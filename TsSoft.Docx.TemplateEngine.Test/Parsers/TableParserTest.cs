@@ -43,21 +43,21 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
 
             var root = new XElement(documentRoot);
             var pElement = root.Element(WordMlNamespace + "p");
-            var itemsElement = TagElement(root, "Items");
+            var itemsElement = TraverseUtils.TagElement(root, "Items");
             var itemsSource = itemsElement.Value;
             itemsElement.AddBeforeSelf(pElement);
-            var dynamicRowElement = TagElement(root, "DynamicRow");
+            var dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
             var dynamicRowValue = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
             dynamicRowElement.AddBeforeSelf(pElement);
-            var contentElement = TagElement(root, "Content");
+            var contentElement = TraverseUtils.TagElement(root, "Content");
             contentElement.AddBeforeSelf(pElement);
-            var endContentElement = TagElement(root, "EndContent");
+            var endContentElement = TraverseUtils.TagElement(root, "EndContent");
             endContentElement.AddBeforeSelf(pElement);
             var tableElement = root.Element(WordMlNamespace + "tbl");
             tableElement.AddBeforeSelf(pElement);
-            var endTableElement = TagElement(root, "EndTable");
+            var endTableElement = TraverseUtils.TagElement(root, "EndTable");
             endTableElement.AddBeforeSelf(pElement);
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
 
             var result = parser.Do(startElement);
             Assert.AreEqual(dynamicRowValue, result.DynamicRow);
@@ -99,15 +99,15 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            var dynamicRowElement = TagElement(root, "DynamicRow");
+            var dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
             int dynamicRowValue = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
-            var itemsSource = TagElement(root, "Items").Value;
+            var itemsSource = TraverseUtils.TagElement(root, "Items").Value;
             var tableElement = root.Element(WordMlNamespace + "tbl");
             var newTableElement = new XElement(tableElement);
             newTableElement.Elements(WordMlNamespace + "tr").Last().Remove();
             tableElement.AddAfterSelf(newTableElement);
 
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
 
             var result = parser.Do(startElement);
             Assert.AreEqual(dynamicRowValue, result.DynamicRow);
@@ -121,14 +121,14 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            var dynamicRowElement = TagElement(root, "DynamicRow");
+            var dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
             int dynamicRowValue = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
             var newDynamicRowElement = new XElement(dynamicRowElement);
             SetTagElementValue(newDynamicRowElement, (dynamicRowValue + 10).ToString());
             dynamicRowElement.AddAfterSelf(newDynamicRowElement);
-            var itemsSource = TagElement(root, "Items").Value;
+            var itemsSource = TraverseUtils.TagElement(root, "Items").Value;
             var tableElement = root.Element(WordMlNamespace + "tbl");
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
 
             var result = parser.Do(startElement);
             Assert.AreEqual(dynamicRowValue, result.DynamicRow);
@@ -136,15 +136,15 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             Assert.AreEqual(tableElement, result.Table);
 
             root = new XElement(documentRoot);
-            dynamicRowElement = TagElement(root, "DynamicRow");
+            dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
             dynamicRowValue = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
-            var itemsElement = TagElement(root, "Items");
+            var itemsElement = TraverseUtils.TagElement(root, "Items");
             itemsSource = itemsElement.Value;
             var newItemsElement = new XElement(itemsElement);
             SetTagElementValue(newItemsElement, @"//wrongPath");
             itemsElement.AddAfterSelf(newItemsElement);
             tableElement = root.Element(WordMlNamespace + "tbl");
-            startElement = TagElement(root, "Table");
+            startElement = TraverseUtils.TagElement(root, "Table");
 
             result = parser.Do(startElement);
             Assert.AreEqual(dynamicRowValue, result.DynamicRow);
@@ -152,21 +152,21 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             Assert.AreEqual(tableElement, result.Table);
 
             root = new XElement(documentRoot);
-            dynamicRowElement = TagElement(root, "DynamicRow");
+            dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
             dynamicRowValue = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
-            itemsSource = TagElement(root, "Items").Value;
-            var contentElement = TagElement(root, "Content");
+            itemsSource = TraverseUtils.TagElement(root, "Items").Value;
+            var contentElement = TraverseUtils.TagElement(root, "Content");
             var newContentElement = new XElement(contentElement);
             tableElement = root.Element(WordMlNamespace + "tbl");
             var newTableElement = new XElement(tableElement);
             newTableElement.Elements(WordMlNamespace + "tr").Last().Remove();
-            var endContentElement = TagElement(root, "EndContent");
+            var endContentElement = TraverseUtils.TagElement(root, "EndContent");
             var newEndContentElement = new XElement(endContentElement);
             endContentElement.AddBeforeSelf(newEndContentElement);
             endContentElement.AddBeforeSelf(newContentElement);
             endContentElement.AddBeforeSelf(newTableElement);
 
-            startElement = TagElement(root, "Table");
+            startElement = TraverseUtils.TagElement(root, "Table");
 
             result = parser.Do(startElement);
             Assert.AreEqual(dynamicRowValue, result.DynamicRow);
@@ -180,14 +180,14 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            var dynamicRowElement = TagElement(root, "DynamicRow");
+            var dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
             var dynamicRowValue = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
-            var itemsSource = TagElement(root, "Items").Value;
+            var itemsSource = TraverseUtils.TagElement(root, "Items").Value;
             var tableElement = root.Element(WordMlNamespace + "tbl");
             tableElement.Remove();
-            TagElement(root, "DynamicRow").AddAfterSelf(tableElement);
+            TraverseUtils.TagElement(root, "DynamicRow").AddAfterSelf(tableElement);
 
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
 
             var result = parser.Do(startElement);
             Assert.AreEqual(dynamicRowValue, result.DynamicRow);
@@ -201,11 +201,11 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            SetTagElementValue(TagElement(root, "DynamicRow"), "");
-            var itemsSource = TagElement(root, "Items").Value;
+            SetTagElementValue(TraverseUtils.TagElement(root, "DynamicRow"), "");
+            var itemsSource = TraverseUtils.TagElement(root, "Items").Value;
             var tableElement = root.Element(WordMlNamespace + "tbl");
 
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
 
             var result = parser.Do(startElement);
             Assert.AreEqual(0, result.DynamicRow);
@@ -220,9 +220,9 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            var itemsElement = TagElement(root, "Items");
+            var itemsElement = TraverseUtils.TagElement(root, "Items");
             SetTagElementValue(itemsElement, "");
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
 
             parser.Do(startElement);
         }
@@ -234,8 +234,8 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            TagElement(root, "Content").Remove();
-            var startElement = TagElement(root, "Table");
+            TraverseUtils.TagElement(root, "Content").Remove();
+            var startElement = TraverseUtils.TagElement(root, "Table");
             parser.Do(startElement);
         }
 
@@ -246,8 +246,8 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            TagElement(root, "EndContent").Remove();
-            var startElement = TagElement(root, "Table");
+            TraverseUtils.TagElement(root, "EndContent").Remove();
+            var startElement = TraverseUtils.TagElement(root, "Table");
             parser.Do(startElement);
         }
 
@@ -258,8 +258,8 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            TagElement(root, "EndTable").Remove();
-            var startElement = TagElement(root, "Table");
+            TraverseUtils.TagElement(root, "EndTable").Remove();
+            var startElement = TraverseUtils.TagElement(root, "Table");
             parser.Do(startElement);
         }
 
@@ -270,8 +270,8 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            TagElement(root, "Items").Remove();
-            var startElement = TagElement(root, "Table");
+            TraverseUtils.TagElement(root, "Items").Remove();
+            var startElement = TraverseUtils.TagElement(root, "Table");
             parser.Do(startElement);
         }
 
@@ -281,11 +281,11 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            TagElement(root, "DynamicRow").Remove();
-            var itemsSource = TagElement(root, "Items").Value;
+            TraverseUtils.TagElement(root, "DynamicRow").Remove();
+            var itemsSource = TraverseUtils.TagElement(root, "Items").Value;
             var tableElement = root.Element(WordMlNamespace + "tbl");
 
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
 
             var result = parser.Do(startElement);
             Assert.AreEqual(0, result.DynamicRow);
@@ -309,10 +309,10 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            var contentElement = TagElement(root, "Content");
+            var contentElement = TraverseUtils.TagElement(root, "Content");
             var newContentElement = new XElement(contentElement);
-            TagElement(root, "EndContent").AddBeforeSelf(newContentElement);
-            var startElement = TagElement(root, "Table");
+            TraverseUtils.TagElement(root, "EndContent").AddBeforeSelf(newContentElement);
+            var startElement = TraverseUtils.TagElement(root, "Table");
             parser.Do(startElement);
         }
 
@@ -323,16 +323,13 @@ namespace TsSoft.Docx.TemplateEngine.Test.Parsers
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
             var newTableTagElement = new XElement(startElement);
-            TagElement(root, "EndTable").AddBeforeSelf(newTableTagElement);
+            TraverseUtils.TagElement(root, "EndTable").AddBeforeSelf(newTableTagElement);
             parser.Do(startElement);
         }
 
-        private XElement TagElement(XElement root, string tagName)
-        {
-            return root.Elements(SdtName).Where(element => element.Element(SdtPrName).Element(TagName).Attribute(ValAttributeName).Value == tagName).First();
-        }
+      
 
         private void SetTagElementValue(XElement element, string value)
         {

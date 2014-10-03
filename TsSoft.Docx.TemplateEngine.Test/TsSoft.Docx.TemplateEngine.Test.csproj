@@ -37,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
@@ -68,6 +71,7 @@
     <Compile Include="DocxGeneratorTest.cs" />
     <Compile Include="Tags\DataReaderTest.cs" />
     <Compile Include="DocxPackageTest.cs" />
+    <Compile Include="Tags\RepeaterProcessorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine.csproj">
@@ -80,7 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Parsers\Repeater_Ok.xml" />
-    <EmbeddedResource Include="Parsers\Repeater_NotClosed_Test.xml" />
     <Content Include="Parsers\table.xml" />
     <EmbeddedResource Include="Tags\DataReaderTest.xml" />
     <EmbeddedResource Include="Parsers\TextParserTest.xml" />
