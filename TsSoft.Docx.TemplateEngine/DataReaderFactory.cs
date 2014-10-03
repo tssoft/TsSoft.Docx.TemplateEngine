@@ -19,8 +19,17 @@ namespace TsSoft.Docx.TemplateEngine
                 var serializer = new XmlSerializer(typeof(E));
                 serializer.Serialize(writer, dataEntity);
             }
-            var dataReader = new DataReader(dataDocument.Root);
-            return dataReader;
+            return CreateReader(dataDocument);
+        }
+
+        public static DataReader CreateReader(string dataXml)
+        {
+            return CreateReader(XDocument.Parse(dataXml));
+        }
+
+        public static DataReader CreateReader(XDocument dataDocument)
+        {
+            return new DataReader(dataDocument.Root);
         }
     }
 }
