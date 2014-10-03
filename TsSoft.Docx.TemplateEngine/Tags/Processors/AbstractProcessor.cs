@@ -8,7 +8,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
     {
         private ICollection<ITagProcessor> processors = new List<ITagProcessor>();
 
-        public DataReader DataReader { get; set; }
+        public virtual DataReader DataReader { get; set; }
 
         public virtual void Process()
         {

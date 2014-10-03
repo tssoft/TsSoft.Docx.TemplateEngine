@@ -43,6 +43,9 @@
     <Reference Include="System" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="SystemWrapper">
+      <HintPath>..\packages\SystemWrapper.0.4\lib\SystemWrapper.dll</HintPath>
+    </Reference>
     <Reference Include="TsSoft.Commons, Version=2.1.5387.31465, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\TsSoft.Commons.2.1.5387.31465\lib\net4\TsSoft.Commons.dll</HintPath>

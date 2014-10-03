@@ -13,14 +13,18 @@ namespace TsSoft.Docx.TemplateEngine
         private const string OfficeDocumentRelType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
         private Stream docxStream;
 
-        public XDocument DocumentPartXml { get; private set; }
+        public virtual XDocument DocumentPartXml { get; private set; }
+
+        public DocxPackage()
+        {
+        }
 
         public DocxPackage(Stream docxStream)
         {
             this.docxStream = docxStream;
         }
 
-        public void Load()
+        public virtual void Load()
         {
             docxStream.Seek(0, SeekOrigin.Begin);
             using (Package package = Package.Open(docxStream, FileMode.Open, FileAccess.Read))
@@ -34,7 +38,7 @@ namespace TsSoft.Docx.TemplateEngine
             }
         }
 
-        public void Save()
+        public virtual void Save()
         {
             docxStream.Seek(0, SeekOrigin.Begin);
             using (Package package = Package.Open(docxStream, FileMode.Open, FileAccess.ReadWrite))

@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 
 namespace TsSoft.Docx.TemplateEngine
 {
-    internal static class DataReaderFactory
+    internal class DataReaderFactory : IDataReaderFactory
     {
         public static DataReader CreateReader<E>(E dataEntity)
         {
@@ -30,6 +30,21 @@ namespace TsSoft.Docx.TemplateEngine
         public static DataReader CreateReader(XDocument dataDocument)
         {
             return new DataReader(dataDocument.Root);
+        }
+
+        DataReader IDataReaderFactory.CreateReader(string dataXml)
+        {
+            return CreateReader(dataXml);
+        }
+
+        DataReader IDataReaderFactory.CreateReader(XDocument dataDocument)
+        {
+            return CreateReader(dataDocument);
+        }
+
+        DataReader IDataReaderFactory.CreateReader<E>(E dataEntity)
+        {
+            return CreateReader(dataEntity);
         }
     }
 }
