@@ -8,6 +8,18 @@ namespace TsSoft.Docx.TemplateEngine
     {
         public void GenerateDocx(Stream templateStream, Stream outputStream, E dataEntity)
         {
+            var reader = DataReaderFactory.CreateReader<E>(dataEntity);
+            GenerateDocx(templateStream, outputStream, reader);
+        }
+
+        public void GenerateDocx(Stream templateStream, Stream outputStream, string dataXml)
+        {
+            var reader = DataReaderFactory.CreateReader(dataXml);
+            GenerateDocx(templateStream, outputStream, reader);
+        }
+
+        private void GenerateDocx(Stream templateStream, Stream outputStream, DataReader reader)
+        {
             templateStream.Seek(0, SeekOrigin.Begin);
             templateStream.CopyTo(outputStream);
 
@@ -18,7 +30,6 @@ namespace TsSoft.Docx.TemplateEngine
             var rootProcessor = new RootProcessor();
             parser.Parse(rootProcessor, package.DocumentPartXml.Root);
 
-            DataReader reader = DataReaderFactory.CreateReader<E>(dataEntity);
             rootProcessor.DataReader = reader;
             rootProcessor.Process();
 
