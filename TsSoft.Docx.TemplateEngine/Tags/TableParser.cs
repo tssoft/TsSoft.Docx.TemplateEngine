@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
+using TsSoft.Docx.TemplateEngine.Parsers;
 using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Tags
@@ -19,27 +20,29 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
             if (parentProcessor == null)
             {
-                throw new ArgumentNullException(string.Format(MessageStrings.ArgumentNull, "parentProcessor"));
+                throw new ArgumentNullException();
             }
 
-            var endTableElement = TagElement(startElement, "EndTable");
-            if (endTableElement == null || TagElementBetween(startElement, endTableElement, "Table") != null)
+            var endTableTag = TraverseUtils.NextTagElements(startElement, "EndTable").FirstOrDefault();
+            if (endTableTag == null || TraverseUtils.TagElementsBetween(startElement, endTableTag, "Table").Any())
             {
                 throw new Exception("Table closing tag wasn't found");
             }
 
             var tag = new TableTag();
             tag.TagTable = startElement;
-            tag.TagEndTable = endTableElement;
+            tag.TagEndTable = endTableTag;
 
-            var itemsElement = TagElementBetween(startElement, endTableElement, "Items");
-            if (itemsElement == null || itemsElement.Value == string.Empty)
+
+            var itemsElement = TraverseUtils.TagElementsBetween(startElement, endTableTag, "Items").FirstOrDefault();
+            if (itemsElement == null || itemsElement.Value == "")
             {
                 throw new Exception("Table data source wasn't found");
             }
             tag.ItemsSource = itemsElement.Value;
 
-            var dynamicRowElement = TagElementBetween(startElement, endTableElement, "DynamicRow");
+
+            var dynamicRowElement = TraverseUtils.TagElementsBetween(startElement, endTableTag, "DynamicRow").FirstOrDefault();
             if (dynamicRowElement != null)
             {
                 int dynamicRowValue;
@@ -48,20 +51,22 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                                      : (int?) null;
             }
 
-            var contentElement = TagElementBetween(startElement, endTableElement, "Content");
+
+            var contentElement = TraverseUtils.TagElementsBetween(startElement, endTableTag, "Content").FirstOrDefault();
             if (contentElement == null)
             {
                 throw new Exception("Context tag wasn't found");
             }
+
             tag.TagContent = contentElement;
-            var endContentElement = TagElementBetween(contentElement, endTableElement, "EndContent");
+            var endContentElement = TraverseUtils.TagElementsBetween(contentElement, endTableTag, "EndContent").FirstOrDefault();
             if (endContentElement == null)
             {
                 throw new Exception("Context closing tag wasn't found");
             }
             tag.TagEndContent = endContentElement;
 
-            var tableElement = contentElement.ElementsAfterSelf(WordMl.TableName).FirstOrDefault(element => element.IsBefore(endContentElement));
+            var tableElement = contentElement.ElementsAfterSelf(WordMl.WordMlNamespace + "tbl").FirstOrDefault(element => element.IsBefore(endContentElement));
             if (tableElement != null)
             {
                 tag.Table = tableElement;
@@ -69,31 +74,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
             var processor = new TableProcessor {TableTag = tag};
             parentProcessor.AddProcessor(processor);
-        }
-
-        private XElement TagElement(XElement startElement, string tagName)
-        {
-            return
-                startElement.ElementsAfterSelf(WordMl.SdtName)
-                            .FirstOrDefault(
-                                element =>
-                                element.Element(WordMl.SdtPrName)
-                                       .Element(WordMl.TagName)
-                                       .Attribute(WordMl.ValAttributeName)
-                                       .Value == tagName);
-        }
-
-        private XElement TagElementBetween(XElement startElement, XElement endElement, string tagName)
-        {
-            return
-                startElement.ElementsAfterSelf(WordMl.SdtName)
-                            .FirstOrDefault(
-                                element =>
-                                element.Element(WordMl.SdtPrName)
-                                       .Element(WordMl.TagName)
-                                       .Attribute(WordMl.ValAttributeName)
-                                       .Value == tagName
-                                && element.IsBefore(endElement));
         }
     }
 }

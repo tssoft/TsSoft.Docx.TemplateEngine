@@ -10,6 +10,10 @@ namespace TsSoft.Docx.TemplateEngine
         private readonly XElement rootElement;
         private const string pathArgumentName = "path";
 
+        public DataReader()
+        {
+        }
+
         public DataReader(XElement rootElement)
         {
             this.rootElement = rootElement;
@@ -25,8 +29,7 @@ namespace TsSoft.Docx.TemplateEngine
         {
             if (path == null)
             {
-                throw new ArgumentNullException(
-                    string.Format(MessageStrings.ArgumentNull, pathArgumentName));
+                throw new ArgumentNullException(pathArgumentName);
             }
 
             var newElement = rootElement.XPathSelectElement(path);
@@ -34,12 +37,11 @@ namespace TsSoft.Docx.TemplateEngine
             return newElement != null ? new DataReader(newElement) : null;
         }
 
-        public IEnumerable<DataReader> GetReaders(string path)
+        public virtual IEnumerable<DataReader> GetReaders(string path)
         {
             if (path == null)
             {
-                throw new ArgumentNullException(
-                    string.Format(MessageStrings.ArgumentNull, pathArgumentName));
+                throw new ArgumentNullException(pathArgumentName);
             }
 
             var newElements = rootElement.XPathSelectElements(path);

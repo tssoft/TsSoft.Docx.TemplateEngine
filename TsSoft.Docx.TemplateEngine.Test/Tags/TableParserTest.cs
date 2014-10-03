@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using TsSoft.Commons.Utils;
+using TsSoft.Docx.TemplateEngine.Parsers;
 using TsSoft.Docx.TemplateEngine.Tags;
 using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
@@ -31,6 +32,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
                     documentRoot = document.Root.Element(WordMl.BodyName);
                 }
             }
+
         }
 
         [TestMethod]
@@ -41,19 +43,19 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
 
             var root = new XElement(documentRoot);
             var pElement = root.Element(WordMl.ParagraphName);
-            var itemsElement = TagElement(root, "Items");
+            var itemsElement = TraverseUtils.TagElement(root, "Items");
             itemsElement.AddBeforeSelf(pElement);
-            var dynamicRowElement = TagElement(root, "DynamicRow");
+            var dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
             dynamicRowElement.AddBeforeSelf(pElement);
-            var contentElement = TagElement(root, "Content");
+            var contentElement = TraverseUtils.TagElement(root, "Content");
             contentElement.AddBeforeSelf(pElement);
-            var endContentElement = TagElement(root, "EndContent");
+            var endContentElement = TraverseUtils.TagElement(root, "EndContent");
             endContentElement.AddBeforeSelf(pElement);
             var tableElement = root.Element(WordMl.TableName);
             tableElement.AddBeforeSelf(pElement);
-            var endTableElement = TagElement(root, "EndTable");
+            var endTableElement = TraverseUtils.TagElement(root, "EndTable");
             endTableElement.AddBeforeSelf(pElement);
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
 
             parser.Parse(processorMock, startElement);
             var processor = processorMock.InnerProcessor;
@@ -113,7 +115,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             newTableElement.Elements(WordMl.TableRowName).Last().Remove();
             tableElement.AddAfterSelf(newTableElement);
 
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
 
             parser.Parse(processorMock, startElement);
             var processor = processorMock.InnerProcessor;
@@ -131,12 +133,12 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            var dynamicRowElement = TagElement(root, "DynamicRow");
+            var dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
             var newDynamicRowElement = new XElement(dynamicRowElement);
             SetTagElementValue(newDynamicRowElement, "10");
             dynamicRowElement.AddAfterSelf(newDynamicRowElement);
             var tableElement = root.Element(WordMl.TableName);
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
 
             parser.Parse(processorMock, startElement);
             var processor = processorMock.InnerProcessor;
@@ -147,12 +149,12 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             CheckTagElements(tag);
 
             root = new XElement(documentRoot);
-            var itemsElement = TagElement(root, "Items");
+            var itemsElement = TraverseUtils.TagElement(root, "Items");
             var newItemsElement = new XElement(itemsElement);
             SetTagElementValue(newItemsElement, @"//wrongPath");
             itemsElement.AddAfterSelf(newItemsElement);
             tableElement = root.Element(WordMl.TableName);
-            startElement = TagElement(root, "Table");
+            startElement = TraverseUtils.TagElement(root, "Table");
 
             parser.Parse(processorMock, startElement);
             processor = processorMock.InnerProcessor;
@@ -163,18 +165,18 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             CheckTagElements(tag);
 
             root = new XElement(documentRoot);
-            var contentElement = TagElement(root, "Content");
+            var contentElement = TraverseUtils.TagElement(root, "Content");
             var newContentElement = new XElement(contentElement);
             tableElement = root.Element(WordMl.TableName);
             var newTableElement = new XElement(tableElement);
             newTableElement.Elements(WordMl.TableRowName).Last().Remove();
-            var endContentElement = TagElement(root, "EndContent");
+            var endContentElement = TraverseUtils.TagElement(root, "EndContent");
             var newEndContentElement = new XElement(endContentElement);
             endContentElement.AddBeforeSelf(newEndContentElement);
             endContentElement.AddBeforeSelf(newContentElement);
             endContentElement.AddBeforeSelf(newTableElement);
 
-            startElement = TagElement(root, "Table");
+            startElement = TraverseUtils.TagElement(root, "Table");
 
             parser.Parse(processorMock, startElement);
             processor = processorMock.InnerProcessor;
@@ -194,9 +196,9 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var root = new XElement(documentRoot);
             var tableElement = root.Element(WordMl.TableName);
             tableElement.Remove();
-            TagElement(root, "DynamicRow").AddAfterSelf(tableElement);
+            TraverseUtils.TagElement(root, "DynamicRow").AddAfterSelf(tableElement);
 
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
 
             parser.Parse(processorMock, startElement);
             var processor = processorMock.InnerProcessor;
@@ -214,11 +216,11 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            var dynamicRowElement = TagElement(root, "DynamicRow");
+            var dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
             SetTagElementValue(dynamicRowElement, string.Empty);
             var tableElement = root.Element(WordMl.TableName);
 
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
 
             parser.Parse(processorMock, startElement);
             var processor = processorMock.InnerProcessor;
@@ -237,9 +239,9 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            var itemsElement = TagElement(root, "Items");
+            var itemsElement = TraverseUtils.TagElement(root, "Items");
             SetTagElementValue(itemsElement, string.Empty);
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
             parser.Parse(processorMock, startElement);
         }
 
@@ -251,8 +253,8 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            TagElement(root, "Content").Remove();
-            var startElement = TagElement(root, "Table");
+            TraverseUtils.TagElement(root, "Content").Remove();
+            var startElement = TraverseUtils.TagElement(root, "Table");
             parser.Parse(processorMock, startElement);
         }
 
@@ -264,8 +266,8 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            TagElement(root, "EndContent").Remove();
-            var startElement = TagElement(root, "Table");
+            TraverseUtils.TagElement(root, "EndContent").Remove();
+            var startElement = TraverseUtils.TagElement(root, "Table");
             parser.Parse(processorMock, startElement);
         }
 
@@ -277,8 +279,8 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            TagElement(root, "EndTable").Remove();
-            var startElement = TagElement(root, "Table");
+            TraverseUtils.TagElement(root, "EndTable").Remove();
+            var startElement = TraverseUtils.TagElement(root, "Table");
             parser.Parse(processorMock, startElement);
         }
 
@@ -290,8 +292,8 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            TagElement(root, "Items").Remove();
-            var startElement = TagElement(root, "Table");
+            TraverseUtils.TagElement(root, "Items").Remove();
+            var startElement = TraverseUtils.TagElement(root, "Table");
             parser.Parse(processorMock, startElement);
         }
 
@@ -302,10 +304,10 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            TagElement(root, "DynamicRow").Remove();
+            TraverseUtils.TagElement(root, "DynamicRow").Remove();
             var tableElement = root.Element(WordMl.TableName);
 
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
 
             parser.Parse(processorMock, startElement);
             var processor = processorMock.InnerProcessor;
@@ -321,7 +323,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         public void TestParseNullProcess()
         {
             var root = new XElement(documentRoot);
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
             var parser = new TableParser();
             parser.Parse(null, startElement);
         }
@@ -343,15 +345,10 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            var startElement = TagElement(root, "Table");
+            var startElement = TraverseUtils.TagElement(root, "Table");
             var newTableTagElement = new XElement(startElement);
-            TagElement(root, "EndTable").AddBeforeSelf(newTableTagElement);
+            TraverseUtils.TagElement(root, "EndTable").AddBeforeSelf(newTableTagElement);
             parser.Parse(processorMock, startElement);
-        }
-
-        private XElement TagElement(XElement root, string tagName)
-        {
-            return root.Elements(WordMl.SdtName).Where(element => element.Element(WordMl.SdtPrName).Element(WordMl.TagName).Attribute(WordMl.ValAttributeName).Value == tagName).First();
         }
 
         private void SetTagElementValue(XElement element, string value)
@@ -369,6 +366,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             Assert.AreEqual("EndContent", tag.TagEndContent.Element(WordMl.SdtPrName).Element(WordMl.TagName).Attribute(WordMl.ValAttributeName).Value);
             Assert.IsNotNull(tag.TagEndTable);
             Assert.AreEqual("EndTable", tag.TagEndTable.Element(WordMl.SdtPrName).Element(WordMl.TagName).Attribute(WordMl.ValAttributeName).Value);
+
         }
     }
 }
