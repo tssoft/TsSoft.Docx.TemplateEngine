@@ -47,7 +47,7 @@ namespace TsSoft.Docx.TemplateEngine
                 var docPart = GetDocumentPart(package);
                 var documentStream = docPart.GetStream();
                 documentStream.SetLength(0);
-                using (var writer = new XmlTextWriter(documentStream, new UTF8Encoding()))//, new CapitalNamesUtf8Encoding()))
+                using (var writer = new XmlTextWriter(documentStream, new UTF8Encoding()))
                 {
                     DocumentPartXml.Save(writer);
                 }
@@ -62,14 +62,5 @@ namespace TsSoft.Docx.TemplateEngine
             Uri docUri = PackUriHelper.ResolvePartUri(new Uri("/", UriKind.Relative), relationship.TargetUri);
             return package.GetPart(docUri);
         }
-    }
-
-    internal class CapitalNamesUtf8Encoding : UTF8Encoding
-    {
-        public override string BodyName { get { return base.BodyName.ToUpper(); } }
-
-        public override string WebName { get { return base.WebName.ToUpper(); } }
-
-        public override string HeaderName { get { return base.HeaderName.ToUpper(); } }
     }
 }

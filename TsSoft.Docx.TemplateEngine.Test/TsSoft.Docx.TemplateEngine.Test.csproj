@@ -107,9 +107,6 @@
   <ItemGroup>
     <EmbeddedResource Include="DocxPackageTest_document.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="actual_doc.xml" />
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

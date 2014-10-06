@@ -7,10 +7,9 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
     public class TextProcessorTest : BaseProcessorTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestProcess()
         {
-            //var asm = Assembly.GetExecutingAssembly().GetManifestResourceStream("TextProcessorTest.docx");
-            //ValidateTagsRemoved(null);
+           
         }
     }
 }

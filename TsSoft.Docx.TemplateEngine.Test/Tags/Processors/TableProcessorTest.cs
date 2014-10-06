@@ -1,13 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
-using System.Xml.Linq;
-using TsSoft.Commons.Utils;
-using TsSoft.Docx.TemplateEngine.Tags;
-using TsSoft.Docx.TemplateEngine.Tags.Processors;
-
-namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
+﻿namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
+    using System.Linq;
+    using System.Xml.Linq;
+    using TsSoft.Commons.Utils;
+    using TsSoft.Docx.TemplateEngine.Tags;
+    using TsSoft.Docx.TemplateEngine.Tags.Processors;
+
     [TestClass]
     public class TableProcessorTest : BaseProcessorTest
     {
@@ -20,22 +20,22 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 
             var docStream = AssemblyResourceHelper.GetResourceStream(this, "TableProcessorTemplateTest.xml");
             var doc = XDocument.Load(docStream);
-            documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
+            this.documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
 
             var dataStream = AssemblyResourceHelper.GetResourceStream(this, "TableProcessorDataTest.xml");
             var xmlDoc = XDocument.Load(dataStream);
-            dataReader = DataReaderFactory.CreateReader(xmlDoc);
+            this.dataReader = DataReaderFactory.CreateReader(xmlDoc);
         }
 
         [TestMethod]
         public void TestProcess()
         {
-            var tableTag = GetTableTag();
+            var tableTag = this.GetTableTag();
 
             var tableProcessor = new TableProcessor
             {
                 TableTag = tableTag,
-                DataReader = dataReader
+                DataReader = this.dataReader
             };
             tableProcessor.Process();
 
@@ -50,14 +50,14 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                 new[] { "This", "row", "stays", "untouched" },
             };
 
-            var rows = tableTag.Table.Elements(WordMl.TableRowName);
+            var rows = tableTag.Table.Elements(WordMl.TableRowName).ToList();
             Assert.AreEqual(expectedTableStructure.Count(), rows.Count());
             int rowIndex = 0;
             foreach (var row in rows)
             {
                 var expectedRow = expectedTableStructure[rowIndex];
 
-                var cellsInRow = row.Elements(WordMl.TableCellName);
+                var cellsInRow = row.Elements(WordMl.TableCellName).ToList();
 
                 Assert.AreEqual(expectedRow.Count(), cellsInRow.Count());
 
@@ -71,7 +71,6 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                 rowIndex++;
             }
 
-
             var tagsBetween =
                 tableTag.TagTable.ElementsAfterSelf().Where(element => element.IsBefore(tableTag.TagContent));
             Assert.IsFalse(tagsBetween.Any());
@@ -79,7 +78,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
             tagsBetween =
                 tableTag.TagEndContent.ElementsAfterSelf().Where(element => element.IsBefore(tableTag.TagEndTable));
             Assert.IsFalse(tagsBetween.Any());
-            base.ValidateTagsRemoved(documentRoot);
+            this.ValidateTagsRemoved(this.documentRoot);
         }
 
         [TestMethod]
@@ -87,7 +86,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
         public void TestProcessNullTag()
         {
             var processor = new TableProcessor();
-            processor.DataReader = dataReader;
+            processor.DataReader = this.dataReader;
             processor.Process();
         }
 
@@ -95,27 +94,26 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
         [ExpectedException(typeof(NullReferenceException))]
         public void TestProcessNullReader()
         {
-            var processor = new TableProcessor();
-            processor.TableTag = GetTableTag();
+            var processor = new TableProcessor { TableTag = this.GetTableTag() };
             processor.Process();
         }
 
         private TableTag GetTableTag()
         {
-            XElement table = documentRoot.Element(WordMl.TableName);
-            const string itemsSource = "//Test/Certificates/Certificate";
+            XElement table = this.documentRoot.Element(WordMl.TableName);
+            const string ItemsSource = "//Test/Certificates/Certificate";
             int? dynamicRowValue = 4;
 
-            return new TableTag()
-            {
-                Table = table,
-                ItemsSource = itemsSource,
-                DynamicRow = dynamicRowValue,
-                TagTable = TraverseUtils.TagElement(documentRoot, "Table"),
-                TagContent = TraverseUtils.TagElement(documentRoot, "Content"),
-                TagEndContent = TraverseUtils.TagElement(documentRoot, "EndContent"),
-                TagEndTable = TraverseUtils.TagElement(documentRoot, "EndTable"),
-            };
+            return new TableTag
+                       {
+                           Table = table,
+                           ItemsSource = ItemsSource,
+                           DynamicRow = dynamicRowValue,
+                           TagTable = TraverseUtils.TagElement(this.documentRoot, "Table"),
+                           TagContent = TraverseUtils.TagElement(this.documentRoot, "Content"),
+                           TagEndContent = TraverseUtils.TagElement(this.documentRoot, "EndContent"),
+                           TagEndTable = TraverseUtils.TagElement(this.documentRoot, "EndTable"),
+                       };
         }
     }
 }
