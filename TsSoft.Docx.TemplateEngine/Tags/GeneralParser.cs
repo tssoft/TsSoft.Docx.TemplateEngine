@@ -21,19 +21,19 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         {
             ITagParser parser = null;
             // TODO Ignore case
-            switch (GetTagName(sdtElement))
+            switch (GetTagName(sdtElement).ToLower())
             {
-                case "Text":
+                case "text":
                     parser = new TextParser();
                     break;
 
-                case "Table":
+                case "table":
                     break;
 
-                case "Repeater":
+                case "repeater":
                     break;
 
-                case "If":
+                case "if":
                     break;
             }
             if (parser != null)
