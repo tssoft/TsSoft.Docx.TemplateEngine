@@ -9,18 +9,21 @@ namespace TsSoft.Docx.TemplateEngine.Tags
     {
         public virtual void Parse(ITagProcessor parentProcessor, XElement startElement)
         {
-            XElement sdtElement = startElement.NextElement(x => x.Name == WordMl.SdtName);
-            while (sdtElement != null)
+            var sdtElement = startElement.Element(WordMl.BodyName).Element(WordMl.SdtName);
+            do
             {
-                ParseSdt(parentProcessor, sdtElement);
+                this.ParseSdt(parentProcessor, sdtElement);
+                sdtElement = startElement.NextElement(x => x.Name == WordMl.SdtName);
+
             }
+            while (sdtElement != null);
         }
 
         protected void ParseSdt(ITagProcessor parentProcessor, XElement sdtElement)
         {
             ITagParser parser = null;
             // TODO Ignore case
-            switch (GetTagName(sdtElement))
+            switch (this.GetTagName(sdtElement))
             {
                 case "Text":
                     parser = new TextParser();

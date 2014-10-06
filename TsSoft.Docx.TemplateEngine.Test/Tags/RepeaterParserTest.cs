@@ -56,7 +56,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             }
             catch (Exception e)
             {
-                Assert.AreEqual(String.Format(MessageStrings.TagNotFoundOrEmpty, tagName), e.Message);
+                Assert.AreEqual(string.Format(MessageStrings.TagNotFoundOrEmpty, tagName), e.Message);
             }
         }
 
@@ -75,7 +75,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             }
             catch (Exception e)
             {
-                Assert.AreEqual(String.Format(MessageStrings.TagNotFoundOrEmpty, tagName), e.Message);
+                Assert.AreEqual(string.Format(MessageStrings.TagNotFoundOrEmpty, tagName), e.Message);
             }
         }
 
