@@ -1,23 +1,24 @@
-﻿using System.IO;
-using System.Xml.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.IO;
+using System.Xml.Linq;
 using TsSoft.Docx.TemplateEngine.Tags;
 using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Test
 {
-    internal class A
-    {
-        public int MyProperty { get; set; }
-    }
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Xml.Serialization;
+
+    using TsSoft.Commons.Utils;
 
     [TestClass]
     public class DocxGeneratorTest
     {
         private DocxGenerator docxGenerator;
-        private Mock<Stream> templateStreamMock;
-        private Mock<Stream> outputStreamMock;
         private Mock<DocxPackage> docxPackageMock;
         private Mock<ITagParser> parserMock;
         private Mock<AbstractProcessor> processorMock;
@@ -25,42 +26,97 @@ namespace TsSoft.Docx.TemplateEngine.Test
         private Mock<DataReader> entityDataReaderMock;
         private Mock<DataReader> xDocumentDataReaderMock;
 
+        private Stream templateStream;
+
+        private Stream outputStream;
+
         private XElement root;
 
-        [TestInitialize]
-        public void TestInitialize()
+        [TestMethod]
+        public void StubbedTestGenerateDocxString()
         {
-            outputStreamMock = new Mock<Stream>();
-            docxPackageMock = new Mock<DocxPackage>();
-            var xDocument = new XDocument();
-            root = xDocument.Root;
+            this.InitializeStubbedExecution();
+            this.docxGenerator.GenerateDocx(this.templateStream, this.outputStream, "whatever");
+            this.MakeAssertions(this.stringDataReaderMock);
+        }
 
-            docxPackageMock.SetupGet(p => p.DocumentPartXml).Returns(xDocument);
-            docxPackageMock.Setup(p => p.Load()).Verifiable();
+        [TestMethod]
+        public void StubbedTestGenerateDocxXDocument()
+        {
+            this.InitializeStubbedExecution();
+            this.docxGenerator.GenerateDocx(this.templateStream, this.outputStream, new XDocument());
+            this.MakeAssertions(this.xDocumentDataReaderMock);
+        }
+
+        [TestMethod]
+        public void StubbedTestGenerateDocxEntity()
+        {
+            this.InitializeStubbedExecution();
+            this.docxGenerator.GenerateDocx(this.templateStream, this.outputStream, new A());
+            this.MakeAssertions(this.entityDataReaderMock);
+        }
+
+        [TestMethod]
+        public void TestActualGeneration()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "DocxPackageTest.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator
+                                    {
+                                        PackageFactory = new DocxPackageFactory(),
+                                        ParserFactory = new GeneralParserFactory(),
+                                        ProcessorFactory = new RootProcessorFactory(),
+                                        DataReaderFactory = new DataReaderFactory(),
+                                    };
+            generator.GenerateDocx(
+                input,
+                output,
+                new SomeEntityWrapper
+                    {
+                        Test = new SomeEntity
+                            {
+                                Text = "My anaconda don't"
+                            }
+                    });
+            var package = new DocxPackage(output);
+            package.Load();
+
+            XDocument documentPartXml = package.DocumentPartXml;
+            Assert.IsFalse(documentPartXml.Descendants().Any(d => d.IsSdt()));
+        }
+
+        private void InitializeStubbedExecution()
+        {
+            this.docxPackageMock = new Mock<DocxPackage>();
+            var xDocument = new XDocument();
+            this.root = xDocument.Root;
+
+            this.docxPackageMock.SetupGet(p => p.DocumentPartXml).Returns(xDocument);
+            this.docxPackageMock.Setup(p => p.Load()).Verifiable();
             docxPackageMock.Setup(p => p.Save()).Verifiable();
 
             var packageFactoryMock = new Mock<IDocxPackageFactory>();
-            packageFactoryMock.Setup(f => f.Create(outputStreamMock.Object)).Returns(docxPackageMock.Object);
+            packageFactoryMock.Setup(f => f.Create(It.IsAny<Stream>())).Returns(this.docxPackageMock.Object);
 
-            processorMock = new Mock<AbstractProcessor>();
-            processorMock.Setup(p => p.Process()).Verifiable();
-            processorMock.SetupSet(p => p.DataReader).Verifiable();
+            this.processorMock = new Mock<AbstractProcessor>();
+            this.processorMock.Setup(p => p.Process()).Verifiable();
+            this.processorMock.SetupSet(processor => processor.DataReader = It.IsAny<DataReader>()).Verifiable();
             var processorFactoryMock = new Mock<IProcessorFactory>();
-            processorFactoryMock.Setup(f => f.Create()).Returns(processorMock.Object);
+            processorFactoryMock.Setup(f => f.Create()).Returns(this.processorMock.Object);
 
-            parserMock = new Mock<ITagParser>();
+            this.parserMock = new Mock<ITagParser>();
             var parserFactoryMock = new Mock<IParserFactory>();
-            parserFactoryMock.Setup(f => f.Create()).Returns(parserMock.Object);
+            parserFactoryMock.Setup(f => f.Create()).Returns(this.parserMock.Object);
 
-            stringDataReaderMock = new Mock<DataReader>();
-            entityDataReaderMock = new Mock<DataReader>();
-            xDocumentDataReaderMock = new Mock<DataReader>();
+            this.stringDataReaderMock = new Mock<DataReader>();
+            this.entityDataReaderMock = new Mock<DataReader>();
+            this.xDocumentDataReaderMock = new Mock<DataReader>();
             var dataReaderFactoryMock = new Mock<IDataReaderFactory>();
-            dataReaderFactoryMock.Setup(f => f.CreateReader(It.IsAny<string>())).Returns(stringDataReaderMock.Object);
-            dataReaderFactoryMock.Setup(f => f.CreateReader(It.IsAny<A>())).Returns(entityDataReaderMock.Object);
-            dataReaderFactoryMock.Setup(f => f.CreateReader(It.IsAny<XDocument>())).Returns(xDocumentDataReaderMock.Object);
+            dataReaderFactoryMock.Setup(f => f.CreateReader(It.IsAny<string>())).Returns(this.stringDataReaderMock.Object);
+            dataReaderFactoryMock.Setup(f => f.CreateReader(It.IsAny<A>())).Returns(this.entityDataReaderMock.Object);
+            dataReaderFactoryMock.Setup(f => f.CreateReader(It.IsAny<XDocument>())).Returns(this.xDocumentDataReaderMock.Object);
 
-            docxGenerator = new DocxGenerator
+            this.docxGenerator = new DocxGenerator
             {
                 DataReaderFactory = dataReaderFactoryMock.Object,
                 PackageFactory = packageFactoryMock.Object,
@@ -68,43 +124,39 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 ProcessorFactory = processorFactoryMock.Object
             };
 
-            templateStreamMock = new Mock<Stream>();
-
+            this.templateStream = AssemblyResourceHelper.GetResourceStream(this, "DocxPackageTest.docx");
+            this.outputStream = new MemoryStream();
         }
 
-        [TestMethod]
-        public void TestGenerateDocxString()
+        private void MakeAssertions(IMock<DataReader> dataReaderMock)
         {
-            docxGenerator.GenerateDocx(templateStreamMock.Object, outputStreamMock.Object, "whatever");
-            Assert(stringDataReaderMock);
+            this.docxPackageMock.Verify(p => p.Load(), Times.Once);
+
+            this.parserMock.Verify(p => p.Parse(It.IsAny<AbstractProcessor>(), It.IsAny<XElement>()), Times.Once);
+            this.parserMock.Verify(p => p.Parse(this.processorMock.Object, this.root), Times.Once);
+
+            this.processorMock.VerifySet(p => p.DataReader = It.IsAny<DataReader>(), Times.Once);
+            this.processorMock.VerifySet(p => p.DataReader = dataReaderMock.Object, Times.Once);
+            this.processorMock.Verify(p => p.Process(), Times.Once);
+
+            this.docxPackageMock.Verify(p => p.Save(), Times.Once);
         }
 
-        [TestMethod]
-        public void TestGenerateDocxXDocument()
+        internal class A
         {
-            docxGenerator.GenerateDocx(templateStreamMock.Object, outputStreamMock.Object, new XDocument());
-            Assert(xDocumentDataReaderMock);
+            public int MyProperty { get; set; }
         }
 
-        [TestMethod]
-        public void TestGenerateDocxEntity()
+        public class SomeEntity
         {
-            docxGenerator.GenerateDocx(templateStreamMock.Object, outputStreamMock.Object, new A());
-            Assert(entityDataReaderMock);
+            [XmlElement("text")]
+            public string Text { get; set; }
         }
 
-        private void Assert(IMock<DataReader> dataReaderMock)
+        public class SomeEntityWrapper
         {
-            docxPackageMock.Verify(p => p.Load(), Times.Once);
-
-            parserMock.Verify(p => p.Parse(It.IsAny<AbstractProcessor>(), It.IsAny<XElement>()), Times.Once);
-            parserMock.Verify(p => p.Parse(processorMock.Object, root), Times.Once);
-
-            processorMock.VerifySet(p => p.DataReader = It.IsAny<DataReader>(), Times.Once);
-            processorMock.VerifySet(p => p.DataReader = dataReaderMock.Object, Times.Once);
-            processorMock.Verify(p => p.Process(), Times.Once);
-
-            docxPackageMock.Verify(p => p.Save(), Times.Once);
+            [XmlElement("test")]
+            public SomeEntity Test { get; set; }
         }
     }
 }
