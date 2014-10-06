@@ -61,6 +61,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Tags\GeneralParserTest.cs" />
     <Compile Include="Tags\TableParserTest.cs" />
     <Compile Include="Tags\TagProcessorMock.cs" />
     <Compile Include="Tags\TextParserTest.cs" />
@@ -92,6 +93,10 @@
   <ItemGroup>
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
+    <None Include="Tags\TestGeneralParser.docx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Tags\TestGeneralParser.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
