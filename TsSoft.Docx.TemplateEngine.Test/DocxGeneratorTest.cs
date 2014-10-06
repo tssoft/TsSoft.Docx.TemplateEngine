@@ -68,7 +68,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
                                         ProcessorFactory = new RootProcessorFactory(),
                                         DataReaderFactory = new DataReaderFactory(),
                                     };
-            const string dynamicText = "My anaconda don't";
+            const string DynamicText = "My anaconda don't";
             generator.GenerateDocx(
                 input,
                 output,
@@ -76,7 +76,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
                     {
                         Test = new SomeEntity
                             {
-                                Text = dynamicText
+                                Text = DynamicText
                             }
                     });
             var package = new DocxPackage(output);
@@ -84,16 +84,16 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             XDocument documentPartXml = package.DocumentPartXml;
             Assert.IsFalse(documentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsNotNull(documentPartXml.Descendants(WordMl.RName).Single(e => e.Value == dynamicText));
+            Assert.IsNotNull(documentPartXml.Descendants(WordMl.RName).Single(e => e.Value == DynamicText));
         }
 
         private void InitializeStubbedExecution()
         {
             this.docxPackageMock = new Mock<DocxPackage>();
-            var xDocument = new XDocument();
-            this.root = xDocument.Root;
+            var document = new XDocument();
+            this.root = document.Root;
 
-            this.docxPackageMock.SetupGet(p => p.DocumentPartXml).Returns(xDocument);
+            this.docxPackageMock.SetupGet(p => p.DocumentPartXml).Returns(document);
             this.docxPackageMock.Setup(p => p.Load()).Verifiable();
             docxPackageMock.Setup(p => p.Save()).Verifiable();
 

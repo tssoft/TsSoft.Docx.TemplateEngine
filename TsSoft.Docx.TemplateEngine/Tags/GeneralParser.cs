@@ -22,20 +22,22 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         protected void ParseSdt(ITagProcessor parentProcessor, XElement sdtElement)
         {
             ITagParser parser = null;
-            // TODO Ignore case
-            switch (this.GetTagName(sdtElement))
+            switch (GetTagName(sdtElement).ToLower())
             {
-                case "Text":
+                case "text":
                     parser = new TextParser();
                     break;
 
-                case "Table":
+                case "table":
+                    parser = new TableParser();
                     break;
 
-                case "Repeater":
+                case "repeater":
+                    parser = new RepeaterParser();
                     break;
 
-                case "If":
+                case "if":
+                    throw new NotImplementedException();
                     break;
             }
             if (parser != null)
@@ -46,10 +48,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         protected void ValidateStartTag(XElement startElement, string tagName)
         {
-            AssureElementExists(startElement);
-            if (null == startElement.Descendants(WordMl.TagName).SingleOrDefault(x => x.Attribute(WordMl.ValAttributeName).Value == tagName))
+            this.AssureElementExists(startElement, tagName);
+            if (!startElement.Descendants(WordMl.TagName).Any(x => x.Attribute(WordMl.ValAttributeName).Value == tagName))
             {
-                // TODO
                 throw new Exception(MessageStrings.NotExpectedTag);
             }
         }
@@ -59,7 +60,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var tag = TraverseUtils.NextTagElements(startElement, tagName).SingleOrDefault();
             if (tag == null)
             {
-                throw new Exception(String.Format(MessageStrings.TagNotFoundOrEmpty, tagName));
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, tagName));
             }
             return tag;
         }
@@ -69,23 +70,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var tag = TraverseUtils.TagElementsBetween(startElement, endElement, tagName).SingleOrDefault();
             if (tag == null)
             {
-                throw new Exception(String.Format(MessageStrings.TagNotFoundOrEmpty, tagName));
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, tagName));
             }
             return tag;
-        }
-
-        private void AssureElementExists(XElement element)
-        {
-            if (element == null)
-            {
-                // TODO
-                throw new Exception();
-            }
-            if (element.Name != WordMl.SdtName)
-            {
-                // TODO
-                throw new Exception();
-            }
         }
 
         protected string GetTagName(XElement startElement)
@@ -96,7 +83,15 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 return null;
             }
             var nameAttribute = tagElement.Attribute(WordMl.ValAttributeName);
-            return (nameAttribute != null) ? nameAttribute.Value : null;
+            return (nameAttribute == null) ? null : nameAttribute.Value;
+        }
+
+        private void AssureElementExists(XElement element, string tagName)
+        {
+            if (element == null)
+            {
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, tagName));
+            }
         }
     }
 }

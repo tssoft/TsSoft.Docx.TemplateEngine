@@ -1,14 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace TsSoft.Docx.TemplateEngine.Test
+﻿namespace TsSoft.Docx.TemplateEngine.Test
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.IO;
     using System.Linq;
-    using System.Text;
     using System.Xml.Linq;
-
     using TsSoft.Commons.Utils;
-    using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
     [TestClass]
     public class DocxPackageTest
