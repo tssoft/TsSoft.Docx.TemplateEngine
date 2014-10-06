@@ -13,14 +13,18 @@ namespace TsSoft.Docx.TemplateEngine
         private const string OfficeDocumentRelType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
         private Stream docxStream;
 
-        public XDocument DocumentPartXml { get; private set; }
+        public virtual XDocument DocumentPartXml { get; private set; }
+
+        public DocxPackage()
+        {
+        }
 
         public DocxPackage(Stream docxStream)
         {
             this.docxStream = docxStream;
         }
 
-        public void Load()
+        public virtual DocxPackage Load()
         {
             docxStream.Seek(0, SeekOrigin.Begin);
             using (Package package = Package.Open(docxStream, FileMode.Open, FileAccess.Read))
@@ -32,21 +36,24 @@ namespace TsSoft.Docx.TemplateEngine
                     DocumentPartXml = XDocument.Load(reader);
                 }
             }
+            return this;
         }
 
-        public void Save()
+        public virtual DocxPackage Save()
         {
             docxStream.Seek(0, SeekOrigin.Begin);
             using (Package package = Package.Open(docxStream, FileMode.Open, FileAccess.ReadWrite))
             {
                 var docPart = GetDocumentPart(package);
                 var documentStream = docPart.GetStream();
-                using (var writer = new XmlTextWriter(documentStream, new UTF8Encoding()))//, new CapitalNamesUtf8Encoding()))
+                documentStream.SetLength(0);
+                using (var writer = new XmlTextWriter(documentStream, new UTF8Encoding()))
                 {
                     DocumentPartXml.Save(writer);
                 }
                 package.Flush();
             }
+            return this;
         }
 
         private PackagePart GetDocumentPart(Package package)
@@ -55,14 +62,5 @@ namespace TsSoft.Docx.TemplateEngine
             Uri docUri = PackUriHelper.ResolvePartUri(new Uri("/", UriKind.Relative), relationship.TargetUri);
             return package.GetPart(docUri);
         }
-    }
-
-    internal class CapitalNamesUtf8Encoding : UTF8Encoding
-    {
-        public override string BodyName { get { return base.BodyName.ToUpper(); } }
-
-        public override string WebName { get { return base.WebName.ToUpper(); } }
-
-        public override string HeaderName { get { return base.HeaderName.ToUpper(); } }
     }
 }

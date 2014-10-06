@@ -1,74 +1,82 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
-using System.Xml;
 using System.Xml.Linq;
 using TsSoft.Commons.Utils;
-using TsSoft.Docx.TemplateEngine.Parsers;
 using TsSoft.Docx.TemplateEngine.Tags;
+using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Test.Tags
 {
     /// <summary>
     /// Test TableParser class
     /// </summary>
-    /// <author>Георгий Поликарпов</author>
     [TestClass]
     public class TableParserTest
     {
         private XElement documentRoot;
 
+
         [TestInitialize]
         public void Initialize()
         {
-            var docStream = AssemblyResourceHelper.GetResourceStream(this, "table.xml");
+            var docStream = AssemblyResourceHelper.GetResourceStream(this, "TableParserTest.xml");
             var doc = XDocument.Load(docStream);
             documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
+
         }
 
         [TestMethod]
-        public void DoVariousOrderTagTest()
+        public void TestParseVariousOrderTag()
         {
+            var processorMock = new TagProcessorMock<TableProcessor>();
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            var pElement = root.Element(WordMl.WordMlNamespace + "p");
+            var pElement = root.Element(WordMl.ParagraphName);
             var itemsElement = TraverseUtils.TagElement(root, "Items");
-            var itemsSource = itemsElement.Value;
             itemsElement.AddBeforeSelf(pElement);
             var dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
-            var dynamicRowValue = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
             dynamicRowElement.AddBeforeSelf(pElement);
             var contentElement = TraverseUtils.TagElement(root, "Content");
             contentElement.AddBeforeSelf(pElement);
             var endContentElement = TraverseUtils.TagElement(root, "EndContent");
             endContentElement.AddBeforeSelf(pElement);
-            var tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
+            var tableElement = root.Element(WordMl.TableName);
             tableElement.AddBeforeSelf(pElement);
             var endTableElement = TraverseUtils.TagElement(root, "EndTable");
             endTableElement.AddBeforeSelf(pElement);
             var startElement = TraverseUtils.TagElement(root, "Table");
 
-            var result = parser.Do(startElement);
-            Assert.AreEqual(dynamicRowValue, result.DynamicRow);
-            Assert.AreEqual(itemsSource, result.ItemsSource);
-            Assert.AreEqual(tableElement, result.Table);
+            parser.Parse(processorMock, startElement);
+            var processor = processorMock.InnerProcessor;
+            var tag = processor.TableTag;
+            Assert.AreEqual(4, tag.DynamicRow);
+            Assert.AreEqual("//test/certificates", tag.ItemsSource);
+            Assert.AreEqual(tableElement, tag.Table);
+            CheckTagElements(tag);
 
             itemsElement.Remove();
             endTableElement.AddBeforeSelf(itemsElement);
 
-            result = parser.Do(startElement);
-            Assert.AreEqual(dynamicRowValue, result.DynamicRow);
-            Assert.AreEqual(itemsSource, result.ItemsSource);
-            Assert.AreEqual(tableElement, result.Table);
+            parser.Parse(processorMock, startElement);
+            processor = processorMock.InnerProcessor;
+            tag = processor.TableTag;
+            Assert.AreEqual(4, tag.DynamicRow);
+            Assert.AreEqual("//test/certificates", tag.ItemsSource);
+            Assert.AreEqual(tableElement, tag.Table);
+            CheckTagElements(tag);
 
             dynamicRowElement.Remove();
             endTableElement.AddBeforeSelf(dynamicRowElement);
 
-            result = parser.Do(startElement);
-            Assert.AreEqual(dynamicRowValue, result.DynamicRow);
-            Assert.AreEqual(itemsSource, result.ItemsSource);
-            Assert.AreEqual(tableElement, result.Table);
+            parser.Parse(processorMock, startElement);
+            processor = processorMock.InnerProcessor;
+            tag = processor.TableTag;
+            Assert.AreEqual(4, tag.DynamicRow);
+            Assert.AreEqual("//test/certificates", tag.ItemsSource);
+            Assert.AreEqual(tableElement, tag.Table);
+            CheckTagElements(tag);
 
             contentElement.Remove();
             tableElement.Remove();
@@ -77,79 +85,82 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             endTableElement.AddBeforeSelf(tableElement);
             endTableElement.AddBeforeSelf(endContentElement);
 
-            result = parser.Do(startElement);
-            Assert.AreEqual(dynamicRowValue, result.DynamicRow);
-            Assert.AreEqual(itemsSource, result.ItemsSource);
-            Assert.AreEqual(tableElement, result.Table);
+            parser.Parse(processorMock, startElement);
+            processor = processorMock.InnerProcessor;
+            tag = processor.TableTag;
+            Assert.AreEqual(4, tag.DynamicRow);
+            Assert.AreEqual("//test/certificates", tag.ItemsSource);
+            Assert.AreEqual(tableElement, tag.Table);
+            CheckTagElements(tag);
         }
 
         [TestMethod]
-        public void DoDoubleTableTest()
+        public void TestParseDoubleTable()
         {
+            var processorMock = new TagProcessorMock<TableProcessor>();
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            var dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
-            int dynamicRowValue = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
-            var itemsSource = TraverseUtils.TagElement(root, "Items").Value;
-            var tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
+            var tableElement = root.Element(WordMl.TableName);
             var newTableElement = new XElement(tableElement);
-            newTableElement.Elements(WordMl.WordMlNamespace + "tr").Last().Remove();
+            newTableElement.Elements(WordMl.TableRowName).Last().Remove();
             tableElement.AddAfterSelf(newTableElement);
 
             var startElement = TraverseUtils.TagElement(root, "Table");
 
-            var result = parser.Do(startElement);
-            Assert.AreEqual(dynamicRowValue, result.DynamicRow);
-            Assert.AreEqual(itemsSource, result.ItemsSource);
-            Assert.AreEqual(tableElement, result.Table);
+            parser.Parse(processorMock, startElement);
+            var processor = processorMock.InnerProcessor;
+            var tag = processor.TableTag;
+            Assert.AreEqual(4, tag.DynamicRow);
+            Assert.AreEqual("//test/certificates", tag.ItemsSource);
+            Assert.AreEqual(tableElement, tag.Table);
+            CheckTagElements(tag);
         }
 
         [TestMethod]
-        public void DoDoubleTagTest()
+        public void TestParseDoubleTag()
         {
+            var processorMock = new TagProcessorMock<TableProcessor>();
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
             var dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
-            int dynamicRowValue = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
             var newDynamicRowElement = new XElement(dynamicRowElement);
-            SetTagElementValue(newDynamicRowElement, (dynamicRowValue + 10).ToString());
+            SetTagElementValue(newDynamicRowElement, "10");
             dynamicRowElement.AddAfterSelf(newDynamicRowElement);
-            var itemsSource = TraverseUtils.TagElement(root, "Items").Value;
-            var tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
+            var tableElement = root.Element(WordMl.TableName);
             var startElement = TraverseUtils.TagElement(root, "Table");
 
-            var result = parser.Do(startElement);
-            Assert.AreEqual(dynamicRowValue, result.DynamicRow);
-            Assert.AreEqual(itemsSource, result.ItemsSource);
-            Assert.AreEqual(tableElement, result.Table);
+            parser.Parse(processorMock, startElement);
+            var processor = processorMock.InnerProcessor;
+            var tag = processor.TableTag;
+            Assert.AreEqual(4, tag.DynamicRow);
+            Assert.AreEqual("//test/certificates", tag.ItemsSource);
+            Assert.AreEqual(tableElement, tag.Table);
+            CheckTagElements(tag);
 
             root = new XElement(documentRoot);
-            dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
-            dynamicRowValue = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
             var itemsElement = TraverseUtils.TagElement(root, "Items");
-            itemsSource = itemsElement.Value;
             var newItemsElement = new XElement(itemsElement);
             SetTagElementValue(newItemsElement, @"//wrongPath");
             itemsElement.AddAfterSelf(newItemsElement);
-            tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
+            tableElement = root.Element(WordMl.TableName);
             startElement = TraverseUtils.TagElement(root, "Table");
 
-            result = parser.Do(startElement);
-            Assert.AreEqual(dynamicRowValue, result.DynamicRow);
-            Assert.AreEqual(itemsSource, result.ItemsSource);
-            Assert.AreEqual(tableElement, result.Table);
+            parser.Parse(processorMock, startElement);
+            processor = processorMock.InnerProcessor;
+            tag = processor.TableTag;
+            Assert.AreEqual(4, tag.DynamicRow);
+            Assert.AreEqual("//test/certificates", tag.ItemsSource);
+            Assert.AreEqual(tableElement, tag.Table);
+            CheckTagElements(tag);
 
             root = new XElement(documentRoot);
-            dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
-            dynamicRowValue = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
-            itemsSource = TraverseUtils.TagElement(root, "Items").Value;
             var contentElement = TraverseUtils.TagElement(root, "Content");
             var newContentElement = new XElement(contentElement);
-            tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
+            tableElement = root.Element(WordMl.TableName);
             var newTableElement = new XElement(tableElement);
-            newTableElement.Elements(WordMl.WordMlNamespace + "tr").Last().Remove();
+            newTableElement.Elements(WordMl.TableRowName).Last().Remove();
             var endContentElement = TraverseUtils.TagElement(root, "EndContent");
             var newEndContentElement = new XElement(endContentElement);
             endContentElement.AddBeforeSelf(newEndContentElement);
@@ -158,172 +169,195 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
 
             startElement = TraverseUtils.TagElement(root, "Table");
 
-            result = parser.Do(startElement);
-            Assert.AreEqual(dynamicRowValue, result.DynamicRow);
-            Assert.AreEqual(itemsSource, result.ItemsSource);
-            Assert.AreEqual(tableElement, result.Table);
+            parser.Parse(processorMock, startElement);
+            processor = processorMock.InnerProcessor;
+            tag = processor.TableTag;
+            Assert.AreEqual(4, tag.DynamicRow);
+            Assert.AreEqual("//test/certificates", tag.ItemsSource);
+            Assert.AreEqual(tableElement, tag.Table);
+            CheckTagElements(tag);
         }
 
         [TestMethod]
-        public void DoEmptyContentTest()
+        public void TestParseEmptyContent()
         {
+            var processorMock = new TagProcessorMock<TableProcessor>();
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            var dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
-            var dynamicRowValue = (dynamicRowElement.Value == "") ? 0 : int.Parse(dynamicRowElement.Value);
-            var itemsSource = TraverseUtils.TagElement(root, "Items").Value;
-            var tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
+            var tableElement = root.Element(WordMl.TableName);
             tableElement.Remove();
             TraverseUtils.TagElement(root, "DynamicRow").AddAfterSelf(tableElement);
 
             var startElement = TraverseUtils.TagElement(root, "Table");
 
-            var result = parser.Do(startElement);
-            Assert.AreEqual(dynamicRowValue, result.DynamicRow);
-            Assert.AreEqual(itemsSource, result.ItemsSource);
-            Assert.IsNull(result.Table);
+            parser.Parse(processorMock, startElement);
+            var processor = processorMock.InnerProcessor;
+            var tag = processor.TableTag;
+            Assert.AreEqual(4, tag.DynamicRow);
+            Assert.AreEqual("//test/certificates", tag.ItemsSource);
+            Assert.IsNull(tag.Table);
+            CheckTagElements(tag);
         }
 
         [TestMethod]
-        public void DoEmptyDynamicRowTest()
+        public void TestParseEmptyDynamicRow()
         {
+            var processorMock = new TagProcessorMock<TableProcessor>();
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
-            SetTagElementValue(TraverseUtils.TagElement(root, "DynamicRow"), "");
-            var itemsSource = TraverseUtils.TagElement(root, "Items").Value;
-            var tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
+            var dynamicRowElement = TraverseUtils.TagElement(root, "DynamicRow");
+            SetTagElementValue(dynamicRowElement, string.Empty);
+            var tableElement = root.Element(WordMl.TableName);
 
             var startElement = TraverseUtils.TagElement(root, "Table");
 
-            var result = parser.Do(startElement);
-            Assert.AreEqual(0, result.DynamicRow);
-            Assert.AreEqual(itemsSource, result.ItemsSource);
-            Assert.AreEqual(tableElement, result.Table);
+            parser.Parse(processorMock, startElement);
+            var processor = processorMock.InnerProcessor;
+            var tag = processor.TableTag;
+            Assert.IsFalse(tag.DynamicRow.HasValue);
+            Assert.AreEqual("//test/certificates", tag.ItemsSource);
+            Assert.AreEqual(tableElement, tag.Table);
+            CheckTagElements(tag);
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void DoEmptyItemsTest()
+        public void TestParseEmptyItems()
         {
+            var processorMock = new TagProcessorMock<TableProcessor>();
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
             var itemsElement = TraverseUtils.TagElement(root, "Items");
-            SetTagElementValue(itemsElement, "");
+            SetTagElementValue(itemsElement, string.Empty);
             var startElement = TraverseUtils.TagElement(root, "Table");
-
-            parser.Do(startElement);
+            parser.Parse(processorMock, startElement);
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void DoMissingContentTagTest()
+        public void TestParseMissingContentTag()
         {
+            var processorMock = new TagProcessorMock<TableProcessor>();
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
             TraverseUtils.TagElement(root, "Content").Remove();
             var startElement = TraverseUtils.TagElement(root, "Table");
-            parser.Do(startElement);
+            parser.Parse(processorMock, startElement);
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void DoMissingEndContentTagTest()
+        public void TestParseMissingEndContentTag()
         {
+            var processorMock = new TagProcessorMock<TableProcessor>();
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
             TraverseUtils.TagElement(root, "EndContent").Remove();
             var startElement = TraverseUtils.TagElement(root, "Table");
-            parser.Do(startElement);
+            parser.Parse(processorMock, startElement);
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void DoMissingEndTableTagTest()
+        public void TestParseMissingEndTableTag()
         {
+            var processorMock = new TagProcessorMock<TableProcessor>();
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
             TraverseUtils.TagElement(root, "EndTable").Remove();
             var startElement = TraverseUtils.TagElement(root, "Table");
-            parser.Do(startElement);
+            parser.Parse(processorMock, startElement);
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void DoMissingItemsTagTest()
+        public void TestParseMissingItemsTag()
         {
+            var processorMock = new TagProcessorMock<TableProcessor>();
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
             TraverseUtils.TagElement(root, "Items").Remove();
             var startElement = TraverseUtils.TagElement(root, "Table");
-            parser.Do(startElement);
+            parser.Parse(processorMock, startElement);
         }
 
         [TestMethod]
-        public void DoMissingDynamicRowTagTest()
+        public void TestParseMissingDynamicRowTag()
         {
+            var processorMock = new TagProcessorMock<TableProcessor>();
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
             TraverseUtils.TagElement(root, "DynamicRow").Remove();
-            var itemsSource = TraverseUtils.TagElement(root, "Items").Value;
-            var tableElement = root.Element(WordMl.WordMlNamespace + "tbl");
+            var tableElement = root.Element(WordMl.TableName);
 
             var startElement = TraverseUtils.TagElement(root, "Table");
 
-            var result = parser.Do(startElement);
-            Assert.AreEqual(0, result.DynamicRow);
-            Assert.AreEqual(itemsSource, result.ItemsSource);
-            Assert.AreEqual(tableElement, result.Table);
-
+            parser.Parse(processorMock, startElement);
+            var processor = processorMock.InnerProcessor;
+            var tag = processor.TableTag;
+            Assert.IsFalse(tag.DynamicRow.HasValue);
+            Assert.AreEqual("//test/certificates", tag.ItemsSource);
+            Assert.AreEqual(tableElement, tag.Table);
+            CheckTagElements(tag);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void DoNullArgumentTest()
+        public void TestParseNullProcess()
         {
-            var parser = new TableParser();
-            parser.Do(null);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        public void DoTwoContentBeforeEndContentTest()
-        {
-            var parser = new TableParser();
-
             var root = new XElement(documentRoot);
-            var contentElement = TraverseUtils.TagElement(root, "Content");
-            var newContentElement = new XElement(contentElement);
-            TraverseUtils.TagElement(root, "EndContent").AddBeforeSelf(newContentElement);
             var startElement = TraverseUtils.TagElement(root, "Table");
-            parser.Do(startElement);
+            var parser = new TableParser();
+            parser.Parse(null, startElement);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestParseNullStartElement()
+        {
+            var processorMock = new TagProcessorMock<TableProcessor>();
+            var parser = new TableParser();
+            parser.Parse(processorMock, null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void DoTwoTableBeforeEndTableTest()
+        public void TestParseTwoTableBeforeEndTable()
         {
+            var processorMock = new TagProcessorMock<TableProcessor>();
             var parser = new TableParser();
 
             var root = new XElement(documentRoot);
             var startElement = TraverseUtils.TagElement(root, "Table");
             var newTableTagElement = new XElement(startElement);
             TraverseUtils.TagElement(root, "EndTable").AddBeforeSelf(newTableTagElement);
-            parser.Do(startElement);
+            parser.Parse(processorMock, startElement);
         }
-
-
 
         private void SetTagElementValue(XElement element, string value)
         {
-            element.Element(WordMl.SdtContentName).Element(WordMl.WordMlNamespace + "p").Element(WordMl.WordMlNamespace + "r").Element(WordMl.WordMlNamespace + "t").Value = value;
+            element.Element(WordMl.SdtContentName).Element(WordMl.ParagraphName).Element(WordMl.WordMlNamespace + "r").Element(WordMl.WordMlNamespace + "t").Value = value;
+        }
+
+        private void CheckTagElements(TableTag tag)
+        {
+            Assert.IsNotNull(tag.TagTable);
+            Assert.AreEqual("Table", tag.TagTable.Element(WordMl.SdtPrName).Element(WordMl.TagName).Attribute(WordMl.ValAttributeName).Value);
+            Assert.IsNotNull(tag.TagContent);
+            Assert.AreEqual("Content", tag.TagContent.Element(WordMl.SdtPrName).Element(WordMl.TagName).Attribute(WordMl.ValAttributeName).Value);
+            Assert.IsNotNull(tag.TagEndContent);
+            Assert.AreEqual("EndContent", tag.TagEndContent.Element(WordMl.SdtPrName).Element(WordMl.TagName).Attribute(WordMl.ValAttributeName).Value);
+            Assert.IsNotNull(tag.TagEndTable);
+            Assert.AreEqual("EndTable", tag.TagEndTable.Element(WordMl.SdtPrName).Element(WordMl.TagName).Attribute(WordMl.ValAttributeName).Value);
+
         }
     }
 }

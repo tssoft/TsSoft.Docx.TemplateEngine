@@ -5,10 +5,12 @@ using System.Xml.XPath;
 
 namespace TsSoft.Docx.TemplateEngine
 {
+    using System.Linq;
+
     internal class DataReader
     {
+        private const string PathArgumentName = "path";
         private readonly XElement rootElement;
-        private const string pathArgumentName = "path";
 
         public DataReader()
         {
@@ -21,7 +23,7 @@ namespace TsSoft.Docx.TemplateEngine
 
         public string ReadText(string expression)
         {
-            var textElement = rootElement.XPathSelectElement(expression);
+            var textElement = this.rootElement.XPathSelectElement(expression);
             return textElement.Value;
         }
 
@@ -29,10 +31,10 @@ namespace TsSoft.Docx.TemplateEngine
         {
             if (path == null)
             {
-                throw new ArgumentNullException(pathArgumentName);
+                throw new ArgumentNullException(PathArgumentName);
             }
 
-            var newElement = rootElement.XPathSelectElement(path);
+            var newElement = this.rootElement.XPathSelectElement(path);
 
             return newElement != null ? new DataReader(newElement) : null;
         }
@@ -41,48 +43,36 @@ namespace TsSoft.Docx.TemplateEngine
         {
             if (path == null)
             {
-                throw new ArgumentNullException(pathArgumentName);
+                throw new ArgumentNullException(PathArgumentName);
             }
 
-            var newElements = rootElement.XPathSelectElements(path);
+            var newElements = this.rootElement.XPathSelectElements(path);
 
-            foreach (var element in newElements)
-            {
-                yield return new DataReader(element);
-            }
+            return newElements.Select(element => new DataReader(element));
         }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(object obj)
         {
             if (!(obj is DataReader))
             {
                 return false;
             }
 
-            DataReader other = (DataReader)obj;
+            var other = (DataReader)obj;
 
-            bool result;
-            if (this == null && other == null)
+            var thisRootElement = this.rootElement;
+            if (thisRootElement != null)
             {
-                result = true;
+                thisRootElement.RemoveAttributes();
             }
-            else
+
+            var otherRootElement = other.rootElement;
+            if (otherRootElement != null)
             {
-                var thisRootElement = this.rootElement;
-                if (thisRootElement != null)
-                {
-                    thisRootElement.RemoveAttributes();
-                }
-
-                var otherRootElement = other.rootElement;
-                if (otherRootElement != null)
-                {
-                    otherRootElement.RemoveAttributes();
-                }
-
-                result = XElement.DeepEquals(thisRootElement, otherRootElement);
+                otherRootElement.RemoveAttributes();
             }
-            return result;
+
+            return XNode.DeepEquals(thisRootElement, otherRootElement);
         }
     }
 }

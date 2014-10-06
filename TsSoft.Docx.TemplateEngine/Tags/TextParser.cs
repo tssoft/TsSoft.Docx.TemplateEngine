@@ -7,8 +7,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags
     {
         public override void Parse(ITagProcessor parentProcessor, XElement startElement)
         {
-            ValidateStartTag(startElement, "Text");
-            var tag = new TextTag { Expression = startElement.Value };
+            this.ValidateStartTag(startElement, "Text");
+            var tag = new TextTag { Expression = startElement.Value, TagNode = startElement };
             var processor = new TextProcessor { TextTag = tag };
             parentProcessor.AddProcessor(processor);
         }

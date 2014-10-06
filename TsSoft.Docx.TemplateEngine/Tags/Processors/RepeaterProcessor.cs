@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
@@ -8,20 +7,23 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 {
     internal class RepeaterProcessor : AbstractProcessor
     {
-        public void Do(RepeaterTag repeaterTag)
+        public RepeaterTag RepeaterTag { get; set; }
+
+        public override void Process()
         {
-            var current = repeaterTag.Start;
-            var dataReaders = DataReader.GetReaders(repeaterTag.Source).DefaultIfEmpty().ToList();
+            base.Process();
+            var current = RepeaterTag.StartContent;
+            var dataReaders = DataReader.GetReaders(RepeaterTag.Source).DefaultIfEmpty().ToList();
             for (var index = 0; index < dataReaders.Count; index++)
             {
-                current = ProcessElements(repeaterTag.Content, dataReaders[index], current, null, index + 1);
+                current = this.ProcessElements(RepeaterTag.Content, dataReaders[index], current, null, index + 1);
             }
-            foreach (var repeaterElement in repeaterTag.Content)
+            foreach (var repeaterElement in RepeaterTag.Content)
             {
                 repeaterElement.XElement.Remove();
             }
-            repeaterTag.Start.Remove();
-            repeaterTag.End.Remove();
+            this.CleanUp(RepeaterTag.StartRepeater, RepeaterTag.StartContent);
+            this.CleanUp(RepeaterTag.EndContent, RepeaterTag.EndRepeater);
         }
 
         private XElement ProcessElements(IEnumerable<RepeaterElement> elements, DataReader dataReader, XElement start, XElement parent, int index)
@@ -40,12 +42,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 }
                 else
                 {
-                    var xElement = new XElement(repeaterElement.XElement);
-                    xElement.RemoveNodes();
-                    result = xElement;
+                    var element = new XElement(repeaterElement.XElement);
+                    element.RemoveNodes();
+                    result = element;
                     if (repeaterElement.HasElements)
                     {
-                        ProcessElements(repeaterElement.Elements, dataReader, null, result, index);
+                        this.ProcessElements(repeaterElement.Elements, dataReader, null, result, index);
                     }
                 }
                 if (previous != null)
