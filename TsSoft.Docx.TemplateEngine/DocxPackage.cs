@@ -24,7 +24,7 @@ namespace TsSoft.Docx.TemplateEngine
             this.docxStream = docxStream;
         }
 
-        public virtual void Load()
+        public virtual DocxPackage Load()
         {
             docxStream.Seek(0, SeekOrigin.Begin);
             using (Package package = Package.Open(docxStream, FileMode.Open, FileAccess.Read))
@@ -36,21 +36,24 @@ namespace TsSoft.Docx.TemplateEngine
                     DocumentPartXml = XDocument.Load(reader);
                 }
             }
+            return this;
         }
 
-        public virtual void Save()
+        public virtual DocxPackage Save()
         {
             docxStream.Seek(0, SeekOrigin.Begin);
             using (Package package = Package.Open(docxStream, FileMode.Open, FileAccess.ReadWrite))
             {
                 var docPart = GetDocumentPart(package);
                 var documentStream = docPart.GetStream();
+                documentStream.SetLength(0);
                 using (var writer = new XmlTextWriter(documentStream, new UTF8Encoding()))//, new CapitalNamesUtf8Encoding()))
                 {
                     DocumentPartXml.Save(writer);
                 }
                 package.Flush();
             }
+            return this;
         }
 
         private PackagePart GetDocumentPart(Package package)

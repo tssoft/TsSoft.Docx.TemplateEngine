@@ -94,6 +94,7 @@
     <EmbeddedResource Include="Tags\TextParserTest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DocxPackageTest_save.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
   </ItemGroup>
@@ -102,6 +103,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Tags\Processors\TableProcessorDataTest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocxPackageTest_document.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="actual_doc.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
