@@ -68,7 +68,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
                                         ProcessorFactory = new RootProcessorFactory(),
                                         DataReaderFactory = new DataReaderFactory(),
                                     };
-            const string staticText = "My anaconda don't";
+            const string dynamicText = "My anaconda don't";
             generator.GenerateDocx(
                 input,
                 output,
@@ -76,7 +76,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
                     {
                         Test = new SomeEntity
                             {
-                                Text = staticText
+                                Text = dynamicText
                             }
                     });
             var package = new DocxPackage(output);
@@ -84,7 +84,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             XDocument documentPartXml = package.DocumentPartXml;
             Assert.IsFalse(documentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsNotNull(documentPartXml.Descendants(WordMl.RName).Single(e => e.Value == staticText));
+            Assert.IsNotNull(documentPartXml.Descendants(WordMl.RName).Single(e => e.Value == dynamicText));
         }
 
         private void InitializeStubbedExecution()
