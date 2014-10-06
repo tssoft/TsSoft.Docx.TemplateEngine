@@ -22,7 +22,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         protected void ParseSdt(ITagProcessor parentProcessor, XElement sdtElement)
         {
             ITagParser parser = null;
-            switch (this.GetTagName(sdtElement))
             switch (GetTagName(sdtElement).ToLower())
             {
                 case "text":

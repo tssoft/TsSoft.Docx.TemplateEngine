@@ -64,6 +64,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Tags\GeneralParserTest.cs" />
     <Compile Include="Tags\Processors\TableProcessorTest.cs" />
     <Compile Include="Tags\TableParserTest.cs" />
     <Compile Include="Tags\TagProcessorMock.cs" />
