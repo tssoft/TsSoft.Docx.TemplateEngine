@@ -12,28 +12,28 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestReadText()
         {
-            const string message = "Hello, world!";
-            var testData = new DataReaderTestData { Message = message };
+            const string Message = "Hello, world!";
+            var testData = new DataReaderTestData { Message = Message };
             var dataReader = DataReaderFactory.CreateReader(testData);
-            Assert.AreEqual(message, dataReader.ReadText("//Message"));
+            Assert.AreEqual(Message, dataReader.ReadText("//Message"));
         }
 
         [TestMethod]
         public void TestGetReader()
         {
-            var document = GetXmlDocument();
+            var document = this.GetXmlDocument();
             var dataReader = DataReaderFactory.CreateReader(document);
 
-            const string path = "/Test/Certificates/Certificate";
-            var reader = dataReader.GetReader(path);
+            const string Path = "/Test/Certificates/Certificate";
+            var reader = dataReader.GetReader(Path);
             Assert.IsNotNull(reader);
 
-            var node = document.SelectSingleNode(path);
+            var node = document.SelectSingleNode(Path);
             var expectedReader = DataReaderFactory.CreateReader(node);
             Assert.AreEqual(expectedReader, reader);
 
-            const string wrongPath = "/Test/Documents/Document";
-            reader = dataReader.GetReader(wrongPath);
+            const string WrongPath = "/Test/Documents/Document";
+            reader = dataReader.GetReader(WrongPath);
             Assert.IsNull(reader);
         }
 
@@ -43,12 +43,12 @@ namespace TsSoft.Docx.TemplateEngine.Test
             var document = GetXmlDocument();
             var dataReader = DataReaderFactory.CreateReader(document);
 
-            const string path = "/Test/Certificates/Certificate";
-            var readers = dataReader.GetReaders(path);
+            const string Path = "/Test/Certificates/Certificate";
+            var readers = dataReader.GetReaders(Path);
 
             Assert.IsNotNull(readers);
 
-            var nodes = document.SelectNodes(path);
+            var nodes = document.SelectNodes(Path);
             Assert.AreEqual(nodes.Count, readers.Count());
 
             var dataReadersEnumerator = readers.GetEnumerator();
@@ -59,8 +59,8 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 Assert.AreEqual(expectedReader, dataReadersEnumerator.Current);
             }
 
-            const string wrongPath = "/Test/Documents/Document";
-            readers = dataReader.GetReaders(wrongPath);
+            const string WrongPath = "/Test/Documents/Document";
+            readers = dataReader.GetReaders(WrongPath);
 
             Assert.IsNotNull(readers);
             Assert.IsFalse(readers.Any());
@@ -70,7 +70,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void TestGetReaderNullPath()
         {
-            var dataReader = DataReaderFactory.CreateReader(GetXmlDocument());
+            var dataReader = DataReaderFactory.CreateReader(this.GetXmlDocument());
             dataReader.GetReader(null);
         }
 
@@ -78,7 +78,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void TestGetReadersNullPath()
         {
-            var dataReader = DataReaderFactory.CreateReader(GetXmlDocument());
+            var dataReader = DataReaderFactory.CreateReader(this.GetXmlDocument());
             var readers = dataReader.GetReaders(null);
             readers.GetEnumerator().MoveNext();
         }
@@ -86,7 +86,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
         private XmlDocument GetXmlDocument()
         {
             var stream = AssemblyResourceHelper.GetResourceStream(this, "DataReaderTest.xml");
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             xmlDoc.Load(stream);
             return xmlDoc;
         }
