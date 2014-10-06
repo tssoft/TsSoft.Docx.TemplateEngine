@@ -63,8 +63,18 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     replacementValue = reader.ReadText(itemPath);
                     break;
             }
-            cell.Element(WordMl.ParagraphName)
-                .ReplaceWith(DocxHelper.CreateTextElement(replacementValue));
+            cell.Element(WordMl.ParagraphName).Elements(WordMl.RName).Remove();
+            var lastPChild = cell.Element(WordMl.ParagraphName).Elements().LastOrDefault();
+            var cellTextElement = DocxHelper.CreateTextElement(replacementValue);
+            if (lastPChild == null)
+            {
+                cell.Element(WordMl.ParagraphName)
+                .Add(cellTextElement);
+            }
+            else
+            {
+                lastPChild.AddAfterSelf(cellTextElement);
+            }
             cellTag.AddAfterSelf(cell);
             cellTag.Remove();
         }
