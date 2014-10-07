@@ -1,5 +1,4 @@
-﻿
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -63,20 +62,25 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     replacementValue = reader.ReadText(itemPath);
                     break;
             }
-            cell.Element(WordMl.ParagraphName)
-                .ReplaceWith(DocxHelper.CreateTextElement(replacementValue));
+            cell.Element(WordMl.ParagraphName).Elements(WordMl.TextRunName).Remove();
+            var lastPChild = cell.Element(WordMl.ParagraphName).Elements().LastOrDefault();
+            var cellTextElement = DocxHelper.CreateTextElement(cell.Element(WordMl.ParagraphName), replacementValue);
+            if (lastPChild == null)
+            {
+                cell.Element(WordMl.ParagraphName).Add(cellTextElement);
+            }
+            else
+            {
+                lastPChild.AddAfterSelf(cellTextElement);
+            }
             cellTag.AddAfterSelf(cell);
             cellTag.Remove();
         }
 
         private void RemoveTags()
         {
-            TableTag.TagTable.ElementsAfterSelf().Where(element => element.IsBefore(TableTag.TagContent)).Remove();
-            TableTag.TagEndContent.ElementsAfterSelf().Where(element => element.IsBefore(TableTag.TagEndTable)).Remove();
-            TableTag.TagTable.Remove();
-            TableTag.TagContent.Remove();
-            TableTag.TagEndContent.Remove();
-            TableTag.TagEndTable.Remove();
+            this.CleanUp(TableTag.TagTable, TableTag.TagContent);
+            this.CleanUp(TableTag.TagEndContent, TableTag.TagEndTable);
         }
     }
 }

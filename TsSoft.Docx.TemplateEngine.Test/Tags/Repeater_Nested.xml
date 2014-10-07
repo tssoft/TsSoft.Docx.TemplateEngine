@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:ve="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml">
+  <w:body>
+    <w:p w:rsidR="004C5F3D" w:rsidRPr="00174373" w:rsidRDefault="00174373" w:rsidP="00174373">
+      <w:pPr>
+        <w:pStyle w:val="1"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:lang w:val="en-US"/>
+        </w:rPr>
+        <w:t>Repeater</w:t>
+      </w:r>
+      <w:r w:rsidRPr="00174373">
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:rPr>
+          <w:lang w:val="en-US"/>
+        </w:rPr>
+        <w:t>Demo</w:t>
+      </w:r>
+    </w:p>
+    <w:sdt>
+      <w:sdtPr>
+        <w:rPr>
+          <w:lang w:val="en-US"/>
+        </w:rPr>
+        <w:alias w:val="Repeater"/>
+        <w:tag w:val="Repeater"/>
+        <w:id w:val="31464482"/>
+        <w:placeholder>
+          <w:docPart w:val="DefaultPlaceholder_22675703"/>
+        </w:placeholder>
+        <w:showingPlcHdr/>
+        <w:text/>
+      </w:sdtPr>
+      <w:sdtContent>
+        <w:p w:rsidR="00174373" w:rsidRDefault="00716D97" w:rsidP="00174373">
+          <w:pPr>
+            <w:rPr>
+              <w:lang w:val="en-US"/>
+            </w:rPr>
+          </w:pPr>
+          <w:r>
+            <w:rPr>
+              <w:lang w:val="en-US"/>
+            </w:rPr>
+            <w:t>.</w:t>
+          </w:r>
+        </w:p>
+      </w:sdtContent>
+    </w:sdt>
+    <w:sdt>
+      <w:sdtPr>
+        <w:rPr>
+          <w:lang w:val="en-US"/>
+        </w:rPr>
+        <w:alias w:val="Items"/>
+        <w:tag w:val="Items"/>
+        <w:id w:val="3738782"/>
+        <w:placeholder>
+          <w:docPart w:val="64C60448EAF745B3AA870BE9CEC7A595"/>
+        </w:placeholder>
+        <w:showingPlcHdr/>
+        <w:text/>
+      </w:sdtPr>
+      <w:sdtContent>
+        <w:p w:rsidR="00716D97" w:rsidRDefault="00716D97" w:rsidP="00716D97">
+          <w:pPr>
+            <w:rPr>
+              <w:lang w:val="en-US"/>
+            </w:rPr>
+          </w:pPr>
+          <w:r>
+            <w:rPr>
+              <w:lang w:val="en-US"/>
+            </w:rPr>
+            <w:t>//test/certificates</w:t>
+          </w:r>
+        </w:p>
+      </w:sdtContent>
+    </w:sdt>
+    <w:sdt>
+      <w:sdtPr>
+        <w:rPr>
+          <w:lang w:val="en-US"/>
+        </w:rPr>
+        <w:alias w:val="Content"/>
+        <w:tag w:val="Content"/>
+        <w:id w:val="3738746"/>
+        <w:placeholder>
+          <w:docPart w:val="59CEB79B1B9040619A5B2ECC4DC91F2D"/>
+        </w:placeholder>
+        <w:showingPlcHdr/>
+        <w:text/>
+      </w:sdtPr>
+      <w:sdtContent>
+        <w:p w:rsidR="00716D97" w:rsidRDefault="00716D97" w:rsidP="00716D97">
+          <w:pPr>
+            <w:rPr>
+              <w:lang w:val="en-US"/>
+            </w:rPr>
+          </w:pPr>
+          <w:r>
+            <w:rPr>
+              <w:lang w:val="en-US"/>
+            </w:rPr>
+            <w:t>.</w:t>
+          </w:r>
+        </w:p>
+      </w:sdtContent>
+    </w:sdt>
+    <w:sdt>
+      <w:sdtPr>
+        <w:tag w:val="Text"/>
+        <w:id w:val="5367699"/>
+        <w:placeholder>
+          <w:docPart w:val="DefaultPlaceholder_22675703"/>
+        </w:placeholder>
+        <w:showingPlcHdr/>
+        <w:text/>
+      </w:sdtPr>
+      <w:sdtContent>
+        <w:p w:rsidR="00003541" w:rsidRDefault="00445619">
+          <w:r>
+            <w:rPr>
+              <w:lang w:val="en-US"/>
+            </w:rPr>
+            <w:t>//test/text</w:t>
+          </w:r>
+        </w:p>
+      </w:sdtContent>
+    </w:sdt>
+    <w:p w:rsidR="00716D97" w:rsidRPr="00716D97" w:rsidRDefault="00716D97" w:rsidP="00716D97">
+      <w:pPr>
+        <w:pStyle w:val="a6"/>
+        <w:numPr>
+          <w:ilvl w:val="0"/>
+          <w:numId w:val="1"/>
+        </w:numPr>
+        <w:rPr>
+          <w:lang w:val="en-US"/>
+        </w:rPr>
+      </w:pPr>
+      <w:proofErr w:type="gramStart"/>
+      <w:r>
+        <w:rPr>
+          <w:lang w:val="en-US"/>
+        </w:rPr>
+        <w:t xml:space="preserve">Certificate </w:t>
+      </w:r>
+      <w:sdt>
+        <w:sdtPr>
+          <w:tag w:val="Text"/>
+          <w:id w:val="5367699"/>
+          <w:placeholder>
+            <w:docPart w:val="DefaultPlaceholder_22675703"/>
+          </w:placeholder>
+          <w:showingPlcHdr/>
+          <w:text/>
+        </w:sdtPr>
+        <w:sdtContent>
+          <w:p w:rsidR="00003541" w:rsidRDefault="00445619">
+            <w:r>
+              <w:rPr>
+                <w:lang w:val="en-US"/>
+              </w:rPr>
+              <w:t>//test/text</w:t>
+            </w:r>
+          </w:p>
+        </w:sdtContent>
+      </w:sdt>
+
+      <w:sdt>
+        <w:sdtPr>
+          <w:rPr>
+            <w:lang w:val="en-US"/>
+          </w:rPr>
+          <w:alias w:val="Item"/>
+          <w:tag w:val="Item"/>
+          <w:id w:val="3738757"/>
+          <w:placeholder>
+            <w:docPart w:val="9E297DBB12B04DDFB6F2CCC7F2F9E6C8"/>
+          </w:placeholder>
+          <w:showingPlcHdr/>
+        </w:sdtPr>
+        <w:sdtContent>
+          <w:r>
+            <w:rPr>
+              <w:lang w:val="en-US"/>
+            </w:rPr>
+            <w:t>./</w:t>
+          </w:r>
+          <w:proofErr w:type="gramEnd"/>
+          <w:r>
+            <w:rPr>
+              <w:lang w:val="en-US"/>
+            </w:rPr>
+            <w:t>Subject</w:t>
+          </w:r>
+        </w:sdtContent>
+      </w:sdt>
+      <w:r>
+        <w:rPr>
+          <w:lang w:val="en-US"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> (</w:t>
+      </w:r>
+      <w:sdt>
+        <w:sdtPr>
+          <w:rPr>
+            <w:lang w:val="en-US"/>
+          </w:rPr>
+          <w:alias w:val="ItemIndex"/>
+          <w:tag w:val="ItemIndex"/>
+          <w:id w:val="3738750"/>
+          <w:placeholder>
+            <w:docPart w:val="B06D470B935548B5ACFAAAD793A17224"/>
+          </w:placeholder>
+          <w:showingPlcHdr/>
+          <w:text/>
+        </w:sdtPr>
+        <w:sdtContent/>
+      </w:sdt>
+      <w:r>
+        <w:rPr>
+          <w:lang w:val="en-US"/>
+        </w:rPr>
+        <w:t xml:space="preserve">) expires in </w:t>
+      </w:r>
+      <w:sdt>
+        <w:sdtPr>
+          <w:rPr>
+            <w:lang w:val="en-US"/>
+          </w:rPr>
+          <w:alias w:val="Item"/>
+          <w:tag w:val="Item"/>
+          <w:id w:val="3738769"/>
+          <w:placeholder>
+            <w:docPart w:val="4D7EC85604114AC09A78DD0B6B117410"/>
+          </w:placeholder>
+          <w:showingPlcHdr/>
+        </w:sdtPr>
+        <w:sdtContent>
+          <w:r w:rsidRPr="00716D97">
+            <w:rPr>
+              <w:color w:val="FF0000"/>
+              <w:lang w:val="en-US"/>
+            </w:rPr>
+            <w:t>./</w:t>
+          </w:r>
+          <w:proofErr w:type="spellStart"/>
+          <w:r w:rsidRPr="00716D97">
+            <w:rPr>
+              <w:color w:val="FF0000"/>
+              <w:lang w:val="en-US"/>
+            </w:rPr>
+            <w:t>ExpireDate</w:t>
+          </w:r>
+          <w:proofErr w:type="spellEnd"/>
+        </w:sdtContent>
+      </w:sdt>
+      <w:r>
+        <w:rPr>
+          <w:lang w:val="en-US"/>
+        </w:rPr>
+        <w:t>.</w:t>
+      </w:r>
+    </w:p>
+
+    <w:sdt>
+      <w:sdtPr>
+        <w:rPr>
+          <w:lang w:val="en-US"/>
+        </w:rPr>
+        <w:alias w:val="EndContent"/>
+        <w:tag w:val="EndContent"/>
+        <w:id w:val="3738749"/>
+        <w:placeholder>
+          <w:docPart w:val="CF7CEABE919A4DB19633295283E5D4A6"/>
+        </w:placeholder>
+        <w:showingPlcHdr/>
+        <w:text/>
+      </w:sdtPr>
+      <w:sdtContent>
+        <w:p w:rsidR="00716D97" w:rsidRDefault="00716D97" w:rsidP="00716D97">
+          <w:pPr>
+            <w:rPr>
+              <w:lang w:val="en-US"/>
+            </w:rPr>
+          </w:pPr>
+          <w:r>
+            <w:rPr>
+              <w:lang w:val="en-US"/>
+            </w:rPr>
+            <w:t>.</w:t>
+          </w:r>
+        </w:p>
+      </w:sdtContent>
+    </w:sdt>
+    <w:sdt>
+      <w:sdtPr>
+        <w:rPr>
+          <w:lang w:val="en-US"/>
+        </w:rPr>
+        <w:alias w:val="EndRepeater"/>
+        <w:tag w:val="EndRepeater"/>
+        <w:id w:val="3738739"/>
+        <w:placeholder>
+          <w:docPart w:val="DEB2466ECCA24ED3AD579A38721370FA"/>
+        </w:placeholder>
+        <w:showingPlcHdr/>
+        <w:text/>
+      </w:sdtPr>
+      <w:sdtContent>
+        <w:p w:rsidR="00716D97" w:rsidRPr="00D152D9" w:rsidRDefault="00716D97" w:rsidP="00716D97">
+          <w:pPr>
+            <w:rPr>
+              <w:lang w:val="en-US"/>
+            </w:rPr>
+          </w:pPr>
+          <w:r>
+            <w:rPr>
+              <w:lang w:val="en-US"/>
+            </w:rPr>
+            <w:t>.</w:t>
+          </w:r>
+        </w:p>
+      </w:sdtContent>
+    </w:sdt>
+    <w:p w:rsidR="00174373" w:rsidRPr="00174373" w:rsidRDefault="00174373" w:rsidP="00174373"/>
+    <w:sectPr w:rsidR="00174373" w:rsidRPr="00174373" w:rsidSect="004C5F3D">
+      <w:pgSz w:w="11906" w:h="16838"/>
+      <w:pgMar w:top="1134" w:right="850" w:bottom="1134" w:left="1701" w:header="708" w:footer="708" w:gutter="0"/>
+      <w:cols w:space="708"/>
+      <w:docGrid w:linePitch="360"/>
+    </w:sectPr>
+  </w:body>
+</w:document>

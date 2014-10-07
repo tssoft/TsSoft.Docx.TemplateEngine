@@ -3,6 +3,8 @@ using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Test.Tags
 {
+    using System.Collections.Generic;
+
     internal class TagProcessorMock<P> : ITagProcessor where P : ITagProcessor
     {
         public P InnerProcessor { get; private set; }
@@ -22,5 +24,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             }
             InnerProcessor = (P)processor;
         }
+
+        public ICollection<ITagProcessor> Processors { get; private set; }
     }
 }

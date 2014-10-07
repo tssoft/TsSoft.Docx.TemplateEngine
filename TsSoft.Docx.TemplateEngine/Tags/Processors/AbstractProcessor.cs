@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -6,7 +7,15 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 {
     internal abstract class AbstractProcessor : ITagProcessor
     {
-        private readonly ICollection<ITagProcessor> processors = new List<ITagProcessor>();
+        protected ICollection<ITagProcessor> processors = new List<ITagProcessor>();
+
+        public ICollection<ITagProcessor> Processors
+        {
+            get
+            {
+                return this.processors;
+            }
+        }
 
         public virtual DataReader DataReader { get; set; }
 
@@ -19,7 +28,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }
         }
 
-        public void AddProcessor(ITagProcessor processor)
+        public virtual void AddProcessor(ITagProcessor processor)
         {
             this.processors.Add(processor);
         }
@@ -31,10 +40,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         /// <param name="to"></param>
         public void CleanUp(XElement from, XElement to)
         {
-            foreach (var element in from.ElementsAfterSelf().Where(e => e.IsBefore(to)))
-            {
-                element.Remove();
-            }
+            from.ElementsAfterSelf().Where(element => element.IsBefore(to)).Remove();
             from.Remove();
             to.Remove();
         }

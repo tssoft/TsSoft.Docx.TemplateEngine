@@ -31,7 +31,7 @@
             const string Index = "index";
             var indexElement = new XElement(Index);
             const string IndexAndDate = "indexAndDate";
-            var indexAndDateElement = new XElement(IndexAndDate, dateElement, indexElement);
+            var indexAndDateElement = new XElement(WordMl.ParagraphName, dateElement, indexElement);
 
             const string Wrapper = "wrapper";
             var wrapperElement = new XElement(Wrapper, indexAndDateElement);
@@ -117,7 +117,7 @@
 
             this.ValidateTagsRemoved(body);
 
-            var subjects = body.Elements(WordMl.RName).ToList();
+            var subjects = body.Elements(WordMl.ParagraphName).ToList();
             Assert.AreEqual(4, body.Elements().Count());
 
             Assert.AreEqual(2, subjects.Count);
@@ -127,13 +127,13 @@
             var wrappers = body.Elements(Wrapper).ToList();
             Assert.AreEqual(2, wrappers.Count);
 
-            var wrapper1IndexAndDate = wrappers[0].Elements(IndexAndDate).ToList();
-            var wrapper2IndexAndDate = wrappers[1].Elements(IndexAndDate).ToList();
+            var wrapper1IndexAndDate = wrappers[0].Elements(WordMl.ParagraphName).ToList();
+            var wrapper2IndexAndDate = wrappers[1].Elements(WordMl.ParagraphName).ToList();
             Assert.AreEqual(1, wrapper1IndexAndDate.Count);
             Assert.AreEqual(1, wrapper2IndexAndDate.Count);
 
-            var wrapper1Replaced = wrapper1IndexAndDate.Elements(WordMl.RName).ToList();
-            var wrapper2Replaced = wrapper2IndexAndDate.Elements(WordMl.RName).ToList();
+            var wrapper1Replaced = wrapper1IndexAndDate.Elements(WordMl.TextRunName).ToList();
+            var wrapper2Replaced = wrapper2IndexAndDate.Elements(WordMl.TextRunName).ToList();
             Assert.AreEqual(2, wrapper1Replaced.Count);
             Assert.AreEqual(2, wrapper2Replaced.Count);
             Assert.AreEqual(Date1Value, wrapper1Replaced[0].Value);

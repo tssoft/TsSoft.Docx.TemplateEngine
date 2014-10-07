@@ -84,7 +84,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             XDocument documentPartXml = package.DocumentPartXml;
             Assert.IsFalse(documentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsNotNull(documentPartXml.Descendants(WordMl.RName).Single(e => e.Value == DynamicText));
+            Assert.IsNotNull(documentPartXml.Descendants(WordMl.TextRunName).Single(e => e.Value == DynamicText));
         }
 
         private void InitializeStubbedExecution()

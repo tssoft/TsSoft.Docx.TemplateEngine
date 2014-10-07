@@ -17,14 +17,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public override void Parse(ITagProcessor parentProcessor, XElement startElement)
         {
-            ValidateStartTag(startElement, TagName);
+            this.ValidateStartTag(startElement, TagName);
             var endRepeater = TryGetRequiredTag(startElement, EndTagName);
             var itemsTag = TryGetRequiredTag(startElement, endRepeater, ItemsTagName);
             var startContent = TryGetRequiredTag(startElement, endRepeater, StartContentTagName);
             var endContent = TryGetRequiredTag(startElement, endRepeater, EndContentTagName);
 
-
-            IEnumerable<RepeaterElement> repeaterElements = TraverseUtils.ElementsBetween(startContent, endContent).Select(makeRepeaterElement);
+            IEnumerable<XElement> elementsBetween = TraverseUtils.ElementsBetween(startContent, endContent).ToList();
+            IEnumerable<RepeaterElement> repeaterElements = elementsBetween.Select(this.MakeRepeaterElement);
             var repeaterTag = new RepeaterTag
                 {
                     Source = itemsTag.Value,
@@ -40,22 +40,16 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     RepeaterTag = repeaterTag,
                 };
 
-
-            //TODO implement
-            var foundTags = new List<XElement>();
-            foreach (var foundTag in foundTags)
-            {
-                base.Parse(parentProcessor, foundTag);
-            }
+            this.GoDeeper(repeaterProcessor, elementsBetween);
 
             parentProcessor.AddProcessor(repeaterProcessor);
         }
 
-        private RepeaterElement makeRepeaterElement(XElement xElement)
+        private RepeaterElement MakeRepeaterElement(XElement xElement)
         {
             var repeaterElement = new RepeaterElement
             {
-                Elements = xElement.Elements().Select(makeRepeaterElement),
+                Elements = xElement.Elements().Select(this.MakeRepeaterElement),
                 IsIndex = xElement.IsTag(IndexTag),
                 IsItem = xElement.IsTag(ItemTag),
                 XElement = xElement
@@ -65,6 +59,26 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 repeaterElement.Expression = xElement.GetExpression();
             }
             return repeaterElement;
+        }
+
+        private void GoDeeper(ITagProcessor parentProcessor, IEnumerable<XElement> elements)
+        {
+            foreach (var element in elements)
+            {
+                if (element.IsSdt())
+                {
+                    switch (this.GetTagName(element).ToLower())
+                    {
+                        case "item":
+                        case "itemindex":
+                            continue;
+                        default:
+                            this.ParseSdt(parentProcessor, element);
+                            break;
+                    }
+                }
+                this.GoDeeper(parentProcessor, element.Elements());
+            }
         }
     }
 }
