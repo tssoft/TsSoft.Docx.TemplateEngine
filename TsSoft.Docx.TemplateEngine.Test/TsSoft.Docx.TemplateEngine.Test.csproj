@@ -130,6 +130,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Tags\IfParserTest.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\text_in_if_document.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\if_in_table_document.xml" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
