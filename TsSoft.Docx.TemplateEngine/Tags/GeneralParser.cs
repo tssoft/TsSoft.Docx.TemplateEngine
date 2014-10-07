@@ -5,15 +5,20 @@ using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
+    using System.Diagnostics.CodeAnalysis;
+
+    
+
     internal class GeneralParser : ITagParser
     {
+        
         public virtual void Parse(ITagProcessor parentProcessor, XElement startElement)
         {
             var sdtElement = startElement.Element(WordMl.BodyName).Element(WordMl.SdtName);
             do
             {
                 this.ParseSdt(parentProcessor, sdtElement);
-                sdtElement = startElement.NextElement(x => x.Name == WordMl.SdtName);
+                sdtElement = sdtElement.NextElement(x => x.Name == WordMl.SdtName);
 
             }
             while (sdtElement != null);
