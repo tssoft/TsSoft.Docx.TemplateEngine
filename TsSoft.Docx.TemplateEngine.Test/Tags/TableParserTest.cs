@@ -16,14 +16,21 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
     {
         private XElement documentRoot;
 
-
+        private XElement nestedDocumentRoot;
+        
         [TestInitialize]
         public void Initialize()
         {
-            var docStream = AssemblyResourceHelper.GetResourceStream(this, "TableParserTest.xml");
-            var doc = XDocument.Load(docStream);
-            documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
-
+            using (var docStream = AssemblyResourceHelper.GetResourceStream(this, "TableParserTest.xml"))
+            {
+                var doc = XDocument.Load(docStream);
+                documentRoot = doc.Root.Element(WordMl.BodyName);
+            }
+            using (var docStream = AssemblyResourceHelper.GetResourceStream(this, "TableParserNestedTest.xml"))
+            {
+                var doc = XDocument.Load(docStream);
+                nestedDocumentRoot = doc.Root.Element(WordMl.BodyName);
+            }
         }
 
         [TestMethod]
@@ -320,26 +327,21 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void TestParseNullStartElement()
+        public void TestParseNedted()
         {
-            var processorMock = new TagProcessorMock<TableProcessor>();
             var parser = new TableParser();
-            parser.Parse(processorMock, null);
-        }
+            RootProcessor rootProcessor = new RootProcessor();
+            var tableElement = nestedDocumentRoot.Element(WordMl.TableName);
+            parser.Parse(rootProcessor, nestedDocumentRoot.Elements(WordMl.SdtName).First());
 
-        [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        public void TestParseTwoTableBeforeEndTable()
-        {
-            var processorMock = new TagProcessorMock<TableProcessor>();
-            var parser = new TableParser();
-
-            var root = new XElement(documentRoot);
-            var startElement = TraverseUtils.TagElement(root, "Table");
-            var newTableTagElement = new XElement(startElement);
-            TraverseUtils.TagElement(root, "EndTable").AddBeforeSelf(newTableTagElement);
-            parser.Parse(processorMock, startElement);
+            var tableProcessor = rootProcessor.Processors.First();
+            var tag = ((TableProcessor)tableProcessor).TableTag;
+            Assert.AreEqual(4, tag.DynamicRow);
+            Assert.AreEqual("//test/certificates", tag.ItemsSource);
+            Assert.AreEqual(tableElement, tag.Table);
+            CheckTagElements(tag);
+            Assert.AreEqual(2, tableProcessor.Processors.Count);
+            Assert.IsTrue(tableProcessor.Processors.All(p => p is TextProcessor));
         }
 
         private void SetTagElementValue(XElement element, string value)

@@ -7,7 +7,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 {
     internal abstract class AbstractProcessor : ITagProcessor
     {
-        protected ICollection<ITagProcessor> processors = new List<ITagProcessor>();
+        protected readonly ICollection<ITagProcessor> processors = new List<ITagProcessor>();
 
         public ICollection<ITagProcessor> Processors
         {
@@ -28,7 +28,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }
         }
 
-        public virtual void AddProcessor(ITagProcessor processor)
+        public void AddProcessor(ITagProcessor processor)
         {
             this.processors.Add(processor);
         }

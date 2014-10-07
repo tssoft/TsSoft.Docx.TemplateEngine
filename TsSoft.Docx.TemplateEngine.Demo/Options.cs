@@ -18,6 +18,12 @@ namespace TsSoft.Docx.TemplateEngine.Demo
         [Option('d', "data", Required = true, HelpText = "File name of *.xml data file")]
         public string DataFileName { get; set; }
 
+        [Option('l', "log", HelpText = "File name of log file")]
+        public string LogFileName { get; set; }
+
+        [Option("append", HelpText = "Flag for append text to log file")]
+        public bool LogAppend { get; set; }
+
         [Option('h', "help", HelpText = "Display this help screen")]
         public bool Help { get; set; }
 

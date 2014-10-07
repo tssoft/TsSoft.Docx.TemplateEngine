@@ -67,6 +67,7 @@
     <Compile Include="Tags\GeneralParserTest.cs" />
     <Compile Include="Tags\Processors\TableProcessorTest.cs" />
     <Compile Include="Tags\Processors\AbstractProcessorTest.cs" />
+    <Compile Include="Tags\Processors\IfProcessorTest.cs" />
     <Compile Include="Tags\TableParserTest.cs" />
     <Compile Include="Tags\TagProcessorMock.cs" />
     <Compile Include="Tags\TextParserTest.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="DocxPackageTest.cs" />
     <Compile Include="Tags\Processors\RepeaterProcessorTest.cs" />
     <Compile Include="DocxHelperTest.cs" />
+    <Compile Include="Tags\IfParserTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine.csproj">
@@ -121,6 +123,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Tags\text_in_repeater_document.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\TableParserNestedTest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\IfParserTest.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

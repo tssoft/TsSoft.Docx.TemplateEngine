@@ -5,10 +5,6 @@ using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
-    using System.Diagnostics.CodeAnalysis;
-
-    
-
     internal class GeneralParser : ITagParser
     {
         
@@ -42,7 +38,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     break;
 
                 case "if":
-                    throw new NotImplementedException();
+                    parser = new IfParser();
                     break;
             }
             if (parser != null)
@@ -78,6 +74,26 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, tagName));
             }
             return tag;
+        } 
+        
+        protected ICollection<XElement> TryGetRequiredTags(XElement startElement, XElement endElement, string tagName)
+        {
+            var tags = TraverseUtils.TagElementsBetween(startElement, endElement, tagName).ToList();
+            if (!tags.Any())
+            {
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, tagName));
+            }
+            return tags;
+        } 
+    
+        protected ICollection<XElement> TryGetRequiredTags(XElement startElement, string tagName)
+        {
+            var tags = TraverseUtils.NextTagElements(startElement, tagName).ToList();
+            if (!tags.Any())
+            {
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, tagName));
+            }
+            return tags;
         }
 
         protected string GetTagName(XElement startElement)
