@@ -114,6 +114,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Tags\Repeater_Nested.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\TableParserNestedTest.xml" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
