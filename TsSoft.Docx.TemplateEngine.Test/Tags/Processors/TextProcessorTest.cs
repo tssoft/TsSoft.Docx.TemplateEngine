@@ -33,7 +33,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
             processor.Process();
 
             this.ValidateTagsRemoved(document);
-            Assert.IsNotNull(document.Descendants(WordMl.RName).Single(d => d.Value == DynamicText));
+            Assert.IsNotNull(document.Descendants(WordMl.TextRunName).Single(d => d.Value == DynamicText));
         }
     }
 }

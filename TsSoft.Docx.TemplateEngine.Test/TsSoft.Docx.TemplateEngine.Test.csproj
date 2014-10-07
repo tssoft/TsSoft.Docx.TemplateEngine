@@ -78,6 +78,7 @@
     <Compile Include="DataReaderTest.cs" />
     <Compile Include="DocxPackageTest.cs" />
     <Compile Include="Tags\Processors\RepeaterProcessorTest.cs" />
+    <Compile Include="DocxHelperTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine.csproj">
