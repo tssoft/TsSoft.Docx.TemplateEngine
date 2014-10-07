@@ -49,6 +49,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     {
                         this.ProcessElements(repeaterElement.Elements, dataReader, null, result, index);
                     }
+                    else
+                    {
+                        element.Value = repeaterElement.XElement.Value;
+                    }
                 }
                 if (previous != null)
                 {
