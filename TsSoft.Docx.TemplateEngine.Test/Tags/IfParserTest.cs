@@ -16,18 +16,12 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
 
         private XElement documentRoot;
 
-        private XElement nestedDocumentRoot;
-
         [TestInitialize]
         public void Initialize()
         {
             var docStream = AssemblyResourceHelper.GetResourceStream(this, "IfParserTest.xml");
             var doc = XDocument.Load(docStream);
-            documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
-
-            //            docStream = AssemblyResourceHelper.GetResourceStream(this, "IfParserTest_Nested.xml");
-            //            doc = XDocument.Load(docStream);
-            //            nestedDocumentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
+            this.documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
         }
 
         [TestMethod]

@@ -67,6 +67,7 @@
     <Compile Include="Tags\GeneralParserTest.cs" />
     <Compile Include="Tags\Processors\TableProcessorTest.cs" />
     <Compile Include="Tags\Processors\AbstractProcessorTest.cs" />
+    <Compile Include="Tags\Processors\IfProcessorTest.cs" />
     <Compile Include="Tags\TableParserTest.cs" />
     <Compile Include="Tags\TagProcessorMock.cs" />
     <Compile Include="Tags\TextParserTest.cs" />

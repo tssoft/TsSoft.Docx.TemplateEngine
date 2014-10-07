@@ -37,7 +37,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     break;
 
                 case "if":
-                    throw new NotImplementedException();
+                    parser = new IfParser();
                     break;
             }
             if (parser != null)
