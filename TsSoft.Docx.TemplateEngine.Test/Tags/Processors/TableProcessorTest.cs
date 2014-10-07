@@ -1,13 +1,13 @@
-﻿namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
-{
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
-    using System.Linq;
-    using System.Xml.Linq;
-    using TsSoft.Commons.Utils;
-    using TsSoft.Docx.TemplateEngine.Tags;
-    using TsSoft.Docx.TemplateEngine.Tags.Processors;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
+using System.Xml.Linq;
+using TsSoft.Commons.Utils;
+using TsSoft.Docx.TemplateEngine.Tags;
+using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
+namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
+{
     [TestClass]
     public class TableProcessorTest : BaseProcessorTest
     {
@@ -20,7 +20,7 @@
 
             var docStream = AssemblyResourceHelper.GetResourceStream(this, "TableProcessorTemplateTest.xml");
             var doc = XDocument.Load(docStream);
-            this.documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
+            this.documentRoot = doc.Root.Element(WordMl.BodyName);
 
             var dataStream = AssemblyResourceHelper.GetResourceStream(this, "TableProcessorDataTest.xml");
             var xmlDoc = XDocument.Load(dataStream);
