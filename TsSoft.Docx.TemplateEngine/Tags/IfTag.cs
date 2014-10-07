@@ -11,5 +11,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         public XElement EndIf { get; set; }
 
         public IEnumerable<XElement> IfContent { get; set; }
+
+        public string Conidition { get; set; }
     }
 }
