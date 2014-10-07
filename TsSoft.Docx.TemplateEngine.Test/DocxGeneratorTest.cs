@@ -61,13 +61,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "DocxPackageTest.docx");
             var output = new MemoryStream();
-            var generator = new DocxGenerator
-                                    {
-                                        PackageFactory = new DocxPackageFactory(),
-                                        ParserFactory = new GeneralParserFactory(),
-                                        ProcessorFactory = new RootProcessorFactory(),
-                                        DataReaderFactory = new DataReaderFactory(),
-                                    };
+            var generator = new DocxGenerator();
             const string DynamicText = "My anaconda don't";
             generator.GenerateDocx(
                 input,
@@ -85,6 +79,22 @@ namespace TsSoft.Docx.TemplateEngine.Test
             XDocument documentPartXml = package.DocumentPartXml;
             Assert.IsFalse(documentPartXml.Descendants(WordMl.SdtName).Any());
             Assert.IsNotNull(documentPartXml.Descendants(WordMl.TextRunName).Single(e => e.Value == DynamicText));
+        }
+
+        [TestMethod]
+        public void TestActualGenerationRepeater()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "Repeater.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data);
+            var package = new DocxPackage(output);
+            package.Load();
         }
 
         private void InitializeStubbedExecution()

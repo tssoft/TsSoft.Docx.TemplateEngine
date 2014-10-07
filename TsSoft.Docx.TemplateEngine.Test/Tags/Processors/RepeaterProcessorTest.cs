@@ -31,12 +31,25 @@
             const string Index = "index";
             var indexElement = new XElement(Index);
             const string IndexAndDate = "indexAndDate";
-            var indexAndDateElement = new XElement(WordMl.ParagraphName, dateElement, indexElement);
+
+            const string ThirdLevelStaticText = "Very static. Wow. Much text.";
+            const string StaticText = "StaticText";
+            var thirdLevelStaticElement = new XElement(StaticText, ThirdLevelStaticText);
+
+            var indexAndDateElement = new XElement(WordMl.ParagraphName, dateElement, indexElement, thirdLevelStaticElement);
+
+            const string FirstLevelStaticText = "This text must render as it is";
+            var firstLevelStaticElement = new XElement(StaticText, FirstLevelStaticText);
+            
+            const string SecondLevelStaticText = "Just as its brother above, this text must render as it is, too";
+            var secondLevelStaticElement = new XElement(StaticText, SecondLevelStaticText);
+            
+        
 
             const string Wrapper = "wrapper";
-            var wrapperElement = new XElement(Wrapper, indexAndDateElement);
+            var wrapperElement = new XElement(Wrapper, indexAndDateElement, secondLevelStaticElement);
 
-            var body = new XElement("body", startRepeater, items, startContent, subjectElement, wrapperElement, endContent, endRepeater);
+            var body = new XElement("body", startRepeater, items, startContent, subjectElement, wrapperElement, firstLevelStaticElement, endContent, endRepeater);
 
             var thirdLevelContent = new List<RepeaterElement>
             {
@@ -50,6 +63,9 @@
                 {
                     XElement = indexElement,
                     IsIndex = true
+                },  new RepeaterElement
+                {
+                    XElement = thirdLevelStaticElement,
                 }
             };
             var secondLevelContent = new List<RepeaterElement>
@@ -58,6 +74,10 @@
                 {
                     XElement = indexAndDateElement,
                     Elements = thirdLevelContent
+                } ,
+                new RepeaterElement
+                {
+                    XElement = secondLevelStaticElement,
                 }
             };
             var firstLevelContent = new List<RepeaterElement>
@@ -72,7 +92,11 @@
                 {
                     XElement = wrapperElement,
                     Elements = secondLevelContent
-                }
+                },
+                new RepeaterElement
+                    {
+                        XElement = firstLevelStaticElement
+                    }
             };
 
             Console.WriteLine(body.ToString());
@@ -118,7 +142,7 @@
             this.ValidateTagsRemoved(body);
 
             var subjects = body.Elements(WordMl.ParagraphName).ToList();
-            Assert.AreEqual(4, body.Elements().Count());
+            Assert.AreEqual(6, body.Elements().Count());
 
             Assert.AreEqual(2, subjects.Count);
             Assert.AreEqual(Subject1Value, subjects[0].Value);
@@ -127,19 +151,62 @@
             var wrappers = body.Elements(Wrapper).ToList();
             Assert.AreEqual(2, wrappers.Count);
 
-            var wrapper1IndexAndDate = wrappers[0].Elements(WordMl.ParagraphName).ToList();
-            var wrapper2IndexAndDate = wrappers[1].Elements(WordMl.ParagraphName).ToList();
-            Assert.AreEqual(1, wrapper1IndexAndDate.Count);
-            Assert.AreEqual(1, wrapper2IndexAndDate.Count);
+            var secondLevelElements1 = wrappers[0].Elements().ToList();
+            var secondLevelElements2 = wrappers[1].Elements().ToList();
 
-            var wrapper1Replaced = wrapper1IndexAndDate.Elements(WordMl.TextRunName).ToList();
-            var wrapper2Replaced = wrapper2IndexAndDate.Elements(WordMl.TextRunName).ToList();
-            Assert.AreEqual(2, wrapper1Replaced.Count);
-            Assert.AreEqual(2, wrapper2Replaced.Count);
-            Assert.AreEqual(Date1Value, wrapper1Replaced[0].Value);
-            Assert.AreEqual(Date2Value, wrapper2Replaced[0].Value);
-            Assert.AreEqual("1", wrapper1Replaced[1].Value);
-            Assert.AreEqual("2", wrapper2Replaced[1].Value);
+            Assert.AreEqual(2, secondLevelElements1.Count);
+            Assert.AreEqual(2, secondLevelElements2.Count);
+
+            var secondLevelStaticText1 = secondLevelElements1[1];
+            var secondLevelStaticText2 = secondLevelElements1[1];
+            Assert.IsNotNull(secondLevelStaticText1);
+            Assert.IsNotNull(secondLevelStaticText2);
+            Assert.AreEqual(SecondLevelStaticText, secondLevelStaticText1.Value);
+            Assert.AreEqual(SecondLevelStaticText, secondLevelStaticText2.Value);
+            Assert.AreEqual(StaticText, secondLevelStaticText1.Name);
+            Assert.AreEqual(StaticText, secondLevelStaticText2.Name);
+
+            var paragraph1 = secondLevelElements1[0];
+            var paragraph2 = secondLevelElements2[0];
+            Assert.AreEqual(WordMl.ParagraphName, paragraph1.Name);
+            Assert.AreEqual(WordMl.ParagraphName, paragraph2.Name);
+
+            var paragraph1Elements = paragraph1.Elements().ToList();
+            var paragraph2Elements = paragraph2.Elements().ToList();
+
+            Assert.AreEqual(3, paragraph1Elements.Count);
+            Assert.AreEqual(3, paragraph2Elements.Count);
+
+            var paragraph1TextRuns = paragraph1Elements.Where(e => e.Name.Equals(WordMl.TextRunName)).ToList();
+            var paragraph2TextRuns = paragraph2Elements.Where(e => e.Name.Equals(WordMl.TextRunName)).ToList();
+            Assert.AreEqual(2, paragraph1TextRuns.Count);
+            Assert.AreEqual(2, paragraph2TextRuns.Count);
+            Assert.AreEqual(Date1Value, paragraph1TextRuns[0].Value);
+            Assert.AreEqual(Date2Value, paragraph2TextRuns[0].Value);
+            Assert.AreEqual("1", paragraph1TextRuns[1].Value);
+            Assert.AreEqual("2", paragraph2TextRuns[1].Value);
+
+            var thirdLevelStaticText1 = paragraph1Elements[2];
+            var thirdLevelStaticText2 = paragraph2Elements[2];
+            Assert.IsNotNull(thirdLevelStaticText1);
+            Assert.IsNotNull(thirdLevelStaticText2);
+            Assert.AreEqual(ThirdLevelStaticText, thirdLevelStaticText1.Value);
+            Assert.AreEqual(ThirdLevelStaticText, thirdLevelStaticText2.Value); 
+            Assert.AreEqual(StaticText, thirdLevelStaticText1.Name);
+            Assert.AreEqual(StaticText, thirdLevelStaticText2.Name);
+
+            var firstLevelStaticElements = body.Elements(StaticText).ToList();
+            Assert.AreEqual(2, firstLevelStaticElements.Count);
+
+            var firstLevelStaticText1 = firstLevelStaticElements[0];
+            var firstLevelStaticText2 = firstLevelStaticElements[1];
+
+            Assert.IsNotNull(firstLevelStaticText1);
+            Assert.IsNotNull(firstLevelStaticText2);
+            Assert.AreEqual(FirstLevelStaticText, firstLevelStaticText1.Value);
+            Assert.AreEqual(FirstLevelStaticText, firstLevelStaticText2.Value);
+            Assert.AreEqual(StaticText, firstLevelStaticText1.Name);
+            Assert.AreEqual(StaticText, firstLevelStaticText2.Name);
         }
     }
 }
