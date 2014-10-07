@@ -28,7 +28,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }
         }
 
-        public virtual void AddProcessor(ITagProcessor processor)
+        public void AddProcessor(ITagProcessor processor)
         {
             this.processors.Add(processor);
         }
