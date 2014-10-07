@@ -55,8 +55,11 @@
       <DependentUpon>MessageStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="Tags\GeneralParser.cs" />
+    <Compile Include="Tags\IfParser.cs" />
+    <Compile Include="Tags\IfTag.cs" />
     <Compile Include="Tags\ITagParser.cs" />
     <Compile Include="Tags\Processors\AbstractProcessor.cs" />
+    <Compile Include="Tags\Processors\IfProcessor.cs" />
     <Compile Include="Tags\RepeaterElement.cs" />
     <Compile Include="Tags\RepeaterParser.cs" />
     <Compile Include="Tags\Processors\RepeaterProcessor.cs" />
