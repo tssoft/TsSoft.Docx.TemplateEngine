@@ -117,6 +117,9 @@
     <EmbeddedResource Include="Tags\Repeater_Nested.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Tags\TableParserNestedTest.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Tags\IfParserTest.xml" />
   </ItemGroup>
   <Choose>

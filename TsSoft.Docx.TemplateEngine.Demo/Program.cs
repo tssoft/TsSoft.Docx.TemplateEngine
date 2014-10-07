@@ -33,7 +33,7 @@ namespace TsSoft.Docx.TemplateEngine.Demo
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine("Error: {0}", exception.Message);
+                    ErrorLog(exception, options);
                 }
             }
         }
@@ -50,6 +50,28 @@ namespace TsSoft.Docx.TemplateEngine.Demo
             }
 
             return (File.Exists(options.TemplateFileName) && File.Exists(options.DataFileName));
+        }
+
+        private static void ErrorLog(Exception exception, Options options)
+        {
+            Console.WriteLine("Error: {0}", exception.Message);
+            if (string.IsNullOrEmpty(options.LogFileName))
+            {
+                Console.WriteLine("Stack trace:");
+                Console.WriteLine(exception.StackTrace);
+            }
+            else
+            {
+                var mode = options.LogAppend ? FileMode.Append : FileMode.Create;
+                using (var fileStream = new FileStream(options.LogFileName, mode))
+                    using (var writer = new StreamWriter(fileStream))
+                    {
+                        writer.WriteLine("Error: {0}", exception.Message);
+                        writer.WriteLine("Stack trace:");
+                        writer.WriteLine(exception.StackTrace);
+                        writer.WriteLine();
+                    }
+            }
         }
     }
 }
