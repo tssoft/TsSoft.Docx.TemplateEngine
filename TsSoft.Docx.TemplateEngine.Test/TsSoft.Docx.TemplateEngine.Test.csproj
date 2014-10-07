@@ -94,7 +94,9 @@
     <EmbeddedResource Include="Tags\TableParserTest.xml" />
     <EmbeddedResource Include="Tags\Repeater_Ok.xml" />
     <EmbeddedResource Include="DataReaderTest.xml" />
-    <EmbeddedResource Include="Tags\TextParserTest.xml" />
+    <EmbeddedResource Include="Tags\TextParserTest.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DocxPackageTest_save.docx" />
@@ -116,6 +118,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Tags\Repeater_Nested.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\text_in_repeater_document.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
