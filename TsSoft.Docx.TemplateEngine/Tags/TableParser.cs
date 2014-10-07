@@ -5,6 +5,8 @@ using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Parse table tag
     /// </summary>
@@ -73,6 +75,28 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
             var processor = new TableProcessor {TableTag = tag};
             parentProcessor.AddProcessor(processor);
+
+            this.GoDeeper(processor, TraverseUtils.ElementsBetween(contentElement, endContentElement));
+        }
+
+        private void GoDeeper(ITagProcessor parentProcessor, IEnumerable<XElement> elements)
+        {
+            foreach (var element in elements)
+            {
+                if (element.IsSdt())
+                {
+                    switch (this.GetTagName(element).ToLower())
+                    {
+                        case "item":
+                        case "itemindex":
+                            continue;
+                        default:
+                            this.ParseSdt(parentProcessor, element);
+                            break;
+                    }
+                }
+                this.GoDeeper(parentProcessor, element.Elements());
+            }
         }
     }
 }

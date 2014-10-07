@@ -13,7 +13,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             do
             {
                 this.ParseSdt(parentProcessor, sdtElement);
-                sdtElement = startElement.NextElement(x => x.Name == WordMl.SdtName);
+                sdtElement = sdtElement.NextElement(x => x.Name == WordMl.SdtName);
 
             }
             while (sdtElement != null);
