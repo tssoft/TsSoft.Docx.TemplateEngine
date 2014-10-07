@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsSoft.Docx.TemplateEngine.Demo", "TsSoft.Docx.TemplateEngine.Demo\TsSoft.Docx.TemplateEngine.Demo.csproj", "{FA80B767-DBB9-4126-B439-0EA07E9416B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsSoft.Docx.TemplateEngine", "..\TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine.csproj", "{4B5E0531-87D6-4EC1-864B-DA398D17E3B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsSoft.Docx.TemplateEngine", "TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine.csproj", "{4B5E0531-87D6-4EC1-864B-DA398D17E3B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
