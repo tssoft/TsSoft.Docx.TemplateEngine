@@ -2,6 +2,7 @@
 
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
+    using System;
     using System.Xml.Linq;
 
     using TsSoft.Docx.TemplateEngine.Tags.Processors;
@@ -15,6 +16,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         {
             this.ValidateStartTag(startElement, StartTagName);
             var startTag = startElement;
+
+            if (string.IsNullOrEmpty(startTag.Value))
+            {
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "If"));
+            }
+
             var endTag = TryGetRequiredTag(startElement, EndTagName);
 
             var content = TraverseUtils.ElementsBetween(startTag, endTag);

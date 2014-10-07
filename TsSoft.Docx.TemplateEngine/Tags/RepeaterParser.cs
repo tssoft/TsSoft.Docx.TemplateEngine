@@ -5,6 +5,8 @@ using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
+    using System;
+
     internal class RepeaterParser : GeneralParser
     {
         private const string TagName = "Repeater";
@@ -20,6 +22,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             this.ValidateStartTag(startElement, TagName);
             var endRepeater = TryGetRequiredTag(startElement, EndTagName);
             var itemsTag = TryGetRequiredTag(startElement, endRepeater, ItemsTagName);
+
+            if (string.IsNullOrEmpty(itemsTag.Value))
+            {
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "Items"));
+            }
+
             var startContent = TryGetRequiredTag(startElement, endRepeater, StartContentTagName);
             var endContent = TryGetRequiredTag(startElement, endRepeater, EndContentTagName);
 

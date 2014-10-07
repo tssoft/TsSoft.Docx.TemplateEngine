@@ -327,20 +327,6 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        public void TestParseTwoTableBeforeEndTable()
-        {
-            var processorMock = new TagProcessorMock<TableProcessor>();
-            var parser = new TableParser();
-
-            var root = new XElement(documentRoot);
-            var startElement = TraverseUtils.TagElement(root, "Table");
-            var newTableTagElement = new XElement(startElement);
-            TraverseUtils.TagElement(root, "EndTable").AddBeforeSelf(newTableTagElement);
-            parser.Parse(processorMock, startElement);
-        }
-
-        [TestMethod]
         public void TestParseNedted()
         {
             var parser = new TableParser();
