@@ -153,13 +153,13 @@ namespace TsSoft.Docx.TemplateEngine.Test
             this.docxPackageMock.Verify(p => p.Save(), Times.Once);
         }
 
-        internal class SomeEntity
+        public class SomeEntity
         {
             [XmlElement("text")]
             public string Text { get; set; }
         }
 
-        internal class SomeEntityWrapper
+        public class SomeEntityWrapper
         {
             [XmlElement("test")]
             public SomeEntity Test { get; set; }

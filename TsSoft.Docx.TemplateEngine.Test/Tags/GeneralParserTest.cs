@@ -19,13 +19,8 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         [TestInitialize]
         public void Init()
         {
-            this.generalParser = new GeneralParser();
-            Assert.AreEqual(expectedRootProcessors.Count, actualRootProcessors.Count);
-            Assert.AreEqual(expectedRootProcessors[0].GetType(), actualRootProcessors[0].GetType());
-            
-
+            generalParser = new GeneralParser();
         }
-
 
         [TestMethod]
         public void TestParseIfNested()
@@ -52,6 +47,30 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             Assert.AreEqual(expectedIfProcessors[0].GetType(), actualIfProcessors[0].GetType());
             Assert.AreEqual(expectedIfProcessors[0].Processors.Count, expectedIfProcessors[0].Processors.Count); 
              
+        }
+
+        [TestMethod]
+        public void TestParseTableNested()
+        {
+            var docStream = AssemblyResourceHelper.GetResourceStream(this, "if_in_table_document.xml");
+            doc = XDocument.Load(docStream);
+
+            var expectedRootProcessor = new RootProcessor();
+            ITagProcessor expectedTableProcessor = new TableProcessor();
+            expectedTableProcessor.AddProcessor(new IfProcessor());
+            IList<ITagProcessor> expectedTableProcessors = new List<ITagProcessor>(expectedTableProcessor.Processors);
+            expectedRootProcessor.AddProcessor(expectedRootProcessor);
+
+            IList<ITagProcessor> expectedRootProcessors = new List<ITagProcessor>(expectedRootProcessor.Processors);
+
+            ITagProcessor actualRootProcessor = new RootProcessor();
+            generalParser.Parse(actualRootProcessor, doc.Root);
+            IList<ITagProcessor> actualRootProcessors = new List<ITagProcessor>();
+
+            Assert.AreEqual(expectedRootProcessors.Count, actualRootProcessors.Count);
+            Assert.AreEqual(expectedRootProcessors[0].GetType(), actualRootProcessors[0].GetType());
+
+
         }
 
         [TestMethod]
