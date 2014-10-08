@@ -47,9 +47,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var startElementFirstLevel = commonParent.Elements().First(e => e.Descendants().Contains(startElement));
             var afterStart = startElement.ElementsAfterSelf();
             var between = ElementsBetween(startElementFirstLevel, endElementFirstLevel);
-            var beforeEnd =
-                endElementFirstLevel.Elements()
-                                    .TakeWhile(e => !e.Equals(endElement) && !e.Descendants().Contains(endElement));
+            var beforeEnd = endElementFirstLevel.DescendantsBefore(endElement);
             return afterStart.Union(between).Union(beforeEnd);
         }
 
@@ -69,6 +67,23 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         public static bool IsSdt(this XElement self)
         {
             return self.Name.Equals(WordMl.SdtName);
+        }
+
+        /// <summary>
+        /// If you imagine an XML tree so that the root is the upmost element, than you can say
+        /// that this method recursively takes all descendant elements of "self" to the right of "element"
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static IEnumerable<XElement> DescendantsBefore(this XElement self, XElement element)
+        {
+            if (self.Elements().Contains(element))
+            {
+                return element.ElementsBeforeSelf();
+            }
+            var container = self.Elements().First(e => e.Descendants().Contains(element));
+            return self.Elements().Where(e => e.IsBefore(container)).Union(container.DescendantsBefore(element));
         }
 
         public static string GetExpression(this XElement self)
