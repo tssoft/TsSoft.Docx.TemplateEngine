@@ -42,7 +42,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         /// <param name="to"></param>
         public void CleanUp(XElement from, XElement to)
         {
-            from.ElementsAfterSelf().Where(element => element.IsBefore(to)).Remove();
+            TraverseUtils.ElementsBetween(from, to).Remove();
             from.Remove();
             to.Remove();
         }

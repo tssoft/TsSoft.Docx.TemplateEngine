@@ -18,6 +18,7 @@ namespace TsSoft.Docx.TemplateEngine.Demo
             {
                 Generate(options);
             }
+            Console.ReadKey();
         }
 
         private static void Generate(Options options)

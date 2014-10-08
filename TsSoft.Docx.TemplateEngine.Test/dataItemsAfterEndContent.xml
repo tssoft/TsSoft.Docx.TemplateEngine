@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<test>
+  <certificates>
+    <Subject>Subject 1</Subject>
+    <IssueDate>01.01.2011</IssueDate>
+    <ExpireDate>01.01.2012</ExpireDate>
+  </certificates>
+  <certificates>
+    <Subject>Subject 2</Subject>
+    <IssueDate>01.01.2011</IssueDate>
+    <ExpireDate>01.01.2012</ExpireDate>
+  </certificates>
+  <certificates>
+    <Subject>Subject 3</Subject>
+    <IssueDate>01.01.2011</IssueDate>
+    <ExpireDate>01.01.2012</ExpireDate>
+  </certificates>
+  <certificates>
+    <Subject>Subject 4</Subject>
+    <IssueDate>01.01.2011</IssueDate>
+    <ExpireDate>01.01.2012</ExpireDate>
+  </certificates>
+  <TestText>It's test text</TestText>
+  <TestText2>It's test text2</TestText2>
+  <condition>true</condition>
+  <falseCondition>false</falseCondition>
+</test>

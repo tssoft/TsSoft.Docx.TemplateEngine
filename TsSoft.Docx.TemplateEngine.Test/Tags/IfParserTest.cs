@@ -44,7 +44,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             Assert.AreEqual(WordMl.TextRunName, paragraphChildren[4].Name);
             Assert.AreEqual(", World!", paragraphChildren[4].Value);
             Assert.AreEqual(WordMl.SdtName, paragraphChildren[5].Name);
-            Assert.IsTrue(paragraphChildren[5].IsTag("Text"));
+            Assert.IsTrue(paragraphChildren[5].IsTag("text"));
             Assert.AreEqual(startElement, ifTag.StartIf);
             Assert.AreEqual(endElement, ifTag.EndIf);
 
@@ -70,6 +70,28 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var ifProcessor = (IfProcessor)parentProcessor.Processors.First();
             var ifTag = ifProcessor.Tag;
             const string IfCondition = "//test/condition";
+
+            Assert.IsNotNull(ifProcessor);
+            Assert.AreEqual(IfCondition, ifTag.Conidition);
+           
+            Assert.AreEqual(startElement, ifTag.StartIf);
+            Assert.AreEqual(endElement, ifTag.EndIf);
+
+            var elements = ifTag.IfContent.ToList();
+
+            Assert.AreEqual(17, elements.Count());
+            Assert.IsTrue(elements.Take(6).All(e => e.Name.Equals(WordMl.TextRunName)));
+            Assert.IsTrue(elements.Skip(6).Take(1).All(e => e.Name.Equals(WordMl.ParagraphName)));
+            Assert.IsTrue(elements.Skip(7).Take(1).All(e => e.Name.Equals(WordMl.ParagraphPropertiesName)));
+            Assert.IsTrue(elements.Skip(8).Take(1).All(e => e.Name.Equals(WordMl.BookmarkStartName)));
+            Assert.IsTrue(elements.Skip(9).Take(4).All(e => e.Name.Equals(WordMl.TextRunName)));
+            Assert.IsTrue(elements.Skip(13).Take(1).All(e => e.Name.Equals(WordMl.ProofingErrorAnchorName)));
+            Assert.IsTrue(elements.Skip(14).Take(1).All(e => e.Name.Equals(WordMl.TextRunName)));
+            Assert.IsTrue(elements.Skip(15).Take(1).All(e => e.Name.Equals(WordMl.ProofingErrorAnchorName)));
+            Assert.IsTrue(elements.Skip(16).Take(1).All(e => e.Name.Equals(WordMl.TextRunName)));
+
+            Assert.AreEqual(startElement, ifTag.StartIf);
+            Assert.AreEqual(endElement, ifTag.EndIf);
         }
     }
 }

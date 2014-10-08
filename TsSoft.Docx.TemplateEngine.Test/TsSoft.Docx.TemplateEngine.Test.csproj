@@ -153,6 +153,9 @@
   <ItemGroup>
     <EmbeddedResource Include="dataItemsAfterEndContent.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\TestGeneralParser.xml" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

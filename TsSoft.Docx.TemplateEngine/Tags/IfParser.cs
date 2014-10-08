@@ -1,6 +1,8 @@
 ﻿namespace TsSoft.Docx.TemplateEngine.Tags
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Xml.Linq;
 
@@ -21,7 +23,7 @@
                 throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "If"));
             }
 
-            var endTag = TryGetRequiredTag(startElement, EndTagName);
+            var endTag = this.FindEndTag(startTag);
 
             var content = TraverseUtils.ElementsBetween(startTag, endTag);
             var expression = startTag.GetExpression();
@@ -35,16 +37,43 @@
                             };
 
             var ifProcessor = new IfProcessor { Tag = ifTag };
-            if (content.Any())
+            if (content.FirstOrDefault() != null)
             {
-                this.GoDeeper(ifProcessor, content.First());
+                this.GoDeeper(ifProcessor, content.First(), endTag);
             }
             parentProcessor.AddProcessor(ifProcessor);
 
             return endTag;
         }
 
-        private void GoDeeper(ITagProcessor parentProcessor, XElement element)
+        private XElement FindEndTag(XElement startTag)
+        {
+            var ifTagsOpened = 1;
+            var current = startTag;
+            while (ifTagsOpened > 0 && current != null)
+            {
+                var nextTagElements = TraverseUtils.NextTagElements(current, new Collection<string> { "if", "endif" }).ToList();
+                foreach (var nextTagElement in nextTagElements)
+                {
+                    if (nextTagElement.IsTag("if"))
+                    {
+                        ifTagsOpened++;
+                    }
+                    else
+                    {
+                        ifTagsOpened--;
+                    }
+                }
+                current = nextTagElements.LastOrDefault();
+            }
+            if (current == null)
+            {
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "EndIf"));
+            }
+            return current;
+        }
+
+        private void GoDeeper(ITagProcessor parentProcessor, XElement element, XElement endElement)
         {
             do
             {
@@ -54,11 +83,11 @@
                 }
                 else if (element.HasElements)
                 {
-                    this.GoDeeper(parentProcessor, element.Elements().First());
+                    this.GoDeeper(parentProcessor, element.Elements().First(), endElement);
                 }
                 element = element.NextElement();
             }
-            while (element != null && (!element.IsSdt() || GetTagName(element).ToLower() != "endif"));
+            while (element != null && (!element.IsSdt() || !element.Equals(endElement)));
         }
     }
 }

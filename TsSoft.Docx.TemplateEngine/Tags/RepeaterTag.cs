@@ -3,6 +3,8 @@ using System.Xml.Linq;
 
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
+    using System;
+
     internal class RepeaterTag
     {
         public string Source { get; set; }
@@ -16,5 +18,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         public XElement StartRepeater { get; set; }
 
         public XElement EndRepeater { get; set; }
+
+        public Func<XElement, RepeaterElement> MakeElementCallback { get; set; }
     }
 }
