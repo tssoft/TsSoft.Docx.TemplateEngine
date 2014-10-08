@@ -69,6 +69,4 @@ namespace TsSoft.Docx.TemplateEngine.Test
             Assert.AreEqual(TextValue, createdTextRun.Value);
         }
     }
-
-
 }

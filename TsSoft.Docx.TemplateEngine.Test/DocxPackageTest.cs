@@ -45,7 +45,6 @@
             DocxPackage expectedPackage = new DocxPackage(expectedDocumentStream).Load();
             DocxPackage actualPackage = new DocxPackage(memoryStream).Load();
             Assert.AreEqual(expectedPackage.DocumentPartXml.Root.ToString().Trim(), actualPackage.DocumentPartXml.Root.ToString().Trim());
-
         }
     }
 }

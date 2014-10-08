@@ -1,11 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using TsSoft.Docx.TemplateEngine.Tags;
-
-namespace TsSoft.Docx.TemplateEngine.Test.Tags
+﻿namespace TsSoft.Docx.TemplateEngine.Test
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Xml.Linq;
+    using System.Xml.Serialization;
+
     [TestClass]
     public class DataReaderFactoryTest
     {
@@ -17,10 +16,10 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
                 Message = "test factory",
             };
 
-            XElement element = new XElement("TestData");
+            var element = new XElement("TestData");
             element.Add(new XElement("Message", testData.Message));
             var expected = new DataReader(element);
-            var actual = DataReaderFactory.CreateReader<DataReaderFactoryTestData>(testData);
+            var actual = DataReaderFactory.CreateReader(testData);
             Assert.AreEqual(expected, actual);
         }
 
@@ -32,7 +31,8 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         }
     }
 
-    [XmlRootAttribute(Namespace = "", ElementName = "TestData", IsNullable = false)]
+    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:FileMayOnlyContainASingleClass", Justification = "Reviewed. Suppression is OK here."),
+    XmlRoot(Namespace = "", ElementName = "TestData", IsNullable = false)]
     public class DataReaderFactoryTestData
     {
         [XmlElement]

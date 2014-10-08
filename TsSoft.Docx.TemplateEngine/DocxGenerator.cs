@@ -44,6 +44,7 @@ namespace TsSoft.Docx.TemplateEngine
             {
                 return this.packageFactory ?? new DocxPackageFactory();
             }
+
             set
             {
                 this.packageFactory = value;
@@ -56,6 +57,7 @@ namespace TsSoft.Docx.TemplateEngine
             {
                 return this.processorFactory ?? new RootProcessorFactory();
             }
+
             set
             {
                 this.processorFactory = value;
@@ -68,6 +70,7 @@ namespace TsSoft.Docx.TemplateEngine
             {
                 return this.parserFactory ?? new GeneralParserFactory();
             }
+
             set
             {
                 this.parserFactory = value;
@@ -80,6 +83,7 @@ namespace TsSoft.Docx.TemplateEngine
             {
                 return this.dataReaderFactory ?? new DataReaderFactory();
             }
+
             set
             {
                 this.dataReaderFactory = value;

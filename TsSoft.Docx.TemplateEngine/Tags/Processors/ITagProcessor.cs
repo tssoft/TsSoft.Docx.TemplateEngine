@@ -6,10 +6,10 @@
     {
         DataReader DataReader { get; set; }
 
+        ICollection<ITagProcessor> Processors { get; }
+
         void Process();
 
         void AddProcessor(ITagProcessor processor);
-
-        ICollection<ITagProcessor> Processors { get; }
     }
 }

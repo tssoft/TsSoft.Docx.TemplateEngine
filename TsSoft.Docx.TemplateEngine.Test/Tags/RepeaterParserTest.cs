@@ -8,12 +8,9 @@ using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Test.Tags
 {
-    using Moq;
-
     [TestClass]
     public class RepeaterParserTest
     {
-
         private XElement documentRoot;
 
         private XElement nestedDocumentRoot;
@@ -23,65 +20,65 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         {
             var docStream = AssemblyResourceHelper.GetResourceStream(this, "Repeater_Ok.xml");
             var doc = XDocument.Load(docStream);
-            documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
+            this.documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
 
             docStream = AssemblyResourceHelper.GetResourceStream(this, "Repeater_Nested.xml");
             doc = XDocument.Load(docStream);
-            nestedDocumentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
+            this.nestedDocumentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
         }
 
         [TestMethod]
         public void TestRepeaterNotClosed()
         {
-            const string tagName = "EndRepeater";
-            var endRepeater = TraverseUtils.TagElement(documentRoot, tagName);
+            const string TagName = "EndRepeater";
+            var endRepeater = TraverseUtils.TagElement(this.documentRoot, TagName);
             endRepeater.Remove();
             var parser = new RepeaterParser();
             try
             {
-                parser.Parse(new TagProcessorMock<RepeaterProcessor>(), documentRoot.Descendants(WordMl.SdtName).First());
+                parser.Parse(new TagProcessorMock<RepeaterProcessor>(), this.documentRoot.Descendants(WordMl.SdtName).First());
                 Assert.Fail("An exception shoud've been thrown");
             }
             catch (Exception e)
             {
-                Assert.AreEqual(String.Format(MessageStrings.TagNotFoundOrEmpty, tagName), e.Message);
+                Assert.AreEqual(string.Format(MessageStrings.TagNotFoundOrEmpty, TagName), e.Message);
             }
         }
 
         [TestMethod]
         public void TestContentNotClosed()
         {
-            const string tagName = "EndContent";
-            var endContent = TraverseUtils.TagElement(documentRoot, tagName);
+            const string TagName = "EndContent";
+            var endContent = TraverseUtils.TagElement(this.documentRoot, TagName);
             endContent.Remove();
             var parser = new RepeaterParser();
             try
             {
-                parser.Parse(new TagProcessorMock<RepeaterProcessor>(), documentRoot.Descendants(WordMl.SdtName).First());
+                parser.Parse(new TagProcessorMock<RepeaterProcessor>(), this.documentRoot.Descendants(WordMl.SdtName).First());
                 Assert.Fail("An exception shoud've been thrown");
             }
             catch (Exception e)
             {
-                Assert.AreEqual(string.Format(MessageStrings.TagNotFoundOrEmpty, tagName), e.Message);
+                Assert.AreEqual(string.Format(MessageStrings.TagNotFoundOrEmpty, TagName), e.Message);
             }
         }
 
         [TestMethod]
         public void TestNoItems()
         {
-            string tagName = "Items";
-            var items = TraverseUtils.TagElement(documentRoot, tagName);
+            const string TagName = "Items";
+            var items = TraverseUtils.TagElement(this.documentRoot, TagName);
             items.Remove();
             var parser = new RepeaterParser();
             try
             {
-                parser.Parse(new TagProcessorMock<RepeaterProcessor>(), documentRoot.Descendants(WordMl.SdtName).First());
+                parser.Parse(new TagProcessorMock<RepeaterProcessor>(), this.documentRoot.Descendants(WordMl.SdtName).First());
 
                 Assert.Fail("An exception shoud've been thrown");
             }
             catch (Exception e)
             {
-                Assert.AreEqual(string.Format(MessageStrings.TagNotFoundOrEmpty, tagName), e.Message);
+                Assert.AreEqual(string.Format(MessageStrings.TagNotFoundOrEmpty, TagName), e.Message);
             }
         }
 
@@ -90,7 +87,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         {
             var parser = new RepeaterParser();
             var tagProcessorMock = new TagProcessorMock<RepeaterProcessor>();
-            parser.Parse(tagProcessorMock, documentRoot.Descendants(WordMl.SdtName).First());
+            parser.Parse(tagProcessorMock, this.documentRoot.Descendants(WordMl.SdtName).First());
 
             var result = tagProcessorMock.InnerProcessor.RepeaterTag;
 
@@ -109,7 +106,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         public void TestParseNested()
         {
             var parser = new RepeaterParser();
-            RootProcessor rootProcessor = new RootProcessor();
+            var rootProcessor = new RootProcessor();
             parser.Parse(rootProcessor, this.nestedDocumentRoot.Descendants(WordMl.SdtName).First());
 
             var repeaterProcessor = rootProcessor.Processors.First();
@@ -138,7 +135,5 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             Assert.IsTrue(repeaterProcessor.Processors.All(p => p is TextProcessor));
             Assert.AreEqual(2, repeaterProcessor.Processors.Count);
         }
-
-
     }
 }

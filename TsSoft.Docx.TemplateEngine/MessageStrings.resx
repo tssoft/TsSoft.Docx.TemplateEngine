@@ -120,6 +120,9 @@
   <data name="ClosingTagNotFound" xml:space="preserve">
     <value>A closing tag "{0}" was not found</value>
   </data>
+  <data name="MalforedDocumentMissingTag" xml:space="preserve">
+    <value>Template document is malformed: tag "{0}" is missing</value>
+  </data>
   <data name="NotATag" xml:space="preserve">
     <value>The element passed was not a valid Word tag</value>
   </data>
