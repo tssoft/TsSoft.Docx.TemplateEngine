@@ -18,16 +18,16 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
         {
             var docStream = AssemblyResourceHelper.GetResourceStream(this, "TableProcessorTemplateTest.xml");
             var doc = XDocument.Load(docStream);
-            documentRoot = doc.Root.Element(WordMl.BodyName);
+            this.documentRoot = doc.Root.Element(WordMl.BodyName);
         }
 
         [TestMethod]
         public void CleanUpTest()
         {
-            var tagTable = TraverseUtils.TagElement(documentRoot, "Table");
-            var tagContent = TraverseUtils.TagElement(documentRoot, "Content");
-            var tagEndContent = TraverseUtils.TagElement(documentRoot, "EndContent");
-            var tagEndTable = TraverseUtils.TagElement(documentRoot, "EndTable");
+            var tagTable = TraverseUtils.TagElement(this.documentRoot, "Table");
+            var tagContent = TraverseUtils.TagElement(this.documentRoot, "Content");
+            var tagEndContent = TraverseUtils.TagElement(this.documentRoot, "EndContent");
+            var tagEndTable = TraverseUtils.TagElement(this.documentRoot, "EndTable");
             var startMarkerTag = new XElement(tagTable);
             startMarkerTag.Elements().Remove();
             var endMarkerTag = new XElement(tagTable);

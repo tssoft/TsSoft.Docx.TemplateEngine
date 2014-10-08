@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
 namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 {
+    using System.Diagnostics.CodeAnalysis;
+
     internal abstract class AbstractProcessor : ITagProcessor
     {
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1304:NonPrivateReadonlyFieldsMustBeginWithUpperCaseLetter", Justification = "Reviewed. Suppression is OK here.")]
         protected readonly ICollection<ITagProcessor> processors = new List<ITagProcessor>();
 
         public ICollection<ITagProcessor> Processors

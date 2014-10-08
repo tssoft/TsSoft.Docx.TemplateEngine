@@ -22,8 +22,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                                                                                     WordMl.FieldSimpleName
                                                                                 };
 
-
-
         public static XElement CreateTextElement(XElement parent, string text)
         {
             return CreateTextElement(parent, text, new XElement(WordMl.ParagraphName));

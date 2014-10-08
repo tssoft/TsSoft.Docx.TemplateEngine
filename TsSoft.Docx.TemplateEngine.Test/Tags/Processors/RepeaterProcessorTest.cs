@@ -30,7 +30,6 @@
             var dateElement = new XElement(Date);
             const string Index = "index";
             var indexElement = new XElement(Index);
-            const string IndexAndDate = "indexAndDate";
 
             const string ThirdLevelStaticText = "Very static. Wow. Much text.";
             const string StaticText = "StaticText";
@@ -44,8 +43,6 @@
             const string SecondLevelStaticText = "Just as its brother above, this text must render as it is, too";
             var secondLevelStaticElement = new XElement(StaticText, SecondLevelStaticText);
             
-        
-
             const string Wrapper = "wrapper";
             var wrapperElement = new XElement(Wrapper, indexAndDateElement, secondLevelStaticElement);
 
@@ -55,44 +52,44 @@
             {
                 new RepeaterElement
                 {
-                    XElement = dateElement,
-                    IsItem = true,
+                    XElement = dateElement, 
+                    IsItem = true, 
                     Expression = "./Date"
-                },
+                }, 
                 new RepeaterElement
                 {
-                    XElement = indexElement,
+                    XElement = indexElement, 
                     IsIndex = true
                 },  new RepeaterElement
                 {
-                    XElement = thirdLevelStaticElement,
+                    XElement = thirdLevelStaticElement, 
                 }
             };
             var secondLevelContent = new List<RepeaterElement>
             {
                 new RepeaterElement
                 {
-                    XElement = indexAndDateElement,
+                    XElement = indexAndDateElement, 
                     Elements = thirdLevelContent
-                } ,
+                }, 
                 new RepeaterElement
                 {
-                    XElement = secondLevelStaticElement,
+                    XElement = secondLevelStaticElement, 
                 }
             };
             var firstLevelContent = new List<RepeaterElement>
             {
                 new RepeaterElement
                 {
-                    Expression = "./Subject",
-                    IsItem = true,
+                    Expression = "./Subject", 
+                    IsItem = true, 
                     XElement = subjectElement
-                },
+                }, 
                 new RepeaterElement
                 {
-                    XElement = wrapperElement,
+                    XElement = wrapperElement, 
                     Elements = secondLevelContent
-                },
+                }, 
                 new RepeaterElement
                     {
                         XElement = firstLevelStaticElement
@@ -120,18 +117,18 @@
             dataReaderMock.Setup(d => d.GetReaders(XPath))
                 .Returns(() => new List<DataReader>
                 {
-                    new DataReader(certificate1),
+                    new DataReader(certificate1), 
                     new DataReader(certificate2)
                 });
 
             processor.DataReader = dataReaderMock.Object;
             processor.RepeaterTag = new RepeaterTag
                 {
-                    Content = firstLevelContent,
-                    EndContent = endContent,
-                    StartContent = startContent,
-                    Source = XPath,
-                    StartRepeater = startRepeater,
+                    Content = firstLevelContent, 
+                    EndContent = endContent, 
+                    StartContent = startContent, 
+                    Source = XPath, 
+                    StartRepeater = startRepeater, 
                     EndRepeater = endRepeater
                 };
 

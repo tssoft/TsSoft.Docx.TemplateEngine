@@ -70,6 +70,15 @@ namespace TsSoft.Docx.TemplateEngine {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Template document is malformed: tag &quot;{0}&quot; is missing.
+        /// </summary>
+        internal static string MalforedDocumentMissingTag {
+            get {
+                return ResourceManager.GetString("MalforedDocumentMissingTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The element passed was not a valid Word tag.
         /// </summary>
         internal static string NotATag {

@@ -6,6 +6,8 @@ using TsSoft.Commons.Utils;
 
 namespace TsSoft.Docx.TemplateEngine.Test
 {
+    using System.Diagnostics.CodeAnalysis;
+
     [TestClass]
     public class DataReaderTest
     {
@@ -40,15 +42,16 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestGetReaders()
         {
-            var document = GetXmlDocument();
+            var document = this.GetXmlDocument();
             var dataReader = DataReaderFactory.CreateReader(document);
 
             const string Path = "/Test/Certificates/Certificate";
-            var readers = dataReader.GetReaders(Path);
+            var readers = dataReader.GetReaders(Path).ToList();
 
             Assert.IsNotNull(readers);
 
             var nodes = document.SelectNodes(Path);
+            Assert.IsNotNull(nodes);
             Assert.AreEqual(nodes.Count, readers.Count());
 
             var dataReadersEnumerator = readers.GetEnumerator();
@@ -60,10 +63,10 @@ namespace TsSoft.Docx.TemplateEngine.Test
             }
 
             const string WrongPath = "/Test/Documents/Document";
-            readers = dataReader.GetReaders(WrongPath);
+            var wrongPathReaders = dataReader.GetReaders(WrongPath);
 
-            Assert.IsNotNull(readers);
-            Assert.IsFalse(readers.Any());
+            Assert.IsNotNull(wrongPathReaders);
+            Assert.IsFalse(wrongPathReaders.Any());
         }
 
         [TestMethod]
@@ -92,7 +95,8 @@ namespace TsSoft.Docx.TemplateEngine.Test
         }
     }
 
-    [XmlRoot]
+    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:FileMayOnlyContainASingleClass", Justification = "Reviewed. Suppression is OK here."),
+    XmlRoot]
     public class DataReaderTestData
     {
         [XmlElement]

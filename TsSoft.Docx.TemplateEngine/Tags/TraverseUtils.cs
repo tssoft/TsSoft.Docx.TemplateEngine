@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -7,7 +6,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 {
     internal static class TraverseUtils
     {
-
         public static IEnumerable<XElement> NextTagElements(XElement startElement, string tagName)
         {
             return startElement.ElementsAfterSelf(WordMl.SdtName)
@@ -30,7 +28,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return root.Elements(WordMl.SdtName).First(element => element.Element(WordMl.SdtPrName).Element(WordMl.TagName).Attribute(WordMl.ValAttributeName).Value == tagName);
         }
 
-        public static bool IsTag(this XElement self, String tagName)
+        public static bool IsTag(this XElement self, string tagName)
         {
             return self.IsSdt() ? self.Elements(WordMl.SdtPrName)
                 .Elements(WordMl.TagName)
@@ -42,7 +40,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return self.Name.Equals(WordMl.SdtName);
         }
 
-        public static String GetExpression(this XElement self)
+        public static string GetExpression(this XElement self)
         {
             return self.IsSdt() ? self.Value : null;
         }

@@ -82,6 +82,7 @@
     <Compile Include="Tags\Processors\RepeaterProcessorTest.cs" />
     <Compile Include="DocxHelperTest.cs" />
     <Compile Include="Tags\IfParserTest.cs" />
+    <Compile Include="Tags\TraverseUtilsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine.csproj">
@@ -133,6 +134,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="data.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\ComplexIf.xml" />
+    <Content Include="Tags\TestGeneralParser.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

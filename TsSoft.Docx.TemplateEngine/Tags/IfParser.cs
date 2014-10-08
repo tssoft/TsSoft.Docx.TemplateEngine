@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TsSoft.Docx.TemplateEngine.Tags
+﻿namespace TsSoft.Docx.TemplateEngine.Tags
 {
     using System;
     using System.Linq;
@@ -37,12 +35,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                             };
 
             var ifProcessor = new IfProcessor { Tag = ifTag };
-
             if (content.Any())
             {
                 this.GoDeeper(ifProcessor, content.First());
             }
-
             parentProcessor.AddProcessor(ifProcessor);
 
             return endTag;

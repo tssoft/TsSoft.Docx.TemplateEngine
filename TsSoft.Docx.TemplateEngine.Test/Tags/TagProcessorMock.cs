@@ -11,6 +11,8 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
 
         public DataReader DataReader { get; set; }
 
+        public ICollection<ITagProcessor> Processors { get; private set; }
+
         public void Process()
         {
             throw new NotImplementedException();
@@ -22,9 +24,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             {
                 throw new Exception();
             }
-            InnerProcessor = (P)processor;
+            this.InnerProcessor = (P)processor;
         }
-
-        public ICollection<ITagProcessor> Processors { get; private set; }
     }
 }

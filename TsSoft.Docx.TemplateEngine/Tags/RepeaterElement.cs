@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -12,14 +10,26 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public XElement XElement { get; set; }
 
-        public String Expression { get; set; }
+        public string Expression { get; set; }
 
-        public Boolean IsIndex { get; set; }
+        public bool IsIndex { get; set; }
 
-        public Boolean HasExpression { get { return !String.IsNullOrEmpty(Expression); } }
+        public bool HasExpression
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(this.Expression);
+            }
+        }
 
-        public Boolean HasElements { get { return Elements != null && Elements.Any(); } }
-        public Boolean IsItem { get; set; }
+        public bool HasElements
+        {
+            get
+            {
+                return this.Elements != null && this.Elements.Any();
+            }
+        }
 
+        public bool IsItem { get; set; }
     }
 }

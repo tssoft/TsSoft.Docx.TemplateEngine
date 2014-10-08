@@ -58,18 +58,18 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return endRepeater;
         }
 
-        private RepeaterElement MakeRepeaterElement(XElement xElement)
+        private RepeaterElement MakeRepeaterElement(XElement element)
         {
             var repeaterElement = new RepeaterElement
             {
-                Elements = xElement.Elements().Select(this.MakeRepeaterElement),
-                IsIndex = xElement.IsTag(IndexTag),
-                IsItem = xElement.IsTag(ItemTag),
-                XElement = xElement
+                Elements = element.Elements().Select(this.MakeRepeaterElement),
+                IsIndex = element.IsTag(IndexTag),
+                IsItem = element.IsTag(ItemTag),
+                XElement = element
             };
             if (repeaterElement.IsItem)
             {
-                repeaterElement.Expression = xElement.GetExpression();
+                repeaterElement.Expression = element.GetExpression();
             }
             return repeaterElement;
         }
