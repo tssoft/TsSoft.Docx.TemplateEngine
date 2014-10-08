@@ -82,6 +82,7 @@
     <Compile Include="Tags\Processors\RepeaterProcessorTest.cs" />
     <Compile Include="DocxHelperTest.cs" />
     <Compile Include="Tags\IfParserTest.cs" />
+    <Compile Include="Tags\TraverseUtilsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine.csproj">
@@ -130,12 +131,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Tags\IfParserTest.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Tags\text_in_if_document.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Tags\if_in_table_document.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="data.xml" />
