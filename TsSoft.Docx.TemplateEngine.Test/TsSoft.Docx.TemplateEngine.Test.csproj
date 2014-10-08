@@ -104,9 +104,11 @@
   <ItemGroup>
     <EmbeddedResource Include="DocxPackageTest_save.docx" />
     <EmbeddedResource Include="DoubleRepeater.docx" />
+    <EmbeddedResource Include="DoubleIf.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />
+    <EmbeddedResource Include="RepeaterItemsAfterEndContent.docx" />
     <None Include="Tags\TestGeneralParser.docx" />
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +149,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Tags\if_in_table_document.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="dataItemsAfterEndContent.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
