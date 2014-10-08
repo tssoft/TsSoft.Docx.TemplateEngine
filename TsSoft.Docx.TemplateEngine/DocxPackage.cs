@@ -13,8 +13,6 @@ namespace TsSoft.Docx.TemplateEngine
         private const string OfficeDocumentRelType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
         private Stream docxStream;
 
-        public virtual XDocument DocumentPartXml { get; private set; }
-
         public DocxPackage()
         {
         }
@@ -24,16 +22,17 @@ namespace TsSoft.Docx.TemplateEngine
             this.docxStream = docxStream;
         }
 
+        public virtual XDocument DocumentPartXml { get; private set; }
+
         public virtual DocxPackage Load()
         {
-            docxStream.Seek(0, SeekOrigin.Begin);
-            using (Package package = Package.Open(docxStream, FileMode.Open, FileAccess.Read))
+            this.docxStream.Seek(0, SeekOrigin.Begin);
+            using (Package package = Package.Open(this.docxStream, FileMode.Open, FileAccess.Read))
             {
-                new XDocument();
-                var docPart = GetDocumentPart(package);
+                var docPart = this.GetDocumentPart(package);
                 using (XmlReader reader = XmlReader.Create(docPart.GetStream()))
                 {
-                    DocumentPartXml = XDocument.Load(reader);
+                    this.DocumentPartXml = XDocument.Load(reader);
                 }
             }
             return this;
@@ -41,15 +40,15 @@ namespace TsSoft.Docx.TemplateEngine
 
         public virtual DocxPackage Save()
         {
-            docxStream.Seek(0, SeekOrigin.Begin);
-            using (Package package = Package.Open(docxStream, FileMode.Open, FileAccess.ReadWrite))
+            this.docxStream.Seek(0, SeekOrigin.Begin);
+            using (Package package = Package.Open(this.docxStream, FileMode.Open, FileAccess.ReadWrite))
             {
-                var docPart = GetDocumentPart(package);
+                var docPart = this.GetDocumentPart(package);
                 var documentStream = docPart.GetStream();
                 documentStream.SetLength(0);
                 using (var writer = new XmlTextWriter(documentStream, new UTF8Encoding()))
                 {
-                    DocumentPartXml.Save(writer);
+                    this.DocumentPartXml.Save(writer);
                 }
                 package.Flush();
             }

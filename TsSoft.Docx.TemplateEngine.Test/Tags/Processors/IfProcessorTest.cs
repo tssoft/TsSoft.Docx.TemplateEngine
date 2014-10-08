@@ -13,7 +13,6 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
     [TestClass]
     public class IfProcessorTest
     {
-
         private XElement paragraph;
         private XElement startIf;
         private XElement endIf;

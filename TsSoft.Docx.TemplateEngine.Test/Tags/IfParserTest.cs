@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TsSoft.Docx.TemplateEngine.Test.Tags
 {
@@ -13,7 +12,6 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
     [TestClass]
     public class IfParserTest
     {
-
         private XElement documentRoot;
 
         [TestInitialize]

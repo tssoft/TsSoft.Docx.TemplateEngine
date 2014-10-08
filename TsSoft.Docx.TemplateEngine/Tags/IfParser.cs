@@ -39,7 +39,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             parentProcessor.AddProcessor(ifProcessor);
 
             this.GoDeeper(ifProcessor, ifTag.IfContent);
-
         }
 
         private void GoDeeper(ITagProcessor parentProcessor, IEnumerable<XElement> elements)

@@ -8,15 +8,18 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 {
     internal class GeneralParser : ITagParser
     {
-        
         public virtual void Parse(ITagProcessor parentProcessor, XElement startElement)
         {
-            var sdtElement = startElement.Element(WordMl.BodyName).Element(WordMl.SdtName);
+            var body = startElement.Element(WordMl.BodyName);
+            if (body == null)
+            {
+                throw new Exception(string.Format(MessageStrings.MalforedDocumentMissingTag, WordMl.BodyName));
+            }
+            var sdtElement = body.Element(WordMl.SdtName);
             do
             {
                 this.ParseSdt(parentProcessor, sdtElement);
                 sdtElement = sdtElement.NextElement(x => x.Name == WordMl.SdtName);
-
             }
             while (sdtElement != null);
         }
@@ -24,7 +27,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         protected void ParseSdt(ITagProcessor parentProcessor, XElement sdtElement)
         {
             ITagParser parser = null;
-            switch (GetTagName(sdtElement).ToLower())
+            switch (this.GetTagName(sdtElement).ToLower())
             {
                 case "text":
                     parser = new TextParser();
@@ -108,7 +111,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return (nameAttribute == null) ? null : nameAttribute.Value;
         }
 
+// ReSharper disable UnusedParameter.Local
         private void AssureElementExists(XElement element, string tagName)
+// ReSharper restore UnusedParameter.Local
         {
             if (element == null)
             {

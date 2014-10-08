@@ -7,10 +7,7 @@ using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Test
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Xml.Serialization;
 
     using TsSoft.Commons.Utils;
@@ -24,7 +21,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
         private Mock<AbstractProcessor> processorMock;
         private Mock<DataReader> stringDataReaderMock;
         private Mock<DataReader> entityDataReaderMock;
-        private Mock<DataReader> xDocumentDataReaderMock;
+        private Mock<DataReader> documentDataReaderMock;
 
         private Stream templateStream;
 
@@ -45,7 +42,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
         {
             this.InitializeStubbedExecution();
             this.docxGenerator.GenerateDocx(this.templateStream, this.outputStream, new XDocument());
-            this.MakeAssertions(this.xDocumentDataReaderMock);
+            this.MakeAssertions(this.documentDataReaderMock);
         }
 
         [TestMethod]
@@ -95,6 +92,8 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 data);
             var package = new DocxPackage(output);
             package.Load();
+
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
         }
 
         private void InitializeStubbedExecution()
@@ -105,7 +104,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             this.docxPackageMock.SetupGet(p => p.DocumentPartXml).Returns(document);
             this.docxPackageMock.Setup(p => p.Load()).Verifiable();
-            docxPackageMock.Setup(p => p.Save()).Verifiable();
+            this.docxPackageMock.Setup(p => p.Save()).Verifiable();
 
             var packageFactoryMock = new Mock<IDocxPackageFactory>();
             packageFactoryMock.Setup(f => f.Create(It.IsAny<Stream>())).Returns(this.docxPackageMock.Object);
@@ -122,11 +121,11 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             this.stringDataReaderMock = new Mock<DataReader>();
             this.entityDataReaderMock = new Mock<DataReader>();
-            this.xDocumentDataReaderMock = new Mock<DataReader>();
+            this.documentDataReaderMock = new Mock<DataReader>();
             var dataReaderFactoryMock = new Mock<IDataReaderFactory>();
             dataReaderFactoryMock.Setup(f => f.CreateReader(It.IsAny<string>())).Returns(this.stringDataReaderMock.Object);
             dataReaderFactoryMock.Setup(f => f.CreateReader(It.IsAny<A>())).Returns(this.entityDataReaderMock.Object);
-            dataReaderFactoryMock.Setup(f => f.CreateReader(It.IsAny<XDocument>())).Returns(this.xDocumentDataReaderMock.Object);
+            dataReaderFactoryMock.Setup(f => f.CreateReader(It.IsAny<XDocument>())).Returns(this.documentDataReaderMock.Object);
 
             this.docxGenerator = new DocxGenerator
             {
@@ -154,21 +153,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
             this.docxPackageMock.Verify(p => p.Save(), Times.Once);
         }
 
-        internal class A
-        {
-            public int MyProperty { get; set; }
-        }
-
-        public class SomeEntity
+        internal class SomeEntity
         {
             [XmlElement("text")]
             public string Text { get; set; }
         }
 
-        public class SomeEntityWrapper
+        internal class SomeEntityWrapper
         {
             [XmlElement("test")]
             public SomeEntity Test { get; set; }
+        }
+
+        internal class A
+        {
+            public int MyProperty { get; set; }
         }
     }
 }

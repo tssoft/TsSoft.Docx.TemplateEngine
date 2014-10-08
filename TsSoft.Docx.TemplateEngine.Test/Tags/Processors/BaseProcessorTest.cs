@@ -10,6 +10,5 @@
         {
             Assert.IsFalse(document.Descendants(WordMl.SdtName).Any());
         }
-
     }
 }
