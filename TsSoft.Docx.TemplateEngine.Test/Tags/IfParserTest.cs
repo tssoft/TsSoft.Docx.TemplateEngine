@@ -70,6 +70,19 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var ifProcessor = (IfProcessor)parentProcessor.Processors.First();
             var ifTag = ifProcessor.Tag;
             const string IfCondition = "//test/condition";
+
+            Assert.IsNotNull(ifProcessor);
+            Assert.AreEqual(IfCondition, ifTag.Conidition);
+           
+            Assert.AreEqual(startElement, ifTag.StartIf);
+            Assert.AreEqual(endElement, ifTag.EndIf);
+
+            var content = ifTag.IfContent.ToList();
+
+            Assert.AreEqual(18, content.Count);
+            Assert.IsTrue(content.Take(7).All(e => e.Name.Equals(WordMl.TextRunName)));
+            Assert.IsTrue(content.Skip(7).Take(1).All(e => e.Name.Equals(WordMl.ParagraphName)));
+            Assert.IsTrue(content.Skip(8).Take(10).All(e => e.Name.Equals(WordMl.TextRunName)));
         }
     }
 }
