@@ -96,6 +96,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
         }
 
+        
         [TestMethod]
         public void TestActualGenerationDoubleRepeater()
         {
