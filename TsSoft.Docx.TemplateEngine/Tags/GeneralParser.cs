@@ -8,7 +8,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 {
     internal class GeneralParser : ITagParser
     {
-        public virtual void Parse(ITagProcessor parentProcessor, XElement startElement)
+        public virtual XElement Parse(ITagProcessor parentProcessor, XElement startElement)
         {
             var body = startElement.Element(WordMl.BodyName);
             if (body == null)
@@ -18,12 +18,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var sdtElement = body.Descendants(WordMl.SdtName).FirstOrDefault();
             while (sdtElement != null)
             {
-                this.ParseSdt(parentProcessor, sdtElement);
+                sdtElement = this.ParseSdt(parentProcessor, sdtElement);
                 sdtElement = sdtElement.NextElement(x => x.Name == WordMl.SdtName);
             }
+
+            return startElement;
         }
 
-        protected void ParseSdt(ITagProcessor parentProcessor, XElement sdtElement)
+        protected XElement ParseSdt(ITagProcessor parentProcessor, XElement sdtElement)
         {
             ITagParser parser = null;
             switch (this.GetTagName(sdtElement).ToLower())
@@ -44,10 +46,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     parser = new IfParser();
                     break;
             }
-            if (parser != null)
-            {
-                parser.Parse(parentProcessor, sdtElement);
-            }
+            return parser != null ? parser.Parse(parentProcessor, sdtElement) : sdtElement;
         }
 
         protected void ValidateStartTag(XElement startElement, string tagName)

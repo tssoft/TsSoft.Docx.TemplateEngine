@@ -19,7 +19,53 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         [TestInitialize]
         public void Init()
         {
-            generalParser = new GeneralParser();
+            this.generalParser = new GeneralParser();
+            using (var docStream = AssemblyResourceHelper.GetResourceStream(this, "GeneralParserTest.xml"))
+            {
+                this.doc = XDocument.Load(docStream);
+            }
+        }
+
+        [TestMethod]
+        public void TestParse()
+        {
+            var expectedTableProcessor = new TableProcessor();
+            var expectedIfProcessor = new IfProcessor();
+            expectedIfProcessor.AddProcessor(new TextProcessor());
+            expectedTableProcessor.AddProcessor(new TextProcessor());
+            expectedTableProcessor.AddProcessor(expectedIfProcessor);
+            var expectedRepeaterProcessor = new RepeaterProcessor();
+            expectedRepeaterProcessor.AddProcessor(new TextProcessor());
+            var expectedRootProcessor = new RootProcessor();
+            expectedRootProcessor.AddProcessor(expectedTableProcessor);
+            expectedRootProcessor.AddProcessor(expectedRepeaterProcessor);
+
+            var actualRootProcessor = new RootProcessor();
+            generalParser.Parse(actualRootProcessor, this.doc.Root);
+
+            Assert.AreEqual(2, actualRootProcessor.Processors.Count);
+            var actualInnerRootProcessors = new List<ITagProcessor>(actualRootProcessor.Processors);
+            Assert.AreEqual(typeof(TableProcessor), actualInnerRootProcessors[0].GetType());
+            Assert.AreEqual(typeof(RepeaterProcessor), actualInnerRootProcessors[1].GetType());
+
+            var actualTableProcessor = actualInnerRootProcessors[0];
+            Assert.AreEqual(2, actualTableProcessor.Processors.Count);
+            var actualInnerTableProcessors = new List<ITagProcessor>(actualTableProcessor.Processors);
+            Assert.AreEqual(typeof(TextProcessor), actualInnerTableProcessors[0].GetType());
+            Assert.AreEqual(typeof(IfProcessor), actualInnerTableProcessors[1].GetType());
+
+            Assert.AreEqual(0, actualInnerTableProcessors[0].Processors.Count);
+            var actualIfProcessor = actualInnerTableProcessors[1];
+
+            Assert.AreEqual(1, actualIfProcessor.Processors.Count);
+            var actualInnerIfProcessors = new List<ITagProcessor>(actualIfProcessor.Processors);
+            Assert.AreEqual(typeof(TextProcessor), actualInnerIfProcessors[0].GetType());
+
+            var actualRepeaterProcessor = actualInnerRootProcessors[1];
+            Assert.AreEqual(1,actualRepeaterProcessor.Processors.Count);
+            var actualInnerRepeaterProcessors = new List<ITagProcessor>(actualRepeaterProcessor.Processors);
+            Assert.AreEqual(typeof(TextProcessor), actualInnerRepeaterProcessors[0].GetType());
+            Assert.AreEqual(0, actualInnerRepeaterProcessors[0].Processors.Count);
         }
 
         [TestMethod]

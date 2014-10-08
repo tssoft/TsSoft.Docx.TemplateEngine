@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace TsSoft.Docx.TemplateEngine.Tags
+﻿namespace TsSoft.Docx.TemplateEngine.Tags
 {
     using System;
+    using System.Linq;
     using System.Xml.Linq;
 
     using TsSoft.Docx.TemplateEngine.Tags.Processors;
@@ -12,7 +11,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private const string StartTagName = "If";
         private const string EndTagName = "EndIf";
 
-        public override void Parse(ITagProcessor parentProcessor, XElement startElement)
+        public override XElement Parse(ITagProcessor parentProcessor, XElement startElement)
         {
             this.ValidateStartTag(startElement, StartTagName);
             var startTag = startElement;
@@ -36,21 +35,30 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                             };
 
             var ifProcessor = new IfProcessor { Tag = ifTag };
+            if (content.Any())
+            {
+                this.GoDeeper(ifProcessor, content.First());
+            }
             parentProcessor.AddProcessor(ifProcessor);
 
-            this.GoDeeper(ifProcessor, ifTag.IfContent);
+            return endTag;
         }
 
-        private void GoDeeper(ITagProcessor parentProcessor, IEnumerable<XElement> elements)
+        private void GoDeeper(ITagProcessor parentProcessor, XElement element)
         {
-            foreach (var element in elements)
+            do
             {
                 if (element.IsSdt())
                 {
-                    this.ParseSdt(parentProcessor, element);
+                    element = this.ParseSdt(parentProcessor, element);
                 }
-                this.GoDeeper(parentProcessor, element.Elements());
+                else if (element.HasElements)
+                {
+                    this.GoDeeper(parentProcessor, element.Elements().First());
+                }
+                element = element.NextElement();
             }
+            while (element != null && (!element.IsSdt() || GetTagName(element).ToLower() != "endif"));
         }
     }
 }
