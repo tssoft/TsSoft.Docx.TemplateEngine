@@ -60,7 +60,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         protected XElement TryGetRequiredTag(XElement startElement, string tagName)
         {
-            var tag = TraverseUtils.NextTagElements(startElement, tagName).SingleOrDefault();
+            var tag = TraverseUtils.NextTagElements(startElement, tagName).FirstOrDefault();
             if (tag == null)
             {
                 throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, tagName));
@@ -70,7 +70,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         protected XElement TryGetRequiredTag(XElement startElement, XElement endElement, string tagName)
         {
-            var tag = TraverseUtils.TagElementsBetween(startElement, endElement, tagName).SingleOrDefault();
+            var tag = TraverseUtils.TagElementsBetween(startElement, endElement, tagName).FirstOrDefault();
             if (tag == null)
             {
                 throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, tagName));
