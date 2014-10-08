@@ -19,7 +19,60 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         [TestInitialize]
         public void Init()
         {
-            this.generalParser = new GeneralParser();
+            generalParser = new GeneralParser();
+        }
+
+        [TestMethod]
+        public void TestParseIfNested()
+        {
+            var docStream = AssemblyResourceHelper.GetResourceStream(this, "text_in_if_document.xml");
+            doc = XDocument.Load(docStream);
+            
+            var expectedRootProcessor = new RootProcessor();
+            ITagProcessor expectedIfProcessor = new IfProcessor();
+            
+            expectedIfProcessor.AddProcessor(new TextProcessor());
+            var expectedIfProcessors = new List<ITagProcessor>(expectedIfProcessor.Processors);
+            expectedRootProcessor.AddProcessor(expectedIfProcessor);            
+            var expectedRootProcessors = new List<ITagProcessor>(expectedRootProcessor.Processors);
+
+            var actualRootProcessor = new RootProcessor();
+            generalParser.Parse(actualRootProcessor, doc.Root);
+
+            var actualRootProcessors = new List<ITagProcessor>(actualRootProcessor.Processors);
+            Assert.AreEqual(expectedRootProcessors.Count, actualRootProcessors.Count);
+            Assert.AreEqual(expectedRootProcessors[0].GetType(),actualRootProcessors[0].GetType());
+            var actualIfProcessors = new List<ITagProcessor>(actualRootProcessors[0].Processors);
+            Assert.AreEqual(expectedIfProcessors.Count, actualIfProcessors.Count);
+            Assert.AreEqual(expectedIfProcessors[0].GetType(), actualIfProcessors[0].GetType());
+            Assert.AreEqual(expectedIfProcessors[0].Processors.Count, expectedIfProcessors[0].Processors.Count); 
+             
+        }
+
+        [TestMethod]
+        public void TestParseTableNested()
+        {
+            var docStream = AssemblyResourceHelper.GetResourceStream(this, "if_in_table_document.xml");
+            doc = XDocument.Load(docStream);
+
+            var expectedRootProcessor = new RootProcessor();
+            var expectedTableProcessor = new TableProcessor();
+            expectedTableProcessor.AddProcessor(new IfProcessor());
+            expectedRootProcessor.AddProcessor(expectedTableProcessor);
+            var expectedTableProcessors = new List<ITagProcessor>(expectedTableProcessor.Processors);            
+            var expectedRootProcessors = new List<ITagProcessor>(expectedRootProcessor.Processors);
+
+            var actualRootProcessor = new RootProcessor();
+            generalParser.Parse(actualRootProcessor, doc.Root);
+            var actualRootProcessors = new List<ITagProcessor>(actualRootProcessor.Processors);
+
+            Assert.AreEqual(expectedRootProcessors.Count, actualRootProcessors.Count);
+            Assert.AreEqual(expectedRootProcessors[0].GetType(), actualRootProcessors[0].GetType());
+            var actualTableProcessors = new List<ITagProcessor>(expectedRootProcessors[0].Processors);
+            Assert.AreEqual(expectedTableProcessors.Count, actualTableProcessors.Count);
+            Assert.AreEqual(expectedTableProcessors[0].GetType(), actualTableProcessors[0].GetType());
+            Assert.AreEqual(expectedTableProcessors[0].Processors.Count, actualTableProcessors[0].Processors.Count);
+
         }
 
         [TestMethod]
