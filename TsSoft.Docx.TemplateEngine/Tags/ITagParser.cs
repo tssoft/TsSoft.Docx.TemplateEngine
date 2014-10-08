@@ -5,6 +5,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 {
     internal interface ITagParser
     {
-        void Parse(ITagProcessor parentProcessor, XElement startElement);
+        XElement Parse(ITagProcessor parentProcessor, XElement startElement);
     }
 }

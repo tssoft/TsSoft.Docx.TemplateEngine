@@ -17,7 +17,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private const string IndexTag = "ItemIndex";
         private const string ItemTag = "Item";
 
-        public override void Parse(ITagProcessor parentProcessor, XElement startElement)
+        public override XElement Parse(ITagProcessor parentProcessor, XElement startElement)
         {
             this.ValidateStartTag(startElement, TagName);
             var endRepeater = TryGetRequiredTag(startElement, EndTagName);
@@ -48,9 +48,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     RepeaterTag = repeaterTag,
                 };
 
-            this.GoDeeper(repeaterProcessor, elementsBetween);
+            if (elementsBetween.Any())
+            {
+                this.GoDeeper(repeaterProcessor, elementsBetween.First());
+            }
 
             parentProcessor.AddProcessor(repeaterProcessor);
+
+            return endRepeater;
         }
 
         private RepeaterElement MakeRepeaterElement(XElement xElement)
@@ -69,9 +74,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return repeaterElement;
         }
 
-        private void GoDeeper(ITagProcessor parentProcessor, IEnumerable<XElement> elements)
+        private void GoDeeper(ITagProcessor parentProcessor, XElement element)
         {
-            foreach (var element in elements)
+            do
             {
                 if (element.IsSdt())
                 {
@@ -79,14 +84,19 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     {
                         case "item":
                         case "itemindex":
-                            continue;
+                            break;
                         default:
-                            this.ParseSdt(parentProcessor, element);
+                            element = this.ParseSdt(parentProcessor, element);
                             break;
                     }
                 }
-                this.GoDeeper(parentProcessor, element.Elements());
+                else if (element.HasElements)
+                {
+                    this.GoDeeper(parentProcessor, element.Elements().First());
+                }
+                element = element.NextElement();
             }
+            while (element != null && (!element.IsSdt() || GetTagName(element).ToLower() != "endcontent"));
         }
     }
 }
