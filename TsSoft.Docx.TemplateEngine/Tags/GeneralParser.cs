@@ -15,13 +15,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             {
                 throw new Exception(string.Format(MessageStrings.MalforedDocumentMissingTag, WordMl.BodyName));
             }
-            var sdtElement = body.Element(WordMl.SdtName);
-            do
+            var sdtElement = body.Descendants(WordMl.SdtName).FirstOrDefault();
+            while (sdtElement != null)
             {
                 this.ParseSdt(parentProcessor, sdtElement);
                 sdtElement = sdtElement.NextElement(x => x.Name == WordMl.SdtName);
             }
-            while (sdtElement != null);
         }
 
         protected void ParseSdt(ITagProcessor parentProcessor, XElement sdtElement)
