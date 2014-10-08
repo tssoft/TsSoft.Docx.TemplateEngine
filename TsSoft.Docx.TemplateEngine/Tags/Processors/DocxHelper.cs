@@ -22,6 +22,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                                                                                     WordMl.FieldSimpleName
                                                                                 };
 
+        private static readonly IEnumerable<XName> TextPropertiesNames = new Collection<XName>
+                                                                                {
+                                                                                    
+                                                                                };
+
         public static XElement CreateTextElement(XElement parent, string text)
         {
             return CreateTextElement(parent, text, new XElement(WordMl.ParagraphName));
@@ -33,10 +38,16 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         }
 
         public static XElement CreateTextElement(XElement parent, string text, XElement wrapTo)
-        {
-            var result = new XElement(WordMl.TextRunName, new XElement(WordMl.TextName, text));
-            if (!ValidTextRunContainers.Any(name => name.Equals(parent.Name)))
+        {                       
+            var result = new XElement(WordMl.TextRunName, new XElement(WordMl.TextName, text));            
+            var textRunProperties = parent.Descendants(WordMl.TextRunPropertiesName).FirstOrDefault();
+            if (textRunProperties != null)
             {
+                var properties = textRunProperties.Elements().Where(e => TextPropertiesNames.Contains(e.Name));
+                result.AddBeforeSelf(properties);
+            }
+            if (!ValidTextRunContainers.Any(name => name.Equals(parent.Name)))
+            {                
                 wrapTo.Add(result);
                 result = wrapTo;
             }
