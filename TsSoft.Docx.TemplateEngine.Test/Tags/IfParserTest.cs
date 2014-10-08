@@ -12,22 +12,16 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
     [TestClass]
     public class IfParserTest
     {
-        private XElement documentRoot;
-
-        [TestInitialize]
-        public void Initialize()
-        {
-            var docStream = AssemblyResourceHelper.GetResourceStream(this, "IfParserTest.xml");
-            var doc = XDocument.Load(docStream);
-            this.documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
-        }
-
         [TestMethod]
         public void TestParse()
         {
+            var docStream = AssemblyResourceHelper.GetResourceStream(this, "IfParserTest.xml");
+            var doc = XDocument.Load(docStream);
+            var documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
+
             var parser = new IfParser();
-            var startElement = TraverseUtils.TagElement(this.documentRoot, "If");
-            var endElement = TraverseUtils.TagElement(this.documentRoot, "EndIf");
+            var startElement = TraverseUtils.TagElement(documentRoot, "If");
+            var endElement = TraverseUtils.TagElement(documentRoot, "EndIf");
             var parentProcessor = new RootProcessor();
             parser.Parse(parentProcessor, startElement);
 
@@ -58,6 +52,24 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             Assert.IsNotNull(textProcessor);
             Assert.IsNotNull(textProcessor.TextTag);
             Assert.AreEqual("//test/text", textProcessor.TextTag.Expression);
+        }
+
+        [TestMethod]
+        public void TestParseComplex()
+        {
+            var docStream = AssemblyResourceHelper.GetResourceStream(this, "ComplexIf.xml");
+            var doc = XDocument.Load(docStream);
+            var documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
+
+            var parser = new IfParser();
+            var startElement = TraverseUtils.TagElement(documentRoot, "If");
+            var endElement = TraverseUtils.TagElement(documentRoot, "EndIf");
+            var parentProcessor = new RootProcessor();
+            parser.Parse(parentProcessor, startElement);
+
+            var ifProcessor = (IfProcessor)parentProcessor.Processors.First();
+            var ifTag = ifProcessor.Tag;
+            const string IfCondition = "//test/condition";
         }
     }
 }

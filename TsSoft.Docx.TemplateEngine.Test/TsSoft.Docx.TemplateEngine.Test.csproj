@@ -135,6 +135,7 @@
     <EmbeddedResource Include="data.xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Tags\ComplexIf.xml" />
     <Content Include="Tags\TestGeneralParser.xml" />
   </ItemGroup>
   <Choose>
