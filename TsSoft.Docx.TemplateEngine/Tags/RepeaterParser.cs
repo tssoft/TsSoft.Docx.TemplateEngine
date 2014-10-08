@@ -17,6 +17,22 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private const string IndexTag = "ItemIndex";
         private const string ItemTag = "Item";
 
+        private static Func<XElement, RepeaterElement> MakeElementCallback = element =>
+            {
+                var repeaterElement = new RepeaterElement
+                {
+                    Elements = element.Elements().Select(MakeElementCallback),
+                    IsIndex = element.IsTag(IndexTag),
+                    IsItem = element.IsTag(ItemTag),
+                    XElement = element
+                };
+                if (repeaterElement.IsItem)
+                {
+                    repeaterElement.Expression = element.GetExpression();
+                }
+                return repeaterElement;
+            };
+
         public override XElement Parse(ITagProcessor parentProcessor, XElement startElement)
         {
             this.ValidateStartTag(startElement, TagName);
@@ -32,15 +48,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var endContent = TryGetRequiredTag(startElement, endRepeater, EndContentTagName);
 
             IEnumerable<XElement> elementsBetween = TraverseUtils.ElementsBetween(startContent, endContent).ToList();
-            IEnumerable<RepeaterElement> repeaterElements = elementsBetween.Select(this.MakeRepeaterElement);
             var repeaterTag = new RepeaterTag
                 {
                     Source = itemsTag.Value,
                     StartContent = startContent,
                     EndContent = endContent,
-                    Content = repeaterElements,
                     StartRepeater = startElement,
                     EndRepeater = endRepeater,
+                    MakeElementCallback = MakeElementCallback
                 };
 
             var repeaterProcessor = new RepeaterProcessor
@@ -56,22 +71,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             parentProcessor.AddProcessor(repeaterProcessor);
 
             return endRepeater;
-        }
-
-        private RepeaterElement MakeRepeaterElement(XElement element)
-        {
-            var repeaterElement = new RepeaterElement
-            {
-                Elements = element.Elements().Select(this.MakeRepeaterElement),
-                IsIndex = element.IsTag(IndexTag),
-                IsItem = element.IsTag(ItemTag),
-                XElement = element
-            };
-            if (repeaterElement.IsItem)
-            {
-                repeaterElement.Expression = element.GetExpression();
-            }
-            return repeaterElement;
         }
 
         private void GoDeeper(ITagProcessor parentProcessor, XElement element)

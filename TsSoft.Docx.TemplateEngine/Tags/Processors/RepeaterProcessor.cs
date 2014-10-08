@@ -14,11 +14,16 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             base.Process();
             var current = RepeaterTag.StartContent;
             var dataReaders = DataReader.GetReaders(RepeaterTag.Source).DefaultIfEmpty().ToList();
+            var repeaterElements =
+                TraverseUtils.ElementsBetween(RepeaterTag.StartContent, RepeaterTag.EndContent)
+                             .Select(RepeaterTag.MakeElementCallback).ToList();
             for (var index = 0; index < dataReaders.Count; index++)
             {
-                current = this.ProcessElements(RepeaterTag.Content, dataReaders[index], current, null, index + 1);
+                current = this.ProcessElements(
+                    repeaterElements,
+                    dataReaders[index], current, null, index + 1);
             }
-            foreach (var repeaterElement in RepeaterTag.Content)
+            foreach (var repeaterElement in repeaterElements)
             {
                 repeaterElement.XElement.Remove();
             }
