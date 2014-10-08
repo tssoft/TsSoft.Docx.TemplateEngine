@@ -15,7 +15,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         /// <summary>
         /// Do parsing
         /// </summary>
-        public override void Parse(ITagProcessor parentProcessor, XElement startElement)
+        public override XElement Parse(ITagProcessor parentProcessor, XElement startElement)
         {
             this.ValidateStartTag(startElement, "Table");
 
@@ -32,16 +32,16 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "Items"));
             }
 
-            var contentElement = this.TryGetRequiredTags(startElement, endTableTag, "Content").First();
-            var endContentElement = this.TryGetRequiredTags(contentElement, endTableTag, "EndContent").First();
+            var contentTag = this.TryGetRequiredTags(startElement, endTableTag, "Content").First();
+            var endContentTag = this.TryGetRequiredTags(contentTag, endTableTag, "EndContent").First();
 
             var tag = new TableTag
                           {
                               TagTable = startElement,
                               TagEndTable = endTableTag,
                               ItemsSource = itemsElements.First().Value,
-                              TagContent = contentElement,
-                              TagEndContent = endContentElement
+                              TagContent = contentTag,
+                              TagEndContent = endContentTag
                           };
 
             var dynamicRowElement = TraverseUtils.TagElementsBetween(startElement, endTableTag, "DynamicRow").FirstOrDefault();
@@ -53,21 +53,27 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                                      : (int?)null;
             }
 
-            var tableElement = contentElement.ElementsAfterSelf(WordMl.TableName).FirstOrDefault(element => element.IsBefore(endContentElement));
+            var tableElement = contentTag.ElementsAfterSelf(WordMl.TableName).FirstOrDefault(element => element.IsBefore(endContentTag));
             if (tableElement != null)
             {
                 tag.Table = tableElement;
             }
 
             var processor = new TableProcessor { TableTag = tag };
+
+            var contentElements = TraverseUtils.ElementsBetween(contentTag, endContentTag);
+            if (contentElements.Any())
+            {
+                this.GoDeeper(processor, contentElements.First());
+            }
             parentProcessor.AddProcessor(processor);
 
-            this.GoDeeper(processor, TraverseUtils.ElementsBetween(contentElement, endContentElement));
+            return endTableTag;
         }
 
-        private void GoDeeper(ITagProcessor parentProcessor, IEnumerable<XElement> elements)
+        private void GoDeeper(ITagProcessor parentProcessor, XElement element)
         {
-            foreach (var element in elements)
+            do
             {
                 if (element.IsSdt())
                 {
@@ -75,14 +81,19 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     {
                         case "item":
                         case "itemindex":
-                            continue;
+                            break;
                         default:
-                            this.ParseSdt(parentProcessor, element);
+                            element = this.ParseSdt(parentProcessor, element);
                             break;
                     }
                 }
-                this.GoDeeper(parentProcessor, element.Elements());
+                else if (element.HasElements)
+                {
+                    this.GoDeeper(parentProcessor, element.Elements().First());
+                }
+                element = element.NextElement();
             }
+            while (element != null && (!element.IsSdt() || GetTagName(element).ToLower() != "endcontent"));
         }
     }
 }
