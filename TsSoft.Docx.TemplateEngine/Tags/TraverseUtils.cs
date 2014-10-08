@@ -42,7 +42,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             {
                 return startElement.ElementsAfterSelf().Where(e => e.IsBefore(endElement));
             }
-            var commonParent = FindCommonParent(startElement, endElement);
+            var commonParent = startElement.Ancestors().Intersect(endElement.Ancestors()).First();
             var endElementFirstLevel = commonParent.Elements().First(e => e.Descendants().Contains(endElement));
             var startElementFirstLevel = commonParent.Elements().First(e => e.Descendants().Contains(startElement));
             var afterStart = startElement.ElementsAfterSelf();
@@ -74,20 +74,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         public static string GetExpression(this XElement self)
         {
             return self.IsSdt() ? self.Value : null;
-        }
-
-        private static XElement FindCommonParent(XElement first, XElement second)
-        {
-            XElement result = first.Parent;
-            while (!result.Name.Equals(WordMl.BodyName) && !result.Descendants().Any(d => d.Equals(second)))
-            {
-                result = result.Parent;
-            }
-            while (!result.Name.Equals(WordMl.BodyName) && !result.Descendants().Any(d => d.Equals(first)))
-            {
-                result = result.Parent;
-            }
-            return result;
         }
 
         private static Func<XElement, bool> MakeTagMatchingPredicate(ICollection<string> tagNames)
