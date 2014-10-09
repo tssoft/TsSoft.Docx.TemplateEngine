@@ -8,7 +8,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 
     internal class DocxHelper
     {
-        private static readonly IEnumerable<XName> ValidTextRunContainers = new Collection<XName>
+        private static readonly HashSet<XName> ValidTextRunContainers = new HashSet<XName>
                                                                                 {
                                                                                     WordMl.ParagraphName,
                                                                                     WordMl.CustomXmlName,
@@ -22,9 +22,44 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                                                                                     WordMl.FieldSimpleName
                                                                                 };
 
-        private static readonly IEnumerable<XName> TextPropertiesNames = new Collection<XName>
+        private static readonly HashSet<XName> TextPropertiesNames = new HashSet<XName>
                                                                                 {
-
+                                                                                    TextRunProperties.BoldName,
+                                                                                    TextRunProperties.RunFontsName,
+                                                                                    TextRunProperties.ReferenceStyleName,
+                                                                                    TextRunProperties.ComplexScriptBoldName,
+                                                                                    TextRunProperties.ItalicsName,
+                                                                                    TextRunProperties.CapsName,
+                                                                                    TextRunProperties.SmallCapsName,
+                                                                                    TextRunProperties.StrikeName,
+                                                                                    TextRunProperties.DoubleStrikeName,
+                                                                                    TextRunProperties.OutlineName,
+                                                                                    TextRunProperties.ShadowName,
+                                                                                    TextRunProperties.EmbossName,
+                                                                                    TextRunProperties.ImprintName,
+                                                                                    TextRunProperties.SnapToGridName,
+                                                                                    TextRunProperties.VanishName,
+                                                                                    TextRunProperties.WebHiddenName,
+                                                                                    TextRunProperties.ColorName,
+                                                                                    TextRunProperties.SpacingName,
+                                                                                    TextRunProperties.WName,
+                                                                                    TextRunProperties.KernName,
+                                                                                    TextRunProperties.PositionName,
+                                                                                    TextRunProperties.FontSizeName,
+                                                                                    TextRunProperties.ComplexScriptFontSizeName,
+                                                                                    TextRunProperties.HighlightTextName,
+                                                                                    TextRunProperties.UnderlineName,
+                                                                                    TextRunProperties.EffectName,
+                                                                                    TextRunProperties.TextBorderName,
+                                                                                    TextRunProperties.RunShadingName,
+                                                                                    TextRunProperties.FitTextName,
+                                                                                    TextRunProperties.VertAlignName,
+                                                                                    TextRunProperties.RightToLeftTextName,
+                                                                                    TextRunProperties.ComplexScriptName,
+                                                                                    TextRunProperties.EmphasisMarkName,
+                                                                                    TextRunProperties.EastAsianLayoutName,
+                                                                                    TextRunProperties.SpecVanishName,
+                                                                                    TextRunProperties.OfficeOpenXmlMath,
                                                                                 };
 
         public static XElement CreateTextElement(XElement self, XElement parent, string text)
@@ -47,8 +82,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     .Elements()
                     .Where(e => TextPropertiesNames.Contains(e.Name))
                     .Distinct(new NameComparer());
-                var resultPropertiesTag = result.Elements(WordMl.TextRunPropertiesName).FirstOrDefault() ?? new XElement(WordMl.TextRunPropertiesName);
-                resultPropertiesTag.Add(properties);
+                result.AddFirst(new XElement(WordMl.TextRunPropertiesName, properties));
             }
             if (!ValidTextRunContainers.Any(name => name.Equals(parent.Name)))
             {

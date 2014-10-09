@@ -18,7 +18,14 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
             textElement.Value = DynamicText;
             var data = new XElement("data", new XElement("test", textElement));
 
-            var textTag = new XElement(WordMl.SdtName, "Text");
+            var colorElement = new XElement(TextRunProperties.ColorName);
+            colorElement.SetAttributeValue(WordMl.ValAttributeName, "FF0000");
+            var textTag = new XElement(
+                WordMl.SdtName,
+                new XElement(
+                    WordMl.SdtContentName,
+                    new XElement(WordMl.TextRunName, new XElement(WordMl.TextRunPropertiesName, colorElement))),
+                new XElement(WordMl.SdtPrName));
             var document = new XElement("body", textTag);
 
             var processor = new TextProcessor
@@ -35,6 +42,9 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 
             this.ValidateTagsRemoved(document);
             Assert.IsNotNull(document.Descendants(WordMl.TextRunName).Single(d => d.Value == DynamicText));
+            var colorProperty = document.Descendants(WordMl.TextRunName).Elements(WordMl.TextRunPropertiesName).Elements(TextRunProperties.ColorName).FirstOrDefault();
+            Assert.IsNotNull(colorProperty);
+            Assert.IsNotNull("FF0000", colorProperty.Attribute(WordMl.ValAttributeName).Value);
         }
     }
 }
