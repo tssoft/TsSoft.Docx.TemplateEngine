@@ -9,7 +9,7 @@
             base.Process();
             var element = TextTag.TagNode;
             var text = DataReader.ReadText(TextTag.Expression);
-            element.AddBeforeSelf(DocxHelper.CreateTextElement(element.Parent, text));
+            element.AddBeforeSelf(DocxHelper.CreateTextElement(element, element.Parent, text));
             element.Remove();
         }
     }

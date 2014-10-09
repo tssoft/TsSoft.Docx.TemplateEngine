@@ -24,35 +24,51 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 
         private static readonly IEnumerable<XName> TextPropertiesNames = new Collection<XName>
                                                                                 {
-                                                                                    
+
                                                                                 };
 
-        public static XElement CreateTextElement(XElement parent, string text)
+        public static XElement CreateTextElement(XElement self, XElement parent, string text)
         {
-            return CreateTextElement(parent, text, new XElement(WordMl.ParagraphName));
+            return CreateTextElement(self, parent, text, new XElement(WordMl.ParagraphName));
         }
 
-        public static XElement CreateTextElement(XElement parent, string text, XName wrapTo)
+        public static XElement CreateTextElement(XElement self, XElement parent, string text, XName wrapTo)
         {
-            return CreateTextElement(parent, text, new XElement(wrapTo));
+            return CreateTextElement(self, parent, text, new XElement(wrapTo));
         }
 
-        public static XElement CreateTextElement(XElement parent, string text, XElement wrapTo)
-        {                       
-            var result = new XElement(WordMl.TextRunName, new XElement(WordMl.TextName, text));            
-            var textRunProperties = parent.Descendants(WordMl.TextRunPropertiesName).FirstOrDefault();
-            if (textRunProperties != null)
+        public static XElement CreateTextElement(XElement self, XElement parent, string text, XElement wrapTo)
+        {
+            var result = new XElement(WordMl.TextRunName, new XElement(WordMl.TextName, text));
+            if (self.IsSdt())
             {
-                var properties = textRunProperties.Elements().Where(e => TextPropertiesNames.Contains(e.Name));
+                var properties = self.Element(WordMl.SdtContentName)
+                    .Descendants(WordMl.TextRunPropertiesName)
+                    .Elements()
+                    .Where(e => TextPropertiesNames.Contains(e.Name))
+                    .Distinct(new NameComparer());
                 var resultPropertiesTag = result.Elements(WordMl.TextRunPropertiesName).FirstOrDefault() ?? new XElement(WordMl.TextRunPropertiesName);
                 resultPropertiesTag.Add(properties);
             }
             if (!ValidTextRunContainers.Any(name => name.Equals(parent.Name)))
-            {                
+            {
                 wrapTo.Add(result);
                 result = wrapTo;
             }
             return result;
+        }
+
+        private class NameComparer : IEqualityComparer<XElement>
+        {
+            public bool Equals(XElement x, XElement y)
+            {
+                return x.Name.Equals(y.Name);
+            }
+
+            public int GetHashCode(XElement obj)
+            {
+                return obj.Name.GetHashCode();
+            }
         }
     }
 }

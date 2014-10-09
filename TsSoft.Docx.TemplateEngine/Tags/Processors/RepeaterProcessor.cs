@@ -39,11 +39,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             {
                 if (repeaterElement.IsIndex)
                 {
-                    result = DocxHelper.CreateTextElement(repeaterElement.XElement.Parent, index.ToString(CultureInfo.CurrentCulture));
+                    result = DocxHelper.CreateTextElement(repeaterElement.XElement, repeaterElement.XElement.Parent, index.ToString(CultureInfo.CurrentCulture));
                 }
                 else if (repeaterElement.IsItem && repeaterElement.HasExpression)
                 {
-                    result = DocxHelper.CreateTextElement(repeaterElement.XElement.Parent, dataReader.ReadText(repeaterElement.Expression));
+                    result = DocxHelper.CreateTextElement(repeaterElement.XElement, repeaterElement.XElement.Parent, dataReader.ReadText(repeaterElement.Expression));
                 }
                 else
                 {

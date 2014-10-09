@@ -17,7 +17,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             const string TextValue = "Some text";
             var paragprahElement = new XElement(WordMl.ParagraphName, new XElement(WordMl.ParagraphPropertiesName), textElement);
 
-            var created = DocxHelper.CreateTextElement(textElement.Parent, TextValue);
+            var created = DocxHelper.CreateTextElement(textElement, textElement.Parent, TextValue);
 
             Assert.AreEqual(WordMl.TextRunName, created.Name);
             Assert.AreEqual(TextValue, created.Value);
@@ -30,7 +30,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             const string TextValue = "Some text";
             var body = new XElement(WordMl.BodyName, textElement);
 
-            var created = DocxHelper.CreateTextElement(textElement.Parent, TextValue);
+            var created = DocxHelper.CreateTextElement(textElement, textElement.Parent, TextValue);
 
             Assert.AreEqual(WordMl.ParagraphName, created.Name);
             var createdTextRun = created.Element(WordMl.TextRunName);
@@ -46,7 +46,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             var body = new XElement(WordMl.BodyName, textElement);
             var hyperLink = new XElement(WordMl.HyperlinkName);
 
-            var created = DocxHelper.CreateTextElement(textElement.Parent, TextValue, hyperLink);
+            var created = DocxHelper.CreateTextElement(textElement, textElement.Parent, TextValue, hyperLink);
 
             Assert.AreEqual(WordMl.HyperlinkName, created.Name);
             var createdTextRun = created.Element(WordMl.TextRunName);
@@ -61,7 +61,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             const string TextValue = "Some text";
             var body = new XElement(WordMl.BodyName, textElement);
 
-            var created = DocxHelper.CreateTextElement(textElement.Parent, TextValue, WordMl.SmartTagName);
+            var created = DocxHelper.CreateTextElement(textElement, textElement.Parent, TextValue, WordMl.SmartTagName);
 
             Assert.AreEqual(WordMl.SmartTagName, created.Name);
             var createdTextRun = created.Element(WordMl.TextRunName);
