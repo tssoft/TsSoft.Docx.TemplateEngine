@@ -12,8 +12,24 @@
     [TestClass]
     public class RepeaterProcessorTest : BaseProcessorTest
     {
+        private static Func<XElement, RepeaterElement> MakeElementCallback = element =>
+            {
+                var repeaterElement = new RepeaterElement
+                {
+                    Elements = element.Elements().Select(MakeElementCallback),
+                    IsIndex = element.Name == "index",
+                    IsItem = element.Name == "item",
+                    XElement = element
+                };
+                if (repeaterElement.IsItem)
+                {
+                    repeaterElement.Expression = element.Value;
+                }
+                return repeaterElement;
+            };
+
         [TestMethod]
-        public void TestDo()
+        public void TestProcess()
         {
             var processor = new RepeaterProcessor();
 
@@ -23,11 +39,6 @@
             var startContent = new XElement(WordMl.SdtName, "StartContent");
             var items = new XElement(WordMl.SdtName, "Items");
 
-            const string Subject = "subject";
-            var subjectElement = new XElement(Subject);
-
-            const string Date = "date";
-            var dateElement = new XElement(Date);
             const string Index = "index";
             var indexElement = new XElement(Index);
 
@@ -35,66 +46,28 @@
             const string StaticText = "StaticText";
             var thirdLevelStaticElement = new XElement(StaticText, ThirdLevelStaticText);
 
-            var indexAndDateElement = new XElement(WordMl.ParagraphName, dateElement, indexElement, thirdLevelStaticElement);
-
             const string FirstLevelStaticText = "This text must render as it is";
             var firstLevelStaticElement = new XElement(StaticText, FirstLevelStaticText);
-            
+
             const string SecondLevelStaticText = "Just as its brother above, this text must render as it is, too";
             var secondLevelStaticElement = new XElement(StaticText, SecondLevelStaticText);
-            
+
+            var secondLevelElement = new XElement(WordMl.ParagraphName);
+            var itemElement = new XElement("item");
+            itemElement.Value = "./Date";
+            secondLevelElement.Add(itemElement);
+            secondLevelElement.Add(indexElement);
+            secondLevelElement.Add(thirdLevelStaticElement);
+
+            var firstLevelItem = new XElement("item");
+            firstLevelItem.Value = "./Subject";
+
             const string Wrapper = "wrapper";
-            var wrapperElement = new XElement(Wrapper, indexAndDateElement, secondLevelStaticElement);
+            var firstLevelElement = new XElement("wrapper");
+            firstLevelElement.Add(secondLevelElement);
+            firstLevelElement.Add(secondLevelStaticElement);
 
-            var body = new XElement("body", startRepeater, items, startContent, subjectElement, wrapperElement, firstLevelStaticElement, endContent, endRepeater);
-
-            var thirdLevelContent = new List<RepeaterElement>
-            {
-                new RepeaterElement
-                {
-                    XElement = dateElement, 
-                    IsItem = true, 
-                    Expression = "./Date"
-                }, 
-                new RepeaterElement
-                {
-                    XElement = indexElement, 
-                    IsIndex = true
-                },  new RepeaterElement
-                {
-                    XElement = thirdLevelStaticElement, 
-                }
-            };
-            var secondLevelContent = new List<RepeaterElement>
-            {
-                new RepeaterElement
-                {
-                    XElement = indexAndDateElement, 
-                    Elements = thirdLevelContent
-                }, 
-                new RepeaterElement
-                {
-                    XElement = secondLevelStaticElement, 
-                }
-            };
-            var firstLevelContent = new List<RepeaterElement>
-            {
-                new RepeaterElement
-                {
-                    Expression = "./Subject", 
-                    IsItem = true, 
-                    XElement = subjectElement
-                }, 
-                new RepeaterElement
-                {
-                    XElement = wrapperElement, 
-                    Elements = secondLevelContent
-                }, 
-                new RepeaterElement
-                    {
-                        XElement = firstLevelStaticElement
-                    }
-            };
+            var body = new XElement("body", startRepeater, items, startContent, firstLevelItem, firstLevelElement, firstLevelStaticElement, endContent, endRepeater);
 
             Console.WriteLine(body.ToString());
 
@@ -122,14 +95,15 @@
                 });
 
             processor.DataReader = dataReaderMock.Object;
+
             processor.RepeaterTag = new RepeaterTag
                 {
-                    Content = firstLevelContent, 
-                    EndContent = endContent, 
-                    StartContent = startContent, 
-                    Source = XPath, 
-                    StartRepeater = startRepeater, 
-                    EndRepeater = endRepeater
+                    EndContent = endContent,
+                    StartContent = startContent,
+                    Source = XPath,
+                    StartRepeater = startRepeater,
+                    EndRepeater = endRepeater,
+                    MakeElementCallback = MakeElementCallback
                 };
 
             processor.Process();
@@ -188,7 +162,7 @@
             Assert.IsNotNull(thirdLevelStaticText1);
             Assert.IsNotNull(thirdLevelStaticText2);
             Assert.AreEqual(ThirdLevelStaticText, thirdLevelStaticText1.Value);
-            Assert.AreEqual(ThirdLevelStaticText, thirdLevelStaticText2.Value); 
+            Assert.AreEqual(ThirdLevelStaticText, thirdLevelStaticText2.Value);
             Assert.AreEqual(StaticText, thirdLevelStaticText1.Name);
             Assert.AreEqual(StaticText, thirdLevelStaticText2.Name);
 

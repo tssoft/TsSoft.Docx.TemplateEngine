@@ -91,7 +91,9 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
 
             var result = tagProcessorMock.InnerProcessor.RepeaterTag;
 
-            var repeaterElements = result.Content.ToList();
+            var repeaterElements = 
+                TraverseUtils.ElementsBetween(result.StartContent, result.EndContent)
+                             .Select(result.MakeElementCallback).ToList();
             Assert.AreEqual(1, repeaterElements.Count);
 
             var childrenOfFirstElement = repeaterElements.First().Elements.ToList();
@@ -112,7 +114,9 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var repeaterProcessor = rootProcessor.Processors.First();
             var result = ((RepeaterProcessor)repeaterProcessor).RepeaterTag;
 
-            var repeaterElements = result.Content.ToList();
+            var repeaterElements = 
+                TraverseUtils.ElementsBetween(result.StartContent, result.EndContent)
+                             .Select(result.MakeElementCallback).ToList();
             Assert.AreEqual(2, repeaterElements.Count);
 
             var textTag = repeaterElements.First();
