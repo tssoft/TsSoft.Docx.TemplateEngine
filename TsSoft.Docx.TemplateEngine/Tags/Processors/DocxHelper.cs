@@ -44,7 +44,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             if (textRunProperties != null)
             {
                 var properties = textRunProperties.Elements().Where(e => TextPropertiesNames.Contains(e.Name));
-                result.AddBeforeSelf(properties);
+                var resultPropertiesTag = result.Elements(WordMl.TextRunPropertiesName).FirstOrDefault() ?? new XElement(WordMl.TextRunPropertiesName);
+                resultPropertiesTag.Add(properties);
             }
             if (!ValidTextRunContainers.Any(name => name.Equals(parent.Name)))
             {                
