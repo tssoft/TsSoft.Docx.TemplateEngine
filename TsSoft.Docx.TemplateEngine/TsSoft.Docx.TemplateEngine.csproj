@@ -77,6 +77,7 @@
     <Compile Include="Tags\TableTag.cs" />
     <Compile Include="Tags\Processors\TextProcessor.cs" />
     <Compile Include="Tags\TextTag.cs" />
+    <Compile Include="TextRunProperties.cs" />
     <Compile Include="WordMl.cs" />
     <Compile Include="XElementExtension.cs" />
   </ItemGroup>
