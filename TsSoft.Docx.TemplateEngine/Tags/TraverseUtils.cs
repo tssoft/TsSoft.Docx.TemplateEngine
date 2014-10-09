@@ -43,8 +43,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 return startElement.ElementsAfterSelf().Where(e => e.IsBefore(endElement));
             }
             var commonParent = startElement.Ancestors().Intersect(endElement.Ancestors()).First();
-            var endElementFirstLevel = commonParent.Elements().First(e => e.Descendants().Contains(endElement));
-            var startElementFirstLevel = commonParent.Elements().First(e => e.Descendants().Contains(startElement));
+            var endElementFirstLevel = commonParent.Elements().First(e => e.Descendants().Contains(endElement) || e.Equals(endElement));
+            var startElementFirstLevel = commonParent.Elements().First(e => e.Descendants().Contains(startElement) || e.Equals(startElement));
             var afterStart = startElement.ElementsAfterSelf();
             var between = ElementsBetween(startElementFirstLevel, endElementFirstLevel);
             var beforeEnd = endElementFirstLevel.DescendantsBefore(endElement);
@@ -78,11 +78,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         /// <returns></returns>
         public static IEnumerable<XElement> DescendantsBefore(this XElement self, XElement element)
         {
+            if (self.Equals(element))
+            {
+                return Enumerable.Empty<XElement>();
+            }
             if (self.Elements().Contains(element))
             {
                 return element.ElementsBeforeSelf();
             }
-            var container = self.Elements().First(e => e.Descendants().Contains(element));
+            // --
+            var container = self.Elements().First(e => e.Descendants().Contains(element) || e.Equals(element));
+            
             return self.Elements().Where(e => e.IsBefore(container)).Union(container.DescendantsBefore(element));
         }
 

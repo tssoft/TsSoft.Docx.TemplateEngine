@@ -61,10 +61,12 @@
                     }
                     else
                     {
-                        ifTagsOpened--;
+                        if (--ifTagsOpened == 0)
+                        {
+                            return nextTagElement;
+                        }
                     }
                 }
-                current = nextTagElements.LastOrDefault();
             }
             if (current == null)
             {

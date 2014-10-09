@@ -1,4 +1,6 @@
-﻿namespace TsSoft.Docx.TemplateEngine.Tags.Processors
+﻿using System.Linq;
+
+namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 {
     internal class IfProcessor : AbstractProcessor
     {
@@ -9,6 +11,7 @@
             base.Process();
             bool truthful;
             bool.TryParse(this.DataReader.ReadText(this.Tag.Conidition), out truthful);
+            var body = this.Tag.EndIf.Ancestors().First();
             if (!truthful)
             {
                 this.CleanUp(this.Tag.StartIf, this.Tag.EndIf);

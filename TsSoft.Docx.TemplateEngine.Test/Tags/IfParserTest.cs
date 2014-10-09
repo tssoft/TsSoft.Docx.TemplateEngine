@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TsSoft.Docx.TemplateEngine.Test.Tags
 {
@@ -90,6 +91,48 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             Assert.IsTrue(elements.Skip(15).Take(1).All(e => e.Name.Equals(WordMl.ProofingErrorAnchorName)));
             Assert.IsTrue(elements.Skip(16).Take(1).All(e => e.Name.Equals(WordMl.TextRunName)));
 
+            Assert.AreEqual(startElement, ifTag.StartIf);
+            Assert.AreEqual(endElement, ifTag.EndIf);
+        }
+        [TestMethod]
+        public void TestParseCplx()
+        {
+            var docStream = AssemblyResourceHelper.GetResourceStream(this, "document_dontworking_if.xml");
+            var doc = XDocument.Load(docStream);
+            var documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
+
+            var parser = new IfParser();
+            var startElement = TraverseUtils.TagElement(documentRoot, "If");
+            var endElement = TraverseUtils.TagElement(documentRoot, "EndIf");
+            var parentProcessor = new RootProcessor();
+            parser.Parse(parentProcessor, startElement);
+
+            var ifProcessor = (IfProcessor)parentProcessor.Processors.First();
+            var ifTag = ifProcessor.Tag;
+            const string IfCondition = "//test/condition";
+            
+            Assert.IsNotNull(ifProcessor);
+            
+            //Assert.IsTrue(IfCondition.Equals(ifTag.Conidition));
+            CollectionAssert.AreEqual(Encoding.UTF8.GetBytes(IfCondition), Encoding.UTF8.GetBytes(ifTag.Conidition));
+
+            Assert.AreEqual(startElement, ifTag.StartIf);
+            Assert.AreEqual(endElement, ifTag.EndIf);
+
+            var elements = ifTag.IfContent.ToList();
+
+            Assert.AreEqual(1, elements.Count());
+            /*
+            Assert.IsTrue(elements.Take(6).All(e => e.Name.Equals(WordMl.TextRunName)));
+            Assert.IsTrue(elements.Skip(6).Take(1).All(e => e.Name.Equals(WordMl.ParagraphName)));
+            Assert.IsTrue(elements.Skip(7).Take(1).All(e => e.Name.Equals(WordMl.ParagraphPropertiesName)));
+            Assert.IsTrue(elements.Skip(8).Take(1).All(e => e.Name.Equals(WordMl.BookmarkStartName)));
+            Assert.IsTrue(elements.Skip(9).Take(4).All(e => e.Name.Equals(WordMl.TextRunName)));
+            Assert.IsTrue(elements.Skip(13).Take(1).All(e => e.Name.Equals(WordMl.ProofingErrorAnchorName)));
+            Assert.IsTrue(elements.Skip(14).Take(1).All(e => e.Name.Equals(WordMl.TextRunName)));
+            Assert.IsTrue(elements.Skip(15).Take(1).All(e => e.Name.Equals(WordMl.ProofingErrorAnchorName)));
+            Assert.IsTrue(elements.Skip(16).Take(1).All(e => e.Name.Equals(WordMl.TextRunName)));
+            */
             Assert.AreEqual(startElement, ifTag.StartIf);
             Assert.AreEqual(endElement, ifTag.EndIf);
         }
