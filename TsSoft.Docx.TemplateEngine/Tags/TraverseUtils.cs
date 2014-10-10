@@ -22,13 +22,13 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         public static IEnumerable<XElement> NextTagElements(XElement startElement, IEnumerable<string> tagNames)
         {
             var namesList = tagNames.Select(s => s.ToLower()).ToList();
-            var nextTagElements = startElement.ElementsAfterSelf(WordMl.SdtName).Where(MakeTagMatchingPredicate(namesList));
-            if (nextTagElements.FirstOrDefault() == null)
+            var nextTagsInnerElements = GoDeeper(startElement, namesList);
+            if (nextTagsInnerElements.FirstOrDefault() == null)
             {
-                var nextTagsInnerElements = GoDeeper(startElement, namesList);
-                return nextTagsInnerElements.FirstOrDefault() != null ? nextTagsInnerElements : GoUp(startElement, namesList);
+                var nextTagElements = startElement.ElementsAfterSelf(WordMl.SdtName).Where(MakeTagMatchingPredicate(namesList));
+                return nextTagElements.FirstOrDefault() != null ? nextTagElements : GoUp(startElement, namesList);
             }
-            return nextTagElements;
+            return nextTagsInnerElements;
         }
 
         public static IEnumerable<XElement> TagElementsBetween(XElement startElement, XElement endElement, string tagName)
@@ -113,14 +113,19 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         private static IEnumerable<XElement> GoDeeper(XElement startElement, ICollection<string> tagNames)
         {
-            return startElement.ElementsAfterSelf().Descendants(WordMl.SdtName).Where(MakeTagMatchingPredicate(tagNames));
+            var tagsElements = startElement.Descendants(WordMl.SdtName).Where(MakeTagMatchingPredicate(tagNames));
+            return tagsElements.Any()
+                       ? tagsElements
+                       : startElement.ElementsAfterSelf()
+                                     .Descendants(WordMl.SdtName)
+                                     .Where(MakeTagMatchingPredicate(tagNames));
         }
 
         private static IEnumerable<XElement> GoUp(XElement startElement, ICollection<string> tagNames)
         {
             IEnumerable<XElement> result = Enumerable.Empty<XElement>();
             var parent = startElement.Parent;
-            while (result.FirstOrDefault() == null && !parent.Name.Equals(WordMl.BodyName))
+            while (parent != null && result.FirstOrDefault() == null && !parent.Name.Equals(WordMl.BodyName))
             {
                 result = parent.ElementsAfterSelf().DescendantsAndSelf(WordMl.SdtName).Where(MakeTagMatchingPredicate(tagNames));
                 parent = parent.Parent;

@@ -354,7 +354,9 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
 
         private void SetTagElementValue(XElement element, string value)
         {
-            element.Element(WordMl.SdtContentName).Element(WordMl.ParagraphName).Element(WordMl.WordMlNamespace + "r").Element(WordMl.WordMlNamespace + "t").Value = value;
+            var textElement = DocxHelper.CreateTextElement(element.Element(WordMl.SdtContentName), element, value);
+            element.Element(WordMl.SdtContentName).RemoveAll();
+            element.Element(WordMl.SdtContentName).Add();
         }
 
         private void CheckTagElements(TableTag tag)
