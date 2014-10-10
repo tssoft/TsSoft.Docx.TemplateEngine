@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:ve="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml">
+	<w:body>
+		<w:p w:rsidR="00E73A8E" w:rsidRDefault="00F13A7D" w:rsidP="00F13A7D">
+			<w:pPr>
+				<w:pStyle w:val="1"/>
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+			</w:pPr>
+			<w:r>
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+				<w:t>If</w:t>
+			</w:r>
+			<w:r w:rsidRPr="00B3489A">
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+				<w:t xml:space="preserve"/>
+			</w:r>
+			<w:r>
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+				<w:t>Demo</w:t>
+			</w:r>
+		</w:p>
+		<w:p w:rsidR="00B1058D" w:rsidRPr="00B1058D" w:rsidRDefault="001D56C2" w:rsidP="00B1058D">
+			<w:pPr>
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+			</w:pPr>
+			<w:sdt>
+				<w:sdtPr>
+					<w:rPr>
+						<w:lang w:val="en-US"/>
+					</w:rPr>
+					<w:alias w:val="If"/>
+					<w:tag w:val="If"/>
+					<w:id w:val="20009952"/>
+					<w:placeholder>
+						<w:docPart w:val="F81BBCE158B84B32B640B4F018B4CFA5"/>
+					</w:placeholder>
+					<w:showingPlcHdr/>
+					<w:text/>
+				</w:sdtPr>
+				<w:sdtContent>
+					<w:r w:rsidR="00B849FA">
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+						<w:t>//test/</w:t>
+					</w:r>
+					<w:r w:rsidR="00B849FA">
+						<w:t>c</w:t>
+					</w:r>
+					<w:r w:rsidR="00B1058D">
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+						<w:t>ondition</w:t>
+					</w:r>
+				</w:sdtContent>
+			</w:sdt>
+		</w:p>
+		<w:p w:rsidR="001C6705" w:rsidRDefault="0082497A" w:rsidP="001C6705">
+			<w:pPr>
+				<w:tabs>
+					<w:tab w:val="left" w:pos="2655"/>
+					<w:tab w:val="left" w:pos="3705"/>
+				</w:tabs>
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+			</w:pPr>
+			<w:proofErr w:type="gramStart"/>
+			<w:r>
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+				<w:t>false</w:t>
+			</w:r>
+			<w:proofErr w:type="gramEnd"/>
+		</w:p>
+		<w:sdt>
+			<w:sdtPr>
+				<w:alias w:val="EndIf"/>
+				<w:tag w:val="EndIf"/>
+				<w:id w:val="20009977"/>
+				<w:placeholder>
+					<w:docPart w:val="94A0B2242BB7475F951F430C745B705E"/>
+				</w:placeholder>
+				<w:showingPlcHdr/>
+				<w:text/>
+			</w:sdtPr>
+			<w:sdtContent>
+				<w:p w:rsidR="00F13A7D" w:rsidRPr="00F13A7D" w:rsidRDefault="00F13A7D" w:rsidP="00F13A7D">
+					<w:r w:rsidRPr="004E4806">
+						<w:rPr>
+							<w:rStyle w:val="a3"/>
+						</w:rPr>
+						<w:t>.</w:t>
+					</w:r>
+				</w:p>
+			</w:sdtContent>
+		</w:sdt>
+		<w:sectPr w:rsidR="00F13A7D" w:rsidRPr="00F13A7D" w:rsidSect="00E73A8E">
+			<w:pgSz w:w="11906" w:h="16838"/>
+			<w:pgMar w:top="1134" w:right="850" w:bottom="1134" w:left="1701" w:header="708" w:footer="708" w:gutter="0"/>
+			<w:cols w:space="708"/>
+			<w:docGrid w:linePitch="360"/>
+		</w:sectPr>
+	</w:body>
+</w:document>

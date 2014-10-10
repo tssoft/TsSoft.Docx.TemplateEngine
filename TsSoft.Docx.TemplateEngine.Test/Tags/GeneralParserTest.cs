@@ -69,6 +69,13 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         }
 
         [TestMethod]
+        public void TestParseRepeaterInIf()
+        {
+            //var docStream = AssemblyResourceHelper.GetResourceStream(this, "")
+            
+        }
+
+        [TestMethod]
         public void TestParseIfNested()
         {
             var docStream = AssemblyResourceHelper.GetResourceStream(this, "text_in_if_document.xml");

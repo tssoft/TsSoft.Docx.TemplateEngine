@@ -96,6 +96,43 @@ namespace TsSoft.Docx.TemplateEngine.Test
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
         }
 
+
+        [TestMethod]
+        public void TestActualGenerationRepeaterInIf()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "RepeaterInIf.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "dataRepeaterInIf.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data);
+            var package = new DocxPackage(output);
+            package.Load();
+
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+        }
+
+        [TestMethod]
+        public void TestActualGenerationDoubleIfAndText()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "IfText2.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data);
+            var package = new DocxPackage(output);
+            package.Load();
+
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+        }
+
         [TestMethod]
         public void TestActualGenerationItemsAfterEndContent()
         {
@@ -115,6 +152,25 @@ namespace TsSoft.Docx.TemplateEngine.Test
         }
 
         [TestMethod]
+        public void TestActualGenerationIfWithParagraphs()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "if.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data
+                );
+            var package = new DocxPackage(output);
+            package.Load();
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+
+        }
+
+        [TestMethod]
         public void TestActualGenerationDoubleIf()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "DoubleIf.docx");
@@ -129,9 +185,9 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
         }
-
-        
+ 
         [TestMethod]
         public void TestActualGenerationDoubleRepeater()
         {
