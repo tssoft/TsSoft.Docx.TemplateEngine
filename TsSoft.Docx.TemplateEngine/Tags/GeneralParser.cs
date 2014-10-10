@@ -19,7 +19,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             while (sdtElement != null)
             {
                 sdtElement = this.ParseSdt(parentProcessor, sdtElement);
-                sdtElement = sdtElement.NextElement(x => x.Name == WordMl.SdtName);
+                sdtElement = TraverseUtils.NextTagElements(sdtElement).FirstOrDefault();
             }
 
             return startElement;

@@ -2,6 +2,9 @@
 
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Table
     /// </summary>
@@ -13,6 +16,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public XElement Table { get; set; }
 
+        public IEnumerable<TableElement> TagElements { get; set; }
+
         public XElement TagTable { get; set; }
 
         public XElement TagContent { get; set; }
@@ -20,5 +25,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         public XElement TagEndContent { get; set; }
 
         public XElement TagEndTable { get; set; }
+
+        public Func<XElement, IEnumerable<TableElement>> MakeTableElementCallback { get; set; }
     }
 }
