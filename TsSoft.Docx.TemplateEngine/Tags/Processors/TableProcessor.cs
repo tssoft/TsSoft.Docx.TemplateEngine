@@ -82,5 +82,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             this.CleanUp(TableTag.TagTable, TableTag.TagContent);
             this.CleanUp(TableTag.TagEndContent, TableTag.TagEndTable);
         }
+               
+
     }
 }
