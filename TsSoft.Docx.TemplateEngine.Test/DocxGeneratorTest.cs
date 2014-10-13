@@ -79,6 +79,43 @@ namespace TsSoft.Docx.TemplateEngine.Test
         }
 
         [TestMethod]
+        public void TestActualGenerationJointActiviesOriginal()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "joint_activies_original.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "reportNote.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data);
+            var package = new DocxPackage(output);
+            package.Load();
+
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());            
+        }
+
+        [TestMethod]
+        public void TestActualGenerationJointActiviesVersion2()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "joint_activies_version2.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "reportNote.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data);
+            var package = new DocxPackage(output);
+            package.Load();
+            
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+        }
+
+
+        [TestMethod]
         public void TestActualGenerationRepeater()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "Repeater.docx");
@@ -168,6 +205,25 @@ namespace TsSoft.Docx.TemplateEngine.Test
             package.Load();
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
 
+        }
+
+        [TestMethod]
+        public void TestActualGenerationTableInRepeater()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "TableInRepeater.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data);
+
+            var package = new DocxPackage(output);
+            package.Load();
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            
         }
 
         [TestMethod]
