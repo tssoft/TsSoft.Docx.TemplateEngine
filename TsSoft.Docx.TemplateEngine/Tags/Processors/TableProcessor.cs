@@ -35,7 +35,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             {
                 var currentRow = new XElement(dynamicRow);
                 var tableElements = TableTag.MakeTableElementCallback(currentRow);
-                this.ProcessElements(tableElements, readers[index], index, null);
+                this.ProcessElements(tableElements, readers[index], index+1, null);
 
                 dynamicRow.AddBeforeSelf(currentRow);
             }
@@ -48,7 +48,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             XElement previous = start;
             for (int listIndex = 0; listIndex < tableElementsList.Count; listIndex++)
             {
-                XElement result = null;
                 string resultText = string.Empty;
                 var currentTableElement = tableElementsList[listIndex];
                 if (currentTableElement.IsItem)
@@ -81,44 +80,63 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 }
                 if (!string.IsNullOrEmpty(resultText))
                 {
-                    result = DocxHelper.CreateTextElement(
-                        currentTableElement.StartTag,
-                        currentTableElement.StartTag,
-                        resultText);
-                    var currentCell = currentTableElement.StartTag.Descendants(WordMl.TableCellName).FirstOrDefault();
-                    if (currentCell == null)
-                    {
-                        currentCell = currentTableElement.StartTag.Ancestors().First(element => element.Name == WordMl.TableCellName);
-                        if (previous == null)
-                        {
-                            previous = currentCell;
-                        }
-                        else
-                        {
-                            currentCell.Remove();
-                            previous.AddAfterSelf(currentCell);
-                        }
-                    }
-                    else
-                    {
-                        currentCell.Remove();
-                        if (previous == null)
-                        {
-                            currentTableElement.StartTag.Parent.Add(currentCell);
-                            previous = currentCell;
-                        }
-                        else
-                        {
-                            previous.AddAfterSelf(currentCell);
-                            previous = currentCell;
-                        }
-                        currentCell.Descendants(WordMl.ParagraphName).Remove();
-                    }
+                    previous = this.ProcessCell(currentTableElement, previous, resultText); //currentCell
 
-                    currentCell.Add(result);
                     currentTableElement.StartTag.Remove();
                 }
             }
+        }
+
+        private XElement ProcessCell(TableElement tableElement, XElement previous, string text)
+        {
+            var isInnerCell = true;
+            var currentCell = tableElement.StartTag.Descendants(WordMl.TableCellName).FirstOrDefault();
+            if (currentCell == null)
+            {
+                currentCell = tableElement.StartTag.Ancestors().First(element => element.Name == WordMl.TableCellName);
+                isInnerCell = false;
+            }
+
+            XElement parent = null;
+            if (isInnerCell)
+            {
+                parent = currentCell;
+            }
+            else
+            {
+                parent = currentCell.Elements(WordMl.ParagraphName).Any() ? currentCell.Element(WordMl.ParagraphName) : tableElement.StartTag;
+            }
+            var result = DocxHelper.CreateTextElement(
+                tableElement.StartTag,
+                parent,
+                text);
+
+            if (!isInnerCell)
+            {
+                tableElement.StartTag.AddAfterSelf(result);
+            }
+            else
+            {
+                if (currentCell.Elements(WordMl.ParagraphName).Any())
+                {
+                    currentCell.Elements(WordMl.ParagraphName).Remove();
+                }
+                currentCell.Add(result);
+
+                if (previous == null)
+                {
+                    currentCell.Remove();
+                    tableElement.StartTag.Parent.Add(currentCell);
+                }
+            }
+
+            if (previous != null)
+            {
+                currentCell.Remove();
+                previous.AddAfterSelf(currentCell);
+            }
+
+            return currentCell;
         }
 
         private void RemoveTags()

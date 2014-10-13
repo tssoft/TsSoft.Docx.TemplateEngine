@@ -13,7 +13,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
     /// </summary>
     internal class TableParser : GeneralParser
     {
-
         private static Func<XElement, IEnumerable<TableElement>> MakeTableElementCallback = parentElement =>
             {
                 ICollection<TableElement> tableElements = new Collection<TableElement>();

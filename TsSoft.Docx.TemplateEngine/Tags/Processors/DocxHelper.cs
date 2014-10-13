@@ -62,6 +62,67 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                                                                                     TextRunProperties.OfficeOpenXmlMath,
                                                                                 };
 
+        private static readonly HashSet<XName> CellPropertiesNames = new HashSet<XName>
+                                                                         {
+                                                                             TableCellProperties.BorderCellName,
+                                                                             TableCellProperties.ConditionFormattingCellName,
+                                                                             TableCellProperties.DeletionCellName,
+                                                                             TableCellProperties.FitTextCellName,
+                                                                             TableCellProperties.GridSpanCellName,
+                                                                             TableCellProperties.HorizontallyMergedCellName,
+                                                                             TableCellProperties.IgnoreEndMarkerCellName,
+                                                                             TableCellProperties.InsertionCellName,
+                                                                             TableCellProperties.NoWrapCellName,
+                                                                             TableCellProperties.PreferredWidthCellName,
+                                                                             TableCellProperties.RevisionPropertiesInformationCellName,
+                                                                             TableCellProperties.ShadingCellName,
+                                                                             TableCellProperties.SingleMarginsCellName,
+                                                                             TableCellProperties.TextFlowDirectionCellName,
+                                                                             TableCellProperties.VerticalAlignmentCellName,
+                                                                             TableCellProperties.VerticallyMergedCellName,
+                                                                             TableCellProperties.VerticallyMergedSplitCellName
+                                                                         };
+
+        private static readonly HashSet<XName> ParagraphPropertiesNames = new HashSet<XName>
+                                                                              {
+                                                                                  ParagraphProperties.ReferenceStyleName,
+                                                                                  ParagraphProperties.KeepNextName,
+                                                                                  ParagraphProperties.KeepLineName,
+                                                                                  ParagraphProperties.PageBreakName,
+                                                                                  ParagraphProperties.TextFrameName,
+                                                                                  ParagraphProperties.WidowControlName,
+                                                                                  ParagraphProperties.NumberingDefinitionName,
+                                                                                  ParagraphProperties.SuppressLineNumbersName,
+                                                                                  ParagraphProperties.BordersName,
+                                                                                  ParagraphProperties.ShadingName,
+                                                                                  ParagraphProperties.CustomTabName,
+                                                                                  ParagraphProperties.SuppressHyphenationName,
+                                                                                  ParagraphProperties.KinsokuName,
+                                                                                  ParagraphProperties.WordWrapName,
+                                                                                  ParagraphProperties.OverflowPunctuationName,
+                                                                                  ParagraphProperties.TopLinePunctuationName,
+                                                                                  ParagraphProperties.AutoSpaceDEName,
+                                                                                  ParagraphProperties.AutoSpaceDNName,
+                                                                                  ParagraphProperties.RightToLeftLayoutName,
+                                                                                  ParagraphProperties.AdjuctRightIndentName,
+                                                                                  ParagraphProperties.SnapToGridName,
+                                                                                  ParagraphProperties.SpacingBetweenLineName,
+                                                                                  ParagraphProperties.IndentationName,
+                                                                                  ParagraphProperties.ContextualSpacingName,
+                                                                                  ParagraphProperties.MirrorIndentsName,
+                                                                                  ParagraphProperties.SuppressOverlapName,
+                                                                                  ParagraphProperties.AlignmentName,
+                                                                                  ParagraphProperties.TextDirectionName,
+                                                                                  ParagraphProperties.TextAlignmentName,
+                                                                                  ParagraphProperties.TextboxTightWrapName,
+                                                                                  ParagraphProperties.OutlineLevelName,
+                                                                                  ParagraphProperties.DivIdName,
+                                                                                  ParagraphProperties.ConditionalFormattingStyleName,
+                                                                                  ParagraphProperties.RunPropertiesName,
+                                                                                  ParagraphProperties.SectionPropertiesName,
+                                                                                  ParagraphProperties.RevisionPropertiesInformationName
+                                                                              };
+
         public static XElement CreateTextElement(XElement self, XElement parent, string text)
         {
             return CreateTextElement(self, parent, text, new XElement(WordMl.ParagraphName));
@@ -75,6 +136,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         public static XElement CreateTextElement(XElement self, XElement parent, string text, XElement wrapTo)
         {
             var result = new XElement(WordMl.TextRunName, new XElement(WordMl.TextName, text));
+            IEnumerable<XElement> paragraphProperties = null;
             if (self.IsSdt())
             {
                 var properties = self.Element(WordMl.SdtContentName)
@@ -83,6 +145,27 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     .Where(e => TextPropertiesNames.Contains(e.Name))
                     .Distinct(new NameComparer());
                 result.AddFirst(new XElement(WordMl.TextRunPropertiesName, properties));
+                if (self.Element(WordMl.SdtContentName).Elements(WordMl.ParagraphName).Any())
+                {
+                    paragraphProperties =
+                        self.Element(WordMl.SdtContentName)
+                            .Descendants(WordMl.ParagraphPropertiesName)
+                            .Elements()
+                            .Where(e => ParagraphPropertiesNames.Contains(e.Name))
+                            .Distinct(new NameComparer());
+                }
+            }
+            if (paragraphProperties == null && parent.Elements(WordMl.ParagraphName).Any())
+            {
+                paragraphProperties =
+                    parent.Descendants(WordMl.ParagraphPropertiesName)
+                          .Elements()
+                          .Where(e => ParagraphPropertiesNames.Contains(e.Name))
+                          .Distinct(new NameComparer());
+            }
+            if (paragraphProperties != null)
+            {
+                wrapTo.AddFirst(new XElement(WordMl.ParagraphPropertiesName, paragraphProperties));
             }
             if (!ValidTextRunContainers.Any(name => name.Equals(parent.Name)))
             {

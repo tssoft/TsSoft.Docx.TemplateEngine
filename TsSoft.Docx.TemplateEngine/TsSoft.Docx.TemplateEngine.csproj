@@ -54,6 +54,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="ParagraphProperties.cs" />
+    <Compile Include="TableCellProperties.cs" />
     <Compile Include="Tags\GeneralParser.cs" />
     <Compile Include="Tags\IfParser.cs" />
     <Compile Include="Tags\IfTag.cs" />

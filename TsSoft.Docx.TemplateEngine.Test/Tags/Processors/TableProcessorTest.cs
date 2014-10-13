@@ -8,6 +8,9 @@ using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+
     [TestClass]
     public class TableProcessorTest : BaseProcessorTest
     {
@@ -30,6 +33,112 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
         public void TestProcess()
         {
             var tableTag = this.GetTableTag();
+
+            Func<XElement, IEnumerable<TableElement>> MakeTableElementCallback = element =>
+                {
+                    var tags = element.Descendants(WordMl.SdtName).ToList();
+
+                    var index =
+                        tags.Find(
+                            e =>
+                            e.Element(WordMl.SdtPrName)
+                             .Element(WordMl.TagName)
+                             .Attribute(WordMl.ValAttributeName)
+                             .Value.ToLower()
+                             .Equals("itemindex"));
+                    var subject =
+                        tags.Find(
+                            e =>
+                            e.Element(WordMl.SdtPrName)
+                             .Element(WordMl.TagName)
+                             .Attribute(WordMl.ValAttributeName)
+                             .Value.ToLower()
+                             .Equals("item") && e.Element(WordMl.SdtContentName).Value == "./Subject");
+                    var issueDate =
+                        tags.Find(
+                            e =>
+                            e.Element(WordMl.SdtPrName)
+                             .Element(WordMl.TagName)
+                             .Attribute(WordMl.ValAttributeName)
+                             .Value.ToLower()
+                             .Equals("item") && e.Element(WordMl.SdtContentName).Value == "./IssueDate");
+                    var expireDate =
+                        tags.Find(
+                            e =>
+                            e.Element(WordMl.SdtPrName)
+                             .Element(WordMl.TagName)
+                             .Attribute(WordMl.ValAttributeName)
+                             .Value.ToLower()
+                             .Equals("item") && e.Element(WordMl.SdtContentName).Value == "./ExpireDate");
+                    var itemIf =
+                        tags.Find(
+                            e =>
+                            e.Element(WordMl.SdtPrName)
+                             .Element(WordMl.TagName)
+                             .Attribute(WordMl.ValAttributeName)
+                             .Value.ToLower()
+                             .Equals("itemif"));
+                    var endItemIf =
+                        tags.Find(
+                            e =>
+                            e.Element(WordMl.SdtPrName)
+                             .Element(WordMl.TagName)
+                             .Attribute(WordMl.ValAttributeName)
+                             .Value.ToLower()
+                             .Equals("enditemif"));
+
+
+                    IEnumerable<TableElement> tableElements = new TableElement[]
+                                                                  {
+                                                                      new TableElement
+                                                                          {
+                                                                              IsIndex = true,
+                                                                              IsItem = false,
+                                                                              IsItemIf = false,
+                                                                              StartTag = index,
+                                                                          },
+                                                                      new TableElement
+                                                                          {
+                                                                              IsItemIf = true,
+                                                                              IsIndex = false,
+                                                                              IsItem = false,
+                                                                              StartTag = itemIf,
+                                                                              EndTag = endItemIf,
+                                                                              Expression = "./HasSubject",
+                                                                              TagElements =
+                                                                                  new TableElement[]
+                                                                                      {
+                                                                                          new TableElement
+                                                                                              {
+                                                                                                  IsItem = true,
+                                                                                                  IsIndex = false,
+                                                                                                  IsItemIf = false,
+                                                                                                  StartTag = subject,
+                                                                                                  Expression = "./Subject"
+                                                                                              }
+                                                                                      }
+                                                                          },
+                                                                      new TableElement
+                                                                          {
+                                                                              IsItem = true,
+                                                                              IsIndex = false,
+                                                                              IsItemIf = false,
+                                                                              StartTag = issueDate,
+                                                                              Expression = "./IssueDate"
+                                                                          },
+                                                                      new TableElement
+                                                                          {
+                                                                              IsItem = true,
+                                                                              IsIndex = false,
+                                                                              IsItemIf = false,
+                                                                              StartTag = expireDate,
+                                                                              Expression = "./ExpireDate"
+                                                                          }
+                                                                  };
+                    return tableElements;
+                };
+
+            tableTag.MakeTableElementCallback = MakeTableElementCallback;
 
             var tableProcessor = new TableProcessor
             {
