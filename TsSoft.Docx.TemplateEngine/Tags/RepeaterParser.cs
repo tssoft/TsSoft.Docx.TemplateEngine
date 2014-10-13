@@ -15,7 +15,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private const string StartContentTagName = "Content";
         private const string EndContentTagName = "EndContent";
         private const string IndexTag = "ItemIndex";
-        private const string ItemTag = "Item";
+        private const string ItemTag = "ItemText";
 
         private static Func<XElement, RepeaterElement> MakeElementCallback = element =>
             {
@@ -81,7 +81,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 {
                     switch (this.GetTagName(element).ToLower())
                     {
-                        case "item":
+                        case "itemtext":
                         case "itemindex":
                             break;
                         default:

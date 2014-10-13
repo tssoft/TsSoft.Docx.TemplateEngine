@@ -122,7 +122,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         {
             var tableElement = new TableElement
                 {
-                    IsItem = tagElement.IsTag("item"),
+                    IsItem = tagElement.IsTag("itemtext"),
                     IsIndex = tagElement.IsTag("itemindex"),
                     IsItemIf = tagElement.IsTag("itemif"),
                     StartTag = tagElement,
@@ -178,7 +178,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 {
                     switch (this.GetTagName(element).ToLower())
                     {
-                        case "item":
+                        case "itemtext":
                         case "itemindex":
                         case "itemif":
                         case "enditemif":
