@@ -134,8 +134,8 @@
           <w:rPr>
             <w:lang w:val="en-US"/>
           </w:rPr>
-          <w:alias w:val="Item"/>
-          <w:tag w:val="Item"/>
+          <w:alias w:val="ItemText"/>
+          <w:tag w:val="ItemText"/>
           <w:id w:val="3738757"/>
           <w:placeholder>
             <w:docPart w:val="9E297DBB12B04DDFB6F2CCC7F2F9E6C8"/>
@@ -191,8 +191,8 @@
           <w:rPr>
             <w:lang w:val="en-US"/>
           </w:rPr>
-          <w:alias w:val="Item"/>
-          <w:tag w:val="Item"/>
+          <w:alias w:val="ItemText"/>
+          <w:tag w:val="ItemText"/>
           <w:id w:val="3738769"/>
           <w:placeholder>
             <w:docPart w:val="4D7EC85604114AC09A78DD0B6B117410"/>
