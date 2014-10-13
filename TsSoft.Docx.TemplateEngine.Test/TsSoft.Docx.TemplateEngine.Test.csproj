@@ -115,8 +115,6 @@
     <EmbeddedResource Include="RepeaterInIf.docx" />
     <EmbeddedResource Include="TableInRepeater.docx" />
     <None Include="Tags\TestGeneralParser.docx" />
-    <EmbeddedResource Include="joint_activies_original.docx" />
-    <EmbeddedResource Include="joint_activies_version2.docx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Tags\Processors\TableProcessorTemplateTest.xml" />
