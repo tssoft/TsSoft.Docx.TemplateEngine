@@ -37,13 +37,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 var tableElements = TableTag.MakeTableElementCallback(currentRow);
                 this.ProcessElements(tableElements, readers[index], index, null);
 
-                //IList<XElement> rowTagElements = currentRow.Elements(WordMl.SdtName).ToList();
-                //for (int index = 0; index < rowTagElements.Count; index++)
-                //{
-                //    var cellTag = rowTagElements[index];
-                //    ReplaceValue(reader, cellTag, rowIndex);
-                //}
-
                 dynamicRow.AddBeforeSelf(currentRow);
             }
             dynamicRow.Remove();
@@ -117,6 +110,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                         else
                         {
                             previous.AddAfterSelf(currentCell);
+                            previous = currentCell;
                         }
                         currentCell.Descendants(WordMl.ParagraphName).Remove();
                     }
@@ -126,37 +120,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 }
             }
         }
-
-        //private void ReplaceValue(DataReader reader, XElement cellTag, int rowIndex)
-        //{
-        //    var cell = cellTag.Element(WordMl.SdtContentName).Element(WordMl.TableCellName);
-        //    var tagNameElement = cellTag.Element(WordMl.SdtPrName).Element(WordMl.TagName);
-        //    var cellTagType = tagNameElement.Attribute(WordMl.ValAttributeName).Value;
-        //    string replacementValue = string.Empty;
-        //    switch (cellTagType)
-        //    {
-        //        case "ItemIndex":
-        //            replacementValue = rowIndex.ToString();
-        //            break;
-        //        case "Item":
-        //            var itemPath = cellTag.Value;
-        //            replacementValue = reader.ReadText(itemPath);
-        //            break;
-        //    }
-        //    cell.Element(WordMl.ParagraphName).Elements(WordMl.TextRunName).Remove();
-        //    var lastPChild = cell.Element(WordMl.ParagraphName).Elements().LastOrDefault();
-        //    var cellTextElement = DocxHelper.CreateTextElement(cell, cell.Element(WordMl.ParagraphName), replacementValue);
-        //    if (lastPChild == null)
-        //    {
-        //        cell.Element(WordMl.ParagraphName).Add(cellTextElement);
-        //    }
-        //    else
-        //    {
-        //        lastPChild.AddAfterSelf(cellTextElement);
-        //    }
-        //    cellTag.AddAfterSelf(cell);
-        //    cellTag.Remove();
-        //}
 
         private void RemoveTags()
         {
