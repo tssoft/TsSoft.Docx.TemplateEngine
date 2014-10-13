@@ -68,8 +68,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     else
                     {
                         var currentCell = currentTableElement.StartTag.Ancestors().First(element => element.Name == WordMl.TableCellName);
-                        currentCell.Remove();
-                        previous.AddAfterSelf(currentCell);
+                        if (previous != null && !previous.Equals(currentCell))
+                        {
+                            currentCell.Remove();
+                            previous.AddAfterSelf(currentCell);
+                        }
                         previous = currentCell;
                         this.CleanUp(currentTableElement.StartTag, currentTableElement.EndTag);
                     }
@@ -130,7 +133,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 }
             }
 
-            if (previous != null)
+            if (previous != null && !previous.Equals(currentCell))
             {
                 currentCell.Remove();
                 previous.AddAfterSelf(currentCell);
