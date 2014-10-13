@@ -77,7 +77,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             Assert.IsFalse(documentPartXml.Descendants(WordMl.SdtName).Any());
             Assert.IsNotNull(documentPartXml.Descendants(WordMl.TextRunName).Single(e => e.Value == DynamicText));
         }
-
+        /*
         [TestMethod]
         public void TestActualGenerationJointActiviesOriginal()
         {
@@ -113,7 +113,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
         }
-
+        */
 
         [TestMethod]
         public void TestActualGenerationRepeater()
