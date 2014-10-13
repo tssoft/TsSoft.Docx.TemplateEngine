@@ -21,7 +21,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public static IEnumerable<XElement> NextTagElements(XElement startElement, IEnumerable<string> tagNames)
         {
-            var namesList = tagNames.Select(s => s.ToLower()).ToList();
+            var namesList = tagNames.Select(s => s.ToLower()).ToList();            
             var nextTagsInnerElements = GoDeeper(startElement, namesList);
             if (nextTagsInnerElements.FirstOrDefault() == null)
             {
@@ -114,11 +114,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private static IEnumerable<XElement> GoDeeper(XElement startElement, ICollection<string> tagNames)
         {
             var tagsElements = startElement.Descendants(WordMl.SdtName).Where(MakeTagMatchingPredicate(tagNames));
-            return tagsElements.Any()
+            bool IsAnyTagsElement = tagsElements.Any();
+            
+            return IsAnyTagsElement
                        ? tagsElements
                        : startElement.ElementsAfterSelf()
-                                     .Descendants(WordMl.SdtName)
+                                     .DescendantsAndSelf(WordMl.SdtName)
                                      .Where(MakeTagMatchingPredicate(tagNames));
+
         }
 
         private static IEnumerable<XElement> GoUp(XElement startElement, ICollection<string> tagNames)
