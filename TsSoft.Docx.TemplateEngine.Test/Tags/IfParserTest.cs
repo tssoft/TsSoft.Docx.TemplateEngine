@@ -49,7 +49,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             Assert.AreEqual(startElement, ifTag.StartIf);
             Assert.AreEqual(endElement, ifTag.EndIf);
 
-            var textProcessor = (TextProcessor)ifProcessor.Processors.First();
+            var textProcessor = (TextProcessor)ifProcessor.Processors.FirstOrDefault();
             Assert.IsNotNull(textProcessor);
             Assert.IsNotNull(textProcessor.TextTag);
             Assert.AreEqual("//test/text", textProcessor.TextTag.Expression);
