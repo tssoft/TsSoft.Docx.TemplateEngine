@@ -9,6 +9,37 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
     internal static class TraverseUtils
     {
+
+        public static IEnumerable<XElement> NextTags(this XElement self)
+        {
+            return NextTagElements(self);
+        }
+
+        public static IEnumerable<XElement> NextTags(this XElement self, string tagName)
+        {
+            return NextTagElements(self, tagName);
+        }
+
+        public static IEnumerable<XElement> NextSdt(this XElement self, IEnumerable<XName> names)
+        {
+            return NextSdtElements(self, names);
+        }
+
+        public static IEnumerable<XElement> NextSdt(this XElement self)
+        {
+            return NextSdtElements(self, Enumerable.Empty<XName>());
+        }
+
+        public static IEnumerable<XElement> NextSdt(this XElement self, XName name)
+        {
+            return NextSdtElements(self, new List<XName> { name });
+        }
+
+        public static IEnumerable<XElement> NextTags(this XElement self, IEnumerable<string> tagNames)
+        {
+            return NextTagElements(self, tagNames);
+        }
+
         public static IEnumerable<XElement> NextTagElements(XElement startElement)
         {
             return NextTagElements(startElement, Enumerable.Empty<string>());
@@ -21,11 +52,23 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public static IEnumerable<XElement> NextTagElements(XElement startElement, IEnumerable<string> tagNames)
         {
-            var namesList = tagNames.Select(s => s.ToLower()).ToList();            
+            var namesList = tagNames.Select(s => s.ToLower()).ToList();
             var nextTagsInnerElements = GoDeeper(startElement, namesList);
             if (nextTagsInnerElements.FirstOrDefault() == null)
             {
                 var nextTagElements = startElement.ElementsAfterSelf(WordMl.SdtName).Where(MakeTagMatchingPredicate(namesList));
+                return nextTagElements.FirstOrDefault() != null ? nextTagElements : GoUp(startElement, namesList);
+            }
+            return nextTagsInnerElements;
+        }
+
+        public static IEnumerable<XElement> NextSdtElements(XElement startElement, IEnumerable<XName> names)
+        {
+            var namesList = names.ToList();
+            var nextTagsInnerElements = GoDeeper(startElement, namesList);
+            if (nextTagsInnerElements.FirstOrDefault() == null)
+            {
+                var nextTagElements = startElement.ElementsAfterSelf().Where(MakeSdtMatchingPredicate(namesList));
                 return nextTagElements.FirstOrDefault() != null ? nextTagElements : GoUp(startElement, namesList);
             }
             return nextTagsInnerElements;
@@ -88,7 +131,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             }
             // --
             var container = self.Elements().First(e => e.Descendants().Contains(element) || e.Equals(element));
-            
+
             return self.Elements().Where(e => e.IsBefore(container)).Union(container.DescendantsBefore(element));
         }
 
@@ -110,17 +153,43 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             }
             return func;
         }
+        private static Func<XElement, bool> MakeSdtMatchingPredicate(ICollection<XName> names)
+        {
+            Func<XElement, bool> func;
+            if (!names.Any())
+            {
+                func = element => true;
+            }
+            else
+            {
+                func = element => names.Contains(element.Name);
+            }
+            return func;
+        }
 
         private static IEnumerable<XElement> GoDeeper(XElement startElement, ICollection<string> tagNames)
         {
             var tagsElements = startElement.Descendants(WordMl.SdtName).Where(MakeTagMatchingPredicate(tagNames));
             bool IsAnyTagsElement = tagsElements.Any();
-            
+
             return IsAnyTagsElement
                        ? tagsElements
                        : startElement.ElementsAfterSelf()
                                      .DescendantsAndSelf(WordMl.SdtName)
                                      .Where(MakeTagMatchingPredicate(tagNames));
+
+        }
+
+        private static IEnumerable<XElement> GoDeeper(XElement startElement, ICollection<XName> names)
+        {
+            var tagsElements = startElement.Descendants().Where(MakeSdtMatchingPredicate(names));
+            bool IsAnyTagsElement = tagsElements.Any();
+
+            return IsAnyTagsElement
+                       ? tagsElements
+                       : startElement.ElementsAfterSelf()
+                                     .DescendantsAndSelf()
+                                     .Where(MakeSdtMatchingPredicate(names));
 
         }
 
@@ -131,6 +200,18 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             while (parent != null && result.FirstOrDefault() == null && !parent.Name.Equals(WordMl.BodyName))
             {
                 result = parent.ElementsAfterSelf().DescendantsAndSelf(WordMl.SdtName).Where(MakeTagMatchingPredicate(tagNames));
+                parent = parent.Parent;
+            }
+            return result;
+        }
+
+        private static IEnumerable<XElement> GoUp(XElement startElement, ICollection<XName> names)
+        {
+            IEnumerable<XElement> result = Enumerable.Empty<XElement>();
+            var parent = startElement.Parent;
+            while (parent != null && result.FirstOrDefault() == null && !parent.Name.Equals(WordMl.BodyName))
+            {
+                result = parent.ElementsAfterSelf().DescendantsAndSelf().Where(MakeSdtMatchingPredicate(names));
                 parent = parent.Parent;
             }
             return result;

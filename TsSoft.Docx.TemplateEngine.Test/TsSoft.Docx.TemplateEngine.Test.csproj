@@ -108,6 +108,7 @@
     <EmbeddedResource Include="if.docx" />
     <EmbeddedResource Include="IfText2.docx" />
     <EmbeddedResource Include="2ifTT1.docx" />
+    <EmbeddedResource Include="ifTtable1.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />

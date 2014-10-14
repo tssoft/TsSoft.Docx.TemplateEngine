@@ -76,7 +76,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                                      : (int?)null;
             }
 
-            var tableElement = contentTag.ElementsAfterSelf(WordMl.TableName).FirstOrDefault(element => element.IsBefore(endContentTag));
+            var tableElement = contentTag.NextSdt(WordMl.TableName).FirstOrDefault(element => element.IsBefore(endContentTag));
             if (tableElement != null)
             {
                 tag.Table = tableElement;
