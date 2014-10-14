@@ -75,21 +75,27 @@
             return current;
         }
 
-        private void GoDeeper(ITagProcessor parentProcessor, XElement element, XElement endElement)
+        private bool GoDeeper(ITagProcessor parentProcessor, XElement element, XElement endElement)
         {
+            var endReached = false;
             do
             {
                 if (element.IsSdt())
                 {
+                    if (element.Equals(endElement))
+                    {
+                        return true;
+                    }
                     element = this.ParseSdt(parentProcessor, element);
                 }
                 else if (element.HasElements)
                 {
-                    this.GoDeeper(parentProcessor, element.Elements().First(), endElement);
+                    endReached = this.GoDeeper(parentProcessor, element.Elements().First(), endElement);
                 }
                 element = element.NextElement();
             }
-            while (element != null && (!element.IsSdt() || !element.Equals(endElement)));
+            while (element != null && !endReached);
+            return endReached;
         }
     }
 }
