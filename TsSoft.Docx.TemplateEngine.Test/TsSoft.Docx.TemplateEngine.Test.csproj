@@ -116,6 +116,7 @@
     <EmbeddedResource Include="Tags\RepeaterInIf.docx" />
     <EmbeddedResource Include="RepeaterInIf.docx" />
     <EmbeddedResource Include="TableInRepeater.docx" />
+    <EmbeddedResource Include="repeatertext1.docx" />
     <None Include="Tags\TestGeneralParser.docx" />
   </ItemGroup>
   <ItemGroup>

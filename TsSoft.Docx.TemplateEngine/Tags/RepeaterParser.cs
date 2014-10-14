@@ -73,14 +73,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return endRepeater;
         }
 
-        private void GoDeeper(ITagProcessor parentProcessor, XElement element)
+        private bool GoDeeper(ITagProcessor parentProcessor, XElement element)
         {
+            var endReached = false;
             do
             {
                 if (element.IsSdt())
                 {
                     switch (this.GetTagName(element).ToLower())
                     {
+                        case "endcontent":
+                            return true;
                         case "itemtext":
                         case "itemindex":
                             break;
@@ -91,11 +94,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 }
                 else if (element.HasElements)
                 {
-                    this.GoDeeper(parentProcessor, element.Elements().First());
+                    endReached = this.GoDeeper(parentProcessor, element.Elements().First());
                 }
                 element = element.NextElement();
             }
-            while (element != null && (!element.IsSdt() || GetTagName(element).ToLower() != "endcontent"));
+            while (element != null && !endReached);
+            return endReached;
         }
     }
 }
