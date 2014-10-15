@@ -25,7 +25,8 @@ namespace TsSoft.Docx.TemplateEngine
         
         public MissingDataMode MissingDataModeSettings
         {
-            set { this.missingDataModeSettings = value; }
+            get { return this.missingDataModeSettings; }
+            set { this.missingDataModeSettings = value; }            
         }
 
         public string ReadText(string expression)
@@ -36,7 +37,7 @@ namespace TsSoft.Docx.TemplateEngine
                 switch (this.missingDataModeSettings)
                 {
                     case MissingDataMode.Ignore:
-                        return string.Empty;
+                        return " ";
                     case MissingDataMode.PrintError:
                         return string.Format("'{0}' not found or empty", expression);
                     case MissingDataMode.ThrowException:
@@ -70,8 +71,16 @@ namespace TsSoft.Docx.TemplateEngine
             {
                 throw new ArgumentNullException(PathArgumentName);
             }
+            if (this.rootElement.XPathSelectElement(path) == null)
+            {
+                if (this.missingDataModeSettings == MissingDataMode.ThrowException)
+                {
+                    throw new MissingDataException(path);
+                }
+                return Enumerable.Empty<DataReader>();
+            }
             var newElements = this.rootElement.XPathSelectElements(path);
-            IEnumerable<DataReader> readers = newElements.Select(element => new DataReader(element)).ToList();
+            IEnumerable<DataReader> readers = newElements.Select(element => new DataReader(element)).ToList();            
             foreach (var dataReader in readers)
             {
                 dataReader.MissingDataModeSettings = this.missingDataModeSettings;

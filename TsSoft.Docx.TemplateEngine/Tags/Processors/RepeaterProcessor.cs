@@ -13,7 +13,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         {
             base.Process();
             var current = RepeaterTag.StartContent;
-            var dataReaders = DataReader.GetReaders(RepeaterTag.Source).DefaultIfEmpty().ToList();
+            var dataReaders = DataReader.GetReaders(RepeaterTag.Source).ToList();
             var repeaterElements =
                 TraverseUtils.ElementsBetween(RepeaterTag.StartContent, RepeaterTag.EndContent)
                              .Select(RepeaterTag.MakeElementCallback).ToList();

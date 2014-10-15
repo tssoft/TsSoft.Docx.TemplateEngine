@@ -151,12 +151,10 @@ namespace TsSoft.Docx.TemplateEngine
         {
             return new DocxGeneratorSettings
                 {
-                    MissingDataMode = MissingDataMode.ThrowException
+                    MissingDataMode = MissingDataMode.Ignore
                 };
         }
     }
-
-
 
     [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:FileMayOnlyContainASingleClass", Justification = "Reviewed. Suppression is OK here.")]
     internal class DocxPackageFactory : IDocxPackageFactory

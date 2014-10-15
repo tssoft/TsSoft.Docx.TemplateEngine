@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 {
@@ -10,8 +11,18 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         {
             base.Process();
             bool truthful;
-            bool.TryParse(this.DataReader.ReadText(this.Tag.Conidition), out truthful);
-
+            try
+            {
+                truthful = bool.Parse(this.DataReader.ReadText(this.Tag.Conidition));
+            }
+            catch (System.FormatException)
+            {
+                truthful = false;
+            }
+            catch (System.Xml.XPath.XPathException)
+            {                
+                truthful = false;                
+            }
             if (!truthful)
             {
                 this.CleanUp(this.Tag.StartIf, this.Tag.EndIf);
