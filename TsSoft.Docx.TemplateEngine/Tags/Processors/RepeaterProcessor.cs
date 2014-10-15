@@ -19,6 +19,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                              .Select(RepeaterTag.MakeElementCallback).ToList();
             for (var index = 0; index < dataReaders.Count; index++)
             {
+                //dataReaders[index].MissingDataModeSettings = MissingDataMode.ThrowException;
+                
                 current = this.ProcessElements(
                     repeaterElements,
                     dataReaders[index], current, null, index + 1);

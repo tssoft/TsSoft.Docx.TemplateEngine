@@ -2,7 +2,7 @@
 <test>
   <certificates>
     <Subject>Subject 1</Subject>
-    <IssueDate>01.01.2011</IssueDate>
+    <IssueDatde>01.01.2011</IssueDatde>
     <ExpireDate>01.01.2012</ExpireDate>
   </certificates>
     <certificates>

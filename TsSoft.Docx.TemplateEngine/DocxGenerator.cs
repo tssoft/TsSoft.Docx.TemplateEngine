@@ -90,26 +90,45 @@ namespace TsSoft.Docx.TemplateEngine
             }
         }
 
-        public void GenerateDocx<E>(Stream templateStream, Stream outputStream, E dataEntity)
+        //public void GenerateDocx<E>(Stream templateStream, Stream outputStream, E dataEntity)
+        //{
+        //    this.GenerateDocx(templateStream, outputStream, dataEntity);
+        //}
+
+        //public void GenerateDocx(Stream templateStream, Stream outputStream, string dataXml)
+        //{
+        //    this.GenerateDocx(templateStream, outputStream, dataXml);
+
+        //}
+
+        //public void GenerateDocx(Stream templateStream, Stream outputStream, XDocument dataXml)
+        //{
+        //    this.GenerateDocx(templateStream, outputStream, dataXml);
+
+        //}
+
+        public void GenerateDocx<E>(Stream templateStream, Stream outputStream, E dataEntity, DocxGeneratorSettings settings = null)
         {
             var reader = this.DataReaderFactory.CreateReader(dataEntity);
-            this.GenerateDocx(templateStream, outputStream, reader);
+            this.GenerateDocx(templateStream, outputStream, reader, settings);
         }
 
-        public void GenerateDocx(Stream templateStream, Stream outputStream, string dataXml)
+        public void GenerateDocx(Stream templateStream, Stream outputStream, string dataXml, DocxGeneratorSettings settings = null)
         {
             var reader = this.DataReaderFactory.CreateReader(dataXml);
-            this.GenerateDocx(templateStream, outputStream, reader);
+            this.GenerateDocx(templateStream, outputStream, reader, settings);
         }
 
-        public void GenerateDocx(Stream templateStream, Stream outputStream, XDocument dataXml)
+        public void GenerateDocx(Stream templateStream, Stream outputStream, XDocument dataXml, DocxGeneratorSettings settings = null)
         {
             var reader = this.DataReaderFactory.CreateReader(dataXml);
-            this.GenerateDocx(templateStream, outputStream, reader);
+            this.GenerateDocx(templateStream, outputStream, reader, settings);
         }
 
-        private void GenerateDocx(Stream templateStream, Stream outputStream, DataReader reader)
+        private void GenerateDocx(Stream templateStream, Stream outputStream, DataReader reader, DocxGeneratorSettings settings)
         {
+            var actualSettings = settings ?? this.GetDefaultSettings();
+            
             templateStream.Seek(0, SeekOrigin.Begin);
             templateStream.CopyTo(outputStream);
 
@@ -120,12 +139,24 @@ namespace TsSoft.Docx.TemplateEngine
             var rootProcessor = this.ProcessorFactory.Create();
             parser.Parse(rootProcessor, package.DocumentPartXml.Root);
 
+            reader.MissingDataModeSettings = actualSettings.MissingDataMode;
+
             rootProcessor.DataReader = reader;
             rootProcessor.Process();
 
             package.Save();
         }
+
+        private DocxGeneratorSettings GetDefaultSettings()
+        {
+            return new DocxGeneratorSettings
+                {
+                    MissingDataMode = MissingDataMode.ThrowException
+                };
+        }
     }
+
+
 
     [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:FileMayOnlyContainASingleClass", Justification = "Reviewed. Suppression is OK here.")]
     internal class DocxPackageFactory : IDocxPackageFactory

@@ -120,6 +120,9 @@
   <data name="ClosingTagNotFound" xml:space="preserve">
     <value>Закрывающий тег "{0}"не был найден</value>
   </data>
+  <data name="DataNotFound" xml:space="preserve">
+    <value>Ошибка XPath : '{0}' не найден!</value>
+  </data>
   <data name="NotATag" xml:space="preserve">
     <value>Переданный элемент не является корректным тегом Word</value>
   </data>

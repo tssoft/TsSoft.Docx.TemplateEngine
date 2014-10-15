@@ -42,6 +42,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DocxGeneratorSettings.cs" />
     <Compile Include="MessageStrings.ru.Designer.cs">
       <DependentUpon>MessageStrings.ru.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -54,6 +55,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="MissingDataMode.cs" />
     <Compile Include="ParagraphProperties.cs" />
     <Compile Include="TableCellProperties.cs" />
     <Compile Include="Tags\GeneralParser.cs" />
