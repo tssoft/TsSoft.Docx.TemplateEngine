@@ -43,7 +43,7 @@
             var indexElement = new XElement(Index);
 
             const string ThirdLevelStaticText = "Very static. Wow. Much text.";
-            const string StaticText = "StaticText";
+            const string StaticText = "statictext";
             var thirdLevelStaticElement = new XElement(StaticText, ThirdLevelStaticText);
 
             const string FirstLevelStaticText = "This text must render as it is";
@@ -72,17 +72,17 @@
             Console.WriteLine(body.ToString());
 
             const string Subject1Value = "Subject1";
-            var subject1 = new XElement("Subject") { Value = Subject1Value };
+            var subject1 = new XElement("subject") { Value = Subject1Value };
             const string Date1Value = "10.01.2014";
-            var date1 = new XElement("Date") { Value = Date1Value };
+            var date1 = new XElement("date") { Value = Date1Value };
 
             const string Subject2Value = "Subject2";
-            var subject2 = new XElement("Subject") { Value = Subject2Value };
+            var subject2 = new XElement("subject") { Value = Subject2Value };
             const string Date2Value = "22.02.2014";
-            var date2 = new XElement("Date") { Value = Date2Value };
+            var date2 = new XElement("date") { Value = Date2Value };
 
-            var certificate1 = new XElement("Certificate", subject1, date1);
-            var certificate2 = new XElement("Certificate", subject2, date2);
+            var certificate1 = new XElement("certificate", subject1, date1);
+            var certificate2 = new XElement("certificate", subject2, date2);
 
             var dataReaderMock = new Mock<DataReader>();
 

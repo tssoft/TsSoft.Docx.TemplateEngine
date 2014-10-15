@@ -21,14 +21,16 @@ namespace TsSoft.Docx.TemplateEngine
             }
             return CreateReader(dataDocument);
         }
-
+        
         public static DataReader CreateReader(string dataXml)
         {
-            return CreateReader(XDocument.Parse(dataXml));
+            var doc = XDocument.Parse(dataXml);
+            return CreateReader(doc);
         }
 
         public static DataReader CreateReader(XDocument dataDocument)
         {
+            DocToLowerCase(dataDocument);
             return new DataReader(dataDocument.Root);
         }
 
@@ -45,6 +47,13 @@ namespace TsSoft.Docx.TemplateEngine
         DataReader IDataReaderFactory.CreateReader<E>(E dataEntity)
         {
             return CreateReader(dataEntity);
+        }
+        private static void DocToLowerCase(XDocument doc)
+        {
+            foreach (var element in doc.Elements().DescendantsAndSelf())
+            {
+                element.Name = element.Name.ToString().ToLower();
+            }
         }
     }
 }

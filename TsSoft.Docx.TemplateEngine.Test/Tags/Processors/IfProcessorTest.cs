@@ -31,9 +31,9 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
             this.endIf = new XElement("EndIf");
             this.body = new XElement("Body", this.startIf, this.paragraph, this.endIf);
 
-            const string TruthfulElement = "TruthfulElement";
-            const string FalsyElement = "FalsyElement";
-            const string NonBooleanElement = "NonBooleanElement";
+            const string TruthfulElement = "truthfulelement";
+            const string FalsyElement = "falsyelement";
+            const string NonBooleanElement = "nonbooleanelement";
             this.data = new XElement("Data", new XElement(TruthfulElement, true), new XElement(FalsyElement, false), new XElement(NonBooleanElement, new object()));
         }
 

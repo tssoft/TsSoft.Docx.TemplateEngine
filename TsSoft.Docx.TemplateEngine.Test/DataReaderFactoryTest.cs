@@ -16,8 +16,8 @@
                 Message = "test factory",
             };
 
-            var element = new XElement("TestData");
-            element.Add(new XElement("Message", testData.Message));
+            var element = new XElement("testdata");
+            element.Add(new XElement("message", testData.Message));
             var expected = new DataReader(element);
             var actual = DataReaderFactory.CreateReader(testData);
             Assert.AreEqual(expected, actual);

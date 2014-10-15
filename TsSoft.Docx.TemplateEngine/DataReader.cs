@@ -21,6 +21,13 @@ namespace TsSoft.Docx.TemplateEngine
         public DataReader(XElement rootElement)
         {
             this.rootElement = rootElement;
+            /*
+            foreach (var node in rootElement.DescendantsAndSelf())
+            {
+                node.Name = node.Name.ToString().ToLower();
+            }
+             * */
+            //Console.WriteLine(rootElement.ToString());
         }
         
         public MissingDataMode MissingDataModeSettings
@@ -31,7 +38,7 @@ namespace TsSoft.Docx.TemplateEngine
 
         public string ReadText(string expression)
         {
-            var textElement = this.rootElement.XPathSelectElement(expression);
+            var textElement = this.rootElement.XPathSelectElement(expression.ToLower());
             if (textElement == null)
             {
                 switch (this.missingDataModeSettings)
@@ -54,7 +61,7 @@ namespace TsSoft.Docx.TemplateEngine
                 throw new ArgumentNullException(PathArgumentName);
             }
 
-            var newElement = this.rootElement.XPathSelectElement(path);
+            var newElement = this.rootElement.XPathSelectElement(path.ToLower());
 
             if (newElement != null)
             {
@@ -71,7 +78,7 @@ namespace TsSoft.Docx.TemplateEngine
             {
                 throw new ArgumentNullException(PathArgumentName);
             }
-            if (this.rootElement.XPathSelectElement(path) == null)
+            if (this.rootElement.XPathSelectElement(path.ToLower()) == null)
             {
                 if (this.missingDataModeSettings == MissingDataMode.ThrowException)
                 {
@@ -79,7 +86,7 @@ namespace TsSoft.Docx.TemplateEngine
                 }
                 return Enumerable.Empty<DataReader>();
             }
-            var newElements = this.rootElement.XPathSelectElements(path);
+            var newElements = this.rootElement.XPathSelectElements(path.ToLower());
             IEnumerable<DataReader> readers = newElements.Select(element => new DataReader(element)).ToList();            
             foreach (var dataReader in readers)
             {
