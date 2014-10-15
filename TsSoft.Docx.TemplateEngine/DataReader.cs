@@ -31,7 +31,7 @@ namespace TsSoft.Docx.TemplateEngine
         public string ReadText(string expression)
         {
             var textElement = this.rootElement.XPathSelectElement(expression);
-            if (textElement == null || string.IsNullOrEmpty(textElement.Value))
+            if (textElement == null)
             {
                 switch (this.missingDataModeSettings)
                 {
