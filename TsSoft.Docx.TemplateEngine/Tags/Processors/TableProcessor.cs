@@ -48,7 +48,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             XElement previous = start;
             for (int listIndex = 0; listIndex < tableElementsList.Count; listIndex++)
             {
-                string resultText = string.Empty;
+                string resultText = null;
                 var currentTableElement = tableElementsList[listIndex];
                 if (currentTableElement.IsItem)
                 {
@@ -81,7 +81,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 {
                     resultText = index.ToString(CultureInfo.CurrentCulture);
                 }
-                if (!string.IsNullOrEmpty(resultText))
+                if (resultText != null)
                 {
                     previous = this.ProcessCell(currentTableElement, previous, resultText); //currentCell
 
