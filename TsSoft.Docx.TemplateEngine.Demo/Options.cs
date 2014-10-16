@@ -24,6 +24,15 @@ namespace TsSoft.Docx.TemplateEngine.Demo
         [Option("append", HelpText = "Flag for append text to log file")]
         public bool LogAppend { get; set; }
 
+        [Option("exception", MutuallyExclusiveSet = "ThrowException", HelpText = "Throw exception when data field missed in data file")]
+        public bool ThrowException { get; set; }
+
+        [Option("error", MutuallyExclusiveSet = "PrintError", HelpText = "Print error in output file for missed data field in data file")]
+        public bool PrintError { get; set; }
+
+        [Option("ignore", MutuallyExclusiveSet = "Ignore", HelpText = "Ignore data field when missed in data file")]
+        public bool Ignore { get; set; }
+
         [Option('h', "help", HelpText = "Display this help screen")]
         public bool Help { get; set; }
 

@@ -5,9 +5,9 @@ using System.Xml.Linq;
 
 namespace TsSoft.Docx.TemplateEngine.Demo
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var options = new Options();
             if (!Parser.Default.ParseArguments(args, options) || options.Help)
@@ -29,7 +29,20 @@ namespace TsSoft.Docx.TemplateEngine.Demo
                 var generator = new DocxGenerator();
                 try
                 {
-                    generator.GenerateDocx(templateStream, destinationStream, dataDocument);
+                    DocxGeneratorSettings settings = null;
+                    if (options.ThrowException)
+                    {
+                        settings = new DocxGeneratorSettings { MissingDataMode = MissingDataMode.ThrowException };
+                    }
+                    else if (options.PrintError)
+                    {
+                        settings = new DocxGeneratorSettings { MissingDataMode = MissingDataMode.PrintError };
+                    }
+                    else if (options.Ignore)
+                    {
+                        settings = new DocxGeneratorSettings { MissingDataMode = MissingDataMode.Ignore };
+                    }
+                    generator.GenerateDocx(templateStream, destinationStream, dataDocument, settings);
                 }
                 catch (Exception exception)
                 {
@@ -40,16 +53,29 @@ namespace TsSoft.Docx.TemplateEngine.Demo
 
         private static bool CanGenerate(Options options)
         {
+            bool result = true;
+
             if (!File.Exists(options.TemplateFileName))
             {
                 Console.WriteLine("Template file {0} not found", options.TemplateFileName);
+                result = false;
             }
-            if (!File.Exists(options.DataFileName))
+            if (result && !File.Exists(options.DataFileName))
             {
                 Console.WriteLine("Data file {0} not found", options.DataFileName);
+                result = false;
+            }
+            if (result 
+                && ((options.ThrowException && options.PrintError && options.Ignore)
+                || (options.ThrowException && options.PrintError && !options.Ignore)
+                || (options.ThrowException && !options.PrintError && options.Ignore)
+                || (!options.ThrowException && options.PrintError && options.Ignore)))
+            {
+                Console.WriteLine("--ignore, --error and --exception are mutually exclusive flags");
+                result = false;
             }
 
-            return (File.Exists(options.TemplateFileName) && File.Exists(options.DataFileName));
+            return result;
         }
 
         private static void ErrorLog(Exception exception, Options options)
@@ -64,13 +90,13 @@ namespace TsSoft.Docx.TemplateEngine.Demo
             {
                 var mode = options.LogAppend ? FileMode.Append : FileMode.Create;
                 using (var fileStream = new FileStream(options.LogFileName, mode))
-                    using (var writer = new StreamWriter(fileStream))
-                    {
-                        writer.WriteLine("Error: {0}", exception.Message);
-                        writer.WriteLine("Stack trace:");
-                        writer.WriteLine(exception.StackTrace);
-                        writer.WriteLine();
-                    }
+                using (var writer = new StreamWriter(fileStream))
+                {
+                    writer.WriteLine("Error: {0}", exception.Message);
+                    writer.WriteLine("Stack trace:");
+                    writer.WriteLine(exception.StackTrace);
+                    writer.WriteLine();
+                }
             }
         }
     }
