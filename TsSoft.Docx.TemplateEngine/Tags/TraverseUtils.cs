@@ -85,7 +85,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             {
                 return startElement.ElementsAfterSelf().Where(e => e.IsBefore(endElement));
             }
-            var commonParent = startElement.Ancestors().Intersect(endElement.Ancestors()).First();
+            var commonParent = startElement.Ancestors().Intersect(endElement.Ancestors()).FirstOrDefault();
+            if (commonParent == null)
+            {
+                return Enumerable.Empty<XElement>();
+            }
             var endElementFirstLevel = commonParent.Elements().First(e => e.Descendants().Contains(endElement) || e.Equals(endElement));
             var startElementFirstLevel = commonParent.Elements().First(e => e.Descendants().Contains(startElement) || e.Equals(startElement));
             var afterStart = startElement.ElementsAfterSelf();
