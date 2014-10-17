@@ -62,6 +62,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     if (condition)
                     {
                         this.ProcessElements(currentTableElement.TagElements, dataReader, index, previous, false);
+                        var currentCell = currentTableElement.StartTag.Ancestors().First(element => element.Name == WordMl.TableCellName);
+                        if (previous != null & !previous.Equals(currentCell))
+                        {
+                            currentCell.Remove();
+                            previous.AddAfterSelf(currentCell);
+                        }
                         previous = currentTableElement.StartTag.Ancestors().First(element => element.Name == WordMl.TableCellName);
                         currentTableElement.StartTag.Remove();
                         currentTableElement.EndTag.Remove();
@@ -132,8 +138,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 text);
 
             var staticCells = isInnerCell
-                                  ? tableElement.StartTag.ElementsBeforeSelf(WordMl.TableCellName).ToList()
-                                  : currentCell.ElementsBeforeSelf(WordMl.TableCellName).ToList();
+                                  ? tableElement.StartTag.ElementsBeforeSelf(WordMl.TableCellName).Where(element => element.IsBefore(previous)).ToList()
+                                  : currentCell.ElementsBeforeSelf(WordMl.TableCellName).Where(element => element.IsBefore(previous)).ToList();
             if (staticCells.Any())
             {
                 if (previous == null)
