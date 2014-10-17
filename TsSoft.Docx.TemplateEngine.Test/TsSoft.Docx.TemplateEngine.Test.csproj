@@ -176,6 +176,9 @@
   <ItemGroup>
     <EmbeddedResource Include="reportNote.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\Processors\TableProcessorWithStaticCellsTest.xml" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

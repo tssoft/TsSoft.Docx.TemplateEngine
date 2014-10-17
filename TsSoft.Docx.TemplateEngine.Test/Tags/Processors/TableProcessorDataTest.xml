@@ -3,19 +3,19 @@
   <Certificates>
     <Certificate>
       <HasSubject>true</HasSubject>
-      <Subject>Информатика</Subject>
+      <Subject>Subject1</Subject>
       <IssueDate>01.04.2014</IssueDate>
       <ExpireDate>01.10.2015</ExpireDate>
     </Certificate>
     <Certificate>
       <HasSubject>true</HasSubject>
-      <Subject>Математика</Subject>
+      <Subject>Subject2</Subject>
       <IssueDate>01.03.2014</IssueDate>
       <ExpireDate>01.09.2015</ExpireDate>
     </Certificate>
     <Certificate>
       <HasSubject>true</HasSubject>
-      <Subject>Языки программирования</Subject>
+      <Subject>Subject3</Subject>
       <IssueDate>01.01.2011</IssueDate>
       <ExpireDate>01.01.2012</ExpireDate>
     </Certificate>

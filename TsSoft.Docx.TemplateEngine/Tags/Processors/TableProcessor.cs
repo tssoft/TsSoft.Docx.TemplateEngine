@@ -46,6 +46,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         {
             var tableElementsList = tableElements.ToList();
             XElement previous = start;
+            XElement firstCell = null;
             for (int listIndex = 0; listIndex < tableElementsList.Count; listIndex++)
             {
                 string resultText = null;
@@ -83,9 +84,23 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 }
                 if (resultText != null)
                 {
-                    previous = this.ProcessCell(currentTableElement, previous, resultText); //currentCell
-
+                    previous = this.ProcessCell(currentTableElement, previous, resultText);
+                    if (firstCell == null)
+                    {
+                        firstCell = previous;
+                    }
+                    
                     currentTableElement.StartTag.Remove();
+                }
+            }
+
+            if (start == null && firstCell != null)
+            {
+                var staticCells = firstCell.ElementsBeforeSelf(WordMl.TableCellName).ToList();
+                if (staticCells.Any())
+                {
+                    staticCells.Remove();
+                    previous.AddAfterSelf(staticCells);
                 }
             }
         }
@@ -114,9 +129,35 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 parent,
                 text);
 
+            var staticCells = isInnerCell
+                                  ? tableElement.StartTag.ElementsBeforeSelf(WordMl.TableCellName).ToList()
+                                  : currentCell.ElementsBeforeSelf(WordMl.TableCellName).ToList();
+            if (staticCells.Any())
+            {
+                if (previous == null)
+                {
+                    var parentRow = staticCells.First().Parent;
+                    staticCells.Remove();
+                    parentRow.Add(staticCells);
+                    previous = staticCells.Last();
+                }
+                else
+                {
+                    staticCells.Remove();
+                    previous.AddAfterSelf(staticCells);
+                    previous = staticCells.Last();
+                }
+            }
+
             if (!isInnerCell)
             {
                 tableElement.StartTag.AddAfterSelf(result);
+                if (previous == null)
+                {
+                    var parentRow = currentCell.Parent;
+                    currentCell.Remove();
+                    parentRow.Add(currentCell);
+                }
             }
             else
             {

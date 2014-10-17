@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace TsSoft.Docx.TemplateEngine.Tags
@@ -14,8 +11,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         public bool IsIndex { get; set; }
 
         public bool IsItemIf { get; set; }
-
-        public XElement XElement { get; set; }
 
         public IEnumerable<TableElement> TagElements { get; set; }
 

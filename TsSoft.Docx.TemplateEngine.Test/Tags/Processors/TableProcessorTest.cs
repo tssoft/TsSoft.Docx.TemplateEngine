@@ -15,6 +15,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
     public class TableProcessorTest : BaseProcessorTest
     {
         private XElement documentRoot;
+
         private DataReader dataReader;
 
         [TestInitialize]
@@ -152,9 +153,9 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                 new[] { "#", "Certificate", "Date" },
                 new[] { string.Empty, string.Empty, "Issue", "Expiration" },
                 new[] { "1", "2", "3", "4" },
-                new[] { "1", "Информатика", "01.04.2014", "01.10.2015" },
-                new[] { "2", "Математика", "01.03.2014", "01.09.2015" },
-                new[] { "3", "Языки программирования", "01.01.2011", "01.01.2012" },
+                new[] { "1", "Subject1", "01.04.2014", "01.10.2015" },
+                new[] { "2", "Subject2", "01.03.2014", "01.09.2015" },
+                new[] { "3", "Subject3", "01.01.2011", "01.01.2012" },
                 new[] { "This", "row", "stays", "untouched" },
             };
 
@@ -190,6 +191,111 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
         }
 
         [TestMethod]
+        public void TestProcessWithStaticCells()
+        {
+            XElement root;
+            using (var docStream = AssemblyResourceHelper.GetResourceStream(this, "TableProcessorWithStaticCellsTest.xml"))
+            {
+                var document = XDocument.Load(docStream);
+                root = document.Root.Element(WordMl.BodyName);
+            }
+            var tableTag = this.GetTableTag(root);
+
+            Func<XElement, IEnumerable<TableElement>> MakeTableElementCallback = element =>
+            {
+                var tags = element.Descendants(WordMl.SdtName).ToList();
+
+                var index =
+                    tags.Find(
+                        e =>
+                        e.Element(WordMl.SdtPrName)
+                         .Element(WordMl.TagName)
+                         .Attribute(WordMl.ValAttributeName)
+                         .Value.ToLower()
+                         .Equals("itemindex"));
+                var issueDate =
+                    tags.Find(
+                        e =>
+                        e.Element(WordMl.SdtPrName)
+                         .Element(WordMl.TagName)
+                         .Attribute(WordMl.ValAttributeName)
+                         .Value.ToLower()
+                         .Equals("itemtext") && e.Element(WordMl.SdtContentName).Value == "./IssueDate");
+
+
+                IEnumerable<TableElement> tableElements = new TableElement[]
+                                                                  {
+                                                                      new TableElement
+                                                                          {
+                                                                              IsIndex = true,
+                                                                              IsItem = false,
+                                                                              IsItemIf = false,
+                                                                              StartTag = index,
+                                                                          },
+                                                                      new TableElement
+                                                                          {
+                                                                              IsItem = true,
+                                                                              IsIndex = false,
+                                                                              IsItemIf = false,
+                                                                              StartTag = issueDate,
+                                                                              Expression = "./IssueDate"
+                                                                          },
+                                                                  };
+                return tableElements;
+            };
+
+            tableTag.MakeTableElementCallback = MakeTableElementCallback;
+
+            var tableProcessor = new TableProcessor
+            {
+                TableTag = tableTag,
+                DataReader = this.dataReader
+            };
+            tableProcessor.Process();
+
+            var expectedTableStructure = new[]
+                {
+                new[] { "#", "Certificate", "Date" },
+                new[] { string.Empty, string.Empty, "Issue", "Expiration" },
+                new[] { "1", "2", "3", "4" },
+                new[] { "1", "First static text", "01.04.2014", "Second static text" },
+                new[] { "2", "First static text", "01.03.2014", "Second static text" },
+                new[] { "3", "First static text", "01.01.2011", "Second static text" },
+                new[] { "This", "row", "stays", "untouched" },
+            };
+
+            var rows = tableTag.Table.Elements(WordMl.TableRowName).ToList();
+            Assert.AreEqual(expectedTableStructure.Count(), rows.Count());
+            int rowIndex = 0;
+            foreach (var row in rows)
+            {
+                var expectedRow = expectedTableStructure[rowIndex];
+
+                var cellsInRow = row.Elements(WordMl.TableCellName).ToList();
+
+                Assert.AreEqual(expectedRow.Count(), cellsInRow.Count());
+
+                int cellIndex = 0;
+                foreach (var cell in cellsInRow)
+                {
+                    Assert.AreEqual(expectedRow[cellIndex], cell.Value);
+                    cellIndex++;
+                }
+
+                rowIndex++;
+            }
+
+            var tagsBetween =
+                tableTag.TagTable.ElementsAfterSelf().Where(element => element.IsBefore(tableTag.TagContent));
+            Assert.IsFalse(tagsBetween.Any());
+
+            tagsBetween =
+                tableTag.TagEndContent.ElementsAfterSelf().Where(element => element.IsBefore(tableTag.TagEndTable));
+            Assert.IsFalse(tagsBetween.Any());
+            this.ValidateTagsRemoved(root);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
         public void TestProcessNullTag()
         {
@@ -206,9 +312,9 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
             processor.Process();
         }
 
-        private TableTag GetTableTag()
+        private TableTag GetTableTag(XElement root)
         {
-            XElement table = this.documentRoot.Element(WordMl.TableName);
+            XElement table = root.Element(WordMl.TableName);
             const string ItemsSource = "//Test/Certificates/Certificate";
             int? dynamicRowValue = 4;
 
@@ -217,11 +323,16 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                            Table = table,
                            ItemsSource = ItemsSource,
                            DynamicRow = dynamicRowValue,
-                           TagTable = TraverseUtils.TagElement(this.documentRoot, "Table"),
-                           TagContent = TraverseUtils.TagElement(this.documentRoot, "Content"),
-                           TagEndContent = TraverseUtils.TagElement(this.documentRoot, "EndContent"),
-                           TagEndTable = TraverseUtils.TagElement(this.documentRoot, "EndTable"),
+                           TagTable = TraverseUtils.TagElement(root, "Table"),
+                           TagContent = TraverseUtils.TagElement(root, "Content"),
+                           TagEndContent = TraverseUtils.TagElement(root, "EndContent"),
+                           TagEndTable = TraverseUtils.TagElement(root, "EndTable"),
                        };
+        }
+
+        private TableTag GetTableTag()
+        {
+            return this.GetTableTag(this.documentRoot);
         }
     }
 }
