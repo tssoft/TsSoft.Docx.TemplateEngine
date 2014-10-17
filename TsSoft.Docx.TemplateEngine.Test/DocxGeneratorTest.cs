@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.IO;
 using System.Xml.Linq;
@@ -241,6 +242,9 @@ namespace TsSoft.Docx.TemplateEngine.Test
             var package = new DocxPackage(output);
             package.Load();
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            Console.WriteLine(package.DocumentPartXml);
+            Assert.IsTrue(package.DocumentPartXml.Root.Descendants(WordMl.TableCellName).All(element => element.Elements().All(el => el.Name == WordMl.TextRunName)));
+            
         }
 
         [TestMethod]
