@@ -63,7 +63,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     {
                         this.ProcessElements(currentTableElement.TagElements, dataReader, index, previous, false);
                         var currentCell = currentTableElement.StartTag.Ancestors().First(element => element.Name == WordMl.TableCellName);
-                        if (previous != null & !previous.Equals(currentCell))
+                        if (previous != null && !previous.Equals(currentCell))
                         {
                             currentCell.Remove();
                             previous.AddAfterSelf(currentCell);
