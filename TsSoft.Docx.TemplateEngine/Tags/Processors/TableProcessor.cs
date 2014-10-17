@@ -35,14 +35,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             {
                 var currentRow = new XElement(dynamicRow);
                 var tableElements = TableTag.MakeTableElementCallback(currentRow);
-                this.ProcessElements(tableElements, readers[index], index+1, null);
+                this.ProcessElements(tableElements, readers[index], index+1, null, true);
 
                 dynamicRow.AddBeforeSelf(currentRow);
             }
             dynamicRow.Remove();
         }
 
-        private void ProcessElements(IEnumerable<TableElement> tableElements, DataReader dataReader, int index, XElement start)
+        private void ProcessElements(IEnumerable<TableElement> tableElements, DataReader dataReader, int index, XElement start, bool isTopLevel)
         {
             var tableElementsList = tableElements.ToList();
             XElement previous = start;
@@ -61,7 +61,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     bool.TryParse(dataReader.ReadText(currentTableElement.Expression), out condition);
                     if (condition)
                     {
-                        this.ProcessElements(currentTableElement.TagElements, dataReader, index, previous);
+                        this.ProcessElements(currentTableElement.TagElements, dataReader, index, previous, false);
                         previous = currentTableElement.StartTag.Ancestors().First(element => element.Name == WordMl.TableCellName);
                         currentTableElement.StartTag.Remove();
                         currentTableElement.EndTag.Remove();
@@ -94,7 +94,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 }
             }
 
-            if (start == null && firstCell != null)
+            if (isTopLevel && firstCell != null)
             {
                 var staticCells = firstCell.ElementsBeforeSelf(WordMl.TableCellName).ToList();
                 if (staticCells.Any())
