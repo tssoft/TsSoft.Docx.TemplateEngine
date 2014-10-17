@@ -225,7 +225,23 @@ namespace TsSoft.Docx.TemplateEngine.Test
         }
          */
 
-        
+        [TestMethod]
+        public void TestActualGenerationStaticTextAfterTag()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "corruptedDocxx.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "DemoData2.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data);
+
+            var package = new DocxPackage(output);
+            package.Load();
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+        }
 
         [TestMethod]
         public void TestActualGenerationDoubleItemIfWithItemText()

@@ -110,6 +110,7 @@
     <EmbeddedResource Include="2ifTT1.docx" />
     <EmbeddedResource Include="ifTtable1.docx" />
     <EmbeddedResource Include="corruptedDoc.docx" />
+    <EmbeddedResource Include="corruptedDocxx.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />

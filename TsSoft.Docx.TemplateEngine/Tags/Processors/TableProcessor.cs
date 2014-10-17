@@ -75,7 +75,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     else
                     {
                         var currentCell = currentTableElement.StartTag.Ancestors().First(element => element.Name == WordMl.TableCellName);                        
-                        currentCell.Add(new XElement(WordMl.ParagraphName));
+                        currentCell.Add(new XElement(WordMl.ParagraphName));                        
                         if (previous != null && !previous.Equals(currentCell))
                         {
                             currentCell.Remove();
@@ -130,7 +130,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }
             else
             {
-                parent = currentCell.Elements(WordMl.ParagraphName).Any() ? currentCell.Element(WordMl.ParagraphName) : tableElement.StartTag;
+                parent = ( currentCell.Elements(WordMl.ParagraphName).Any()) ? currentCell.Element(WordMl.ParagraphName) : tableElement.StartTag;
             }
             var result = DocxHelper.CreateTextElement(
                 tableElement.StartTag,
@@ -163,18 +163,27 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 if (previous == null)
                 {
                     var parentRow = currentCell.Parent;
+                    /*
+                    var textElements = currentCell.Elements(WordMl.TextRunName);
+                    
+                    foreach (var textElement in textElements )
+                    {
+                        var paragraph = currentCell.Element(WordMl.ParagraphName);                        
+                        textElement.Remove();
+                        paragraph.Add(textElement);
+                    }*/
                     currentCell.Remove();
                     parentRow.Add(currentCell);
                 }
             }
             else
             {
+                
                 if (currentCell.Elements(WordMl.ParagraphName).Any())
                 {
                     currentCell.Elements(WordMl.ParagraphName).Remove();
-                }
+                }                 
                 currentCell.Add(result);
-
                 if (previous == null)
                 {
                     currentCell.Remove();
@@ -188,6 +197,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 previous.AddAfterSelf(currentCell);
             }
 
+            
+            
             return currentCell;
         }
 
