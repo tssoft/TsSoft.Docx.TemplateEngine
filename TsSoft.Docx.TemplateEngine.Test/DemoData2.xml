@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<demo>
+  <certificates>
+	<testing>true</testing>
+	<HasDate>true</HasDate>
+    <Subject>Certificate 1</Subject>
+    <IssueDate>01.04.2014</IssueDate>
+    <ExpireDate>01.10.2015</ExpireDate>
+  </certificates>
+  <certificates>
+    <testing>false</testing>
+	<HasDate>false</HasDate>
+	<Subject>Certificate 2</Subject>
+    <IssueDate>01.03.2014</IssueDate>
+    <ExpireDate>01.09.2015</ExpireDate>
+  </certificates>
+  <certificates>
+    <testing>true</testing>
+	<HasDate>false</HasDate>
+	<Subject>Certificate 3</Subject>
+    <IssueDate>01.01.2011</IssueDate>
+    <ExpireDate>01.01.2012</ExpireDate>
+  </certificates>
+  <certificates>
+    <testing>false</testing>
+	<HasDate>true</HasDate>
+	<Subject>Certificate 4</Subject>
+    <IssueDate>01.03.2014</IssueDate>
+    <ExpireDate>01.09.2015</ExpireDate>
+  </certificates>
+  <demoText>Some demo text</demoText>
+  <TestText2>It's test text2</TestText2>
+  <condition>true</condition>
+  <falseCondition>false</falseCondition>
+</demo>

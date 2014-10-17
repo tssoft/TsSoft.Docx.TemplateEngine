@@ -61,6 +61,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     bool.TryParse(dataReader.ReadText(currentTableElement.Expression), out condition);
                     if (condition)
                     {
+                        
                         this.ProcessElements(currentTableElement.TagElements, dataReader, index, previous);
                         previous = currentTableElement.StartTag.Ancestors().First(element => element.Name == WordMl.TableCellName);
                         currentTableElement.StartTag.Remove();
@@ -69,6 +70,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     else
                     {
                         var currentCell = currentTableElement.StartTag.Ancestors().First(element => element.Name == WordMl.TableCellName);
+                        
+                       // currentCell.Add(new XElement(WordMl.ParagraphName));
                         if (previous != null && !previous.Equals(currentCell))
                         {
                             currentCell.Remove();
@@ -77,6 +80,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                         previous = currentCell;
                         this.CleanUp(currentTableElement.StartTag, currentTableElement.EndTag);
                     }
+
                 }
                 else if (currentTableElement.IsIndex)
                 {

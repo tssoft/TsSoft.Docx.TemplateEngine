@@ -225,13 +225,15 @@ namespace TsSoft.Docx.TemplateEngine.Test
         }
          */
 
+        
+
         [TestMethod]
-        public void TestActualGenerationDoubleIfWithParagraphs()
+        public void TestActualGenerationDoubleItemIfWithItemText()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "2ifTT1.docx");
+            var input = AssemblyResourceHelper.GetResourceStream(this, "corruptedDoc.docx");
             var output = new MemoryStream();
             var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "DemoData2.xml");
             var data = XDocument.Load(dataStream);
             generator.GenerateDocx(
                 input,
