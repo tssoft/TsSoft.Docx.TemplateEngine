@@ -79,7 +79,18 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         private XElement ProcessItemIfElement(TableElement itemIfElement, DataReader dataReader, int index, XElement previous)
         {
             bool condition;
-            bool.TryParse(dataReader.ReadText(itemIfElement.Expression), out condition);
+            try
+            {
+                condition = bool.Parse(dataReader.ReadText(itemIfElement.Expression));
+            }
+            catch (FormatException)
+            {
+                condition = false;
+            }
+            catch (System.Xml.XPath.XPathException)
+            {
+                condition = false;
+            }
             var currentCell = itemIfElement.StartTag.Ancestors().First(element => element.Name == WordMl.TableCellName); 
             if (condition)
             {

@@ -123,6 +123,9 @@
   <data name="DataNotFound" xml:space="preserve">
     <value>XPath error: '{0}' not found!</value>
   </data>
+  <data name="ItemsAreEmpty" xml:space="preserve">
+    <value>Items XPath expression must be specified in "Repeater" tag</value>
+  </data>
   <data name="MalforedDocumentMissingTag" xml:space="preserve">
     <value>Template document is malformed: tag "{0}" is missing</value>
   </data>

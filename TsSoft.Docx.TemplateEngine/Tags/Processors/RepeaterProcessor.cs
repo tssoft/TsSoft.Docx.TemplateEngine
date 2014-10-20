@@ -18,9 +18,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 TraverseUtils.ElementsBetween(RepeaterTag.StartRepeater, RepeaterTag.EndRepeater)
                              .Select(RepeaterTag.MakeElementCallback).ToList();
             for (var index = 0; index < dataReaders.Count; index++)
-            {
-                //dataReaders[index].MissingDataModeSettings = MissingDataMode.ThrowException;
-                
+            {                
                 current = this.ProcessElements(
                     repeaterElements,
                     dataReaders[index], current, null, index + 1);
@@ -29,10 +27,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             {
                 repeaterElement.XElement.Remove();
             }
-            /*
-            this.CleanUp(RepeaterTag.StartRepeater, RepeaterTag.StartContent);
-            this.CleanUp(RepeaterTag.EndContent, RepeaterTag.EndRepeater);
-             */
             this.RepeaterTag.StartRepeater.Remove();
             this.RepeaterTag.EndRepeater.Remove();
         }

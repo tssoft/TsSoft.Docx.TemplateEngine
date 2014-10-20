@@ -79,6 +79,15 @@ namespace TsSoft.Docx.TemplateEngine {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Items XPath expression must be specified in &quot;Repeater&quot; tag.
+        /// </summary>
+        internal static string ItemsAreEmpty {
+            get {
+                return ResourceManager.GetString("ItemsAreEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Template document is malformed: tag &quot;{0}&quot; is missing.
         /// </summary>
         internal static string MalforedDocumentMissingTag {

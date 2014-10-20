@@ -123,6 +123,9 @@
   <data name="DataNotFound" xml:space="preserve">
     <value>Ошибка XPath : '{0}' не найден!</value>
   </data>
+  <data name="ItemsAreEmpty" xml:space="preserve">
+    <value>XPath путь к коллекции должен быть указан в теге "Repeater"</value>
+  </data>
   <data name="NotATag" xml:space="preserve">
     <value>Переданный элемент не является корректным тегом Word</value>
   </data>
