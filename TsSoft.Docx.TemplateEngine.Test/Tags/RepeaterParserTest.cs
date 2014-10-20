@@ -44,7 +44,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
                 Assert.AreEqual(string.Format(MessageStrings.TagNotFoundOrEmpty, TagName), e.Message);
             }
         }
-
+        /* НЕ АКТУАЛЕН
         [TestMethod]
         public void TestContentNotClosed()
         {
@@ -61,8 +61,8 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             {
                 Assert.AreEqual(string.Format(MessageStrings.TagNotFoundOrEmpty, TagName), e.Message);
             }
-        }
-
+        }*/
+        /*
         [TestMethod]
         public void TestNoItems()
         {
@@ -81,6 +81,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
                 Assert.AreEqual(string.Format(MessageStrings.TagNotFoundOrEmpty, TagName), e.Message);
             }
         }
+         */
 
         [TestMethod]
         public void TestOkay()
@@ -92,7 +93,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var result = tagProcessorMock.InnerProcessor.RepeaterTag;
 
             var repeaterElements = 
-                TraverseUtils.ElementsBetween(result.StartContent, result.EndContent)
+                TraverseUtils.ElementsBetween(result.StartRepeater, result.EndRepeater)
                              .Select(result.MakeElementCallback).ToList();
             Assert.AreEqual(1, repeaterElements.Count);
 
@@ -115,7 +116,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var result = ((RepeaterProcessor)repeaterProcessor).RepeaterTag;
 
             var repeaterElements = 
-                TraverseUtils.ElementsBetween(result.StartContent, result.EndContent)
+                TraverseUtils.ElementsBetween(result.StartRepeater, result.EndRepeater)
                              .Select(result.MakeElementCallback).ToList();
             Assert.AreEqual(2, repeaterElements.Count);
 

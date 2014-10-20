@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<test>
+  <certificates>
+    <certificate>
+      <column1>
+        <condition1>true</condition1>
+        <condition2>false</condition2>
+        <value>row1 - value1</value>
+      </column1>
+      <column2>
+        <condition1>true</condition1>
+        <condition2>false</condition2>
+        <value>row1 - value2</value>
+      </column2>
+      <column3>
+        <condition1>true</condition1>
+        <condition2>false</condition2>
+        <value>row1 - value3</value>
+      </column3>
+      <column4>
+        <condition1>true</condition1>
+        <condition2>false</condition2>
+        <value>row1 - value4</value>
+      </column4>
+    </certificate>
+    <certificate>
+      <column1>
+        <condition1>true</condition1>
+        <condition2>false</condition2>
+        <value>row2 - value1</value>
+      </column1>
+      <column2>
+        <condition1>false</condition1>
+        <condition2>true</condition2>
+        <value>row2 - value2</value>
+      </column2>
+      <column3>
+        <condition1>false</condition1>
+        <condition2>true</condition2>
+        <value>row2 - value3</value>
+      </column3>
+      <column4>
+        <condition1>true</condition1>
+        <condition2>false</condition2>
+        <value>row2 - value4</value>
+      </column4>
+    </certificate>
+    <certificate>
+      <column1>
+        <condition1>false</condition1>
+        <condition2>true</condition2>
+        <value>row3 - value1</value>
+      </column1>
+      <column2>
+        <condition1>true</condition1>
+        <condition2>false</condition2>
+        <value>row3 - value2</value>
+      </column2>
+      <column3>
+        <condition1>true</condition1>
+        <condition2>false</condition2>
+        <value>row3 - value3</value>
+      </column3>
+      <column4>
+        <condition1>false</condition1>
+        <condition2>true</condition2>
+        <value>row3 - value4</value>
+      </column4>
+    </certificate>
+    <certificate>
+      <column1>
+        <condition1>false</condition1>
+        <condition2>true</condition2>
+        <value>row4 - value1</value>
+      </column1>
+      <column2>
+        <condition1>true</condition1>
+        <condition2>false</condition2>
+        <value>row4 - value2</value>
+      </column2>
+      <column3>
+        <condition1>false</condition1>
+        <condition2>true</condition2>
+        <value>row4 - value3</value>
+      </column3>
+      <column4>
+        <condition1>true</condition1>
+        <condition2>false</condition2>
+        <value>row4 - value4</value>
+      </column4>
+    </certificate>
+    <certificate>
+      <column1>
+        <condition1>false</condition1>
+        <condition2>true</condition2>
+        <value>row5 - value1</value>
+      </column1>
+      <column2>
+        <condition1>false</condition1>
+        <condition2>true</condition2>
+        <value>row5 - value2</value>
+      </column2>
+      <column3>
+        <condition1>false</condition1>
+        <condition2>true</condition2>
+        <value>row5 - value3</value>
+      </column3>
+      <column4>
+        <condition1>false</condition1>
+        <condition2>true</condition2>
+        <value>row5 - value4</value>
+      </column4>
+    </certificate>
+  </certificates>
+</test>

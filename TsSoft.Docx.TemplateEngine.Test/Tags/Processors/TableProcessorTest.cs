@@ -8,6 +8,7 @@ using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 {
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
@@ -261,6 +262,134 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                 new[] { "1", "First static text", "01.04.2014", "Second static text" },
                 new[] { "2", "First static text", "01.03.2014", "Second static text" },
                 new[] { "3", "First static text", "01.01.2011", "Second static text" },
+                new[] { "This", "row", "stays", "untouched" },
+            };
+
+            var rows = tableTag.Table.Elements(WordMl.TableRowName).ToList();
+            Assert.AreEqual(expectedTableStructure.Count(), rows.Count());
+            int rowIndex = 0;
+            foreach (var row in rows)
+            {
+                var expectedRow = expectedTableStructure[rowIndex];
+
+                var cellsInRow = row.Elements(WordMl.TableCellName).ToList();
+
+                Assert.AreEqual(expectedRow.Count(), cellsInRow.Count());
+
+                int cellIndex = 0;
+                foreach (var cell in cellsInRow)
+                {
+                    Assert.AreEqual(expectedRow[cellIndex], cell.Value);
+                    cellIndex++;
+                }
+
+                rowIndex++;
+            }
+
+            var tagsBetween =
+                tableTag.TagTable.ElementsAfterSelf().Where(element => element.IsBefore(tableTag.TagContent));
+            Assert.IsFalse(tagsBetween.Any());
+
+            tagsBetween =
+                tableTag.TagEndContent.ElementsAfterSelf().Where(element => element.IsBefore(tableTag.TagEndTable));
+            Assert.IsFalse(tagsBetween.Any());
+            this.ValidateTagsRemoved(root);
+        }
+
+        [TestMethod]
+        public void TestProcessItemIfCells()
+        {
+            XElement root;
+            using (var docStream = AssemblyResourceHelper.GetResourceStream(this, "TableItemIfsTest.xml"))
+            {
+                var document = XDocument.Load(docStream);
+                root = document.Root.Element(WordMl.BodyName);
+            }
+            var tableTag = this.GetTableTag(root);
+
+            XDocument data;
+            using (var docStream = AssemblyResourceHelper.GetResourceStream(this, "TableItemIfsData.xml"))
+            {
+                data = XDocument.Load(docStream);
+            }
+
+            Func<XElement, IEnumerable<TableElement>> MakeTableElementCallback = element =>
+            {
+                var cells = element.Descendants(WordMl.TableCellName).ToList();
+                ICollection<TableElement> tableElements = new Collection<TableElement>();
+                foreach (var cell in cells)
+                {
+                    var cellTags = cell.Descendants(WordMl.SdtName).ToList();
+                    var firtsIf = new TableElement
+                                      {
+                                          IsIndex = false,
+                                          IsItem = false,
+                                          IsItemIf = true,
+                                          StartTag = cellTags[0],
+                                          EndTag = cellTags[2],
+                                          Expression = cellTags[0].Value,
+                                          TagElements =
+                                              new TableElement[]
+                                                  {
+                                                      new TableElement
+                                                          {
+                                                              IsIndex = false,
+                                                              IsItemIf = false,
+                                                              IsItem = true,
+                                                              StartTag = cellTags[1],
+                                                              Expression = cellTags[1].Value,
+                                                          }
+                                                  }
+                                      };
+
+                    var secondIf = new TableElement
+                                       {
+                                           IsIndex = false,
+                                           IsItem = false,
+                                           IsItemIf = true,
+                                           StartTag = cellTags[3],
+                                           EndTag = cellTags[5],
+                                           Expression = cellTags[3].Value,
+                                           TagElements =
+                                               new TableElement[]
+                                                   {
+                                                       new TableElement
+                                                           {
+                                                               IsIndex = false,
+                                                               IsItemIf = false,
+                                                               IsItem = true,
+                                                               StartTag = cellTags[4],
+                                                               Expression = cellTags[4].Value,
+                                                           }
+                                                   }
+                                       };
+
+                    tableElements.Add(firtsIf);
+                    tableElements.Add(secondIf);
+                }
+
+                return tableElements;
+            };
+
+            tableTag.MakeTableElementCallback = MakeTableElementCallback;
+
+            var tableProcessor = new TableProcessor
+            {
+                TableTag = tableTag,
+                DataReader = DataReaderFactory.CreateReader(data)
+            };
+            tableProcessor.Process();
+
+            var expectedTableStructure = new[]
+                {
+                new[] { "#", "Certificate", "Date" },
+                new[] { string.Empty, string.Empty, "Issue", "Expiration" },
+                new[] { "1", "2", "3", "4" },
+                new[] { "row1 - value1", "row1 - value2", "row1 - value3", "row1 - value4" },
+                new[] { "row2 - value1", "row2 - value2", "row2 - value3", "row2 - value4" },
+                new[] { "row3 - value1", "row3 - value2", "row3 - value3", "row3 - value4" },
+                new[] { "row4 - value1", "row4 - value2", "row4 - value3", "row4 - value4" },
+                new[] { "row5 - value1", "row5 - value2", "row5 - value3", "row5 - value4" },
                 new[] { "This", "row", "stays", "untouched" },
             };
 

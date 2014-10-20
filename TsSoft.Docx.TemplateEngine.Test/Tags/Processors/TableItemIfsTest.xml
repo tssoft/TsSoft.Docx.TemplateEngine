@@ -1,0 +1,1379 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:ve="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml">
+	<w:body>
+		<w:p w:rsidR="00EE144A" w:rsidRDefault="00EE144A" w:rsidP="00EE144A">
+			<w:pPr>
+				<w:pStyle w:val="1"/>
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+			</w:pPr>
+			<w:r>
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+				<w:t>Table</w:t>
+			</w:r>
+			<w:r w:rsidR="008D1C61">
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+				<w:t xml:space="preserve"/>
+			</w:r>
+			<w:proofErr w:type="spellStart"/>
+			<w:r w:rsidR="008D1C61" w:rsidRPr="005673BF">
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+				<w:t>ItemIf</w:t>
+			</w:r>
+			<w:proofErr w:type="spellEnd"/>
+			<w:r>
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+				<w:t xml:space="preserve"> Demo</w:t>
+			</w:r>
+		</w:p>
+		<w:sdt>
+			<w:sdtPr>
+				<w:alias w:val="Table"/>
+				<w:tag w:val="Table"/>
+				<w:id w:val="3738736"/>
+				<w:placeholder>
+					<w:docPart w:val="0B120A9EF5BA4271AF38B338C5BACC54"/>
+				</w:placeholder>
+				<w:showingPlcHdr/>
+				<w:text/>
+			</w:sdtPr>
+			<w:sdtContent>
+				<w:p w:rsidR="0013201D" w:rsidRDefault="00EA2387">
+					<w:pPr>
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+					</w:pPr>
+					<w:r>
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+						<w:t>.</w:t>
+					</w:r>
+				</w:p>
+			</w:sdtContent>
+		</w:sdt>
+		<w:sdt>
+			<w:sdtPr>
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+				<w:alias w:val="Items"/>
+				<w:tag w:val="Items"/>
+				<w:id w:val="3738782"/>
+				<w:placeholder>
+					<w:docPart w:val="414DD588027D47B2933EC753B48B98C4"/>
+				</w:placeholder>
+				<w:showingPlcHdr/>
+				<w:text/>
+			</w:sdtPr>
+			<w:sdtContent>
+				<w:p w:rsidR="00FF4230" w:rsidRPr="00FF4230" w:rsidRDefault="00FF4230">
+					<w:pPr>
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+					</w:pPr>
+					<w:r>
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+						<w:t>//</w:t>
+					</w:r>
+					<w:r w:rsidR="00B22195">
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+						<w:t>t</w:t>
+					</w:r>
+					<w:r>
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+						<w:t>est/</w:t>
+					</w:r>
+					<w:r w:rsidR="00B735AF">
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+						<w:t>certificates/certificate</w:t>
+					</w:r>
+				</w:p>
+			</w:sdtContent>
+		</w:sdt>
+		<w:sdt>
+			<w:sdtPr>
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+				<w:alias w:val="DynamicRow"/>
+				<w:tag w:val="DynamicRow"/>
+				<w:id w:val="3738776"/>
+				<w:placeholder>
+					<w:docPart w:val="CCD75D152F484294B6B5DB8C78F232E9"/>
+				</w:placeholder>
+				<w:showingPlcHdr/>
+				<w:text/>
+			</w:sdtPr>
+			<w:sdtContent>
+				<w:p w:rsidR="00FF4230" w:rsidRPr="00FF4230" w:rsidRDefault="009C29B5">
+					<w:pPr>
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+					</w:pPr>
+					<w:r>
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+						<w:t>4</w:t>
+					</w:r>
+				</w:p>
+			</w:sdtContent>
+		</w:sdt>
+		<w:sdt>
+			<w:sdtPr>
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+				<w:alias w:val="Content"/>
+				<w:tag w:val="Content"/>
+				<w:id w:val="3738746"/>
+				<w:placeholder>
+					<w:docPart w:val="B89B8155BB734DFC98FC2B0963E5F1F4"/>
+				</w:placeholder>
+				<w:showingPlcHdr/>
+				<w:text/>
+			</w:sdtPr>
+			<w:sdtContent>
+				<w:p w:rsidR="00FF4230" w:rsidRDefault="00EA2387">
+					<w:pPr>
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+					</w:pPr>
+					<w:r>
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+						<w:t>.</w:t>
+					</w:r>
+				</w:p>
+			</w:sdtContent>
+		</w:sdt>
+		<w:tbl>
+			<w:tblPr>
+				<w:tblStyle w:val="a6"/>
+				<w:tblW w:w="9322" w:type="dxa"/>
+				<w:tblLayout w:type="fixed"/>
+				<w:tblLook w:val="04A0"/>
+			</w:tblPr>
+			<w:tblGrid>
+				<w:gridCol w:w="2376"/>
+				<w:gridCol w:w="2268"/>
+				<w:gridCol w:w="2268"/>
+				<w:gridCol w:w="2410"/>
+			</w:tblGrid>
+			<w:tr w:rsidR="00B735AF" w:rsidTr="00CF0C47">
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2376" w:type="dxa"/>
+						<w:vMerge w:val="restart"/>
+						<w:vAlign w:val="center"/>
+					</w:tcPr>
+					<w:p w:rsidR="00FF4230" w:rsidRDefault="00FF4230" w:rsidP="00FF4230">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+							<w:t>#</w:t>
+						</w:r>
+					</w:p>
+				</w:tc>
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2268" w:type="dxa"/>
+						<w:vMerge w:val="restart"/>
+						<w:vAlign w:val="center"/>
+					</w:tcPr>
+					<w:p w:rsidR="00FF4230" w:rsidRDefault="00FF4230" w:rsidP="00FF4230">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+							<w:t>Certificate</w:t>
+						</w:r>
+					</w:p>
+				</w:tc>
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="4678" w:type="dxa"/>
+						<w:gridSpan w:val="2"/>
+					</w:tcPr>
+					<w:p w:rsidR="00FF4230" w:rsidRDefault="00FF4230" w:rsidP="00FF4230">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+							<w:t>Date</w:t>
+						</w:r>
+					</w:p>
+				</w:tc>
+			</w:tr>
+			<w:tr w:rsidR="00B735AF" w:rsidTr="00CF0C47">
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2376" w:type="dxa"/>
+						<w:vMerge/>
+					</w:tcPr>
+					<w:p w:rsidR="00FF4230" w:rsidRDefault="00FF4230" w:rsidP="00FF4230">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+					</w:p>
+				</w:tc>
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2268" w:type="dxa"/>
+						<w:vMerge/>
+					</w:tcPr>
+					<w:p w:rsidR="00FF4230" w:rsidRDefault="00FF4230" w:rsidP="00FF4230">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+					</w:p>
+				</w:tc>
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2268" w:type="dxa"/>
+					</w:tcPr>
+					<w:p w:rsidR="00FF4230" w:rsidRDefault="00FF4230" w:rsidP="00FF4230">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+							<w:t>Issue</w:t>
+						</w:r>
+					</w:p>
+				</w:tc>
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2410" w:type="dxa"/>
+					</w:tcPr>
+					<w:p w:rsidR="00FF4230" w:rsidRDefault="00FF4230" w:rsidP="00FF4230">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+							<w:t>Expiration</w:t>
+						</w:r>
+					</w:p>
+				</w:tc>
+			</w:tr>
+			<w:tr w:rsidR="00B735AF" w:rsidTr="00CF0C47">
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2376" w:type="dxa"/>
+					</w:tcPr>
+					<w:p w:rsidR="00FF4230" w:rsidRDefault="00FF4230" w:rsidP="00FF4230">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+							<w:t>1</w:t>
+						</w:r>
+					</w:p>
+				</w:tc>
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2268" w:type="dxa"/>
+					</w:tcPr>
+					<w:p w:rsidR="00FF4230" w:rsidRDefault="00FF4230" w:rsidP="00FF4230">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+							<w:t>2</w:t>
+						</w:r>
+					</w:p>
+				</w:tc>
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2268" w:type="dxa"/>
+					</w:tcPr>
+					<w:p w:rsidR="00FF4230" w:rsidRDefault="00FF4230" w:rsidP="00FF4230">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+							<w:t>3</w:t>
+						</w:r>
+					</w:p>
+				</w:tc>
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2410" w:type="dxa"/>
+					</w:tcPr>
+					<w:p w:rsidR="00FF4230" w:rsidRDefault="00FF4230" w:rsidP="00FF4230">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+							<w:t>4</w:t>
+						</w:r>
+					</w:p>
+				</w:tc>
+			</w:tr>
+			<w:tr w:rsidR="00B735AF" w:rsidRPr="00D03350" w:rsidTr="00CF0C47">
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2376" w:type="dxa"/>
+						<w:vAlign w:val="center"/>
+					</w:tcPr>
+					<w:p w:rsidR="007730DF" w:rsidRPr="00B735AF" w:rsidRDefault="004A4CF0" w:rsidP="00696ECD">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemIf"/>
+								<w:tag w:val="ItemIf"/>
+								<w:id w:val="9997934"/>
+								<w:placeholder>
+									<w:docPart w:val="0A3B09A164364F74B29E5609C6D2AC82"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="004142E6" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./</w:t>
+								</w:r>
+								<w:r w:rsidR="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>column1/</w:t>
+								</w:r>
+								<w:r w:rsidR="004142E6" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>condition1</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemText"/>
+								<w:tag w:val="ItemText"/>
+								<w:id w:val="10287820"/>
+								<w:placeholder>
+									<w:docPart w:val="ECC9E473D4774D4983CF4287DABE32D3"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00696ECD" w:rsidRPr="00D03350">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:b/>
+										<w:i/>
+										<w:color w:val="auto"/>
+										<w:highlight w:val="yellow"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./column1/value</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="EndItemIf"/>
+								<w:tag w:val="EndItemIf"/>
+								<w:id w:val="9997983"/>
+								<w:placeholder>
+									<w:docPart w:val="54C378F643AF4527A47FFD7EF2453722"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00B735AF" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>.</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemIf"/>
+								<w:tag w:val="ItemIf"/>
+								<w:id w:val="9997998"/>
+								<w:placeholder>
+									<w:docPart w:val="2CE5DD8B0DF544E3A68A6CDD98B77FB5"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00B735AF" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./</w:t>
+								</w:r>
+								<w:r w:rsidR="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>column1/</w:t>
+								</w:r>
+								<w:r w:rsidR="00B735AF" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>condition</w:t>
+								</w:r>
+								<w:r w:rsidR="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>2</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemText"/>
+								<w:tag w:val="ItemText"/>
+								<w:id w:val="10287814"/>
+								<w:placeholder>
+									<w:docPart w:val="6EB7C84689C74765A20AFA24908F9C71"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00696ECD" w:rsidRPr="00D03350">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:b/>
+										<w:color w:val="auto"/>
+										<w:highlight w:val="green"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./column1/value</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="EndItemIf"/>
+								<w:tag w:val="EndItemIf"/>
+								<w:id w:val="10287830"/>
+								<w:placeholder>
+									<w:docPart w:val="C87CD7CA733E4D1BADCA7351959AC958"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00696ECD" w:rsidRPr="00696ECD">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>.</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+					</w:p>
+				</w:tc>
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2268" w:type="dxa"/>
+						<w:vAlign w:val="center"/>
+					</w:tcPr>
+					<w:p w:rsidR="00FF4230" w:rsidRPr="004142E6" w:rsidRDefault="004A4CF0" w:rsidP="0088376C">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemIf"/>
+								<w:tag w:val="ItemIf"/>
+								<w:id w:val="10432287"/>
+								<w:placeholder>
+									<w:docPart w:val="9FA706B2EFCB4BF2A1D8BD3D987E90CB"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="0088376C" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./</w:t>
+								</w:r>
+								<w:r w:rsidR="0088376C">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>column2/</w:t>
+								</w:r>
+								<w:r w:rsidR="0088376C" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>condition1</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemText"/>
+								<w:tag w:val="ItemText"/>
+								<w:id w:val="10432288"/>
+								<w:placeholder>
+									<w:docPart w:val="CBCCBD729C5840CC90DC55BA23C81522"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="0088376C" w:rsidRPr="00D03350">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:b/>
+										<w:i/>
+										<w:color w:val="auto"/>
+										<w:highlight w:val="yellow"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./column2/value</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="EndItemIf"/>
+								<w:tag w:val="EndItemIf"/>
+								<w:id w:val="10432289"/>
+								<w:placeholder>
+									<w:docPart w:val="ECE6388A92AB4D74A84328F4641F7A88"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="0088376C" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>.</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemIf"/>
+								<w:tag w:val="ItemIf"/>
+								<w:id w:val="10432290"/>
+								<w:placeholder>
+									<w:docPart w:val="FC9F5A937E9F4F2F9BD5009D9D6795F5"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="0088376C" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./</w:t>
+								</w:r>
+								<w:r w:rsidR="0088376C">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>column2/</w:t>
+								</w:r>
+								<w:r w:rsidR="0088376C" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>condition</w:t>
+								</w:r>
+								<w:r w:rsidR="0088376C">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>2</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemText"/>
+								<w:tag w:val="ItemText"/>
+								<w:id w:val="10432291"/>
+								<w:placeholder>
+									<w:docPart w:val="DA5366196E78449D8B3261C7084EA136"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="0088376C" w:rsidRPr="00D03350">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:b/>
+										<w:color w:val="auto"/>
+										<w:highlight w:val="green"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./column2/value</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="EndItemIf"/>
+								<w:tag w:val="EndItemIf"/>
+								<w:id w:val="10432292"/>
+								<w:placeholder>
+									<w:docPart w:val="5A166AFEC1AD48709066004388868830"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="0088376C" w:rsidRPr="00696ECD">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>.</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+					</w:p>
+				</w:tc>
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2268" w:type="dxa"/>
+						<w:vAlign w:val="center"/>
+					</w:tcPr>
+					<w:p w:rsidR="00FF4230" w:rsidRPr="00A61A23" w:rsidRDefault="004A4CF0" w:rsidP="00CF0C47">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemIf"/>
+								<w:tag w:val="ItemIf"/>
+								<w:id w:val="10489305"/>
+								<w:placeholder>
+									<w:docPart w:val="4DFB176C75AC4B0D8ED8C1DC1C4153AF"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./</w:t>
+								</w:r>
+								<w:r w:rsidR="00CF0C47">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>column3/</w:t>
+								</w:r>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>condition1</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemText"/>
+								<w:tag w:val="ItemText"/>
+								<w:id w:val="10489306"/>
+								<w:placeholder>
+									<w:docPart w:val="13D7420AB5CA4FD09DA77AC0B3DDEFCB"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00D03350">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:b/>
+										<w:i/>
+										<w:color w:val="auto"/>
+										<w:highlight w:val="yellow"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./column3/value</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="EndItemIf"/>
+								<w:tag w:val="EndItemIf"/>
+								<w:id w:val="10489307"/>
+								<w:placeholder>
+									<w:docPart w:val="175E6BC8589F4971A68CBD74A9044515"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>.</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemIf"/>
+								<w:tag w:val="ItemIf"/>
+								<w:id w:val="10489308"/>
+								<w:placeholder>
+									<w:docPart w:val="41B956C917424EF58C6D9FD2E09C69A0"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./</w:t>
+								</w:r>
+								<w:r w:rsidR="00CF0C47">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>column3/</w:t>
+								</w:r>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>condition</w:t>
+								</w:r>
+								<w:r w:rsidR="00CF0C47">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>2</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemText"/>
+								<w:tag w:val="ItemText"/>
+								<w:id w:val="10489309"/>
+								<w:placeholder>
+									<w:docPart w:val="0BD34EDE0D0B4BB6BF90592FDDD36BAA"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00D03350">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:b/>
+										<w:color w:val="auto"/>
+										<w:highlight w:val="green"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./column3/value</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="EndItemIf"/>
+								<w:tag w:val="EndItemIf"/>
+								<w:id w:val="10489310"/>
+								<w:placeholder>
+									<w:docPart w:val="F50B2EC8447C42FFBF6E6D579F4C7D85"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00696ECD">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>.</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+					</w:p>
+				</w:tc>
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2410" w:type="dxa"/>
+						<w:vAlign w:val="center"/>
+					</w:tcPr>
+					<w:p w:rsidR="00FF4230" w:rsidRDefault="004A4CF0" w:rsidP="00CF0C47">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemIf"/>
+								<w:tag w:val="ItemIf"/>
+								<w:id w:val="10489324"/>
+								<w:placeholder>
+									<w:docPart w:val="F32A4BDBCCDE45B78401D7458DD73379"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./</w:t>
+								</w:r>
+								<w:r w:rsidR="00CF0C47">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>column4/</w:t>
+								</w:r>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>condition1</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemText"/>
+								<w:tag w:val="ItemText"/>
+								<w:id w:val="10489325"/>
+								<w:placeholder>
+									<w:docPart w:val="EE60E380EC2E416CA858A55F2757874C"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00D03350">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:b/>
+										<w:i/>
+										<w:color w:val="auto"/>
+										<w:highlight w:val="yellow"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./column4/value</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="EndItemIf"/>
+								<w:tag w:val="EndItemIf"/>
+								<w:id w:val="10489326"/>
+								<w:placeholder>
+									<w:docPart w:val="D92A2ECF6288472986908CCDFFB19F29"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>.</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemIf"/>
+								<w:tag w:val="ItemIf"/>
+								<w:id w:val="10489327"/>
+								<w:placeholder>
+									<w:docPart w:val="72C042F6E50E47CFA4145CCEBDC44A1E"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./</w:t>
+								</w:r>
+								<w:r w:rsidR="00CF0C47">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>column4/</w:t>
+								</w:r>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00B735AF">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>condition</w:t>
+								</w:r>
+								<w:r w:rsidR="00CF0C47">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:color w:val="auto"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>2</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="ItemText"/>
+								<w:tag w:val="ItemText"/>
+								<w:id w:val="10489328"/>
+								<w:placeholder>
+									<w:docPart w:val="88C0B35598EB426D801B14C89DA66A61"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00D03350">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:b/>
+										<w:color w:val="auto"/>
+										<w:highlight w:val="green"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>./column4/value</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+						<w:sdt>
+							<w:sdtPr>
+								<w:rPr>
+									<w:color w:val="808080"/>
+									<w:lang w:val="en-US"/>
+								</w:rPr>
+								<w:alias w:val="EndItemIf"/>
+								<w:tag w:val="EndItemIf"/>
+								<w:id w:val="10489329"/>
+								<w:placeholder>
+									<w:docPart w:val="FFEB632739CC4E3CBA73F22229A1A972"/>
+								</w:placeholder>
+								<w:showingPlcHdr/>
+							</w:sdtPr>
+							<w:sdtContent>
+								<w:r w:rsidR="00CF0C47" w:rsidRPr="00696ECD">
+									<w:rPr>
+										<w:rStyle w:val="a3"/>
+										<w:lang w:val="en-US"/>
+									</w:rPr>
+									<w:t>.</w:t>
+								</w:r>
+							</w:sdtContent>
+						</w:sdt>
+					</w:p>
+				</w:tc>
+			</w:tr>
+			<w:tr w:rsidR="00B735AF" w:rsidRPr="00696ECD" w:rsidTr="00CF0C47">
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2376" w:type="dxa"/>
+						<w:vAlign w:val="center"/>
+					</w:tcPr>
+					<w:p w:rsidR="007A1769" w:rsidRDefault="007A1769" w:rsidP="00FF4230">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+							<w:t>This</w:t>
+						</w:r>
+					</w:p>
+				</w:tc>
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2268" w:type="dxa"/>
+						<w:vAlign w:val="center"/>
+					</w:tcPr>
+					<w:p w:rsidR="007A1769" w:rsidRDefault="007A1769" w:rsidP="00FF4230">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+							<w:t>row</w:t>
+						</w:r>
+					</w:p>
+				</w:tc>
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2268" w:type="dxa"/>
+						<w:vAlign w:val="center"/>
+					</w:tcPr>
+					<w:p w:rsidR="007A1769" w:rsidRDefault="007A1769" w:rsidP="00FF4230">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+							<w:t>stays</w:t>
+						</w:r>
+					</w:p>
+				</w:tc>
+				<w:tc>
+					<w:tcPr>
+						<w:tcW w:w="2410" w:type="dxa"/>
+						<w:vAlign w:val="center"/>
+					</w:tcPr>
+					<w:p w:rsidR="007A1769" w:rsidRDefault="007A1769" w:rsidP="00FF4230">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:lang w:val="en-US"/>
+							</w:rPr>
+							<w:t>untouched</w:t>
+						</w:r>
+					</w:p>
+				</w:tc>
+			</w:tr>
+		</w:tbl>
+		<w:sdt>
+			<w:sdtPr>
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+				<w:alias w:val="EndContent"/>
+				<w:tag w:val="EndContent"/>
+				<w:id w:val="3738749"/>
+				<w:placeholder>
+					<w:docPart w:val="6727FAA4E87E4012B35CA831B867B53D"/>
+				</w:placeholder>
+				<w:showingPlcHdr/>
+				<w:text/>
+			</w:sdtPr>
+			<w:sdtContent>
+				<w:p w:rsidR="00FF4230" w:rsidRDefault="007A1769" w:rsidP="00FF4230">
+					<w:pPr>
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+					</w:pPr>
+					<w:r>
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+						<w:t>.</w:t>
+					</w:r>
+				</w:p>
+			</w:sdtContent>
+		</w:sdt>
+		<w:sdt>
+			<w:sdtPr>
+				<w:rPr>
+					<w:lang w:val="en-US"/>
+				</w:rPr>
+				<w:alias w:val="EndTable"/>
+				<w:tag w:val="EndTable"/>
+				<w:id w:val="3738739"/>
+				<w:placeholder>
+					<w:docPart w:val="1B59FB409C524F9481760A4D7BBA7E9F"/>
+				</w:placeholder>
+				<w:showingPlcHdr/>
+				<w:text/>
+			</w:sdtPr>
+			<w:sdtContent>
+				<w:p w:rsidR="00D152D9" w:rsidRPr="00D152D9" w:rsidRDefault="007A1769">
+					<w:pPr>
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+					</w:pPr>
+					<w:r>
+						<w:rPr>
+							<w:lang w:val="en-US"/>
+						</w:rPr>
+						<w:t>.</w:t>
+					</w:r>
+				</w:p>
+			</w:sdtContent>
+		</w:sdt>
+		<w:sectPr w:rsidR="00D152D9" w:rsidRPr="00D152D9" w:rsidSect="0013201D">
+			<w:pgSz w:w="11906" w:h="16838"/>
+			<w:pgMar w:top="1134" w:right="850" w:bottom="1134" w:left="1701" w:header="708" w:footer="708" w:gutter="0"/>
+			<w:cols w:space="708"/>
+			<w:docGrid w:linePitch="360"/>
+		</w:sectPr>
+	</w:body>
+</w:document>

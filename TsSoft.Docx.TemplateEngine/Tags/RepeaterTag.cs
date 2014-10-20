@@ -11,9 +11,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public IEnumerable<RepeaterElement> Content { get; set; }
 
-        public XElement StartContent { get; set; }
+//        public XElement StartContent { get; set; }
 
-        public XElement EndContent { get; set; }
+//        public XElement EndContent { get; set; }
 
         public XElement StartRepeater { get; set; }
 

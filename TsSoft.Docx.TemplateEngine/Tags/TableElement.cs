@@ -3,6 +3,7 @@ using System.Xml.Linq;
 
 namespace TsSoft.Docx.TemplateEngine.Tags
 {
+    using System.Linq;
 
     internal class TableElement
     {
@@ -19,5 +20,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         public XElement StartTag { get; set; }
 
         public XElement EndTag { get; set; }
+
+        public bool HasCell()
+        {
+            return this.StartTag.Descendants(WordMl.TableCellName).Any();
+        }
     }
 }

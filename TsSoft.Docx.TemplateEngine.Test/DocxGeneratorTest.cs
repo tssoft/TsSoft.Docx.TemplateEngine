@@ -169,7 +169,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
         }
-
+        /* NOT REVELANT
         [TestMethod]
         public void TestActualGenerationItemsAfterEndContent()
         {
@@ -187,7 +187,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             package.Load();
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
         }
-
+        */
         [TestMethod]
         public void TestActualGenerationIfWithParagraphs()
         {

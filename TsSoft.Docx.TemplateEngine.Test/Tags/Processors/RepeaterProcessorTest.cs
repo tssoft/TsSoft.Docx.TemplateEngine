@@ -33,12 +33,12 @@
         {
             var processor = new RepeaterProcessor();
 
-            var startRepeater = new XElement(WordMl.SdtName, "StartRepeater");
+            var startRepeater = new XElement(WordMl.SdtName, "//test/certificates");
             var endRepeater = new XElement(WordMl.SdtName, "EndRepeater");
-            var endContent = new XElement(WordMl.SdtName, "EndContent");
-            var startContent = new XElement(WordMl.SdtName, "StartContent");
-            var items = new XElement(WordMl.SdtName, "Items");
-
+            //var endContent = new XElement(WordMl.SdtName, "EndContent");
+            //var startContent = new XElement(WordMl.SdtName, "StartContent");
+           // var items = new XElement(WordMl.SdtName, "Items");
+            
             const string Index = "index";
             var indexElement = new XElement(Index);
 
@@ -67,7 +67,7 @@
             firstLevelElement.Add(secondLevelElement);
             firstLevelElement.Add(secondLevelStaticElement);
 
-            var body = new XElement("body", startRepeater, items, startContent, firstLevelItem, firstLevelElement, firstLevelStaticElement, endContent, endRepeater);
+            var body = new XElement("body", startRepeater, firstLevelItem, firstLevelElement, firstLevelStaticElement, endRepeater);
 
             Console.WriteLine(body.ToString());
 
@@ -98,8 +98,8 @@
 
             processor.RepeaterTag = new RepeaterTag
                 {
-                    EndContent = endContent,
-                    StartContent = startContent,
+                    //EndContent = endContent,
+                    //StartContent = startContent,
                     Source = XPath,
                     StartRepeater = startRepeater,
                     EndRepeater = endRepeater,

@@ -114,7 +114,6 @@
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />
-    <EmbeddedResource Include="RepeaterItemsAfterEndContent.docx" />
     <EmbeddedResource Include="Tags\RepeaterInIf.docx" />
     <EmbeddedResource Include="RepeaterInIf.docx" />
     <EmbeddedResource Include="TableInRepeater.docx" />
@@ -183,6 +182,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DemoData2.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\Processors\TableItemIfsData.xml" />
+    <EmbeddedResource Include="Tags\Processors\TableItemIfsTest.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

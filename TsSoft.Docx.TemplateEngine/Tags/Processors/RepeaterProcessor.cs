@@ -12,10 +12,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         public override void Process()
         {
             base.Process();
-            var current = RepeaterTag.StartContent;
+            var current = RepeaterTag.StartRepeater;
             var dataReaders = DataReader.GetReaders(RepeaterTag.Source).ToList();
             var repeaterElements =
-                TraverseUtils.ElementsBetween(RepeaterTag.StartContent, RepeaterTag.EndContent)
+                TraverseUtils.ElementsBetween(RepeaterTag.StartRepeater, RepeaterTag.EndRepeater)
                              .Select(RepeaterTag.MakeElementCallback).ToList();
             for (var index = 0; index < dataReaders.Count; index++)
             {
@@ -29,8 +29,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             {
                 repeaterElement.XElement.Remove();
             }
+            /*
             this.CleanUp(RepeaterTag.StartRepeater, RepeaterTag.StartContent);
             this.CleanUp(RepeaterTag.EndContent, RepeaterTag.EndRepeater);
+             */
+            this.RepeaterTag.StartRepeater.Remove();
+            this.RepeaterTag.EndRepeater.Remove();
         }
 
         private XElement ProcessElements(IEnumerable<RepeaterElement> elements, DataReader dataReader, XElement start, XElement parent, int index)

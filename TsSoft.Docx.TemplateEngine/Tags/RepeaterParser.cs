@@ -45,15 +45,15 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "Items"));
             }
 
-            var startContent = TryGetRequiredTag(startElement, endRepeater, StartContentTagName);
-            var endContent = TryGetRequiredTag(startElement, endRepeater, EndContentTagName);
+            //var startContent = TryGetRequiredTag(startElement, endRepeater, StartContentTagName);
+            //var endContent = TryGetRequiredTag(startElement, endRepeater, EndContentTagName);
 
             IEnumerable<XElement> elementsBetween = TraverseUtils.ElementsBetween(startElement, endRepeater).ToList();
             var repeaterTag = new RepeaterTag
                 {
                     Source = itemsSource,
-                    StartContent = startContent,
-                    EndContent = endContent,
+        //            StartContent = startContent,
+        //           EndContent = endContent,
                     StartRepeater = startElement,
                     EndRepeater = endRepeater,
                     MakeElementCallback = MakeElementCallback
@@ -83,7 +83,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 {
                     switch (this.GetTagName(element).ToLower())
                     {
-                        case "endcontent":
+                        case "endrepeater":
                             return true;
                         case "itemtext":
                         case "itemindex":
