@@ -184,6 +184,10 @@
   <ItemGroup>
     <EmbeddedResource Include="DemoData2.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\Processors\TableItemIfsData.xml" />
+    <EmbeddedResource Include="Tags\Processors\TableItemIfsTest.xml" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
