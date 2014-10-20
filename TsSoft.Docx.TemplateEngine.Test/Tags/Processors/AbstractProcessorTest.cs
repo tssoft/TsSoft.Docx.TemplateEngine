@@ -20,13 +20,13 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
             var doc = XDocument.Load(docStream);
             this.documentRoot = doc.Root.Element(WordMl.BodyName);
         }
-
+        /*
         [TestMethod]
         public void CleanUpTest()
         {
             var tagTable = TraverseUtils.TagElement(this.documentRoot, "Table");
-            var tagContent = TraverseUtils.TagElement(this.documentRoot, "Content");
-            var tagEndContent = TraverseUtils.TagElement(this.documentRoot, "EndContent");
+          //  var tagContent = TraverseUtils.TagElement(this.documentRoot, "Content");
+           // var tagEndContent = TraverseUtils.TagElement(this.documentRoot, "EndContent");
             var tagEndTable = TraverseUtils.TagElement(this.documentRoot, "EndTable");
             var startMarkerTag = new XElement(tagTable);
             startMarkerTag.Elements().Remove();
@@ -47,6 +47,6 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
             processor.CleanUp(tagEndContent, tagEndTable);
             elementsBeforMarkers = TraverseUtils.ElementsBetween(startMarkerTag, endMarkerTag);
             Assert.IsFalse(elementsBeforMarkers.Any());
-        }
+        }*/
     }
 }

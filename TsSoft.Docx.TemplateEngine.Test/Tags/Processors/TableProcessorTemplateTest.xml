@@ -49,125 +49,11 @@
 						<w:rPr>
 							<w:lang w:val="en-US"/>
 						</w:rPr>
-						<w:t>.</w:t>
+						<w:t>//test/certificates/certificate</w:t>
 					</w:r>
 				</w:p>
 			</w:sdtContent>
-		</w:sdt>
-		<w:sdt>
-			<w:sdtPr>
-				<w:rPr>
-					<w:lang w:val="en-US"/>
-				</w:rPr>
-				<w:alias w:val="Items"/>
-				<w:tag w:val="Items"/>
-				<w:id w:val="3738782"/>
-				<w:placeholder>
-					<w:docPart w:val="414DD588027D47B2933EC753B48B98C4"/>
-				</w:placeholder>
-				<w:showingPlcHdr/>
-				<w:text/>
-			</w:sdtPr>
-			<w:sdtContent>
-				<w:p w:rsidR="00FF4230" w:rsidRPr="00FF4230" w:rsidRDefault="00FF4230">
-					<w:pPr>
-						<w:rPr>
-							<w:lang w:val="en-US"/>
-						</w:rPr>
-					</w:pPr>
-					<w:r>
-						<w:rPr>
-							<w:lang w:val="en-US"/>
-						</w:rPr>
-						<w:t>//</w:t>
-					</w:r>
-					<w:r w:rsidR="00B22195">
-						<w:rPr>
-							<w:lang w:val="en-US"/>
-						</w:rPr>
-						<w:t>T</w:t>
-					</w:r>
-					<w:r>
-						<w:rPr>
-							<w:lang w:val="en-US"/>
-						</w:rPr>
-						<w:t>est/</w:t>
-					</w:r>
-					<w:r w:rsidR="00B22195">
-						<w:rPr>
-							<w:lang w:val="en-US"/>
-						</w:rPr>
-						<w:t>C</w:t>
-					</w:r>
-					<w:r>
-						<w:rPr>
-							<w:lang w:val="en-US"/>
-						</w:rPr>
-						<w:t>ertificates/Certificate</w:t>
-					</w:r>
-				</w:p>
-			</w:sdtContent>
-		</w:sdt>
-		<w:sdt>
-			<w:sdtPr>
-				<w:rPr>
-					<w:lang w:val="en-US"/>
-				</w:rPr>
-				<w:alias w:val="DynamicRow"/>
-				<w:tag w:val="DynamicRow"/>
-				<w:id w:val="3738776"/>
-				<w:placeholder>
-					<w:docPart w:val="CCD75D152F484294B6B5DB8C78F232E9"/>
-				</w:placeholder>
-				<w:showingPlcHdr/>
-				<w:text/>
-			</w:sdtPr>
-			<w:sdtContent>
-				<w:p w:rsidR="00FF4230" w:rsidRPr="00FF4230" w:rsidRDefault="009C29B5">
-					<w:pPr>
-						<w:rPr>
-							<w:lang w:val="en-US"/>
-						</w:rPr>
-					</w:pPr>
-					<w:r>
-						<w:rPr>
-							<w:lang w:val="en-US"/>
-						</w:rPr>
-						<w:t>4</w:t>
-					</w:r>
-				</w:p>
-			</w:sdtContent>
-		</w:sdt>
-		<w:sdt>
-			<w:sdtPr>
-				<w:rPr>
-					<w:lang w:val="en-US"/>
-				</w:rPr>
-				<w:alias w:val="Content"/>
-				<w:tag w:val="Content"/>
-				<w:id w:val="3738746"/>
-				<w:placeholder>
-					<w:docPart w:val="B89B8155BB734DFC98FC2B0963E5F1F4"/>
-				</w:placeholder>
-				<w:showingPlcHdr/>
-				<w:text/>
-			</w:sdtPr>
-			<w:sdtContent>
-				<w:p w:rsidR="00FF4230" w:rsidRDefault="00EA2387">
-					<w:pPr>
-						<w:rPr>
-							<w:lang w:val="en-US"/>
-						</w:rPr>
-					</w:pPr>
-					<w:r>
-						<w:rPr>
-							<w:lang w:val="en-US"/>
-						</w:rPr>
-						<w:t>.</w:t>
-					</w:r>
-				</w:p>
-			</w:sdtContent>
-		</w:sdt>
+		</w:sdt>						
 		<w:tbl>
 			<w:tblPr>
 				<w:tblStyle w:val="a6"/>
@@ -468,8 +354,8 @@
 									<w:color w:val="808080"/>
 									<w:lang w:val="en-US"/>
 								</w:rPr>
-								<w:alias w:val="Item"/>
-								<w:tag w:val="Item"/>
+								<w:alias w:val="ItemText"/>
+								<w:tag w:val="ItemText"/>
 								<w:id w:val="3738757"/>
 								<w:placeholder>
 									<w:docPart w:val="8FDB40882C554E8BB6998C142D1A498F"/>
@@ -518,8 +404,8 @@
 							<w:color w:val="808080"/>
 							<w:lang w:val="en-US"/>
 						</w:rPr>
-						<w:alias w:val="Item"/>
-						<w:tag w:val="Item"/>
+						<w:alias w:val="ItemText"/>
+						<w:tag w:val="ItemText"/>
 						<w:id w:val="3738768"/>
 						<w:placeholder>
 							<w:docPart w:val="058A055EFFFB4E2E9745B34B5CBD76F9"/>
@@ -562,8 +448,8 @@
 						<w:rPr>
 							<w:lang w:val="en-US"/>
 						</w:rPr>
-						<w:alias w:val="Item"/>
-						<w:tag w:val="Item"/>
+						<w:alias w:val="ItemText"/>
+						<w:tag w:val="ItemText"/>
 						<w:id w:val="3738769"/>
 						<w:placeholder>
 							<w:docPart w:val="93E43BBB3BA443A89FD44BCF33E53146"/>
@@ -676,37 +562,7 @@
 					</w:p>
 				</w:tc>
 			</w:tr>
-		</w:tbl>
-		<w:sdt>
-			<w:sdtPr>
-				<w:rPr>
-					<w:lang w:val="en-US"/>
-				</w:rPr>
-				<w:alias w:val="EndContent"/>
-				<w:tag w:val="EndContent"/>
-				<w:id w:val="3738749"/>
-				<w:placeholder>
-					<w:docPart w:val="6727FAA4E87E4012B35CA831B867B53D"/>
-				</w:placeholder>
-				<w:showingPlcHdr/>
-				<w:text/>
-			</w:sdtPr>
-			<w:sdtContent>
-				<w:p w:rsidR="00FF4230" w:rsidRDefault="007A1769" w:rsidP="00FF4230">
-					<w:pPr>
-						<w:rPr>
-							<w:lang w:val="en-US"/>
-						</w:rPr>
-					</w:pPr>
-					<w:r>
-						<w:rPr>
-							<w:lang w:val="en-US"/>
-						</w:rPr>
-						<w:t>.</w:t>
-					</w:r>
-				</w:p>
-			</w:sdtContent>
-		</w:sdt>
+		</w:tbl>		
 		<w:sdt>
 			<w:sdtPr>
 				<w:rPr>

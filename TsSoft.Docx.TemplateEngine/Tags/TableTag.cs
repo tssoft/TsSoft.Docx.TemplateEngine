@@ -20,10 +20,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public XElement TagTable { get; set; }
 
-        public XElement TagContent { get; set; }
-
-        public XElement TagEndContent { get; set; }
-
         public XElement TagEndTable { get; set; }
 
         public Func<XElement, IEnumerable<TableElement>> MakeTableElementCallback { get; set; }

@@ -55,7 +55,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                              .Element(WordMl.TagName)
                              .Attribute(WordMl.ValAttributeName)
                              .Value.ToLower()
-                             .Equals("item") && e.Element(WordMl.SdtContentName).Value == "./Subject");
+                             .Equals("itemtext") && e.Element(WordMl.SdtContentName).Value == "./Subject");
                     var issueDate =
                         tags.Find(
                             e =>
@@ -63,7 +63,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                              .Element(WordMl.TagName)
                              .Attribute(WordMl.ValAttributeName)
                              .Value.ToLower()
-                             .Equals("item") && e.Element(WordMl.SdtContentName).Value == "./IssueDate");
+                             .Equals("itemtext") && e.Element(WordMl.SdtContentName).Value == "./IssueDate");
                     var expireDate =
                         tags.Find(
                             e =>
@@ -71,7 +71,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                              .Element(WordMl.TagName)
                              .Attribute(WordMl.ValAttributeName)
                              .Value.ToLower()
-                             .Equals("item") && e.Element(WordMl.SdtContentName).Value == "./ExpireDate");
+                             .Equals("itemtext") && e.Element(WordMl.SdtContentName).Value == "./ExpireDate");
                     var itemIf =
                         tags.Find(
                             e =>
@@ -180,14 +180,14 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 
                 rowIndex++;
             }
-
+            /*
             var tagsBetween =
                 tableTag.TagTable.ElementsAfterSelf().Where(element => element.IsBefore(tableTag.TagContent));
             Assert.IsFalse(tagsBetween.Any());
 
             tagsBetween =
                 tableTag.TagEndContent.ElementsAfterSelf().Where(element => element.IsBefore(tableTag.TagEndTable));
-            Assert.IsFalse(tagsBetween.Any());
+            Assert.IsFalse(tagsBetween.Any());*/
             this.ValidateTagsRemoved(this.documentRoot);
         }
 
@@ -285,14 +285,14 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 
                 rowIndex++;
             }
-
+            /*
             var tagsBetween =
                 tableTag.TagTable.ElementsAfterSelf().Where(element => element.IsBefore(tableTag.TagContent));
             Assert.IsFalse(tagsBetween.Any());
 
             tagsBetween =
                 tableTag.TagEndContent.ElementsAfterSelf().Where(element => element.IsBefore(tableTag.TagEndTable));
-            Assert.IsFalse(tagsBetween.Any());
+            Assert.IsFalse(tagsBetween.Any());*/
             this.ValidateTagsRemoved(root);
         }
 
@@ -413,14 +413,14 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 
                 rowIndex++;
             }
-
+            /*
             var tagsBetween =
                 tableTag.TagTable.ElementsAfterSelf().Where(element => element.IsBefore(tableTag.TagContent));
             Assert.IsFalse(tagsBetween.Any());
 
             tagsBetween =
                 tableTag.TagEndContent.ElementsAfterSelf().Where(element => element.IsBefore(tableTag.TagEndTable));
-            Assert.IsFalse(tagsBetween.Any());
+            Assert.IsFalse(tagsBetween.Any());*/
             this.ValidateTagsRemoved(root);
         }
 
@@ -453,8 +453,8 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                            ItemsSource = ItemsSource,
                            DynamicRow = dynamicRowValue,
                            TagTable = TraverseUtils.TagElement(root, "Table"),
-                           TagContent = TraverseUtils.TagElement(root, "Content"),
-                           TagEndContent = TraverseUtils.TagElement(root, "EndContent"),
+                         //  TagContent = TraverseUtils.TagElement(root, "Content"),
+                          // TagEndContent = TraverseUtils.TagElement(root, "EndContent"),
                            TagEndTable = TraverseUtils.TagElement(root, "EndTable"),
                        };
         }

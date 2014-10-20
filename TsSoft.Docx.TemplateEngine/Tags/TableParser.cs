@@ -48,48 +48,52 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             }
 
             var endTableTag = this.TryGetRequiredTags(startElement, "EndTable").First();
-            var itemsElements = this.TryGetRequiredTags(startElement, endTableTag, "Items");
-
-            if (itemsElements.All(e => string.IsNullOrEmpty(e.Value)))
+            var itemsSource = startElement.Value;            
+            if (string.IsNullOrEmpty(itemsSource))
             {
                 throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "Items"));
             }
-
-            var contentTag = this.TryGetRequiredTags(startElement, endTableTag, "Content").First();
-            var endContentTag = this.TryGetRequiredTags(contentTag, endTableTag, "EndContent").First();
 
             var tag = new TableTag
                           {
                               TagTable = startElement,
                               TagEndTable = endTableTag,
-                              ItemsSource = itemsElements.First().Value,
-                              TagContent = contentTag,
-                              TagEndContent = endContentTag
-                          };
+                              ItemsSource = itemsSource,
+                              //TagContent = contentTag,
+                              //TagEndContent = endContentTag
+                          };            
 
-            var dynamicRowElement = TraverseUtils.TagElementsBetween(startElement, endTableTag, "DynamicRow").FirstOrDefault();
-            if (dynamicRowElement != null)
+            int? dynamicRow = null;
+            int rCount = 1;
+            //Console.WriteLine(startElement.Elements());
+            var between = TraverseUtils.ElementsBetween(startElement, endTableTag).Descendants(WordMl.TableRowName);
+            foreach (var tableRow in between)
             {
-                int dynamicRowValue;
-                tag.DynamicRow = int.TryParse(dynamicRowElement.Value, out dynamicRowValue)
-                                     ? dynamicRowValue
-                                     : (int?)null;
+                if (tableRow.Descendants().Any(el => el.IsTag("ItemIndex") || el.IsTag("ItemText")))
+                {
+                    if (dynamicRow != null)
+                    {
+                        throw new Exception("Invalid template! Found several dynamic rows.");
+                    }
+                    dynamicRow = rCount;                    
+                }
+                rCount++;
             }
-
-            var tableElement = contentTag.NextSdt(WordMl.TableName).FirstOrDefault(element => element.IsBefore(endContentTag));
+            var tableElement = startElement.NextSdt(WordMl.TableName).FirstOrDefault(element => element.IsBefore(endTableTag));
             if (tableElement != null)
             {
                 tag.Table = tableElement;
             }
 
+            tag.DynamicRow = dynamicRow;
+
             tag.MakeTableElementCallback = MakeTableElementCallback;
 
             var processor = new TableProcessor { TableTag = tag };
 
-            var contentElements = TraverseUtils.ElementsBetween(contentTag, endContentTag);
-            if (contentElements.Any())
+            if (TraverseUtils.ElementsBetween(startElement, endTableTag).Any())
             {
-                this.GoDeeper(processor, contentElements.First());
+                this.GoDeeper(processor, TraverseUtils.ElementsBetween(startElement, endTableTag).First());
             }
             parentProcessor.AddProcessor(processor);
 
@@ -194,7 +198,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 }
                 element = element.NextElement();
             }
-            while (element != null && (!element.IsSdt() || GetTagName(element).ToLower() != "endcontent"));
+            while (element != null && (!element.IsSdt() || GetTagName(element).ToLower() != "endtable"));
         }
     }
 }

@@ -262,7 +262,9 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
+            Console.WriteLine(package.DocumentPartXml.ToString());
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            
         }
 
         [TestMethod]

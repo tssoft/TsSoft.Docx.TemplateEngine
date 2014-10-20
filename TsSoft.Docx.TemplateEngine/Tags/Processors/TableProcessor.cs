@@ -210,8 +210,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 
         private void RemoveTags()
         {
-            this.CleanUp(TableTag.TagTable, TableTag.TagContent);
-            this.CleanUp(TableTag.TagEndContent, TableTag.TagEndTable);
+            //this.CleanUp(TableTag.TagTable, TableTag.TagContent);
+            //this.CleanUp(TableTag.TagEndContent, TableTag.TagEndTable);
+            this.TableTag.TagTable.Remove();
+            this.TableTag.TagEndTable.Remove();
         }
                
 
