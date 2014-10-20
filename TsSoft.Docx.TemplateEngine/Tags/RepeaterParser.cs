@@ -37,9 +37,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         {
             this.ValidateStartTag(startElement, TagName);
             var endRepeater = TryGetRequiredTag(startElement, EndTagName);
-            var itemsTag = TryGetRequiredTag(startElement, endRepeater, ItemsTagName);
+            //var itemsTag = TryGetRequiredTag(startElement, endRepeater, ItemsTagName);
+            var itemsSource = startElement.GetExpression();
 
-            if (string.IsNullOrEmpty(itemsTag.Value))
+            if (string.IsNullOrEmpty(itemsSource))
             {
                 throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "Items"));
             }
@@ -47,10 +48,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var startContent = TryGetRequiredTag(startElement, endRepeater, StartContentTagName);
             var endContent = TryGetRequiredTag(startElement, endRepeater, EndContentTagName);
 
-            IEnumerable<XElement> elementsBetween = TraverseUtils.ElementsBetween(startContent, endContent).ToList();
+            IEnumerable<XElement> elementsBetween = TraverseUtils.ElementsBetween(startElement, endRepeater).ToList();
             var repeaterTag = new RepeaterTag
                 {
-                    Source = itemsTag.Value,
+                    Source = itemsSource,
                     StartContent = startContent,
                     EndContent = endContent,
                     StartRepeater = startElement,

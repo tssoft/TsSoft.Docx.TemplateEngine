@@ -130,7 +130,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }
             else
             {
-             //   parent = ( currentCell.Elements(WordMl.ParagraphName).Any()) ? currentCell.Element(WordMl.ParagraphName) : tableElement.StartTag;
+                //parent = ( currentCell.Elements(WordMl.ParagraphName).Any()) ? currentCell.Element(WordMl.ParagraphName) : tableElement.StartTag;
                 parent = tableElement.StartTag;
             }
             var result = DocxHelper.CreateTextElement(

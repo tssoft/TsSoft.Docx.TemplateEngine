@@ -243,7 +243,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             package.Load();
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
             Console.WriteLine(package.DocumentPartXml);
-            Assert.IsTrue(package.DocumentPartXml.Root.Descendants(WordMl.TableCellName).All(element => element.Elements().All(el => el.Name == WordMl.TextRunName)));
+            Assert.IsTrue(package.DocumentPartXml.Root.Descendants(WordMl.TableCellName).All(element => element.Elements().All(el => el.Name != WordMl.TextRunName)));
             
         }
 
