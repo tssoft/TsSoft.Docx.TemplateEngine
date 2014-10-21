@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DocxGeneratorSettings.cs" />
+    <Compile Include="DynamicContentMode.cs" />
     <Compile Include="MessageStrings.ru.Designer.cs">
       <DependentUpon>MessageStrings.ru.resx</DependentUpon>
       <AutoGen>True</AutoGen>

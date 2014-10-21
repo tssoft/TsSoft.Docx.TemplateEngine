@@ -11,7 +11,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
     using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
     [TestClass]
-    public class IfProcessorTest
+    public class IfProcessorTest : BaseProcessorTest
     {
         private XElement paragraph;
         private XElement startIf;
@@ -22,13 +22,31 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
         [TestInitialize]
         public void TestInitialize()
         {
-            this.startIf = new XElement("If");
+            this.startIf = new XElement(
+                WordMl.SdtName,
+                new XElement(
+                    WordMl.SdtPrName,
+                    new XElement(
+                        WordMl.TagName,
+                        new XAttribute(WordMl.ValAttributeName, "if")),
+                    new XElement(
+                        WordMl.IdName,
+                        new XAttribute(WordMl.ValAttributeName, "1"))));
             this.paragraph = new XElement(
                 WordMl.ParagraphName,
                 new XElement(WordMl.ParagraphPropertiesName),
                 new XElement(
-                    WordMl.TextRunName, new XElement(WordMl.TextRunPropertiesName), new XElement(WordMl.TextName)));
-            this.endIf = new XElement("EndIf");
+                    WordMl.TextRunName, new XElement(WordMl.TextRunPropertiesName), new XElement(WordMl.TextName, "test text")));
+            this.endIf = new XElement(
+                WordMl.SdtName,
+                new XElement(
+                    WordMl.SdtPrName,
+                    new XElement(
+                        WordMl.TagName,
+                        new XAttribute(WordMl.ValAttributeName, "endif")),
+                    new XElement(
+                        WordMl.IdName,
+                        new XAttribute(WordMl.ValAttributeName, "1"))));
             this.body = new XElement("Body", this.startIf, this.paragraph, this.endIf);
 
             const string TruthfulElement = "truthfulelement";
@@ -46,14 +64,43 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 
             processor.Process();
 
-            Assert.IsFalse(this.body.Descendants("If").Any());
-            Assert.IsFalse(this.body.Descendants("EndIf").Any());
+            this.ValidateTagsRemoved(this.body);
             var actualParagraph = this.body.Element(WordMl.ParagraphName);
 
             Assert.AreEqual(this.paragraph, actualParagraph);
 
             Console.WriteLine(this.body);
-        }   
+        }
+
+        [TestMethod]
+        public void TestProcessTrueWithLock()
+        {
+            var processor = this.MakeProcessor("TruthfulElement");
+            processor.DynamicContentMode = DynamicContentMode.Lock;
+
+            Console.WriteLine(this.body);
+
+            processor.Process();
+
+            this.ValidateTagsRemoved(this.body);
+            Assert.IsTrue(
+                this.body.Elements(WordMl.SdtName)
+                    .Any(
+                        element =>
+                        element.Element(WordMl.SdtPrName)
+                               .Element(WordMl.TagName)
+                               .Attribute(WordMl.ValAttributeName)
+                               .Value.ToLower()
+                               .Equals("dynamiccontent")));
+            Assert.AreEqual(1, this.body.Elements(WordMl.SdtName).Count());
+            var actualParagraph =
+                this.body.Element(WordMl.SdtName).Element(WordMl.SdtContentName).Element(WordMl.ParagraphName);
+
+            Assert.IsNotNull(actualParagraph);
+            Assert.AreEqual("test text", actualParagraph.Value);
+
+            Console.WriteLine(this.body);
+        } 
         
         [TestMethod]
         public void TestProcessFalse()
@@ -64,13 +111,75 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 
             processor.Process();
 
-            Assert.IsFalse(this.body.Descendants("If").Any());
-            Assert.IsFalse(this.body.Descendants("EndIf").Any());
+            this.ValidateTagsRemoved(this.body);
             var actualParagraph = this.body.Element(WordMl.ParagraphName);
 
             Assert.IsNull(actualParagraph);
 
             Console.WriteLine(this.body);
+        }
+
+        [TestMethod]
+        public void TestProcessFalseWithLock()
+        {
+            var processor = this.MakeProcessor("FalsyElement");
+            processor.DynamicContentMode = DynamicContentMode.Lock;
+
+            Console.WriteLine(this.body);
+
+            processor.Process();
+
+            this.ValidateTagsRemoved(this.body);
+            Assert.IsTrue(
+                this.body.Elements(WordMl.SdtName)
+                    .Any(
+                        element =>
+                        element.Element(WordMl.SdtPrName)
+                               .Element(WordMl.TagName)
+                               .Attribute(WordMl.ValAttributeName)
+                               .Value.ToLower()
+                               .Equals("dynamiccontent")));
+            Assert.AreEqual(1, this.body.Elements(WordMl.SdtName).Count());
+            var actualParagraph =
+                this.body.Element(WordMl.SdtName).Element(WordMl.SdtContentName).Element(WordMl.ParagraphName);
+
+            Assert.IsNull(actualParagraph);
+
+            Console.WriteLine(this.body);
+        }
+
+        [TestMethod]
+        public void TestProcessNestedDynamicContent()
+        {
+            var dynamicContentTag = new XElement(WordMl.SdtName, new XElement(WordMl.SdtContentName, this.paragraph));
+            this.startIf.Remove();
+            this.endIf.Remove();
+            this.body = new XElement("Body", this.startIf, dynamicContentTag, this.endIf);
+
+            var processor = this.MakeProcessor("TruthfulElement");
+            processor.DynamicContentMode = DynamicContentMode.Lock;
+            processor.Tag.IfContent = new List<XElement> { dynamicContentTag };
+
+            Console.WriteLine(this.body);
+
+            processor.Process();
+
+            this.ValidateTagsRemoved(this.body);
+            Assert.IsTrue(
+                this.body.Elements(WordMl.SdtName)
+                    .Any(
+                        element =>
+                        element.Element(WordMl.SdtPrName)
+                               .Element(WordMl.TagName)
+                               .Attribute(WordMl.ValAttributeName)
+                               .Value.ToLower()
+                               .Equals("dynamiccontent")));
+            Assert.AreEqual(1, this.body.Elements(WordMl.SdtName).Count());
+            var actualParagraph =
+                this.body.Element(WordMl.SdtName).Element(WordMl.SdtContentName).Element(WordMl.ParagraphName);
+
+            Assert.IsNotNull(actualParagraph);
+            Assert.AreEqual("test text", actualParagraph.Value);
         }
         
         [TestMethod]
@@ -82,8 +191,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 
             processor.Process();
 
-            Assert.IsFalse(this.body.Descendants("If").Any());
-            Assert.IsFalse(this.body.Descendants("EndIf").Any());
+            this.ValidateTagsRemoved(this.body);
             var actualParagraph = this.body.Element(WordMl.ParagraphName);
 
             Assert.IsNull(actualParagraph);

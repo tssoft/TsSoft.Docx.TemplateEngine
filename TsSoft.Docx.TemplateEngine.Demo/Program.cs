@@ -18,7 +18,6 @@ namespace TsSoft.Docx.TemplateEngine.Demo
             {
                 Generate(options);
             }
-            Console.ReadKey();
         }
 
         private static void Generate(Options options)
@@ -42,6 +41,23 @@ namespace TsSoft.Docx.TemplateEngine.Demo
                     else if (options.Ignore)
                     {
                         settings = new DocxGeneratorSettings { MissingDataMode = MissingDataMode.Ignore };
+                    }
+                    
+                    if (settings == null)
+                    {
+                        settings = new DocxGeneratorSettings
+                                       {
+                                           DynamicContentMode =
+                                               options.LockDynamicContent
+                                                   ? DynamicContentMode.Lock
+                                                   : DynamicContentMode.NoLock
+                                       };
+                    }
+                    else
+                    {
+                        settings.DynamicContentMode = options.LockDynamicContent
+                                                          ? DynamicContentMode.Lock
+                                                          : DynamicContentMode.NoLock;
                     }
                     generator.GenerateDocx(templateStream, destinationStream, dataDocument, settings);
                 }

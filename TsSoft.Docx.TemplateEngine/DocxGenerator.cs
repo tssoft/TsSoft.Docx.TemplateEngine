@@ -142,6 +142,7 @@ namespace TsSoft.Docx.TemplateEngine
             reader.MissingDataModeSettings = actualSettings.MissingDataMode;
 
             rootProcessor.DataReader = reader;
+            rootProcessor.DynamicContentMode = actualSettings.DynamicContentMode;
             rootProcessor.Process();
 
             package.Save();
@@ -151,7 +152,8 @@ namespace TsSoft.Docx.TemplateEngine
         {
             return new DocxGeneratorSettings
                 {
-                    MissingDataMode = MissingDataMode.Ignore
+                    MissingDataMode = MissingDataMode.Ignore,
+                    DynamicContentMode = DynamicContentMode.NoLock
                 };
         }
     }
