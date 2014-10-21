@@ -20,7 +20,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 while (currentTagElement != null && currentTagElement.Ancestors().Any(element => element.Equals(parentElement)))
                 {
                     var tableElement = ToTableElement(currentTagElement);
-
+                    
                     if (tableElement.IsItem || tableElement.IsIndex || tableElement.IsItemIf)
                     {
                         tableElements.Add(tableElement);

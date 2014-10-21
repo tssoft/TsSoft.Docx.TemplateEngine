@@ -119,6 +119,7 @@
     <EmbeddedResource Include="TableInRepeater.docx" />
     <EmbeddedResource Include="repeatertext1.docx" />
     <None Include="Tags\TestGeneralParser.docx" />
+    <EmbeddedResource Include="textintable.docx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Tags\Processors\TableProcessorTemplateTest.xml" />
@@ -178,7 +179,9 @@
     <EmbeddedResource Include="reportNote.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Tags\Processors\TableProcessorWithStaticCellsTest.xml" />
+    <EmbeddedResource Include="Tags\Processors\TableProcessorWithStaticCellsTest.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DemoData2.xml" />

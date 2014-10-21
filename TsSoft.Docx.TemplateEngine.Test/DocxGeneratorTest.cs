@@ -263,10 +263,29 @@ namespace TsSoft.Docx.TemplateEngine.Test
             var package = new DocxPackage(output);
             package.Load();
             Console.WriteLine(package.DocumentPartXml.ToString());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());                        
         }
+        [TestMethod]
+        public void TestActualGenerationTextInTable()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "textintable.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data);
 
+            var package = new DocxPackage(output);
+            package.Load();
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+           // package.DocumentPartXml.Descendants(WordMl.ParagraphName).Remove();
+            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableName).First());
+            Assert.IsTrue(package.DocumentPartXml.Descendants(WordMl.TableRowName).All(element => element.Elements().All(el => el.Name != WordMl.ParagraphName)));
+
+        }
         [TestMethod]
         public void TestActualGenerationIfWithTableWithParagraphs()
         {
