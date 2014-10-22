@@ -268,7 +268,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationTextInTable()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "textintable.docx");
+            var input = AssemblyResourceHelper.GetResourceStream(this, "textintable2.docx");
             var output = new MemoryStream();
             var generator = new DocxGenerator();
             var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");

@@ -14,7 +14,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         public override void Process()
         {
             base.Process();
-
+            Console.WriteLine(TableTag.TagTable.Parent + "\n-------");
             if (TableTag == null)
             {
                 throw new NullReferenceException();

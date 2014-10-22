@@ -120,6 +120,7 @@
     <EmbeddedResource Include="repeatertext1.docx" />
     <None Include="Tags\TestGeneralParser.docx" />
     <EmbeddedResource Include="textintable.docx" />
+    <EmbeddedResource Include="textintable2.docx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Tags\Processors\TableProcessorTemplateTest.xml" />
