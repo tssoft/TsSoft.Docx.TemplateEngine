@@ -1,26 +1,26 @@
-﻿namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
-{
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Moq;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
-    using TsSoft.Docx.TemplateEngine.Tags;
-    using TsSoft.Docx.TemplateEngine.Tags.Processors;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+using TsSoft.Docx.TemplateEngine.Tags;
+using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
+namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
+{
     [TestClass]
     public class RepeaterProcessorTest : BaseProcessorTest
     {
         private static Func<XElement, RepeaterElement> MakeElementCallback = element =>
             {
                 var repeaterElement = new RepeaterElement
-                {
-                    Elements = element.Elements().Select(MakeElementCallback),
-                    IsIndex = element.Name == "index",
-                    IsItem = element.Name == "item",
-                    XElement = element
-                };
+                                          {
+                                              Elements = element.Elements().Select(MakeElementCallback),
+                                              IsIndex = element.Name == "index",
+                                              IsItem = element.Name == "item",
+                                              XElement = element
+                                          };
                 if (repeaterElement.IsItem)
                 {
                     repeaterElement.Expression = element.Value;
@@ -28,29 +28,59 @@
                 return repeaterElement;
             };
 
-        [TestMethod]
-        public void TestProcess()
-        {
-            var processor = new RepeaterProcessor();
+        private XElement startRepeater;
 
-            var startRepeater = new XElement(WordMl.SdtName, "//test/certificates");
-            var endRepeater = new XElement(WordMl.SdtName, "EndRepeater");
-            //var endContent = new XElement(WordMl.SdtName, "EndContent");
-            //var startContent = new XElement(WordMl.SdtName, "StartContent");
-           // var items = new XElement(WordMl.SdtName, "Items");
-            
+        private XElement endRepeater;
+
+        private Mock<DataReader> dataReader;
+
+        private IList<string> dateValues;
+
+        private IList<string> subjectValues;
+
+        private XElement body;
+
+        private string xPath;
+
+        private string staticText;
+
+        private string firstLevelStaticText;
+
+        private string secondLevelStaticText;
+
+        private string thirdLevelStaticText;
+
+        private string wrapper;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            this.startRepeater = new XElement(
+                WordMl.SdtName,
+                new XElement(
+                    WordMl.SdtPrName,
+                    new XElement(WordMl.TagName, new XAttribute(WordMl.ValAttributeName, "repeater")),
+                    new XElement(WordMl.IdName, new XAttribute(WordMl.ValAttributeName, "1"))),
+                "//test/certificates");
+            this.endRepeater = new XElement(
+                WordMl.SdtName,
+                new XElement(
+                    WordMl.SdtPrName,
+                    new XElement(WordMl.TagName, new XAttribute(WordMl.ValAttributeName, "EndRepeater")),
+                    new XElement(WordMl.IdName, new XAttribute(WordMl.ValAttributeName, "2"))));
+
             const string Index = "index";
             var indexElement = new XElement(Index);
 
-            const string ThirdLevelStaticText = "Very static. Wow. Much text.";
-            const string StaticText = "statictext";
-            var thirdLevelStaticElement = new XElement(StaticText, ThirdLevelStaticText);
+            this.thirdLevelStaticText = "Very static. Wow. Much text.";
+            this.staticText = "statictext";
+            var thirdLevelStaticElement = new XElement(this.staticText, this.thirdLevelStaticText);
 
-            const string FirstLevelStaticText = "This text must render as it is";
-            var firstLevelStaticElement = new XElement(StaticText, FirstLevelStaticText);
+            this.firstLevelStaticText = "This text must render as it is";
+            var firstLevelStaticElement = new XElement(this.staticText, this.firstLevelStaticText);
 
-            const string SecondLevelStaticText = "Just as its brother above, this text must render as it is, too";
-            var secondLevelStaticElement = new XElement(StaticText, SecondLevelStaticText);
+            this.secondLevelStaticText = "Just as its brother above, this text must render as it is, too";
+            var secondLevelStaticElement = new XElement(this.staticText, this.secondLevelStaticText);
 
             var secondLevelElement = new XElement(WordMl.ParagraphName);
             var itemElement = new XElement("item");
@@ -62,64 +92,108 @@
             var firstLevelItem = new XElement("item");
             firstLevelItem.Value = "./Subject";
 
-            const string Wrapper = "wrapper";
+            this.wrapper = "wrapper";
             var firstLevelElement = new XElement("wrapper");
             firstLevelElement.Add(secondLevelElement);
             firstLevelElement.Add(secondLevelStaticElement);
 
-            var body = new XElement("body", startRepeater, firstLevelItem, firstLevelElement, firstLevelStaticElement, endRepeater);
+            this.body = new XElement(
+                "body", startRepeater, firstLevelItem, firstLevelElement, firstLevelStaticElement, endRepeater);
 
-            Console.WriteLine(body.ToString());
+            Console.WriteLine(this.body.ToString());
 
-            const string Subject1Value = "Subject1";
-            var subject1 = new XElement("subject") { Value = Subject1Value };
-            const string Date1Value = "10.01.2014";
-            var date1 = new XElement("date") { Value = Date1Value };
+            this.dateValues = new List<string> { "10.01.2014", "22.02.2014" };
+            this.subjectValues = new List<string> { "Subject1", "Subject2" };
 
-            const string Subject2Value = "Subject2";
-            var subject2 = new XElement("subject") { Value = Subject2Value };
-            const string Date2Value = "22.02.2014";
-            var date2 = new XElement("date") { Value = Date2Value };
+            var subject1 = new XElement("subject") { Value = this.subjectValues[0] };
+            var date1 = new XElement("date") { Value = this.dateValues[0] };
+
+            var subject2 = new XElement("subject") { Value = this.subjectValues[1] };
+            var date2 = new XElement("date") { Value = this.dateValues[1] };
 
             var certificate1 = new XElement("certificate", subject1, date1);
             var certificate2 = new XElement("certificate", subject2, date2);
 
-            var dataReaderMock = new Mock<DataReader>();
+            this.dataReader = new Mock<DataReader>();
 
-            const string XPath = "//test/certificates";
-            dataReaderMock.Setup(d => d.GetReaders(XPath))
-                .Returns(() => new List<DataReader>
-                {
-                    new DataReader(certificate1), 
-                    new DataReader(certificate2)
-                });
+            this.xPath = "//test/certificates";
+            this.dataReader.Setup(d => d.GetReaders(this.xPath))
+                .Returns(() => new List<DataReader> { new DataReader(certificate1), new DataReader(certificate2) });
+        }
 
-            processor.DataReader = dataReaderMock.Object;
-
+        [TestMethod]
+        public void TestProcess()
+        {
+            var processor = new RepeaterProcessor();
+            processor.DataReader = this.dataReader.Object;
             processor.RepeaterTag = new RepeaterTag
-                {
-                    //EndContent = endContent,
-                    //StartContent = startContent,
-                    Source = XPath,
-                    StartRepeater = startRepeater,
-                    EndRepeater = endRepeater,
-                    MakeElementCallback = MakeElementCallback
-                };
+                                        {
+                                            Source = this.xPath,
+                                            StartRepeater = this.startRepeater,
+                                            EndRepeater = this.endRepeater,
+                                            MakeElementCallback = MakeElementCallback
+                                        };
 
             processor.Process();
 
+            var dynamicContentTags =
+                this.body.Elements(WordMl.SdtName)
+                    .Where(
+                        element =>
+                        element.Element(WordMl.SdtPrName)
+                               .Element(WordMl.TagName)
+                               .Attribute(WordMl.ValAttributeName)
+                               .Value.ToLower()
+                               .Equals("dynamiccontent"));
+            Assert.IsFalse(dynamicContentTags.Any());
             Console.WriteLine(body.ToString());
 
-            this.ValidateTagsRemoved(body);
+            this.CheckRepeaterContent(this.body);
+        }
 
-            var subjects = body.Elements(WordMl.ParagraphName).ToList();
-            Assert.AreEqual(6, body.Elements().Count());
+        [TestMethod]
+        public void TestProcessWithLock()
+        {
+            var processor = new RepeaterProcessor();
+            processor.DataReader = this.dataReader.Object;
+            processor.RepeaterTag = new RepeaterTag
+            {
+                Source = this.xPath,
+                StartRepeater = this.startRepeater,
+                EndRepeater = this.endRepeater,
+                MakeElementCallback = MakeElementCallback
+            };
+            processor.LockDynamicContent = true;
+
+            processor.Process();
+
+            var dynamicContentTags =
+                this.body.Elements(WordMl.SdtName)
+                    .Where(
+                        element =>
+                        element.Element(WordMl.SdtPrName)
+                               .Element(WordMl.TagName)
+                               .Attribute(WordMl.ValAttributeName)
+                               .Value.ToLower()
+                               .Equals("dynamiccontent"));
+            Assert.IsTrue(dynamicContentTags.Any());
+            Assert.AreEqual(1, dynamicContentTags.Count());
+
+            this.CheckRepeaterContent(dynamicContentTags.First().Element(WordMl.SdtContentName));
+        }
+
+        private void CheckRepeaterContent(XElement container)
+        {
+            this.ValidateTagsRemoved(container);
+
+            var subjects = container.Elements(WordMl.ParagraphName).ToList();
+            Assert.AreEqual(6, container.Elements().Count());
 
             Assert.AreEqual(2, subjects.Count);
-            Assert.AreEqual(Subject1Value, subjects[0].Value);
-            Assert.AreEqual(Subject2Value, subjects[1].Value);
+            Assert.AreEqual(this.subjectValues[0], subjects[0].Value);
+            Assert.AreEqual(this.subjectValues[1], subjects[1].Value);
 
-            var wrappers = body.Elements(Wrapper).ToList();
+            var wrappers = container.Elements(this.wrapper).ToList();
             Assert.AreEqual(2, wrappers.Count);
 
             var secondLevelElements1 = wrappers[0].Elements().ToList();
@@ -132,10 +206,10 @@
             var secondLevelStaticText2 = secondLevelElements1[1];
             Assert.IsNotNull(secondLevelStaticText1);
             Assert.IsNotNull(secondLevelStaticText2);
-            Assert.AreEqual(SecondLevelStaticText, secondLevelStaticText1.Value);
-            Assert.AreEqual(SecondLevelStaticText, secondLevelStaticText2.Value);
-            Assert.AreEqual(StaticText, secondLevelStaticText1.Name);
-            Assert.AreEqual(StaticText, secondLevelStaticText2.Name);
+            Assert.AreEqual(this.secondLevelStaticText, secondLevelStaticText1.Value);
+            Assert.AreEqual(this.secondLevelStaticText, secondLevelStaticText2.Value);
+            Assert.AreEqual(this.staticText, secondLevelStaticText1.Name);
+            Assert.AreEqual(this.staticText, secondLevelStaticText2.Name);
 
             var paragraph1 = secondLevelElements1[0];
             var paragraph2 = secondLevelElements2[0];
@@ -152,8 +226,8 @@
             var paragraph2TextRuns = paragraph2Elements.Where(e => e.Name.Equals(WordMl.TextRunName)).ToList();
             Assert.AreEqual(2, paragraph1TextRuns.Count);
             Assert.AreEqual(2, paragraph2TextRuns.Count);
-            Assert.AreEqual(Date1Value, paragraph1TextRuns[0].Value);
-            Assert.AreEqual(Date2Value, paragraph2TextRuns[0].Value);
+            Assert.AreEqual(this.dateValues[0], paragraph1TextRuns[0].Value);
+            Assert.AreEqual(this.dateValues[1], paragraph2TextRuns[0].Value);
             Assert.AreEqual("1", paragraph1TextRuns[1].Value);
             Assert.AreEqual("2", paragraph2TextRuns[1].Value);
 
@@ -161,12 +235,12 @@
             var thirdLevelStaticText2 = paragraph2Elements[2];
             Assert.IsNotNull(thirdLevelStaticText1);
             Assert.IsNotNull(thirdLevelStaticText2);
-            Assert.AreEqual(ThirdLevelStaticText, thirdLevelStaticText1.Value);
-            Assert.AreEqual(ThirdLevelStaticText, thirdLevelStaticText2.Value);
-            Assert.AreEqual(StaticText, thirdLevelStaticText1.Name);
-            Assert.AreEqual(StaticText, thirdLevelStaticText2.Name);
+            Assert.AreEqual(this.thirdLevelStaticText, thirdLevelStaticText1.Value);
+            Assert.AreEqual(this.thirdLevelStaticText, thirdLevelStaticText2.Value);
+            Assert.AreEqual(this.staticText, thirdLevelStaticText1.Name);
+            Assert.AreEqual(this.staticText, thirdLevelStaticText2.Name);
 
-            var firstLevelStaticElements = body.Elements(StaticText).ToList();
+            var firstLevelStaticElements = container.Elements(this.staticText).ToList();
             Assert.AreEqual(2, firstLevelStaticElements.Count);
 
             var firstLevelStaticText1 = firstLevelStaticElements[0];
@@ -174,10 +248,10 @@
 
             Assert.IsNotNull(firstLevelStaticText1);
             Assert.IsNotNull(firstLevelStaticText2);
-            Assert.AreEqual(FirstLevelStaticText, firstLevelStaticText1.Value);
-            Assert.AreEqual(FirstLevelStaticText, firstLevelStaticText2.Value);
-            Assert.AreEqual(StaticText, firstLevelStaticText1.Name);
-            Assert.AreEqual(StaticText, firstLevelStaticText2.Name);
+            Assert.AreEqual(this.firstLevelStaticText, firstLevelStaticText1.Value);
+            Assert.AreEqual(this.firstLevelStaticText, firstLevelStaticText2.Value);
+            Assert.AreEqual(this.staticText, firstLevelStaticText1.Name);
+            Assert.AreEqual(this.staticText, firstLevelStaticText2.Name);
         }
-    }
+}
 }

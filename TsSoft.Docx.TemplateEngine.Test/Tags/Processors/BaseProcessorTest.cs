@@ -8,7 +8,15 @@
     {
         protected void ValidateTagsRemoved(XContainer document)
         {
-            Assert.IsFalse(document.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(
+                document.Descendants(WordMl.SdtName)
+                        .Any(
+                            element =>
+                            !element.Element(WordMl.SdtPrName)
+                                    .Element(WordMl.TagName)
+                                    .Attribute(WordMl.ValAttributeName)
+                                    .Value.ToLower()
+                                    .Equals("dynamiccontent")));
         }
     }
 }

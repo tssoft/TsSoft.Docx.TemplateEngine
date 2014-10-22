@@ -6,6 +6,8 @@
     {
         DataReader DataReader { get; set; }
 
+        bool LockDynamicContent { get; set; }
+
         ICollection<ITagProcessor> Processors { get; }
 
         void Process();

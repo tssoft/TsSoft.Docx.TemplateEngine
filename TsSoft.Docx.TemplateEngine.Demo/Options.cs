@@ -33,6 +33,9 @@ namespace TsSoft.Docx.TemplateEngine.Demo
         [Option("ignore", MutuallyExclusiveSet = "Ignore", HelpText = "Ignore data field when missed in data file")]
         public bool Ignore { get; set; }
 
+        [Option("lock", HelpText = "Lock generated content in target document")]
+        public bool LockDynamicContent { get; set; }
+
         [Option('h', "help", HelpText = "Display this help screen")]
         public bool Help { get; set; }
 

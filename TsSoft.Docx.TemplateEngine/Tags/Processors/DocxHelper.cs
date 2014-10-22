@@ -153,7 +153,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                             .Elements()
                             .Where(e => ParagraphPropertiesNames.Contains(e.Name))
                             .Distinct(new NameComparer());
-                }
+                }                
             }
             if (paragraphProperties == null && parent.Elements(WordMl.ParagraphName).Any())
             {
@@ -173,6 +173,28 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 result = wrapTo;
             }
             return result;
+        }
+
+        public static XElement CreateDynamicContentElement(IEnumerable<XElement> contentElements, XElement tagElement)
+        {
+            var tagId = tagElement.Element(WordMl.SdtPrName).Element(WordMl.IdName).Attribute(WordMl.ValAttributeName).Value;
+            return CreateDynamicContentElement(contentElements, tagId);
+        }
+
+        public static XElement CreateDynamicContentElement(IEnumerable<XElement> contentElements, string id)
+        {
+            return new XElement(
+                WordMl.SdtName,
+                new XElement(
+                    WordMl.SdtPrName,
+                    new XElement(
+                        WordMl.WordMlNamespace + "alias", new XAttribute(WordMl.ValAttributeName, "DynamicContent")),
+                    new XElement(
+                        WordMl.TagName, new XAttribute(WordMl.ValAttributeName, "DynamicContent")),
+                    new XElement(WordMl.IdName, new XAttribute(WordMl.ValAttributeName, id)),
+                    new XElement(
+                        WordMl.WordMlNamespace + "lock", new XAttribute(WordMl.ValAttributeName, "sdtContentLocked"))),
+                new XElement(WordMl.SdtContentName, contentElements));
         }
 
         private class NameComparer : IEqualityComparer<XElement>

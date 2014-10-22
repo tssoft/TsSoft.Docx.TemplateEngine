@@ -15,6 +15,7 @@ namespace TsSoft.Docx.TemplateEngine
         public static readonly XName TableName = WordMlNamespace + "tbl";
         public static readonly XName TableCellName = WordMlNamespace + "tc";
         public static readonly XName TableRowName = WordMlNamespace + "tr";
+        public static readonly XName TableCellPropertiesName = WordMlNamespace + "tcPr";
         public static readonly XName TagName = WordMlNamespace + "tag";
         public static readonly XName ValAttributeName = WordMlNamespace + "val";
         public static readonly XName TextRunName = WordMlNamespace + "r";

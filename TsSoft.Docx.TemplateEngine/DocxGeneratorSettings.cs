@@ -8,6 +8,8 @@ namespace TsSoft.Docx.TemplateEngine
     public class DocxGeneratorSettings
     {
         public MissingDataMode MissingDataMode { get; set; }
+
+        public bool LockDynamicContent { get; set; }
     }
 
     internal class MissingDataException : Exception
