@@ -11,6 +11,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
     {
         public TableTag TableTag { get; set; }
 
+        private ICollection<ItemRepeaterProcessor> itemRepeaterProcessors;
+
         public override void Process()
         {
             base.Process();
@@ -46,11 +48,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             {
                 var currentRow = new XElement(dynamicRow);
                 var tableElements = TableTag.MakeTableElementCallback(currentRow);
+
                 this.ProcessElements(tableElements, readers[index], index+1, null, true);
 
                 dynamicRow.AddBeforeSelf(currentRow);
             }
             dynamicRow.Remove();
+        }
+
+        private void ProcessItemRepeaters(TableElement itemRepeaterElement)
+        {
+            
         }
 
         private void ProcessElements(IEnumerable<TableElement> tableElements, DataReader dataReader, int index, XElement start, bool isTopLevel)
@@ -86,6 +94,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 ProcessStaticCells(firstCell, previous);
             }
         }
+
+        
 
         private XElement ProcessItemIfElement(TableElement itemIfElement, DataReader dataReader, int index, XElement previous)
         {

@@ -11,9 +11,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
     {
         private const string TagName = "Repeater";
         private const string EndTagName = "EndRepeater";
-        private const string ItemsTagName = "Items";
-        private const string StartContentTagName = "Content";
-        private const string EndContentTagName = "EndContent";
         private const string IndexTag = "ItemIndex";
         private const string ItemTag = "ItemText";
 

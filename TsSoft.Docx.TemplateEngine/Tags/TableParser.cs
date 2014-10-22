@@ -108,11 +108,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             {
                 var tableElement = ToTableElement(currentTagElement);
 
-                if (tableElement.IsItem || tableElement.IsIndex || tableElement.IsItemIf)
+                if (tableElement.IsItem || tableElement.IsIndex || tableElement.IsItemIf || tableElement.IsItemRepeater)
                 {
                     tableElements.Add(tableElement);
                 }
-                if (tableElement.IsItemIf)
+                if (tableElement.IsItemIf || tableElement.IsItemRepeater)
                 {
                     currentTagElement = tableElement.EndTag;
                 }
@@ -129,13 +129,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     IsItem = tagElement.IsTag("itemtext"),
                     IsIndex = tagElement.IsTag("itemindex"),
                     IsItemIf = tagElement.IsTag("itemif"),
+                    IsItemRepeater = tagElement.IsTag("itemrepeater"),
                     StartTag = tagElement,
                 };
             if (tableElement.IsItem)
             {
                 tableElement.Expression = tagElement.GetExpression();
             }
-            else if (tableElement.IsItemIf)
+            else if (tableElement.IsItemIf || tableElement.IsItemRepeater)
             {
                 tableElement.EndTag = FindEndTag(tableElement.StartTag);
                 tableElement.Expression = tagElement.GetExpression();
@@ -145,31 +146,31 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return tableElement;
         }
 
-        private static XElement FindEndTag(XElement startTag)
+        private static XElement FindEndTag(XElement startTag, string startTagName = "itemif", string endTagName = "enditemif")
         {
-            var ifTagsOpened = 1;
+            var startTagsOpened = 1;
             var current = startTag;
-            while (ifTagsOpened > 0 && current != null)
+            while (startTagsOpened > 0 && current != null)
             {
-                var nextTagElements = TraverseUtils.NextTagElements(current, new Collection<string> { "itemif", "enditemif" }).ToList();
+                var nextTagElements = TraverseUtils.NextTagElements(current, new Collection<string> { startTagName, endTagName }).ToList();
                 int index = -1;
-                while ((index < nextTagElements.Count) && (ifTagsOpened != 0))
+                while ((index < nextTagElements.Count) && (startTagsOpened != 0))
                 {
                     index++;
-                    if (nextTagElements[index].IsTag("itemif"))
+                    if (nextTagElements[index].IsTag(startTagName))
                     {
-                        ifTagsOpened++;
+                        startTagsOpened++;
                     }
                     else
                     {
-                        ifTagsOpened--;
+                        startTagsOpened--;
                     }
                 }
                 current = nextTagElements[index];
             }
             if (current == null)
             {
-                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "enditemif"));
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, endTagName));
             }
             return current;
         }
@@ -185,6 +186,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                         case "itemtext":
                         case "itemindex":
                         case "itemif":
+                        case "itemrepeater":
+                        case "enditemrepeater":
                         case "enditemif":
                             break;
                         default:
