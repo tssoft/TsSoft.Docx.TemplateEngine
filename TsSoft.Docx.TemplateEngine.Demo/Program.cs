@@ -47,17 +47,12 @@ namespace TsSoft.Docx.TemplateEngine.Demo
                     {
                         settings = new DocxGeneratorSettings
                                        {
-                                           DynamicContentMode =
-                                               options.LockDynamicContent
-                                                   ? DynamicContentMode.Lock
-                                                   : DynamicContentMode.NoLock
+                                           LockDynamicContent = options.LockDynamicContent
                                        };
                     }
                     else
                     {
-                        settings.DynamicContentMode = options.LockDynamicContent
-                                                          ? DynamicContentMode.Lock
-                                                          : DynamicContentMode.NoLock;
+                        settings.LockDynamicContent = options.LockDynamicContent;
                     }
                     generator.GenerateDocx(templateStream, destinationStream, dataDocument, settings);
                 }

@@ -27,7 +27,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 
             ReplaceValues(dynamicRow);
 
-            if (this.DynamicContentMode == DynamicContentMode.Lock)
+            if (this.LockDynamicContent)
             {
                 var innerElements = TraverseUtils.ElementsBetween(this.TableTag.TagTable, this.TableTag.TagEndTable).ToList();
                 innerElements.Remove();

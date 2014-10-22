@@ -46,7 +46,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                         new XAttribute(WordMl.ValAttributeName, "endif")),
                     new XElement(
                         WordMl.IdName,
-                        new XAttribute(WordMl.ValAttributeName, "1"))));
+                        new XAttribute(WordMl.ValAttributeName, "2"))));
             this.body = new XElement("Body", this.startIf, this.paragraph, this.endIf);
 
             const string TruthfulElement = "truthfulelement";
@@ -77,7 +77,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
         public void TestProcessTrueWithLock()
         {
             var processor = this.MakeProcessor("TruthfulElement");
-            processor.DynamicContentMode = DynamicContentMode.Lock;
+            processor.LockDynamicContent = true;
 
             Console.WriteLine(this.body);
 
@@ -125,7 +125,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
         public void TestProcessFalseWithLock()
         {
             var processor = this.MakeProcessor("FalsyElement");
-            processor.DynamicContentMode = DynamicContentMode.Lock;
+            processor.LockDynamicContent = true;
 
             Console.WriteLine(this.body);
 
@@ -159,7 +159,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
             this.body = new XElement("Body", this.startIf, dynamicContentTag, this.endIf);
 
             var processor = this.MakeProcessor("TruthfulElement");
-            processor.DynamicContentMode = DynamicContentMode.Lock;
+            processor.LockDynamicContent = true;
             processor.Tag.IfContent = new List<XElement> { dynamicContentTag };
 
             Console.WriteLine(this.body);

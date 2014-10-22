@@ -307,7 +307,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
             {
                 TableTag = tableTag,
                 DataReader = this.dataReader,
-                DynamicContentMode = DynamicContentMode.Lock
+                LockDynamicContent = true
             };
             tableProcessor.Process();
 

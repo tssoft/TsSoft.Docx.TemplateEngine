@@ -21,14 +21,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 
         public virtual DataReader DataReader { get; set; }
 
-        public DynamicContentMode DynamicContentMode { get; set; }
+        public bool LockDynamicContent { get; set; }
 
         public virtual void Process()
         {
             foreach (var processor in this.processors)
             {
                 processor.DataReader = DataReader;
-                processor.DynamicContentMode = DynamicContentMode;
+                processor.LockDynamicContent = LockDynamicContent;
                 processor.Process();
             }
         }

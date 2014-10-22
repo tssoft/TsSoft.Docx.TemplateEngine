@@ -6,7 +6,7 @@
     {
         DataReader DataReader { get; set; }
 
-        DynamicContentMode DynamicContentMode { get; set; }
+        bool LockDynamicContent { get; set; }
 
         ICollection<ITagProcessor> Processors { get; }
 

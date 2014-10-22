@@ -29,7 +29,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }
             if (!truthful)
             {
-                if (this.DynamicContentMode == DynamicContentMode.Lock)
+                if (this.LockDynamicContent)
                 {
                     this.Tag.StartIf.AddBeforeSelf(DocxHelper.CreateDynamicContentElement(Enumerable.Empty<XElement>(), this.Tag.StartIf));
                 }
@@ -37,18 +37,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }
             else
             {
-                switch (this.DynamicContentMode)
+                if (this.LockDynamicContent)
                 {
-                    case DynamicContentMode.NoLock:
-                        this.Tag.StartIf.Remove();
-                        this.Tag.EndIf.Remove();
-                        break;
-                    case DynamicContentMode.Lock:
-                        var innerElements = TraverseUtils.ElementsBetween(this.Tag.StartIf, this.Tag.EndIf).ToList();
-                        innerElements.Remove();
-                        this.Tag.StartIf.AddBeforeSelf(DocxHelper.CreateDynamicContentElement(innerElements, this.Tag.StartIf));
-                        this.CleanUp(this.Tag.StartIf, this.Tag.EndIf);
-                        break;
+                    var innerElements = TraverseUtils.ElementsBetween(this.Tag.StartIf, this.Tag.EndIf).ToList();
+                    innerElements.Remove();
+                    this.Tag.StartIf.AddBeforeSelf(DocxHelper.CreateDynamicContentElement(innerElements, this.Tag.StartIf));
+                    this.CleanUp(this.Tag.StartIf, this.Tag.EndIf);
+                }
+                else
+                {
+                    this.Tag.StartIf.Remove();
+                    this.Tag.EndIf.Remove();
                 }
             }
         }

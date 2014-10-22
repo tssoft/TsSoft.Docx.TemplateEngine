@@ -76,7 +76,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
             var processor = new TextProcessor
             {
                 DataReader = new DataReader(data),
-                DynamicContentMode = DynamicContentMode.Lock,
+                LockDynamicContent = true,
                 TextTag = new TextTag
                 {
                     Expression = "//test/text",
