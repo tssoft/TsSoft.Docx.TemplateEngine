@@ -15,6 +15,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         {
             base.Process();
 
+            ProcessDynamicContent();
+
             if (TableTag == null)
             {
                 throw new NullReferenceException();
@@ -25,7 +27,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 
             ReplaceValues(dynamicRow);
 
-            RemoveTags();
+            if (this.DynamicContentMode == DynamicContentMode.Lock)
+            {
+                var innerElements = TraverseUtils.ElementsBetween(this.TableTag.TagTable, this.TableTag.TagEndTable).ToList();
+                innerElements.Remove();
+                this.TableTag.TagTable.AddBeforeSelf(DocxHelper.CreateDynamicContentElement(innerElements, this.TableTag.TagTable));
+                this.CleanUp(this.TableTag.TagTable, this.TableTag.TagEndTable);
+            }
+            else
+            {
+                RemoveTags();
+            }
         }
 
         private void ReplaceValues(XElement dynamicRow)
@@ -206,6 +218,27 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         {
             return tableElement.StartTag.Descendants(WordMl.TableCellName).FirstOrDefault()
                    ?? tableElement.StartTag.Ancestors().First(element => element.Name == WordMl.TableCellName);
+        }
+
+        private void ProcessDynamicContent()
+        {
+            var dynamicContentTags =
+                TraverseUtils.ElementsBetween(this.TableTag.TagTable, this.TableTag.TagEndTable)
+                             .Where(
+                                 element =>
+                                 element.IsSdt()
+                                 && element.Element(WordMl.SdtPrName)
+                                           .Element(WordMl.TagName)
+                                           .Attribute(WordMl.ValAttributeName)
+                                           .Value.ToLower()
+                                           .Equals("dynamiccontent"))
+                             .ToList();
+            foreach (var dynamicContentTag in dynamicContentTags)
+            {
+                var innerElements = dynamicContentTag.Element(WordMl.SdtContentName).Elements();
+                dynamicContentTag.AddAfterSelf(innerElements);
+                dynamicContentTag.Remove();
+            }
         }
 
         private void RemoveTags()

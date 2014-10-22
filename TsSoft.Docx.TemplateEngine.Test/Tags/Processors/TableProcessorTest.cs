@@ -1,5 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml.Linq;
 using TsSoft.Commons.Utils;
@@ -8,9 +11,6 @@ using TsSoft.Docx.TemplateEngine.Tags.Processors;
 
 namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
 
     [TestClass]
     public class TableProcessorTest : BaseProcessorTest
@@ -149,6 +149,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
             };
             tableProcessor.Process();
 
+            Assert.IsFalse(this.documentRoot.Elements(WordMl.SdtName).Any(element => element.IsSdt()));
             var expectedTableStructure = new[]
                 {
                 new[] { "#", "Certificate", "Date" },
@@ -188,6 +189,168 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
             tagsBetween =
                 tableTag.TagEndContent.ElementsAfterSelf().Where(element => element.IsBefore(tableTag.TagEndTable));
             Assert.IsFalse(tagsBetween.Any());*/
+            this.ValidateTagsRemoved(this.documentRoot);
+        }
+
+        [TestMethod]
+        public void TestProcessWithLock()
+        {
+            var tableTag = this.GetTableTag();
+
+            Func<XElement, IEnumerable<TableElement>> MakeTableElementCallback = element =>
+            {
+                var tags = element.Descendants(WordMl.SdtName).ToList();
+
+                var index =
+                    tags.Find(
+                        e =>
+                        e.Element(WordMl.SdtPrName)
+                         .Element(WordMl.TagName)
+                         .Attribute(WordMl.ValAttributeName)
+                         .Value.ToLower()
+                         .Equals("itemindex"));
+                var subject =
+                    tags.Find(
+                        e =>
+                        e.Element(WordMl.SdtPrName)
+                         .Element(WordMl.TagName)
+                         .Attribute(WordMl.ValAttributeName)
+                         .Value.ToLower()
+                         .Equals("itemtext") && e.Element(WordMl.SdtContentName).Value == "./Subject");
+                var issueDate =
+                    tags.Find(
+                        e =>
+                        e.Element(WordMl.SdtPrName)
+                         .Element(WordMl.TagName)
+                         .Attribute(WordMl.ValAttributeName)
+                         .Value.ToLower()
+                         .Equals("itemtext") && e.Element(WordMl.SdtContentName).Value == "./IssueDate");
+                var expireDate =
+                    tags.Find(
+                        e =>
+                        e.Element(WordMl.SdtPrName)
+                         .Element(WordMl.TagName)
+                         .Attribute(WordMl.ValAttributeName)
+                         .Value.ToLower()
+                         .Equals("itemtext") && e.Element(WordMl.SdtContentName).Value == "./ExpireDate");
+                var itemIf =
+                    tags.Find(
+                        e =>
+                        e.Element(WordMl.SdtPrName)
+                         .Element(WordMl.TagName)
+                         .Attribute(WordMl.ValAttributeName)
+                         .Value.ToLower()
+                         .Equals("itemif"));
+                var endItemIf =
+                    tags.Find(
+                        e =>
+                        e.Element(WordMl.SdtPrName)
+                         .Element(WordMl.TagName)
+                         .Attribute(WordMl.ValAttributeName)
+                         .Value.ToLower()
+                         .Equals("enditemif"));
+
+
+                IEnumerable<TableElement> tableElements = new TableElement[]
+                                                                  {
+                                                                      new TableElement
+                                                                          {
+                                                                              IsIndex = true,
+                                                                              IsItem = false,
+                                                                              IsItemIf = false,
+                                                                              StartTag = index,
+                                                                          },
+                                                                      new TableElement
+                                                                          {
+                                                                              IsItemIf = true,
+                                                                              IsIndex = false,
+                                                                              IsItem = false,
+                                                                              StartTag = itemIf,
+                                                                              EndTag = endItemIf,
+                                                                              Expression = "./HasSubject",
+                                                                              TagElements =
+                                                                                  new TableElement[]
+                                                                                      {
+                                                                                          new TableElement
+                                                                                              {
+                                                                                                  IsItem = true,
+                                                                                                  IsIndex = false,
+                                                                                                  IsItemIf = false,
+                                                                                                  StartTag = subject,
+                                                                                                  Expression = "./Subject"
+                                                                                              }
+                                                                                      }
+                                                                          },
+                                                                      new TableElement
+                                                                          {
+                                                                              IsItem = true,
+                                                                              IsIndex = false,
+                                                                              IsItemIf = false,
+                                                                              StartTag = issueDate,
+                                                                              Expression = "./IssueDate"
+                                                                          },
+                                                                      new TableElement
+                                                                          {
+                                                                              IsItem = true,
+                                                                              IsIndex = false,
+                                                                              IsItemIf = false,
+                                                                              StartTag = expireDate,
+                                                                              Expression = "./ExpireDate"
+                                                                          }
+                                                                  };
+                return tableElements;
+            };
+
+            tableTag.MakeTableElementCallback = MakeTableElementCallback;
+
+            var tableProcessor = new TableProcessor
+            {
+                TableTag = tableTag,
+                DataReader = this.dataReader,
+                DynamicContentMode = DynamicContentMode.Lock
+            };
+            tableProcessor.Process();
+
+            Assert.IsTrue(
+                this.documentRoot.Elements(WordMl.SdtName)
+                    .Any(
+                        element =>
+                        element.Element(WordMl.SdtPrName)
+                               .Element(WordMl.TagName)
+                               .Attribute(WordMl.ValAttributeName)
+                               .Value.ToLower()
+                               .Equals("dynamiccontent")));
+            var expectedTableStructure = new[]
+                {
+                new[] { "#", "Certificate", "Date" },
+                new[] { string.Empty, string.Empty, "Issue", "Expiration" },
+                new[] { "1", "2", "3", "4" },
+                new[] { "1", "Subject1", "01.04.2014", "01.10.2015" },
+                new[] { "2", "Subject2", "01.03.2014", "01.09.2015" },
+                new[] { "3", "Subject3", "01.01.2011", "01.01.2012" },
+                new[] { "This", "row", "stays", "untouched" },
+            };
+            Assert.AreEqual(1, this.documentRoot.Elements(WordMl.SdtName).Count());
+            var rows = tableTag.Table.Elements(WordMl.TableRowName).ToList();
+            Assert.AreEqual(expectedTableStructure.Count(), rows.Count());
+            int rowIndex = 0;
+            foreach (var row in rows)
+            {
+                var expectedRow = expectedTableStructure[rowIndex];
+
+                var cellsInRow = row.Elements(WordMl.TableCellName).ToList();
+
+                Assert.AreEqual(expectedRow.Count(), cellsInRow.Count());
+
+                int cellIndex = 0;
+                foreach (var cell in cellsInRow)
+                {
+                    Assert.AreEqual(expectedRow[cellIndex], cell.Value);
+                    cellIndex++;
+                }
+
+                rowIndex++;
+            }
             this.ValidateTagsRemoved(this.documentRoot);
         }
 

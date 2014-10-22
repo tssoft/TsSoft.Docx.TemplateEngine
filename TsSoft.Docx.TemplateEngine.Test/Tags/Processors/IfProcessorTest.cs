@@ -64,6 +64,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 
             processor.Process();
 
+            Assert.IsFalse(this.body.Elements(WordMl.SdtName).Any(element => element.IsSdt()));
             this.ValidateTagsRemoved(this.body);
             var actualParagraph = this.body.Element(WordMl.ParagraphName);
 
@@ -111,6 +112,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 
             processor.Process();
 
+            Assert.IsFalse(this.body.Elements(WordMl.SdtName).Any(element => element.IsSdt()));
             this.ValidateTagsRemoved(this.body);
             var actualParagraph = this.body.Element(WordMl.ParagraphName);
 

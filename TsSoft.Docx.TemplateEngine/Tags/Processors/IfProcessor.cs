@@ -44,7 +44,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                         this.Tag.EndIf.Remove();
                         break;
                     case DynamicContentMode.Lock:
-                        var innerElements = TraverseUtils.ElementsBetween(this.Tag.StartIf, this.Tag.EndIf);
+                        var innerElements = TraverseUtils.ElementsBetween(this.Tag.StartIf, this.Tag.EndIf).ToList();
+                        innerElements.Remove();
                         this.Tag.StartIf.AddBeforeSelf(DocxHelper.CreateDynamicContentElement(innerElements, this.Tag.StartIf));
                         this.CleanUp(this.Tag.StartIf, this.Tag.EndIf);
                         break;
