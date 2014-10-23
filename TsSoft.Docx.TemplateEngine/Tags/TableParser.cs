@@ -21,11 +21,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 {
                     var tableElement = ToTableElement(currentTagElement);
                     
-                    if (tableElement.IsItem || tableElement.IsIndex || tableElement.IsItemIf)
+                    if (tableElement.IsItem || tableElement.IsIndex || tableElement.IsItemIf || tableElement.IsItemRepeater)
                     {
                         tableElements.Add(tableElement);
                     }
-                    if (tableElement.IsItemIf)
+                    if (tableElement.IsItemIf || tableElement.IsItemRepeater)
                     {
                         currentTagElement = tableElement.EndTag;
                     }
@@ -138,7 +138,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             }
             else if (tableElement.IsItemIf || tableElement.IsItemRepeater)
             {
-                tableElement.EndTag = FindEndTag(tableElement.StartTag);
+                tableElement.EndTag = FindEndTag(tableElement.StartTag, tableElement.IsItemRepeater ? "itemrepeater" : "itemif", tableElement.IsItemRepeater ? "enditemrepeater" : "enditemif");
                 tableElement.Expression = tagElement.GetExpression();
                 tableElement.TagElements = MakeTableElement(tableElement.StartTag, tableElement.EndTag);
             }
@@ -146,7 +146,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return tableElement;
         }
 
-        private static XElement FindEndTag(XElement startTag, string startTagName = "itemif", string endTagName = "enditemif")
+        private static XElement FindEndTag(XElement startTag, string startTagName, string endTagName)
         {
             var startTagsOpened = 1;
             var current = startTag;

@@ -111,6 +111,7 @@
     <EmbeddedResource Include="ifTtable1.docx" />
     <EmbeddedResource Include="corruptedDoc.docx" />
     <EmbeddedResource Include="corruptedDocxx.docx" />
+    <EmbeddedResource Include="ItemRepeaterDemo.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />

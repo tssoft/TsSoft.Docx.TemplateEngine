@@ -34,7 +34,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         {
             this.ValidateStartTag(startElement, TagName);
             var endRepeater = TryGetRequiredTag(startElement, EndTagName);
-            var itemsSource = startElement.GetExpression();
+            var itemsSource = startElement.GetExpression(); 
 
             if (string.IsNullOrEmpty(itemsSource))
             {

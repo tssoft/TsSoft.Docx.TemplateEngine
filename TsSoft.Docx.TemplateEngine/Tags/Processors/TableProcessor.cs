@@ -73,6 +73,13 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 {
                     previous = this.ProcessItemIfElement(currentTableElement, dataReader, index, previous);
                 }
+                else if (currentTableElement.IsItemRepeater)
+                {
+                   
+                    // TODO ItemRepeater Processing
+                    previous = this.ProcessItemRepeaterElement(currentTableElement, dataReader, index, previous);
+
+                }
                 else if (currentTableElement.IsItem || currentTableElement.IsIndex)
                 {
                     var resultText = currentTableElement.IsIndex
@@ -95,7 +102,20 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }
         }
 
-        
+        private XElement ProcessItemRepeaterElement(TableElement itemRepeaterElement, DataReader dataReader, int index,
+                                                    XElement previous)
+        {
+            var expression = itemRepeaterElement.Expression;
+            var readers = dataReader.GetReaders(expression);
+            foreach (var element in itemRepeaterElement.TagElements)
+            {
+                if (element.IsItemRepeater)
+                {
+                    var itemRepeater = ProcessItemRepeaterElement(element, dataReader, 1, previous);
+                }                                                                   
+            }            
+         throw new NotImplementedException();   
+        }
 
         private XElement ProcessItemIfElement(TableElement itemIfElement, DataReader dataReader, int index, XElement previous)
         {
