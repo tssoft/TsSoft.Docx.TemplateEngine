@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -66,10 +67,65 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 return itemRepeaterElement;
             };
 
-        public XElement Parse(XElement startElement, XElement endElement, DataReader dataReader)
+        public void Parse(XElement startElement, XElement endElement, IList<DataReader> dataReaders)
+        {            
+            var itemRepeaterElements = TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback);
+           
+            for (var index = 1; index < dataReaders.Count(); index++)
+            {
+                var repeaterElements = itemRepeaterElements as IList<ItemRepeaterElement> ?? itemRepeaterElements.ToList();
+                this.ProcessElements(repeaterElements, dataReaders[index - 1], index);
+            }
+
+            foreach (var itemRepeaterElement in itemRepeaterElements)
+            {
+                itemRepeaterElement.XElement.Remove();
+            }
+
+            startElement.Remove();
+            endElement.Remove();
+            //throw new NotImplementedException();
+        }        
+
+        private void RemoveTags()
         {
             
-            throw new NotImplementedException();
-        }        
+        }
+
+        private void ProcessElements(IEnumerable<ItemRepeaterElement> itemRepeaterElements, DataReader dataReader, int index)
+        {
+            XElement result = null;
+            foreach (var itemRepeaterElement in itemRepeaterElements)
+            {
+                if (itemRepeaterElement.IsIndex)
+                {
+                    result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
+                                                          itemRepeaterElement.XElement.Parent,
+                                                          index.ToString(CultureInfo.CurrentCulture));
+                }
+                else if (itemRepeaterElement.IsItem && itemRepeaterElement.HasExpression)
+                {
+                    result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
+                                                          itemRepeaterElement.XElement.Parent,
+                                                          dataReader.ReadText(itemRepeaterElement.Expression));
+                }
+                else
+                {
+                    var element = new XElement(itemRepeaterElement.XElement);
+                    element.RemoveNodes();
+                    result = element;
+                    if (itemRepeaterElement.HasElements)
+                    {
+                        this.ProcessElements(itemRepeaterElement.Elements, dataReader, index);
+                    }
+                    else
+                    {
+                        element.Value = itemRepeaterElement.XElement.Value;
+                    }                    
+                }                
+                itemRepeaterElement.XElement.AddAfterSelf(result);
+                itemRepeaterElement.XElement.Remove();
+            }
+        }
     }
 }

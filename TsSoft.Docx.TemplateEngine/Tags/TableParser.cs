@@ -59,13 +59,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                               TagTable = startElement,
                               TagEndTable = endTableTag,
                               ItemsSource = itemsSource,
-                              //TagContent = contentTag,
-                              //TagEndContent = endContentTag
                           };            
 
             int? dynamicRow = null;
-            int rCount = 1;
-            //Console.WriteLine(startElement.Elements());
+            int rCount = 1;            
             var between = TraverseUtils.ElementsBetween(startElement, endTableTag).Descendants(WordMl.TableRowName);
             foreach (var tableRow in between)
             {

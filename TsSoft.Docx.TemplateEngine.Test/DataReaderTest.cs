@@ -23,28 +23,29 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestGetReader()
         {
-            var document = this.GetXmlDocument();
+            var document = this.GetXmlDocument();            
             var dataReader = DataReaderFactory.CreateReader(document);
-
             const string Path = "/Test/Certificates/Certificate";
             var reader = dataReader.GetReader(Path);
-            Assert.IsNotNull(reader);
+            {
+                Assert.IsNotNull(reader);
 
-            var node = document.SelectSingleNode(Path);
-            var expectedReader = DataReaderFactory.CreateReader(node);
-            Assert.AreEqual(expectedReader, reader);
+                var node = document.SelectSingleNode(Path);
+                var expectedReader = DataReaderFactory.CreateReader(node);
+                Assert.AreEqual(expectedReader, reader);
 
-            const string WrongPath = "/Test/Documents/Document";
-            reader = dataReader.GetReader(WrongPath);
-            Assert.IsNull(reader);
+                const string WrongPath = "/Test/Documents/Document";
+                reader = dataReader.GetReader(WrongPath);
+                Assert.IsNull(reader);
+            }
+            
         }
 
         [TestMethod]
         public void TestGetReaders()
         {
-            var document = this.GetXmlDocument();
+            var document = this.GetXmlDocument();           
             var dataReader = DataReaderFactory.CreateReader(document);
-
             const string Path = "/Test/Certificates/Certificate";
             var readers = dataReader.GetReaders(Path).ToList();
 
@@ -67,14 +68,15 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             Assert.IsNotNull(wrongPathReaders);
             Assert.IsFalse(wrongPathReaders.Any());
+            
         }
 
         [TestMethod]
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void TestGetReaderNullPath()
         {
-            var dataReader = DataReaderFactory.CreateReader(this.GetXmlDocument());
-            dataReader.GetReader(null);
+            var dataReader = DataReaderFactory.CreateReader(this.GetXmlDocument());           
+            dataReader.GetReader(null);            
         }
 
         [TestMethod]
@@ -88,10 +90,12 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
         private XmlDocument GetXmlDocument()
         {
-            var stream = AssemblyResourceHelper.GetResourceStream(this, "DataReaderTest.xml");
-            var xmlDoc = new XmlDocument();
-            xmlDoc.Load(stream);
-            return xmlDoc;
+            using (var stream = AssemblyResourceHelper.GetResourceStream(this, "DataReaderTest.xml"))
+            {
+                var xmlDoc = new XmlDocument();
+                xmlDoc.Load(stream);
+                return xmlDoc;
+            }
         }
     }
 

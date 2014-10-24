@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Xml.Linq;
@@ -18,13 +19,18 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
         [TestInitialize]
         public void Initialize()
         {
-            var docStream = AssemblyResourceHelper.GetResourceStream(this, "Repeater_Ok.xml");
-            var doc = XDocument.Load(docStream);
-            this.documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
-
-            docStream = AssemblyResourceHelper.GetResourceStream(this, "Repeater_Nested.xml");
-            doc = XDocument.Load(docStream);
-            this.nestedDocumentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
+            Stream docStream;
+            XDocument doc;
+            using (docStream = AssemblyResourceHelper.GetResourceStream(this, "Repeater_Ok.xml"))
+            {
+                doc = XDocument.Load(docStream);
+                this.documentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
+            }
+            using (docStream = AssemblyResourceHelper.GetResourceStream(this, "Repeater_Nested.xml"))
+            {
+                doc = XDocument.Load(docStream);
+                this.nestedDocumentRoot = doc.Root.Element(WordMl.WordMlNamespace + "body");
+            }
         }
 
         [TestMethod]

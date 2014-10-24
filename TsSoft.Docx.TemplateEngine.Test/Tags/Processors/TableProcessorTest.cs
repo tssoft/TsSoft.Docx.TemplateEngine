@@ -22,13 +22,15 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
         [TestInitialize]
         public void Initialize()
         {
-            var docStream = AssemblyResourceHelper.GetResourceStream(this, "TableProcessorTemplateTest.xml");
-            var doc = XDocument.Load(docStream);
-            this.documentRoot = doc.Root.Element(WordMl.BodyName);
+            using (var docStream = AssemblyResourceHelper.GetResourceStream(this, "TableProcessorTemplateTest.xml"))
+            {
+                var doc = XDocument.Load(docStream);
+                this.documentRoot = doc.Root.Element(WordMl.BodyName);
 
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "TableProcessorDataTest.xml");
-            var xmlDoc = XDocument.Load(dataStream);
-            this.dataReader = DataReaderFactory.CreateReader(xmlDoc);
+                var dataStream = AssemblyResourceHelper.GetResourceStream(this, "TableProcessorDataTest.xml");
+                var xmlDoc = XDocument.Load(dataStream);
+                this.dataReader = DataReaderFactory.CreateReader(xmlDoc);
+            }
         }
 
         [TestMethod]

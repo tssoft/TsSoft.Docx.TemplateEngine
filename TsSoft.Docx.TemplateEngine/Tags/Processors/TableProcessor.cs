@@ -74,10 +74,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     previous = this.ProcessItemIfElement(currentTableElement, dataReader, index, previous);
                 }
                 else if (currentTableElement.IsItemRepeater)
-                {
-                   
+                {                   
                     // TODO ItemRepeater Processing
-                    previous = this.ProcessItemRepeaterElement(currentTableElement, dataReader, index, previous);
+                    this.ProcessItemRepeaterElement(currentTableElement, dataReader, index, previous);
 
                 }
                 else if (currentTableElement.IsItem || currentTableElement.IsIndex)
@@ -102,7 +101,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }
         }
 
-        private XElement ProcessItemRepeaterElement(TableElement itemRepeaterElement, DataReader dataReader, int index,
+        private void ProcessItemRepeaterElement(TableElement itemRepeaterElement, DataReader dataReader, int index,
                                                     XElement previous)
         {
             var expression = itemRepeaterElement.Expression;
@@ -111,10 +110,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             {
                 if (element.IsItemRepeater)
                 {
-                    var itemRepeater = ProcessItemRepeaterElement(element, dataReader, 1, previous);
+                    ProcessItemRepeaterElement(element, dataReader, 1, null);
                 }                                                                   
-            }            
-         throw new NotImplementedException();   
+            }                        
+            var p = new ItemRepeaterParser();
+            p.Parse(itemRepeaterElement.StartTag, itemRepeaterElement.EndTag, readers.ToList());
+            
         }
 
         private XElement ProcessItemIfElement(TableElement itemIfElement, DataReader dataReader, int index, XElement previous)
