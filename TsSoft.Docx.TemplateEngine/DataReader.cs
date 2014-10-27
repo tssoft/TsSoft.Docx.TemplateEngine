@@ -20,14 +20,7 @@ namespace TsSoft.Docx.TemplateEngine
         
         public DataReader(XElement rootElement)
         {
-            this.rootElement = rootElement;
-            /*
-            foreach (var node in rootElement.DescendantsAndSelf())
-            {
-                node.Name = node.Name.ToString().ToLower();
-            }
-             * */
-            //Console.WriteLine(rootElement.ToString());
+            this.rootElement = rootElement;            
         }
         
         public MissingDataMode MissingDataModeSettings

@@ -101,20 +101,26 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }
         }
 
+
+        private ItemRepeaterTag GenerateItemRepeaterTag(TableElement itemRepeaterElement)
+        {
+            var tagResult = new ItemRepeaterTag()
+            {StartItemRepeater = itemRepeaterElement.StartTag,EndItemRepeater = itemRepeaterElement.EndTag,NestedRepeaters = new List<ItemRepeaterTag>(), Source = itemRepeaterElement.Expression};
+            foreach (var element in itemRepeaterElement.TagElements.Where(element => element.IsItemRepeater))
+            {
+                tagResult.NestedRepeaters.Add(GenerateItemRepeaterTag(element));
+            }
+            return tagResult;
+        }
+
         private void ProcessItemRepeaterElement(TableElement itemRepeaterElement, DataReader dataReader, int index,
                                                     XElement previous)
         {
             var expression = itemRepeaterElement.Expression;
             var readers = dataReader.GetReaders(expression);
-            foreach (var element in itemRepeaterElement.TagElements)
-            {
-                if (element.IsItemRepeater)
-                {
-                    ProcessItemRepeaterElement(element, dataReader, 1, null);
-                }                                                                   
-            }                        
-            var p = new ItemRepeaterParser();
-            p.Parse(itemRepeaterElement.StartTag, itemRepeaterElement.EndTag, readers.ToList());
+            var itemRepeaterTag = GenerateItemRepeaterTag(itemRepeaterElement);         
+            var p = new ItemRepeaterParser();                        
+            p.Parse(itemRepeaterTag, readers.ToList());
             
         }
 

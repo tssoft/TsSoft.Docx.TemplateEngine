@@ -248,17 +248,36 @@ namespace TsSoft.Docx.TemplateEngine.Test
         }
 
         [TestMethod]
+        public void TestActualGenerationItemRepeaterNested()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedDemo.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedDemoData.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+
+            var package = new DocxPackage(output);
+            package.Load();
+            Console.WriteLine(package.DocumentPartXml.ToString());
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+        }
+
+        [TestMethod]
         public void TestActualGenerationItemRepeater()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterDemo.docx");
             var output = new MemoryStream();
             var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterDemoData.xml");
             var data = XDocument.Load(dataStream);
             generator.GenerateDocx(
                 input,
                 output,
-                data);
+                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException});
 
             var package = new DocxPackage(output);
             package.Load();
@@ -277,7 +296,8 @@ namespace TsSoft.Docx.TemplateEngine.Test
             generator.GenerateDocx(
                 input,
                 output,
-                data);
+                data, 
+                new DocxGeneratorSettings() {MissingDataMode = MissingDataMode.ThrowException});
 
             var package = new DocxPackage(output);
             package.Load();

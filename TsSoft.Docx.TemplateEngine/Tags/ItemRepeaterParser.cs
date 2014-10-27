@@ -41,6 +41,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
     internal class ItemRepeaterTag
     {
+        public XElement StartItemRepeater { get; set; }
+
+        public XElement EndItemRepeater { get; set; }
+
+        public string Source { get; set; }
+
+        public ICollection<ItemRepeaterTag> NestedRepeaters { get; set; }
+
         public Func<XElement, RepeaterElement> MakeElementCallback { get; set; }
     }
 
@@ -52,6 +60,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         private static Func<XElement, ItemRepeaterElement> MakeElementCallback = element =>
             {
+               // if (element.IsSdt() && element.IsTag("itemrepeater"))
+                //{
+                  //  return null;
+                //}
                 var itemRepeaterElement = new ItemRepeaterElement()
                     {
                         Elements = element.Elements().Select(MakeElementCallback),
@@ -66,33 +78,41 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 }
                 return itemRepeaterElement;
             };
+        
 
-        public void Parse(XElement startElement, XElement endElement, IList<DataReader> dataReaders)
-        {            
-            var itemRepeaterElements = TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback);
-           
-            for (var index = 1; index < dataReaders.Count(); index++)
+        public void Parse(ItemRepeaterTag tag, IList<DataReader> dataReaders)
+        {           
+            var startElement = tag.StartItemRepeater;
+            var endElement = tag.EndItemRepeater;
+            var itemRepeaterElements =
+                TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback).ToList();
+
+            XElement current = startElement;
+            for (var index = 1; index <= dataReaders.Count(); index++)
             {
-                var repeaterElements = itemRepeaterElements as IList<ItemRepeaterElement> ?? itemRepeaterElements.ToList();
-                this.ProcessElements(repeaterElements, dataReaders[index - 1], index);
+                foreach (var nestedRepeater in tag.NestedRepeaters)
+                {
+                    this.Parse(nestedRepeater, dataReaders[index - 1].GetReaders(nestedRepeater.Source).ToList());
+                }
+                var repeaterElements = itemRepeaterElements as IList<ItemRepeaterElement> ??
+                                        itemRepeaterElements.ToList();
+                current = this.ProcessElements(repeaterElements, dataReaders[index - 1], current, null, index);
             }
-
             foreach (var itemRepeaterElement in itemRepeaterElements)
             {
                 itemRepeaterElement.XElement.Remove();
             }
-
             startElement.Remove();
             endElement.Remove();
-            //throw new NotImplementedException();
-        }        
+            
+        }
 
         private void RemoveTags()
         {
             
         }
 
-        private void ProcessElements(IEnumerable<ItemRepeaterElement> itemRepeaterElements, DataReader dataReader, int index)
+        private XElement ProcessElements(IEnumerable<ItemRepeaterElement> itemRepeaterElements, DataReader dataReader, XElement start, XElement parent, int index)
         {
             XElement result = null;
             foreach (var itemRepeaterElement in itemRepeaterElements)
@@ -116,16 +136,24 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     result = element;
                     if (itemRepeaterElement.HasElements)
                     {
-                        this.ProcessElements(itemRepeaterElement.Elements, dataReader, index);
+                        this.ProcessElements(itemRepeaterElement.Elements, dataReader, null, result, index);
                     }
                     else
                     {
                         element.Value = itemRepeaterElement.XElement.Value;
-                    }                    
-                }                
-                itemRepeaterElement.XElement.AddAfterSelf(result);
-                itemRepeaterElement.XElement.Remove();
+                    }
+                }
+                if (start != null)
+                {
+                    start.AddAfterSelf(result);
+                    start = result;
+                }
+                else
+                {
+                    parent.Add(result);
+                }
             }
+            return result;            
         }
     }
 }

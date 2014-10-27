@@ -112,6 +112,7 @@
     <EmbeddedResource Include="corruptedDoc.docx" />
     <EmbeddedResource Include="corruptedDocxx.docx" />
     <EmbeddedResource Include="ItemRepeaterDemo.docx" />
+    <EmbeddedResource Include="ItemRepeaterNestedDemo.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />
@@ -191,6 +192,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Tags\Processors\TableItemIfsData.xml" />
     <EmbeddedResource Include="Tags\Processors\TableItemIfsTest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ItemRepeaterDemoData.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ItemRepeaterNestedDemoData.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
