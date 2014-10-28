@@ -107,6 +107,18 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             
         }
 
+        private void ProcessNestedRepeaters(ItemRepeaterTag tag)
+        {
+            foreach (var nestedRepeater in tag.NestedRepeaters)
+            {
+                if (nestedRepeater.NestedRepeaters.Count == 0)
+                {
+                    var dataReaders = new DataReader()
+                    for (int index = 1; index )
+                }
+            }
+        }
+
         private void RemoveTags()
         {
             
