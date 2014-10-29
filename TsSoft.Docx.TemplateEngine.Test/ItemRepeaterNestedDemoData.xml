@@ -11,39 +11,39 @@
 			<Date>02.06.2015</Date>
 			<Priority>1</Priority>
 			<AddInfo>
-				<TextInfo>Recommended</TextInfo>
+				<TextInfo>Recommended 1 1</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>AddInfo2</TextInfo>
+				<TextInfo>AddInfo2 1 1</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>DeadLine</TextInfo>
+				<TextInfo>DeadLine 1 1</TextInfo>
 			</AddInfo>
 		</IExpireDate>		
 		<IExpireDate>
 			<Date>03.06.2015</Date>
 			<Priority>4</Priority>
 			<AddInfo>
-				<TextInfo>Recommended</TextInfo>
+				<TextInfo>Recommended 1 2</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>AddInfo2</TextInfo>
+				<TextInfo>AddInfo2 1 2</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>DeadLine</TextInfo>
+				<TextInfo>DeadLine 1 2</TextInfo>
 			</AddInfo>
 		</IExpireDate>
 		<IExpireDate>
 			<Date>04.06.2015</Date>
 			<Priority>5</Priority>
 			<AddInfo>
-				<TextInfo>Recommended</TextInfo>
+				<TextInfo>Recommended 1 3</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>AddInfo2</TextInfo>
+				<TextInfo>AddInfo2 1 3</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>DeadLine</TextInfo>
+				<TextInfo>DeadLine 1 3</TextInfo>
 			</AddInfo>
 		</IExpireDate>		
 	</ExpireDates>
@@ -56,42 +56,42 @@
     <ExpireDate>01.09.2015</ExpireDate>
 	<ExpireDates>
 		<IExpireDate>
-			<Date>02.06.2015</Date>
+			<Date>05.06.2015</Date>
 			<Priority>1</Priority>
 			<AddInfo>
-				<TextInfo>Recommended</TextInfo>
+				<TextInfo>Recommended 2 1</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>AddInfo2</TextInfo>
+				<TextInfo>AddInfo2 2 1</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>DeadLine</TextInfo>
+				<TextInfo>DeadLine 2 1</TextInfo>
 			</AddInfo>
 		</IExpireDate>		
 		<IExpireDate>
-			<Date>03.06.2015</Date>
+			<Date>06.06.2015</Date>
 			<Priority>4</Priority>
 			<AddInfo>
-				<TextInfo>Recommended</TextInfo>
+				<TextInfo>Recommended 2 2</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>AddInfo2</TextInfo>
+				<TextInfo>AddInfo2 2 2</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>DeadLine</TextInfo>
+				<TextInfo>DeadLine 2 2</TextInfo>
 			</AddInfo>
 		</IExpireDate>
 		<IExpireDate>
-			<Date>04.06.2015</Date>
+			<Date>07.06.2015</Date>
 			<Priority>5</Priority>
 			<AddInfo>
-				<TextInfo>Recommended</TextInfo>
+				<TextInfo>Recommended 2 3</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>AddInfo2</TextInfo>
+				<TextInfo>AddInfo2 2 3</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>DeadLine</TextInfo>
+				<TextInfo>DeadLine 2 3</TextInfo>
 			</AddInfo>
 		</IExpireDate>		
 	</ExpireDates>
@@ -104,42 +104,42 @@
     <ExpireDate>01.01.2012</ExpireDate>
 	<ExpireDates>
 		<IExpireDate>
-			<Date>02.06.2015</Date>
+			<Date>08.06.2015</Date>
 			<Priority>1</Priority>
 			<AddInfo>
-				<TextInfo>Recommended</TextInfo>
+				<TextInfo>Recommended 3 1</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>AddInfo2</TextInfo>
+				<TextInfo>AddInfo2 3 1</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>DeadLine</TextInfo>
+				<TextInfo>DeadLine 3 1</TextInfo>
 			</AddInfo>
 		</IExpireDate>		
 		<IExpireDate>
-			<Date>03.06.2015</Date>
+			<Date>09.06.2015</Date>
 			<Priority>4</Priority>
 			<AddInfo>
-				<TextInfo>Recommended</TextInfo>
+				<TextInfo>Recommended 3 2</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>AddInfo2</TextInfo>
+				<TextInfo>AddInfo2 3 2</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>DeadLine</TextInfo>
+				<TextInfo>DeadLine 3 2</TextInfo>
 			</AddInfo>
 		</IExpireDate>
 		<IExpireDate>
-			<Date>04.06.2015</Date>
+			<Date>10.06.2015</Date>
 			<Priority>5</Priority>
 			<AddInfo>
-				<TextInfo>Recommended</TextInfo>
+				<TextInfo>Recommended 3 3</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>AddInfo2</TextInfo>
+				<TextInfo>AddInfo2 3 3</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>DeadLine</TextInfo>
+				<TextInfo>DeadLine 3 3</TextInfo>
 			</AddInfo>
 		</IExpireDate>		
 	</ExpireDates>
@@ -152,42 +152,42 @@
     <ExpireDate>01.09.2015</ExpireDate>
 	<ExpireDates>
 		<IExpireDate>
-			<Date>02.06.2015</Date>
+			<Date>11.06.2015</Date>
 			<Priority>1</Priority>
 			<AddInfo>
-				<TextInfo>Recommended</TextInfo>
+				<TextInfo>Recommended 4 1</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>AddInfo2</TextInfo>
+				<TextInfo>AddInfo2 4 1</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>DeadLine</TextInfo>
+				<TextInfo>DeadLine 4 1</TextInfo>
 			</AddInfo>
 		</IExpireDate>		
 		<IExpireDate>
-			<Date>03.06.2015</Date>
+			<Date>12.06.2015</Date>
 			<Priority>4</Priority>
 			<AddInfo>
-				<TextInfo>Recommended</TextInfo>
+				<TextInfo>Recommended 4 2</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>AddInfo2</TextInfo>
+				<TextInfo>AddInfo2 4 2</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>DeadLine</TextInfo>
+				<TextInfo>DeadLine 4 2</TextInfo>
 			</AddInfo>
 		</IExpireDate>
 		<IExpireDate>
-			<Date>04.06.2015</Date>
+			<Date>13.06.2015</Date>
 			<Priority>5</Priority>
 			<AddInfo>
-				<TextInfo>Recommended</TextInfo>
+				<TextInfo>Recommended 4 3</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>AddInfo2</TextInfo>
+				<TextInfo>AddInfo2 4 3</TextInfo>
 			</AddInfo>
 			<AddInfo>
-				<TextInfo>DeadLine</TextInfo>
+				<TextInfo>DeadLine 4 3</TextInfo>
 			</AddInfo>
 		</IExpireDate>		
 	</ExpireDates>

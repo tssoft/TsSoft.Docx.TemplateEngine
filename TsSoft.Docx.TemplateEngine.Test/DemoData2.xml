@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<demo>
+<test>
   <certificates>
 	<testing>true</testing>
 	<HasDate>true</HasDate>
@@ -32,4 +32,4 @@
   <TestText2>It's test text2</TestText2>
   <condition>true</condition>
   <falseCondition>false</falseCondition>
-</demo>
+</test>

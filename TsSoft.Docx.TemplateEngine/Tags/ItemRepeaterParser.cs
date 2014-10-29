@@ -96,10 +96,24 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                                           where (!TraverseUtils.ElementsBetween(nestedRepeater.StartItemRepeater, nestedRepeater.EndItemRepeater).Contains(itemRepeaterElement.XElement))
                                           select itemRepeaterElement);
             }
+            XElement currentNested;
             for (var index = 1; index <= dataReaders.Count(); index++)
-            {                                
-                this.ProcessNestedRepeaters(tag, dataReaders[index - 1]);                
-                current = this.ProcessElements(repeaterElements, dataReaders[index - 1], current, null, index);                
+            {
+                /*if (index == 1)
+                {
+                    current = this.ProcessNestedRepeaters(tag, dataReaders[index - 1]);
+                }
+                else
+                {
+                    this.ProcessNestedRepeaters(tag, dataReaders[index - 1]);
+                }*/
+                current = this.ProcessElements(repeaterElements, dataReaders[index - 1], current, null, index);
+                currentNested = this.ProcessNestedRepeaters(tag, dataReaders[index - 1], current);
+                if (currentNested != null)
+                {
+                    current = currentNested;
+                }
+
             }            
             foreach (var itemRepeaterElement in itemRepeaterElements)
             {
@@ -127,7 +141,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return result;
         }
 
-        private void RenderDataReaders(ItemRepeaterTag tag, DataReader dataReader)
+        private XElement RenderDataReaders(ItemRepeaterTag tag, DataReader dataReader,XElement current)
         {
             var elements = TraverseUtils.ElementsBetween(tag.StartItemRepeater,
                                                          tag.EndItemRepeater).Select(MakeElementCallback)
@@ -137,28 +151,32 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                                                                     .Any(nel => nel.IsSdt()))
                                         .ToList();
             var dataReaders = dataReader.GetReaders(tag.Source).ToList();
-            var current = tag.StartItemRepeater;
-            for (int index = 1; index <= dataReaders.Count; index++)
+            //var current = tag.StartItemRepeater;
+            for (var index = 1; index <= dataReaders.Count; index++)
             {
                 current = this.ProcessElements(elements, dataReaders[index - 1], current, null, index);
             }
+            return current;
                                   
         }
 
-        private void ProcessNestedRepeaters(ItemRepeaterTag tag, DataReader dataReader)
+        private XElement ProcessNestedRepeaters(ItemRepeaterTag tag, DataReader dataReader, XElement curr)
         {
-            foreach (var nestedRepeater in tag.NestedRepeaters)
+            XElement current = null;
+            foreach ( var nestedRepeater in tag.NestedRepeaters)
             {
                 if (nestedRepeater.NestedRepeaters.Count == 0)
                 {                    
-                    this.RenderDataReaders(nestedRepeater, dataReader);                   
+                    current = this.RenderDataReaders(nestedRepeater, dataReader, curr);
+                    //current = nestedRepeater.EndItemRepeater;
                 }
                 else
                 {
-                    this.ProcessNestedRepeaters(nestedRepeater, dataReader);
-                    this.RenderDataReaders(nestedRepeater, dataReader);
+                    this.ProcessNestedRepeaters(nestedRepeater, dataReader, curr);
+                    current = this.RenderDataReaders(nestedRepeater, dataReader, curr);
                 }                
             }
+            return current;
         }
 
         private void RemoveTags()
@@ -169,7 +187,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private XElement ProcessElements(IEnumerable<ItemRepeaterElement> itemRepeaterElements, DataReader dataReader, XElement start, XElement parent, int index)
         {
             XElement result = null;
-            XElement previous = start;
+            XElement previous = start;            
             foreach (var itemRepeaterElement in itemRepeaterElements)
             {
                 if (itemRepeaterElement.IsIndex)
