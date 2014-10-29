@@ -82,7 +82,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var endElement = tag.EndItemRepeater;
             var itemRepeaterElements =
                 TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback).ToList();
-            var nestedRepeaters = this.GetAllNestedRepeaters(tag);
+            var nestedRepeaters = this.GetAllNestedRepeaters(tag);            
+            if (startElement.Parent.Name == WordMl.ParagraphName)
+            {
+                startElement = startElement.Parent;
+            }
             XElement current = startElement;
             var repeaterElements = new List<ItemRepeaterElement>();
             if (nestedRepeaters.Count == 0)
@@ -108,6 +112,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     this.ProcessNestedRepeaters(tag, dataReaders[index - 1]);
                 }*/
                 current = this.ProcessElements(repeaterElements, dataReaders[index - 1], current, null, index);
+                var tempParent = current.Parent;
                 currentNested = this.ProcessNestedRepeaters(tag, dataReaders[index - 1], current);
                 if (currentNested != null)
                 {
@@ -141,7 +146,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return result;
         }
 
-        private XElement RenderDataReaders(ItemRepeaterTag tag, DataReader dataReader,XElement current)
+        private XElement RenderDataReaders(ItemRepeaterTag tag, DataReader dataReader, XElement current)
         {
             var elements = TraverseUtils.ElementsBetween(tag.StartItemRepeater,
                                                          tag.EndItemRepeater).Select(MakeElementCallback)
@@ -163,12 +168,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private XElement ProcessNestedRepeaters(ItemRepeaterTag tag, DataReader dataReader, XElement curr)
         {
             XElement current = null;
-            foreach ( var nestedRepeater in tag.NestedRepeaters)
+            foreach (var nestedRepeater in tag.NestedRepeaters)
             {
                 if (nestedRepeater.NestedRepeaters.Count == 0)
                 {                    
                     current = this.RenderDataReaders(nestedRepeater, dataReader, curr);
-                    //current = nestedRepeater.EndItemRepeater;
                 }
                 else
                 {
