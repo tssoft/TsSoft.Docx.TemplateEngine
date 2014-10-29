@@ -1,0 +1,1075 @@
+<PlanDocx xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Title>План работ №ПР 2015-001</Title>
+  <Year>2015</Year>
+  <Events>
+    <PlanEventDocx>
+      <Id>1</Id>
+      <PlanId>1</PlanId>
+      <IsContainer>False</IsContainer>
+      <ContainerId />
+      <Children />
+      <OrderNumber />
+      <Title>test1</Title>
+      <Scope>Контрольное мероприятие</Scope>
+      <EventForm>Проверка</EventForm>
+      <EventDatesTypeId>3</EventDatesTypeId>
+      <EventDatesType>
+        <Id>3</Id>
+        <DateType>Ежемесячно</DateType>
+        <DisplayAsMonths>False</DisplayAsMonths>
+      </EventDatesType>
+      <Duration>Ежемесячно</Duration>
+      <PlannedBeginMonth />
+      <PlannedBeginYear />
+      <PlannedEndMonth />
+      <PlannedEndYear />
+      <FiscalDateFrom>01.10.2014</FiscalDateFrom>
+      <FiscalDateTo>29.10.2014</FiscalDateTo>
+      <FiscalSum>0</FiscalSum>
+      <CreatorId>26e8c40f-f781-4ff0-9ad9-89c636fe6ee9</CreatorId>
+      <Type>Комплексное</Type>
+      <Reason>Предложения МГД</Reason>
+      <PlanEventTasks />
+      <PlanEventJobs />
+      <PlanEventChiefs>
+        <PlanEventChiefDocx>
+          <Id>2</Id>
+          <PlanEventId>1</PlanEventId>
+          <EmployeeId>235e7f62-230b-4c42-a305-bb1351333fb8</EmployeeId>
+          <Employee>
+            <Name>Чегринец Егор Алексеевич</Name>
+            <InitialsWithLastNameFirst>Чегринец Е.А.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>Е.А. Чегринец</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>3</ItemId>
+            <Phone>8 (495) 690-88-20</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=3</SpUrl>
+            <Id>235e7f62-230b-4c42-a305-bb1351333fb8</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+      </PlanEventChiefs>
+      <PlanEventOrganizations />
+      <ActionType>None</ActionType>
+      <DeadlinePlan />
+      <DeadlineReal />
+      <EventBeginPlan />
+      <EventEndPlan />
+      <EventBeginReal />
+      <EventEndReal />
+      <Status>Offer</Status>
+      <BudgetExternalCheck>False</BudgetExternalCheck>
+      <BudgetAccountingEvaluation>False</BudgetAccountingEvaluation>
+      <PurchaseAudit>False</PurchaseAudit>
+    </PlanEventDocx>
+    <PlanEventDocx>
+      <Id>3</Id>
+      <PlanId>1</PlanId>
+      <IsContainer>False</IsContainer>
+      <ContainerId />
+      <Children />
+      <OrderNumber />
+      <Title>тестовое ЭА мероприятие</Title>
+      <Scope>Экспертно-аналитическое мероприятие</Scope>
+      <EventForm>Экспертиза</EventForm>
+      <EventDatesTypeId>4</EventDatesTypeId>
+      <EventDatesType>
+        <Id>4</Id>
+        <DateType>Ежеквартально</DateType>
+        <DisplayAsMonths>False</DisplayAsMonths>
+      </EventDatesType>
+      <Duration>Ежеквартально</Duration>
+      <PlannedBeginMonth />
+      <PlannedBeginYear />
+      <PlannedEndMonth />
+      <PlannedEndYear />
+      <FiscalDateFrom>03.10.2014</FiscalDateFrom>
+      <FiscalDateTo>21.10.2014</FiscalDateTo>
+      <FiscalSum>0</FiscalSum>
+      <CreatorId>26e8c40f-f781-4ff0-9ad9-89c636fe6ee9</CreatorId>
+      <Type>Совместное</Type>
+      <Reason>Инициативные</Reason>
+      <PlanEventTasks />
+      <PlanEventJobs />
+      <PlanEventChiefs>
+        <PlanEventChiefDocx>
+          <Id>5</Id>
+          <PlanEventId>3</PlanEventId>
+          <EmployeeId>e24ec473-6ac9-4b3a-8c51-fa8a37ee43c3</EmployeeId>
+          <Employee>
+            <Name>Литвинцев Вячеслав Владимирович</Name>
+            <InitialsWithLastNameFirst>Литвинцев В.В.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>В.В. Литвинцев</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>5</ItemId>
+            <Phone>8 (495) 690-87-51</Phone>
+            <Position>Заместитель председателя</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=5</SpUrl>
+            <Id>e24ec473-6ac9-4b3a-8c51-fa8a37ee43c3</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>6</Id>
+          <PlanEventId>3</PlanEventId>
+          <EmployeeId>e0ba80b3-e03a-49ea-9ca3-3cdaf6ae50e0</EmployeeId>
+          <Employee>
+            <Name>Киселев Борис Валентинович</Name>
+            <InitialsWithLastNameFirst>Киселев Б.В.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>Б.В. Киселев</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>8</ItemId>
+            <Phone>8 (495) 690-71-47</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=8</SpUrl>
+            <Id>e0ba80b3-e03a-49ea-9ca3-3cdaf6ae50e0</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+      </PlanEventChiefs>
+      <PlanEventOrganizations />
+      <ActionType>None</ActionType>
+      <DeadlinePlan />
+      <DeadlineReal />
+      <EventBeginPlan />
+      <EventEndPlan />
+      <EventBeginReal />
+      <EventEndReal />
+      <Status>Offer</Status>
+      <BudgetExternalCheck>False</BudgetExternalCheck>
+      <BudgetAccountingEvaluation>False</BudgetAccountingEvaluation>
+      <PurchaseAudit>False</PurchaseAudit>
+    </PlanEventDocx>
+    <PlanEventDocx>
+      <Id>4</Id>
+      <PlanId>1</PlanId>
+      <IsContainer>False</IsContainer>
+      <ContainerId />
+      <Children />
+      <OrderNumber />
+      <Title>прочее мероприятие</Title>
+      <Scope>Прочее</Scope>
+      <EventForm />
+      <EventDatesTypeId>1</EventDatesTypeId>
+      <EventDatesType>
+        <Id>1</Id>
+        <DateType>Интервал месяцев</DateType>
+        <DisplayAsMonths>True</DisplayAsMonths>
+      </EventDatesType>
+      <Duration>Январь 2014 - сентябрь 2014</Duration>
+      <PlannedBeginMonth>1</PlannedBeginMonth>
+      <PlannedBeginYear>2014</PlannedBeginYear>
+      <PlannedEndMonth>9</PlannedEndMonth>
+      <PlannedEndYear>2014</PlannedEndYear>
+      <FiscalDateFrom />
+      <FiscalDateTo />
+      <FiscalSum>0</FiscalSum>
+      <CreatorId>26e8c40f-f781-4ff0-9ad9-89c636fe6ee9</CreatorId>
+      <Type />
+      <Reason>Бюджетный кодекс</Reason>
+      <PlanEventTasks />
+      <PlanEventJobs />
+      <PlanEventChiefs>
+        <PlanEventChiefDocx>
+          <Id>7</Id>
+          <PlanEventId>4</PlanEventId>
+          <EmployeeId>44105308-39ce-4b82-9524-e0ee659f17d4</EmployeeId>
+          <Employee>
+            <Name>Двуреченских Виктор Александрович</Name>
+            <InitialsWithLastNameFirst>Двуреченских В.А.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>В.А. Двуреченских</InitialsWithLastNameLast>
+            <IsDirector>True</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>1</ItemId>
+            <Phone>8 (495) 690-88-05</Phone>
+            <Position>Председатель</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=1</SpUrl>
+            <Id>44105308-39ce-4b82-9524-e0ee659f17d4</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>8</Id>
+          <PlanEventId>4</PlanEventId>
+          <EmployeeId>235e7f62-230b-4c42-a305-bb1351333fb8</EmployeeId>
+          <Employee>
+            <Name>Чегринец Егор Алексеевич</Name>
+            <InitialsWithLastNameFirst>Чегринец Е.А.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>Е.А. Чегринец</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>3</ItemId>
+            <Phone>8 (495) 690-88-20</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=3</SpUrl>
+            <Id>235e7f62-230b-4c42-a305-bb1351333fb8</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>9</Id>
+          <PlanEventId>4</PlanEventId>
+          <EmployeeId>e24ec473-6ac9-4b3a-8c51-fa8a37ee43c3</EmployeeId>
+          <Employee>
+            <Name>Литвинцев Вячеслав Владимирович</Name>
+            <InitialsWithLastNameFirst>Литвинцев В.В.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>В.В. Литвинцев</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>5</ItemId>
+            <Phone>8 (495) 690-87-51</Phone>
+            <Position>Заместитель председателя</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=5</SpUrl>
+            <Id>e24ec473-6ac9-4b3a-8c51-fa8a37ee43c3</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>10</Id>
+          <PlanEventId>4</PlanEventId>
+          <EmployeeId>e0ba80b3-e03a-49ea-9ca3-3cdaf6ae50e0</EmployeeId>
+          <Employee>
+            <Name>Киселев Борис Валентинович</Name>
+            <InitialsWithLastNameFirst>Киселев Б.В.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>Б.В. Киселев</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>8</ItemId>
+            <Phone>8 (495) 690-71-47</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=8</SpUrl>
+            <Id>e0ba80b3-e03a-49ea-9ca3-3cdaf6ae50e0</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>11</Id>
+          <PlanEventId>4</PlanEventId>
+          <EmployeeId>2bdbd4d3-c664-4d9c-93e1-b9975e752df2</EmployeeId>
+          <Employee>
+            <Name>Кузнецов Анатолий Сергеевич</Name>
+            <InitialsWithLastNameFirst>Кузнецов А.С.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>А.С. Кузнецов</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>10</ItemId>
+            <Phone>8 (495) 690-87-32</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=10</SpUrl>
+            <Id>2bdbd4d3-c664-4d9c-93e1-b9975e752df2</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>12</Id>
+          <PlanEventId>4</PlanEventId>
+          <EmployeeId>6032087a-00a0-4f72-b6a8-fd155e4930f3</EmployeeId>
+          <Employee>
+            <Name>Фабисович Виктор Даниилович</Name>
+            <InitialsWithLastNameFirst>Фабисович В.Д.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>В.Д. Фабисович</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>12</ItemId>
+            <Phone>8 (495) 690-86-81</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=12</SpUrl>
+            <Id>6032087a-00a0-4f72-b6a8-fd155e4930f3</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+      </PlanEventChiefs>
+      <PlanEventOrganizations />
+      <ActionType>None</ActionType>
+      <DeadlinePlan />
+      <DeadlineReal />
+      <EventBeginPlan />
+      <EventEndPlan />
+      <EventBeginReal />
+      <EventEndReal />
+      <Status>Offer</Status>
+      <BudgetExternalCheck>False</BudgetExternalCheck>
+      <BudgetAccountingEvaluation>False</BudgetAccountingEvaluation>
+      <PurchaseAudit>False</PurchaseAudit>
+    </PlanEventDocx>
+    <PlanEventDocx>
+      <Id>5</Id>
+      <PlanId>1</PlanId>
+      <IsContainer>False</IsContainer>
+      <ContainerId />
+      <Children />
+      <OrderNumber />
+      <Title>another CaeaEvent</Title>
+      <Scope>Контрольное мероприятие</Scope>
+      <EventForm>Обследование</EventForm>
+      <EventDatesTypeId>2</EventDatesTypeId>
+      <EventDatesType>
+        <Id>2</Id>
+        <DateType>Еженедельно (по отдельному графику и по мере поступления)</DateType>
+        <DisplayAsMonths>False</DisplayAsMonths>
+      </EventDatesType>
+      <Duration>Еженедельно (по отдельному графику и по мере поступления)</Duration>
+      <PlannedBeginMonth />
+      <PlannedBeginYear />
+      <PlannedEndMonth />
+      <PlannedEndYear />
+      <FiscalDateFrom>10.10.2014</FiscalDateFrom>
+      <FiscalDateTo>21.10.2014</FiscalDateTo>
+      <FiscalSum>0</FiscalSum>
+      <CreatorId>26e8c40f-f781-4ff0-9ad9-89c636fe6ee9</CreatorId>
+      <Type>Совместное</Type>
+      <Reason>Бюджетный кодекс</Reason>
+      <PlanEventTasks />
+      <PlanEventJobs />
+      <PlanEventChiefs>
+        <PlanEventChiefDocx>
+          <Id>15</Id>
+          <PlanEventId>5</PlanEventId>
+          <EmployeeId>e24ec473-6ac9-4b3a-8c51-fa8a37ee43c3</EmployeeId>
+          <Employee>
+            <Name>Литвинцев Вячеслав Владимирович</Name>
+            <InitialsWithLastNameFirst>Литвинцев В.В.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>В.В. Литвинцев</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>5</ItemId>
+            <Phone>8 (495) 690-87-51</Phone>
+            <Position>Заместитель председателя</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=5</SpUrl>
+            <Id>e24ec473-6ac9-4b3a-8c51-fa8a37ee43c3</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>16</Id>
+          <PlanEventId>5</PlanEventId>
+          <EmployeeId>2bdbd4d3-c664-4d9c-93e1-b9975e752df2</EmployeeId>
+          <Employee>
+            <Name>Кузнецов Анатолий Сергеевич</Name>
+            <InitialsWithLastNameFirst>Кузнецов А.С.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>А.С. Кузнецов</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>10</ItemId>
+            <Phone>8 (495) 690-87-32</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=10</SpUrl>
+            <Id>2bdbd4d3-c664-4d9c-93e1-b9975e752df2</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+      </PlanEventChiefs>
+      <PlanEventOrganizations />
+      <ActionType>None</ActionType>
+      <DeadlinePlan />
+      <DeadlineReal />
+      <EventBeginPlan />
+      <EventEndPlan />
+      <EventBeginReal />
+      <EventEndReal />
+      <Status>Offer</Status>
+      <BudgetExternalCheck>False</BudgetExternalCheck>
+      <BudgetAccountingEvaluation>False</BudgetAccountingEvaluation>
+      <PurchaseAudit>False</PurchaseAudit>
+    </PlanEventDocx>
+    <PlanEventDocx>
+      <Id>6</Id>
+      <PlanId>1</PlanId>
+      <IsContainer>False</IsContainer>
+      <ContainerId />
+      <Children />
+      <OrderNumber />
+      <Title>Инф.обесп.</Title>
+      <Scope>Информационное обеспечение</Scope>
+      <EventForm />
+      <EventDatesTypeId>2</EventDatesTypeId>
+      <EventDatesType>
+        <Id>2</Id>
+        <DateType>Еженедельно (по отдельному графику и по мере поступления)</DateType>
+        <DisplayAsMonths>False</DisplayAsMonths>
+      </EventDatesType>
+      <Duration>Еженедельно (по отдельному графику и по мере поступления)</Duration>
+      <PlannedBeginMonth />
+      <PlannedBeginYear />
+      <PlannedEndMonth />
+      <PlannedEndYear />
+      <FiscalDateFrom />
+      <FiscalDateTo />
+      <FiscalSum>0</FiscalSum>
+      <CreatorId>26e8c40f-f781-4ff0-9ad9-89c636fe6ee9</CreatorId>
+      <Type />
+      <Reason>Инициативные</Reason>
+      <PlanEventTasks />
+      <PlanEventJobs />
+      <PlanEventChiefs>
+        <PlanEventChiefDocx>
+          <Id>17</Id>
+          <PlanEventId>6</PlanEventId>
+          <EmployeeId>44105308-39ce-4b82-9524-e0ee659f17d4</EmployeeId>
+          <Employee>
+            <Name>Двуреченских Виктор Александрович</Name>
+            <InitialsWithLastNameFirst>Двуреченских В.А.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>В.А. Двуреченских</InitialsWithLastNameLast>
+            <IsDirector>True</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>1</ItemId>
+            <Phone>8 (495) 690-88-05</Phone>
+            <Position>Председатель</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=1</SpUrl>
+            <Id>44105308-39ce-4b82-9524-e0ee659f17d4</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>18</Id>
+          <PlanEventId>6</PlanEventId>
+          <EmployeeId>2bdbd4d3-c664-4d9c-93e1-b9975e752df2</EmployeeId>
+          <Employee>
+            <Name>Кузнецов Анатолий Сергеевич</Name>
+            <InitialsWithLastNameFirst>Кузнецов А.С.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>А.С. Кузнецов</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>10</ItemId>
+            <Phone>8 (495) 690-87-32</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=10</SpUrl>
+            <Id>2bdbd4d3-c664-4d9c-93e1-b9975e752df2</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+      </PlanEventChiefs>
+      <PlanEventOrganizations />
+      <ActionType>None</ActionType>
+      <DeadlinePlan />
+      <DeadlineReal />
+      <EventBeginPlan />
+      <EventEndPlan />
+      <EventBeginReal />
+      <EventEndReal />
+      <Status>Offer</Status>
+      <BudgetExternalCheck>False</BudgetExternalCheck>
+      <BudgetAccountingEvaluation>False</BudgetAccountingEvaluation>
+      <PurchaseAudit>False</PurchaseAudit>
+    </PlanEventDocx>
+  </Events>
+  <CaeaEvents>
+    <PlanEventDocx>
+      <Id>1</Id>
+      <PlanId>1</PlanId>
+      <IsContainer>False</IsContainer>
+      <ContainerId />
+      <Children />
+      <OrderNumber />
+      <Title>test1</Title>
+      <Scope>Контрольное мероприятие</Scope>
+      <EventForm>Проверка</EventForm>
+      <EventDatesTypeId>3</EventDatesTypeId>
+      <EventDatesType>
+        <Id>3</Id>
+        <DateType>Ежемесячно</DateType>
+        <DisplayAsMonths>False</DisplayAsMonths>
+      </EventDatesType>
+      <Duration>Ежемесячно</Duration>
+      <PlannedBeginMonth />
+      <PlannedBeginYear />
+      <PlannedEndMonth />
+      <PlannedEndYear />
+      <FiscalDateFrom>01.10.2014</FiscalDateFrom>
+      <FiscalDateTo>29.10.2014</FiscalDateTo>
+      <FiscalSum>0</FiscalSum>
+      <CreatorId>26e8c40f-f781-4ff0-9ad9-89c636fe6ee9</CreatorId>
+      <Type>Комплексное</Type>
+      <Reason>Предложения МГД</Reason>
+      <PlanEventTasks />
+      <PlanEventJobs />
+      <PlanEventChiefs>
+        <PlanEventChiefDocx>
+          <Id>2</Id>
+          <PlanEventId>1</PlanEventId>
+          <EmployeeId>235e7f62-230b-4c42-a305-bb1351333fb8</EmployeeId>
+          <Employee>
+            <Name>Чегринец Егор Алексеевич</Name>
+            <InitialsWithLastNameFirst>Чегринец Е.А.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>Е.А. Чегринец</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>3</ItemId>
+            <Phone>8 (495) 690-88-20</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=3</SpUrl>
+            <Id>235e7f62-230b-4c42-a305-bb1351333fb8</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+      </PlanEventChiefs>
+      <PlanEventOrganizations />
+      <ActionType>None</ActionType>
+      <DeadlinePlan />
+      <DeadlineReal />
+      <EventBeginPlan />
+      <EventEndPlan />
+      <EventBeginReal />
+      <EventEndReal />
+      <Status>Offer</Status>
+      <BudgetExternalCheck>False</BudgetExternalCheck>
+      <BudgetAccountingEvaluation>False</BudgetAccountingEvaluation>
+      <PurchaseAudit>False</PurchaseAudit>
+    </PlanEventDocx>
+    <PlanEventDocx>
+      <Id>3</Id>
+      <PlanId>1</PlanId>
+      <IsContainer>False</IsContainer>
+      <ContainerId />
+      <Children />
+      <OrderNumber />
+      <Title>тестовое ЭА мероприятие</Title>
+      <Scope>Экспертно-аналитическое мероприятие</Scope>
+      <EventForm>Экспертиза</EventForm>
+      <EventDatesTypeId>4</EventDatesTypeId>
+      <EventDatesType>
+        <Id>4</Id>
+        <DateType>Ежеквартально</DateType>
+        <DisplayAsMonths>False</DisplayAsMonths>
+      </EventDatesType>
+      <Duration>Ежеквартально</Duration>
+      <PlannedBeginMonth />
+      <PlannedBeginYear />
+      <PlannedEndMonth />
+      <PlannedEndYear />
+      <FiscalDateFrom>03.10.2014</FiscalDateFrom>
+      <FiscalDateTo>21.10.2014</FiscalDateTo>
+      <FiscalSum>0</FiscalSum>
+      <CreatorId>26e8c40f-f781-4ff0-9ad9-89c636fe6ee9</CreatorId>
+      <Type>Совместное</Type>
+      <Reason>Инициативные</Reason>
+      <PlanEventTasks />
+      <PlanEventJobs />
+      <PlanEventChiefs>
+        <PlanEventChiefDocx>
+          <Id>5</Id>
+          <PlanEventId>3</PlanEventId>
+          <EmployeeId>e24ec473-6ac9-4b3a-8c51-fa8a37ee43c3</EmployeeId>
+          <Employee>
+            <Name>Литвинцев Вячеслав Владимирович</Name>
+            <InitialsWithLastNameFirst>Литвинцев В.В.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>В.В. Литвинцев</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>5</ItemId>
+            <Phone>8 (495) 690-87-51</Phone>
+            <Position>Заместитель председателя</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=5</SpUrl>
+            <Id>e24ec473-6ac9-4b3a-8c51-fa8a37ee43c3</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>6</Id>
+          <PlanEventId>3</PlanEventId>
+          <EmployeeId>e0ba80b3-e03a-49ea-9ca3-3cdaf6ae50e0</EmployeeId>
+          <Employee>
+            <Name>Киселев Борис Валентинович</Name>
+            <InitialsWithLastNameFirst>Киселев Б.В.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>Б.В. Киселев</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>8</ItemId>
+            <Phone>8 (495) 690-71-47</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=8</SpUrl>
+            <Id>e0ba80b3-e03a-49ea-9ca3-3cdaf6ae50e0</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+      </PlanEventChiefs>
+      <PlanEventOrganizations />
+      <ActionType>None</ActionType>
+      <DeadlinePlan />
+      <DeadlineReal />
+      <EventBeginPlan />
+      <EventEndPlan />
+      <EventBeginReal />
+      <EventEndReal />
+      <Status>Offer</Status>
+      <BudgetExternalCheck>False</BudgetExternalCheck>
+      <BudgetAccountingEvaluation>False</BudgetAccountingEvaluation>
+      <PurchaseAudit>False</PurchaseAudit>
+    </PlanEventDocx>
+    <PlanEventDocx>
+      <Id>5</Id>
+      <PlanId>1</PlanId>
+      <IsContainer>False</IsContainer>
+      <ContainerId />
+      <Children />
+      <OrderNumber />
+      <Title>another CaeaEvent</Title>
+      <Scope>Контрольное мероприятие</Scope>
+      <EventForm>Обследование</EventForm>
+      <EventDatesTypeId>2</EventDatesTypeId>
+      <EventDatesType>
+        <Id>2</Id>
+        <DateType>Еженедельно (по отдельному графику и по мере поступления)</DateType>
+        <DisplayAsMonths>False</DisplayAsMonths>
+      </EventDatesType>
+      <Duration>Еженедельно (по отдельному графику и по мере поступления)</Duration>
+      <PlannedBeginMonth />
+      <PlannedBeginYear />
+      <PlannedEndMonth />
+      <PlannedEndYear />
+      <FiscalDateFrom>10.10.2014</FiscalDateFrom>
+      <FiscalDateTo>21.10.2014</FiscalDateTo>
+      <FiscalSum>0</FiscalSum>
+      <CreatorId>26e8c40f-f781-4ff0-9ad9-89c636fe6ee9</CreatorId>
+      <Type>Совместное</Type>
+      <Reason>Бюджетный кодекс</Reason>
+      <PlanEventTasks />
+      <PlanEventJobs />
+      <PlanEventChiefs>
+        <PlanEventChiefDocx>
+          <Id>15</Id>
+          <PlanEventId>5</PlanEventId>
+          <EmployeeId>e24ec473-6ac9-4b3a-8c51-fa8a37ee43c3</EmployeeId>
+          <Employee>
+            <Name>Литвинцев Вячеслав Владимирович</Name>
+            <InitialsWithLastNameFirst>Литвинцев В.В.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>В.В. Литвинцев</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>5</ItemId>
+            <Phone>8 (495) 690-87-51</Phone>
+            <Position>Заместитель председателя</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=5</SpUrl>
+            <Id>e24ec473-6ac9-4b3a-8c51-fa8a37ee43c3</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>16</Id>
+          <PlanEventId>5</PlanEventId>
+          <EmployeeId>2bdbd4d3-c664-4d9c-93e1-b9975e752df2</EmployeeId>
+          <Employee>
+            <Name>Кузнецов Анатолий Сергеевич</Name>
+            <InitialsWithLastNameFirst>Кузнецов А.С.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>А.С. Кузнецов</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>10</ItemId>
+            <Phone>8 (495) 690-87-32</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=10</SpUrl>
+            <Id>2bdbd4d3-c664-4d9c-93e1-b9975e752df2</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+      </PlanEventChiefs>
+      <PlanEventOrganizations />
+      <ActionType>None</ActionType>
+      <DeadlinePlan />
+      <DeadlineReal />
+      <EventBeginPlan />
+      <EventEndPlan />
+      <EventBeginReal />
+      <EventEndReal />
+      <Status>Offer</Status>
+      <BudgetExternalCheck>False</BudgetExternalCheck>
+      <BudgetAccountingEvaluation>False</BudgetAccountingEvaluation>
+      <PurchaseAudit>False</PurchaseAudit>
+    </PlanEventDocx>
+  </CaeaEvents>
+  <OtherEvents>
+    <PlanEventDocx>
+      <Id>4</Id>
+      <PlanId>1</PlanId>
+      <IsContainer>False</IsContainer>
+      <ContainerId />
+      <Children />
+      <OrderNumber />
+      <Title>прочее мероприятие</Title>
+      <Scope>Прочее</Scope>
+      <EventForm />
+      <EventDatesTypeId>1</EventDatesTypeId>
+      <EventDatesType>
+        <Id>1</Id>
+        <DateType>Интервал месяцев</DateType>
+        <DisplayAsMonths>True</DisplayAsMonths>
+      </EventDatesType>
+      <Duration>Январь 2014 - сентябрь 2014</Duration>
+      <PlannedBeginMonth>1</PlannedBeginMonth>
+      <PlannedBeginYear>2014</PlannedBeginYear>
+      <PlannedEndMonth>9</PlannedEndMonth>
+      <PlannedEndYear>2014</PlannedEndYear>
+      <FiscalDateFrom />
+      <FiscalDateTo />
+      <FiscalSum>0</FiscalSum>
+      <CreatorId>26e8c40f-f781-4ff0-9ad9-89c636fe6ee9</CreatorId>
+      <Type />
+      <Reason>Бюджетный кодекс</Reason>
+      <PlanEventTasks />
+      <PlanEventJobs />
+      <PlanEventChiefs>
+        <PlanEventChiefDocx>
+          <Id>7</Id>
+          <PlanEventId>4</PlanEventId>
+          <EmployeeId>44105308-39ce-4b82-9524-e0ee659f17d4</EmployeeId>
+          <Employee>
+            <Name>Двуреченских Виктор Александрович</Name>
+            <InitialsWithLastNameFirst>Двуреченских В.А.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>В.А. Двуреченских</InitialsWithLastNameLast>
+            <IsDirector>True</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>1</ItemId>
+            <Phone>8 (495) 690-88-05</Phone>
+            <Position>Председатель</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=1</SpUrl>
+            <Id>44105308-39ce-4b82-9524-e0ee659f17d4</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>8</Id>
+          <PlanEventId>4</PlanEventId>
+          <EmployeeId>235e7f62-230b-4c42-a305-bb1351333fb8</EmployeeId>
+          <Employee>
+            <Name>Чегринец Егор Алексеевич</Name>
+            <InitialsWithLastNameFirst>Чегринец Е.А.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>Е.А. Чегринец</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>3</ItemId>
+            <Phone>8 (495) 690-88-20</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=3</SpUrl>
+            <Id>235e7f62-230b-4c42-a305-bb1351333fb8</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>9</Id>
+          <PlanEventId>4</PlanEventId>
+          <EmployeeId>e24ec473-6ac9-4b3a-8c51-fa8a37ee43c3</EmployeeId>
+          <Employee>
+            <Name>Литвинцев Вячеслав Владимирович</Name>
+            <InitialsWithLastNameFirst>Литвинцев В.В.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>В.В. Литвинцев</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>5</ItemId>
+            <Phone>8 (495) 690-87-51</Phone>
+            <Position>Заместитель председателя</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=5</SpUrl>
+            <Id>e24ec473-6ac9-4b3a-8c51-fa8a37ee43c3</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>10</Id>
+          <PlanEventId>4</PlanEventId>
+          <EmployeeId>e0ba80b3-e03a-49ea-9ca3-3cdaf6ae50e0</EmployeeId>
+          <Employee>
+            <Name>Киселев Борис Валентинович</Name>
+            <InitialsWithLastNameFirst>Киселев Б.В.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>Б.В. Киселев</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>8</ItemId>
+            <Phone>8 (495) 690-71-47</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=8</SpUrl>
+            <Id>e0ba80b3-e03a-49ea-9ca3-3cdaf6ae50e0</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>11</Id>
+          <PlanEventId>4</PlanEventId>
+          <EmployeeId>2bdbd4d3-c664-4d9c-93e1-b9975e752df2</EmployeeId>
+          <Employee>
+            <Name>Кузнецов Анатолий Сергеевич</Name>
+            <InitialsWithLastNameFirst>Кузнецов А.С.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>А.С. Кузнецов</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>10</ItemId>
+            <Phone>8 (495) 690-87-32</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=10</SpUrl>
+            <Id>2bdbd4d3-c664-4d9c-93e1-b9975e752df2</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>12</Id>
+          <PlanEventId>4</PlanEventId>
+          <EmployeeId>6032087a-00a0-4f72-b6a8-fd155e4930f3</EmployeeId>
+          <Employee>
+            <Name>Фабисович Виктор Даниилович</Name>
+            <InitialsWithLastNameFirst>Фабисович В.Д.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>В.Д. Фабисович</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>12</ItemId>
+            <Phone>8 (495) 690-86-81</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=12</SpUrl>
+            <Id>6032087a-00a0-4f72-b6a8-fd155e4930f3</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+      </PlanEventChiefs>
+      <PlanEventOrganizations />
+      <ActionType>None</ActionType>
+      <DeadlinePlan />
+      <DeadlineReal />
+      <EventBeginPlan />
+      <EventEndPlan />
+      <EventBeginReal />
+      <EventEndReal />
+      <Status>Offer</Status>
+      <BudgetExternalCheck>False</BudgetExternalCheck>
+      <BudgetAccountingEvaluation>False</BudgetAccountingEvaluation>
+      <PurchaseAudit>False</PurchaseAudit>
+    </PlanEventDocx>
+    <PlanEventDocx>
+      <Id>6</Id>
+      <PlanId>1</PlanId>
+      <IsContainer>False</IsContainer>
+      <ContainerId />
+      <Children />
+      <OrderNumber />
+      <Title>Инф.обесп.</Title>
+      <Scope>Информационное обеспечение</Scope>
+      <EventForm />
+      <EventDatesTypeId>2</EventDatesTypeId>
+      <EventDatesType>
+        <Id>2</Id>
+        <DateType>Еженедельно (по отдельному графику и по мере поступления)</DateType>
+        <DisplayAsMonths>False</DisplayAsMonths>
+      </EventDatesType>
+      <Duration>Еженедельно (по отдельному графику и по мере поступления)</Duration>
+      <PlannedBeginMonth />
+      <PlannedBeginYear />
+      <PlannedEndMonth />
+      <PlannedEndYear />
+      <FiscalDateFrom />
+      <FiscalDateTo />
+      <FiscalSum>0</FiscalSum>
+      <CreatorId>26e8c40f-f781-4ff0-9ad9-89c636fe6ee9</CreatorId>
+      <Type />
+      <Reason>Инициативные</Reason>
+      <PlanEventTasks />
+      <PlanEventJobs />
+      <PlanEventChiefs>
+        <PlanEventChiefDocx>
+          <Id>17</Id>
+          <PlanEventId>6</PlanEventId>
+          <EmployeeId>44105308-39ce-4b82-9524-e0ee659f17d4</EmployeeId>
+          <Employee>
+            <Name>Двуреченских Виктор Александрович</Name>
+            <InitialsWithLastNameFirst>Двуреченских В.А.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>В.А. Двуреченских</InitialsWithLastNameLast>
+            <IsDirector>True</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>1</ItemId>
+            <Phone>8 (495) 690-88-05</Phone>
+            <Position>Председатель</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=1</SpUrl>
+            <Id>44105308-39ce-4b82-9524-e0ee659f17d4</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+        <PlanEventChiefDocx>
+          <Id>18</Id>
+          <PlanEventId>6</PlanEventId>
+          <EmployeeId>2bdbd4d3-c664-4d9c-93e1-b9975e752df2</EmployeeId>
+          <Employee>
+            <Name>Кузнецов Анатолий Сергеевич</Name>
+            <InitialsWithLastNameFirst>Кузнецов А.С.</InitialsWithLastNameFirst>
+            <InitialsWithLastNameLast>А.С. Кузнецов</InitialsWithLastNameLast>
+            <IsDirector>False</IsDirector>
+            <Department>
+              <Id>ecb62526-911e-4089-b48f-04b5564b55a1</Id>
+              <Name>Коллегия</Name>
+              <Code>01</Code>
+              <Level>0</Level>
+              <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+            </Department>
+            <ItemId>10</ItemId>
+            <Phone>8 (495) 690-87-32</Phone>
+            <Position>Аудитор</Position>
+            <SpUrl>http://kspm-ws-50:8080//Lists/UserList/DispForm.aspx?ID=10</SpUrl>
+            <Id>2bdbd4d3-c664-4d9c-93e1-b9975e752df2</Id>
+            <RetrievalTime>29.10.14 18:13:10</RetrievalTime>
+          </Employee>
+        </PlanEventChiefDocx>
+      </PlanEventChiefs>
+      <PlanEventOrganizations />
+      <ActionType>None</ActionType>
+      <DeadlinePlan />
+      <DeadlineReal />
+      <EventBeginPlan />
+      <EventEndPlan />
+      <EventBeginReal />
+      <EventEndReal />
+      <Status>Offer</Status>
+      <BudgetExternalCheck>False</BudgetExternalCheck>
+      <BudgetAccountingEvaluation>False</BudgetAccountingEvaluation>
+      <PurchaseAudit>False</PurchaseAudit>
+    </PlanEventDocx>
+  </OtherEvents>
+  <Id>1</Id>
+</PlanDocx>

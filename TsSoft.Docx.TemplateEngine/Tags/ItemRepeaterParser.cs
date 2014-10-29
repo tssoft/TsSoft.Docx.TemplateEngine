@@ -80,13 +80,15 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         {           
             var startElement = tag.StartItemRepeater;
             var endElement = tag.EndItemRepeater;
+            
             var itemRepeaterElements =
-                TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback).ToList();
-            var nestedRepeaters = this.GetAllNestedRepeaters(tag);            
-            if (startElement.Parent.Name == WordMl.ParagraphName)
+                TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback).Where(el => el.XElement.IsSdt() || el.XElement.Descendants().Any(nel => nel.IsSdt())).ToList();
+            var nestedRepeaters = this.GetAllNestedRepeaters(tag); 
+            if ((startElement.Parent.Name == WordMl.ParagraphName) && (itemRepeaterElements.Count != 0) && itemRepeaterElements.All(nr => nr.XElement.Parent.Name != WordMl.ParagraphName))
             {
                 startElement = startElement.Parent;
             }
+                                   
             XElement current = startElement;
             var repeaterElements = new List<ItemRepeaterElement>();
             if (nestedRepeaters.Count == 0)

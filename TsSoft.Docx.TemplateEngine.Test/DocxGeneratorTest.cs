@@ -285,6 +285,25 @@ namespace TsSoft.Docx.TemplateEngine.Test
         }
 
         [TestMethod]
+        public void TestActualGenerationItemRepeater1()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "nowbadplan_one.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "PlanDocx.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+
+            var package = new DocxPackage(output);
+            package.Load();
+            Console.WriteLine(package.DocumentPartXml.ToString());
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+        }
+
+        [TestMethod]
         public void TestActualGenerationDoubleItemIfWithItemText()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "corruptedDoc.docx");

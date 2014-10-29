@@ -113,6 +113,7 @@
     <EmbeddedResource Include="corruptedDocxx.docx" />
     <EmbeddedResource Include="ItemRepeaterDemo.docx" />
     <EmbeddedResource Include="ItemRepeaterNestedDemo.docx" />
+    <EmbeddedResource Include="nowbadplan_one.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />
@@ -198,6 +199,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ItemRepeaterNestedDemoData.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PlanDocx.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
