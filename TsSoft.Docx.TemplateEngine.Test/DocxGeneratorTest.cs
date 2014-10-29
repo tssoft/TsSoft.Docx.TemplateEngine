@@ -259,7 +259,6 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 input,
                 output,
                 data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
-
             var package = new DocxPackage(output);
             package.Load();
             Console.WriteLine(package.DocumentPartXml.ToString());

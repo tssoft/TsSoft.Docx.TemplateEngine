@@ -59,11 +59,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private const string ItemIf = "RItemIf";
 
         private static Func<XElement, ItemRepeaterElement> MakeElementCallback = element =>
-            {
-               // if (element.IsSdt() && element.IsTag("itemrepeater"))
-                //{
-                  //  return null;
-                //}
+            {               
                 var itemRepeaterElement = new ItemRepeaterElement()
                     {
                         Elements = element.Elements().Select(MakeElementCallback),
@@ -86,18 +82,25 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var endElement = tag.EndItemRepeater;
             var itemRepeaterElements =
                 TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback).ToList();
-
+            var nestedRepeaters = this.GetAllNestedRepeaters(tag);
             XElement current = startElement;
-            for (var index = 1; index <= dataReaders.Count(); index++)
+            var repeaterElements = new List<ItemRepeaterElement>();
+            if (nestedRepeaters.Count == 0)
             {
-                foreach (var nestedRepeater in tag.NestedRepeaters)
-                {
-                    this.Parse(nestedRepeater, dataReaders[index - 1].GetReaders(nestedRepeater.Source).ToList());
-                }
-                var repeaterElements = itemRepeaterElements as IList<ItemRepeaterElement> ??
-                                        itemRepeaterElements.ToList();
-                current = this.ProcessElements(repeaterElements, dataReaders[index - 1], current, null, index);
+                repeaterElements.AddRange(itemRepeaterElements);
             }
+            else
+            {
+                repeaterElements.AddRange(from itemRepeaterElement in itemRepeaterElements.Where(ire => !(ire.XElement.IsTag("itemrepeater") || ire.XElement.IsTag("enditemrepeater")))
+                                          from nestedRepeater in nestedRepeaters
+                                          where (!TraverseUtils.ElementsBetween(nestedRepeater.StartItemRepeater, nestedRepeater.EndItemRepeater).Contains(itemRepeaterElement.XElement))
+                                          select itemRepeaterElement);
+            }
+            for (var index = 1; index <= dataReaders.Count(); index++)
+            {                                
+                this.ProcessNestedRepeaters(tag, dataReaders[index - 1]);                
+                current = this.ProcessElements(repeaterElements, dataReaders[index - 1], current, null, index);                
+            }            
             foreach (var itemRepeaterElement in itemRepeaterElements)
             {
                 itemRepeaterElement.XElement.Remove();
@@ -107,15 +110,54 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             
         }
 
-        private void ProcessNestedRepeaters(ItemRepeaterTag tag)
+        private ICollection<ItemRepeaterTag> GetAllNestedRepeaters(ItemRepeaterTag tag)
+        {
+            var result = new List<ItemRepeaterTag>();
+            foreach (var nestedRepeater in tag.NestedRepeaters)
+            {
+                if (nestedRepeater.NestedRepeaters.Count != 0)
+                {
+                    result.AddRange(this.GetAllNestedRepeaters(nestedRepeater));
+                }
+                else
+                {
+                    result.Add(nestedRepeater);
+                }
+            }
+            return result;
+        }
+
+        private void RenderDataReaders(ItemRepeaterTag tag, DataReader dataReader)
+        {
+            var elements = TraverseUtils.ElementsBetween(tag.StartItemRepeater,
+                                                         tag.EndItemRepeater).Select(MakeElementCallback)
+                                        .Where(
+                                            el =>
+                                            el.XElement.IsSdt() || el.XElement.Descendants()
+                                                                    .Any(nel => nel.IsSdt()))
+                                        .ToList();
+            var dataReaders = dataReader.GetReaders(tag.Source).ToList();
+            var current = tag.StartItemRepeater;
+            for (int index = 1; index <= dataReaders.Count; index++)
+            {
+                current = this.ProcessElements(elements, dataReaders[index - 1], current, null, index);
+            }
+                                  
+        }
+
+        private void ProcessNestedRepeaters(ItemRepeaterTag tag, DataReader dataReader)
         {
             foreach (var nestedRepeater in tag.NestedRepeaters)
             {
                 if (nestedRepeater.NestedRepeaters.Count == 0)
-                {
-                    var dataReaders = new DataReader()
-                    for (int index = 1; index )
+                {                    
+                    this.RenderDataReaders(nestedRepeater, dataReader);                   
                 }
+                else
+                {
+                    this.ProcessNestedRepeaters(nestedRepeater, dataReader);
+                    this.RenderDataReaders(nestedRepeater, dataReader);
+                }                
             }
         }
 
@@ -127,6 +169,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private XElement ProcessElements(IEnumerable<ItemRepeaterElement> itemRepeaterElements, DataReader dataReader, XElement start, XElement parent, int index)
         {
             XElement result = null;
+            XElement previous = start;
             foreach (var itemRepeaterElement in itemRepeaterElements)
             {
                 if (itemRepeaterElement.IsIndex)
@@ -155,10 +198,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                         element.Value = itemRepeaterElement.XElement.Value;
                     }
                 }
-                if (start != null)
+                if (previous != null)
                 {
-                    start.AddAfterSelf(result);
-                    start = result;
+                    previous.AddAfterSelf(result);
+                    previous = result;
                 }
                 else
                 {
