@@ -84,7 +84,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var itemRepeaterElements =
                 TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback).Where(el => el.XElement.IsSdt() || el.XElement.Descendants().Any(nel => nel.IsSdt())).ToList();
             var nestedRepeaters = this.GetAllNestedRepeaters(tag); 
-            if ((startElement.Parent.Name == WordMl.ParagraphName) && (itemRepeaterElements.Count != 0) && itemRepeaterElements.All(nr => nr.XElement.Parent.Name != WordMl.ParagraphName))
+            if ((startElement.Parent.Name == WordMl.ParagraphName)) //&& ((itemRepeaterElements.Count != 0) && itemRepeaterElements.All(nr => nr.XElement.Parent.Name != WordMl.ParagraphName)))
             {
                 startElement = startElement.Parent;
             }
@@ -104,15 +104,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             }
             XElement currentNested;
             for (var index = 1; index <= dataReaders.Count(); index++)
-            {
-                /*if (index == 1)
-                {
-                    current = this.ProcessNestedRepeaters(tag, dataReaders[index - 1]);
-                }
-                else
-                {
-                    this.ProcessNestedRepeaters(tag, dataReaders[index - 1]);
-                }*/
+            {                
                 current = this.ProcessElements(repeaterElements, dataReaders[index - 1], current, null, index);
                 var tempParent = current.Parent;
                 currentNested = this.ProcessNestedRepeaters(tag, dataReaders[index - 1], current);
@@ -120,7 +112,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 {
                     current = currentNested;
                 }
-
             }            
             foreach (var itemRepeaterElement in itemRepeaterElements)
             {
@@ -190,7 +181,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             
         }
 
-        private XElement ProcessElements(IEnumerable<ItemRepeaterElement> itemRepeaterElements, DataReader dataReader, XElement start, XElement parent, int index)
+        private XElement ProcessElements(IEnumerable<ItemRepeaterElement> itemRepeaterElements, DataReader dataReader, XElement start, XElement parent, int index, bool nested = false)
         {
             XElement result = null;
             XElement previous = start;            
@@ -200,13 +191,16 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 {
                     result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
                                                           itemRepeaterElement.XElement.Parent,
-                                                          index.ToString(CultureInfo.CurrentCulture));
+                                                          index.ToString(CultureInfo.CurrentCulture)
+                                                          , !nested);
                 }
                 else if (itemRepeaterElement.IsItem && itemRepeaterElement.HasExpression)
                 {
                     result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
                                                           itemRepeaterElement.XElement.Parent,
-                                                          dataReader.ReadText(itemRepeaterElement.Expression));
+                                                          dataReader.ReadText(itemRepeaterElement.Expression),
+                                                          !nested
+                        );
                 }
                 else
                 {
@@ -215,13 +209,13 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     result = element;
                     if (itemRepeaterElement.HasElements)
                     {
-                        this.ProcessElements(itemRepeaterElement.Elements, dataReader, null, result, index);
+                        this.ProcessElements(itemRepeaterElement.Elements, dataReader, null, result, index, true);
                     }
                     else
                     {
                         element.Value = itemRepeaterElement.XElement.Value;
                     }
-                }
+                }                
                 if (previous != null)
                 {
                     previous.AddAfterSelf(result);

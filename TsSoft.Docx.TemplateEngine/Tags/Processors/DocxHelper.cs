@@ -123,17 +123,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                                                                                   ParagraphProperties.RevisionPropertiesInformationName
                                                                               };
 
-        public static XElement CreateTextElement(XElement self, XElement parent, string text)
+        public static XElement CreateTextElement(XElement self, XElement parent, string text, bool wrapParagraphs = false)
         {
-            return CreateTextElement(self, parent, text, new XElement(WordMl.ParagraphName));
+            return CreateTextElement(self, parent, text, new XElement(WordMl.ParagraphName), wrapParagraphs);
         }
 
-        public static XElement CreateTextElement(XElement self, XElement parent, string text, XName wrapTo)
+        public static XElement CreateTextElement(XElement self, XElement parent, string text, XName wrapTo, bool wrapParagraphs = false)
         {
-            return CreateTextElement(self, parent, text, new XElement(wrapTo));
+            return CreateTextElement(self, parent, text, new XElement(wrapTo), wrapParagraphs);
         }
 
-        public static XElement CreateTextElement(XElement self, XElement parent, string text, XElement wrapTo)
+        public static XElement CreateTextElement(XElement self, XElement parent, string text, XElement wrapTo, bool wrapParagraphs = false)
         {
             var result = new XElement(WordMl.TextRunName, new XElement(WordMl.TextName, text));
             IEnumerable<XElement> paragraphProperties = null;
@@ -155,10 +155,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                             .Distinct(new NameComparer());
                 }                
             }
-            if (paragraphProperties == null && parent.Elements(WordMl.ParagraphName).Any())
+            if (paragraphProperties == null && (parent.Elements(WordMl.ParagraphName).Any() || (parent.Name == WordMl.ParagraphName)))
             {
                 paragraphProperties =
-                    parent.Descendants(WordMl.ParagraphPropertiesName)
+                    parent.DescendantsAndSelf(WordMl.ParagraphPropertiesName)
                           .Elements()
                           .Where(e => ParagraphPropertiesNames.Contains(e.Name))
                           .Distinct(new NameComparer());
@@ -167,7 +167,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             {
                 wrapTo.AddFirst(new XElement(WordMl.ParagraphPropertiesName, paragraphProperties));
             }
-            if (!ValidTextRunContainers.Any(name => name.Equals(parent.Name)))
+            if ((!ValidTextRunContainers.Any(name => name.Equals(parent.Name))) || (wrapParagraphs && !(parent.Elements().Any(el => el.Name.Equals(WordMl.TextRunName)))))
             {
                 wrapTo.Add(result);
                 result = wrapTo;

@@ -263,6 +263,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             package.Load();
             Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));         
         }
 
         [TestMethod]
@@ -281,11 +282,12 @@ namespace TsSoft.Docx.TemplateEngine.Test
             var package = new DocxPackage(output);
             package.Load();
             Console.WriteLine(package.DocumentPartXml.ToString());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());                        
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());   
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));         
         }
 
         [TestMethod]
-        public void TestActualGenerationItemRepeater1()
+        public void TestActualGenerationItemRepeaterElementsInParagraphs()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "nowbadplan_one.docx");
             var output = new MemoryStream();
@@ -299,8 +301,29 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Console.WriteLine(package.DocumentPartXml.ToString());
+            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "тестовое ЭА мероприятие")));
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));         
+        }
+
+        [TestMethod]
+        public void TestActualGenerationItemRepeaterElementsInParagraphs2()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "badplan.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "PlanDocx.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+
+            var package = new DocxPackage(output);
+            package.Load();
+            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "тестовое ЭА мероприятие")));
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
         }
 
         [TestMethod]

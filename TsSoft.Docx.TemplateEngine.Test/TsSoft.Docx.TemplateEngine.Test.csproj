@@ -114,6 +114,7 @@
     <EmbeddedResource Include="ItemRepeaterDemo.docx" />
     <EmbeddedResource Include="ItemRepeaterNestedDemo.docx" />
     <EmbeddedResource Include="nowbadplan_one.docx" />
+    <EmbeddedResource Include="badplan.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />
@@ -188,7 +189,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DemoData2.xml" />
+    <EmbeddedResource Include="DemoData2.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Tags\Processors\TableItemIfsData.xml" />
@@ -198,7 +201,9 @@
     <EmbeddedResource Include="ItemRepeaterDemoData.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ItemRepeaterNestedDemoData.xml" />
+    <EmbeddedResource Include="ItemRepeaterNestedDemoData.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="PlanDocx.xml" />
