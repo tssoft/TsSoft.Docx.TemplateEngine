@@ -115,6 +115,7 @@
     <EmbeddedResource Include="ItemRepeaterNestedDemo.docx" />
     <EmbeddedResource Include="nowbadplan_one.docx" />
     <EmbeddedResource Include="badplan.docx" />
+    <EmbeddedResource Include="ItemRepeaterNestedDemo20.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />

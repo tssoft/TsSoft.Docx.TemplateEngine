@@ -287,6 +287,28 @@ namespace TsSoft.Docx.TemplateEngine.Test
         }
 
         [TestMethod]
+        public void TestActualGenerationItemRepeaterNestedElementsAfterEndItemRepeater()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedDemo20.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedDemoData.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+
+            var package = new DocxPackage(output);
+            package.Load();
+            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
+            //Console.WriteLine(package.DocumentPartXml);
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+        }
+
+
+        [TestMethod]
         public void TestActualGenerationItemRepeaterElementsInParagraphs()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "nowbadplan_one.docx");
