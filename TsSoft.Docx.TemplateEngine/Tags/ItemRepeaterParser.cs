@@ -115,7 +115,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 current = this.ProcessElements(repeaterElements, dataReaders[index - 1], current, null, index, out bisectElement);                
                 currentNested = this.ProcessNestedRepeaters(tag, dataReaders[index - 1], bisectElement ?? current);
 
-                if ((currentNested != null) && repeaterElements.All(re => re.IsBeforeNestedRepeater == false))
+                if ((currentNested != null) && repeaterElements.Last().IsBeforeNestedRepeater)
                 {                    
                     current = currentNested;
                 }
