@@ -87,7 +87,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var endElement = tag.EndItemRepeater;
             
             var itemRepeaterElements =
-                this.MarkLastElements(TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback).Where(el => el.XElement.IsSdt() || el.XElement.Descendants().Any(nel => nel.IsSdt())).ToList()).ToList();
+                //this.MarkLastElements(TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback).Where(el => el.XElement.IsSdt() || el.XElement.Descendants().Any(nel => nel.IsSdt())).ToList()).ToList();
+                this.MarkLastElements(TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback).ToList()).ToList();
             
             var nestedRepeaters = this.GetAllNestedRepeaters(tag); 
             if (startElement.Parent.Name == WordMl.ParagraphName) //&& ((itemRepeaterElements.Count != 0) && itemRepeaterElements.All(nr => nr.XElement.Parent.Name != WordMl.ParagraphName)))
@@ -163,12 +164,16 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         private XElement RenderDataReaders(ItemRepeaterTag tag, DataReader dataReader, XElement current)
         {
-            var elements = TraverseUtils.ElementsBetween(tag.StartItemRepeater,
+            /*var elements = TraverseUtils.ElementsBetween(tag.StartItemRepeater,
                                                          tag.EndItemRepeater).Select(MakeElementCallback)
                                         .Where(
                                             el =>
                                             el.XElement.IsSdt() || el.XElement.Descendants()
                                                                     .Any(nel => nel.IsSdt()))
+                                        .ToList();
+             */
+            var elements = TraverseUtils.ElementsBetween(tag.StartItemRepeater,
+                                                         tag.EndItemRepeater).Select(MakeElementCallback)                                        
                                         .ToList();
             var dataReaders = dataReader.GetReaders(tag.Source).ToList();
             for (var index = 1; index <= dataReaders.Count; index++)
@@ -214,8 +219,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 {
                     result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
                                                           itemRepeaterElement.XElement.Parent,
-                                                          index.ToString(CultureInfo.CurrentCulture)
-                                                          , !nested);
+                                                          index.ToString(CultureInfo.CurrentCulture),
+                                                          !nested);
                 }
                 else if (itemRepeaterElement.IsItem && itemRepeaterElement.HasExpression)
                 {
@@ -249,10 +254,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 {
                     parent.Add(result);
                 }
-                if (itemRepeaterElement.IsBeforeNestedRepeater)
+                if ((itemRepeaterElement.IsBeforeNestedRepeater) && (tempElementBeforeItemRepeater == null))
                 {
                     tempElementBeforeItemRepeater = result;
                 }
+                
             }
             elementBeforeNestedRepeater = tempElementBeforeItemRepeater;
             return result;            
