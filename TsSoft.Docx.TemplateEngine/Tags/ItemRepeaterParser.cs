@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -17,7 +18,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public bool IsIndex { get; set; }
 
-        public bool IsBeforeNestedRepeater { get; set; }
+        public ItemRepeaterElement NextNestedRepeater { get; set; }
+
+        public bool IsBeforeNestedRepeater {
+            get { return this.NextNestedRepeater != null; }
+        }
 
         public bool HasExpression
         {
@@ -86,36 +91,22 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var startElement = tag.StartItemRepeater;
             var endElement = tag.EndItemRepeater;
             
-            var itemRepeaterElements =
-                //this.MarkLastElements(TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback).Where(el => el.XElement.IsSdt() || el.XElement.Descendants().Any(nel => nel.IsSdt())).ToList()).ToList();
+            var itemRepeaterElements =                
                 this.MarkLastElements(TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback).ToList()).ToList();
             
             var nestedRepeaters = this.GetAllNestedRepeaters(tag); 
             if (startElement.Parent.Name == WordMl.ParagraphName) //&& ((itemRepeaterElements.Count != 0) && itemRepeaterElements.All(nr => nr.XElement.Parent.Name != WordMl.ParagraphName)))
             {
                 startElement = startElement.Parent;
-            }
-                                   
+            }                                   
             XElement current = startElement;
-            var repeaterElements = new List<ItemRepeaterElement>();
-            if (nestedRepeaters.Count == 0)
-            {
-                repeaterElements.AddRange(itemRepeaterElements);
-            }
-            else
-            {
-                repeaterElements.AddRange(from itemRepeaterElement in itemRepeaterElements.Where(ire => !(ire.XElement.IsTag("itemrepeater") || ire.XElement.IsTag("enditemrepeater")))
-                                          from nestedRepeater in nestedRepeaters
-                                          where (!TraverseUtils.ElementsBetween(nestedRepeater.StartItemRepeater, nestedRepeater.EndItemRepeater).Contains(itemRepeaterElement.XElement))
-                                          select itemRepeaterElement);
-            }
+            var repeaterElements = this.GetSiblingElements(itemRepeaterElements.ToList(), nestedRepeaters.ToList());            
             XElement currentNested;       
             for (var index = 1; index <= dataReaders.Count(); index++)
             {
-                XElement bisectElement;
-                current = this.ProcessElements(repeaterElements, dataReaders[index - 1], current, null, index, out bisectElement);                
-                currentNested = this.ProcessNestedRepeaters(tag, dataReaders[index - 1], bisectElement ?? current);
-
+                ICollection<XElement> bisectElements;
+                current = this.ProcessElements(repeaterElements, dataReaders[index - 1], current, null, index, out bisectElements);                
+                currentNested = this.ProcessNestedRepeaters(tag, dataReaders[index - 1], (!bisectElements.Any()) ? new List<XElement>() { current } : bisectElements);
                 if ((currentNested != null) && repeaterElements.Last().IsBeforeNestedRepeater)
                 {                    
                     current = currentNested;
@@ -129,6 +120,45 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             endElement.Remove();
             
         }
+
+        private IEnumerable<ItemRepeaterElement> GetSiblingElements(
+            IEnumerable<ItemRepeaterElement> itemRepeaterElements, IEnumerable<ItemRepeaterTag> nestedRepeaters)
+        {            
+            var repeaterElements = new List<ItemRepeaterElement>();
+            int i = 0;
+            if (!nestedRepeaters.Any())
+            {
+                repeaterElements.AddRange(itemRepeaterElements);
+            }
+            else
+            {
+                foreach (var itemRepeaterElement in itemRepeaterElements.Where(ire => !(ire.XElement.IsTag("itemrepeater") || ire.XElement.IsTag("enditemrepeater"))))
+                {                    
+                    var flagAdd = false;
+                    foreach (var nestedRepeater in nestedRepeaters)
+                    {
+                        if (
+                            !TraverseUtils.ElementsBetween(nestedRepeater.StartItemRepeater,
+                                                           nestedRepeater.EndItemRepeater)
+                                          .Contains(itemRepeaterElement.XElement))
+                        {
+                            flagAdd = true;
+                        }
+                        else
+                        {
+                            flagAdd = false;
+                            break;                            
+                        }
+                    }
+                    if (flagAdd)
+                    {
+                        repeaterElements.Add(itemRepeaterElement);
+                    }                    
+                }
+                i++;
+            }
+            return repeaterElements;
+        }
        
         private IEnumerable<ItemRepeaterElement> MarkLastElements(IEnumerable<ItemRepeaterElement> repeaterElements)
         {
@@ -137,10 +167,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             {
                 var repeaterElement = repeaterElements.ElementAt(i);
                 var nextRepeaterElement = (i + 1 == repeaterElements.Count()) ? null : repeaterElements.ElementAt(i + 1);
-                if ((nextRepeaterElement != null) && nextRepeaterElement.IsItemRepeater)
-                {
-                    repeaterElement.IsBeforeNestedRepeater = true;
-                }
+                repeaterElement.NextNestedRepeater = ((nextRepeaterElement != null) &&
+                                                      nextRepeaterElement.IsItemRepeater)
+                                                         ? nextRepeaterElement
+                                                         : null;
             }
             return repeaterElements;
         }
@@ -163,42 +193,39 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         }
 
         private XElement RenderDataReaders(ItemRepeaterTag tag, DataReader dataReader, XElement current)
-        {
-            /*var elements = TraverseUtils.ElementsBetween(tag.StartItemRepeater,
-                                                         tag.EndItemRepeater).Select(MakeElementCallback)
-                                        .Where(
-                                            el =>
-                                            el.XElement.IsSdt() || el.XElement.Descendants()
-                                                                    .Any(nel => nel.IsSdt()))
-                                        .ToList();
-             */
+        {            
             var elements = TraverseUtils.ElementsBetween(tag.StartItemRepeater,
                                                          tag.EndItemRepeater).Select(MakeElementCallback)                                        
                                         .ToList();
             var dataReaders = dataReader.GetReaders(tag.Source).ToList();
             for (var index = 1; index <= dataReaders.Count; index++)
             {
-                XElement el;
-                current = this.ProcessElements(elements, dataReaders[index - 1], current, null, index, out el);
+                ICollection<XElement> bisectElements;
+                current = this.ProcessElements(elements, dataReaders[index - 1], current, null, index, out bisectElements);
             }
             return current;
                                   
         }
 
-        private XElement ProcessNestedRepeaters(ItemRepeaterTag tag, DataReader dataReader, XElement curr)
+        private XElement ProcessNestedRepeaters(ItemRepeaterTag tag, DataReader dataReader, ICollection<XElement> currentElements)
         {
             XElement current = null;
+            int i = 0;
             foreach (var nestedRepeater in tag.NestedRepeaters)
             {
                 if (nestedRepeater.NestedRepeaters.Count == 0)
-                {                    
-                    current = this.RenderDataReaders(nestedRepeater, dataReader, curr);
+                {
+                    current = currentElements.ElementAt(i);
+                    current = this.RenderDataReaders(nestedRepeater, dataReader, current);
                 }
                 else
                 {
-                    this.ProcessNestedRepeaters(nestedRepeater, dataReader, curr);
-                    current = this.RenderDataReaders(nestedRepeater, dataReader, curr);
-                }                
+                    /*
+                    this.ProcessNestedRepeaters(nestedRepeater, dataReader, currentElement);
+                    current = this.RenderDataReaders(nestedRepeater, dataReader, currentElement);
+                     */
+                }
+                ++i;
             }
             return current;
         }
@@ -208,11 +235,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             
         }
 
-        private XElement ProcessElements(IEnumerable<ItemRepeaterElement> itemRepeaterElements, DataReader dataReader, XElement start, XElement parent, int index, out XElement elementBeforeNestedRepeater, bool nested = false)
+        private XElement ProcessElements(IEnumerable<ItemRepeaterElement> itemRepeaterElements, DataReader dataReader, XElement start, XElement parent, int index, out ICollection<XElement> elementsBeforeNestedRepeaters, bool nested = false)
         {
             XElement result = null;
             XElement previous = start;
-            XElement tempElementBeforeItemRepeater = null;
+            ICollection<XElement> tempElementsBeforeItemRepeaters = new List<XElement>();
             foreach (var itemRepeaterElement in itemRepeaterElements)
             {                
                 if (itemRepeaterElement.IsIndex)
@@ -237,7 +264,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     result = element;
                     if (itemRepeaterElement.HasElements)
                     {
-                        this.ProcessElements(itemRepeaterElement.Elements, dataReader, null, result, index, out tempElementBeforeItemRepeater, true);
+                        this.ProcessElements(itemRepeaterElement.Elements, dataReader, null, result, index, out tempElementsBeforeItemRepeaters, true);
                     }
                     else
                     {
@@ -254,13 +281,13 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 {
                     parent.Add(result);
                 }
-                if ((itemRepeaterElement.IsBeforeNestedRepeater) && (tempElementBeforeItemRepeater == null))
+                if (itemRepeaterElement.IsBeforeNestedRepeater)
                 {
-                    tempElementBeforeItemRepeater = result;
+                    tempElementsBeforeItemRepeaters.Add(result);                    
                 }
                 
             }
-            elementBeforeNestedRepeater = tempElementBeforeItemRepeater;
+            elementsBeforeNestedRepeaters = tempElementsBeforeItemRepeaters;
             return result;            
         }
     }
