@@ -102,7 +102,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                                           where (!TraverseUtils.ElementsBetween(nestedRepeater.StartItemRepeater, nestedRepeater.EndItemRepeater).Contains(itemRepeaterElement.XElement))
                                           select itemRepeaterElement);
             }
-            XElement currentNested;            
+            XElement currentNested;       
+     
+            
             for (var index = 1; index <= dataReaders.Count(); index++)
             {        
                 current = this.ProcessElements(repeaterElements, dataReaders[index - 1], current, null, index);                
