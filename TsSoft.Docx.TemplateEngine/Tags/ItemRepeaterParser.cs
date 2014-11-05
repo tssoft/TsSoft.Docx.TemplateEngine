@@ -132,20 +132,20 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             }
             else
             {
-                foreach (var itemRepeaterElement in itemRepeaterElements.Where(ire => !(ire.XElement.IsTag("itemrepeater") || ire.XElement.IsTag("enditemrepeater"))))
+                foreach (var itemRepeaterElement in itemRepeaterElements.Where(ire => !(ire.XElement.IsTag("itemrepeater") || ire.XElement.DescendantsAndSelf().Any(el => el.IsTag("enditemrepeater")))))
                 {                    
                     var flagAdd = false;
                     foreach (var nestedRepeater in nestedRepeaters)
                     {
                         if (
                             !TraverseUtils.ElementsBetween(nestedRepeater.StartItemRepeater,
-                                                           nestedRepeater.EndItemRepeater)
-                                          .Contains(itemRepeaterElement.XElement))
+                                                           (nestedRepeater.EndItemRepeater.Parent.Name == WordMl.ParagraphName) ? nestedRepeater.EndItemRepeater.Parent : nestedRepeater.EndItemRepeater)
+                                          .Any(element => element.Equals(itemRepeaterElement.XElement)))
                         {
                             flagAdd = true;
                         }
                         else
-                        {
+                        {                           
                             flagAdd = false;
                             break;                            
                         }
@@ -155,7 +155,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                         repeaterElements.Add(itemRepeaterElement);
                     }                    
                 }
-                i++;
+                
             }
             return repeaterElements;
         }
@@ -195,7 +195,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private XElement RenderDataReaders(ItemRepeaterTag tag, DataReader dataReader, XElement current)
         {            
             var elements = TraverseUtils.ElementsBetween(tag.StartItemRepeater,
-                                                         tag.EndItemRepeater).Select(MakeElementCallback)                                        
+                                                         (tag.EndItemRepeater.Parent.Name == WordMl.ParagraphName) ? tag.EndItemRepeater.Parent : tag.EndItemRepeater).Select(MakeElementCallback)                                        
                                         .ToList();
             var dataReaders = dataReader.GetReaders(tag.Source).ToList();
             for (var index = 1; index <= dataReaders.Count; index++)
@@ -264,7 +264,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     result = element;
                     if (itemRepeaterElement.HasElements)
                     {
-                        this.ProcessElements(itemRepeaterElement.Elements, dataReader, null, result, index, out tempElementsBeforeItemRepeaters, true);
+                        ICollection<XElement> elements = new List<XElement>();
+                        this.ProcessElements(itemRepeaterElement.Elements, dataReader, null, result, index, out elements, true);
                     }
                     else
                     {
@@ -286,8 +287,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     tempElementsBeforeItemRepeaters.Add(result);                    
                 }
                 
-            }
+            }            
             elementsBeforeNestedRepeaters = tempElementsBeforeItemRepeaters;
+                        
             return result;            
         }
     }
