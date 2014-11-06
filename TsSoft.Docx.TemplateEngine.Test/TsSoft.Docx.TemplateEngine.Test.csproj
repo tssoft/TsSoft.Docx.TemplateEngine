@@ -118,6 +118,8 @@
     <EmbeddedResource Include="ItemRepeaterNestedDemo20.docx" />
     <EmbeddedResource Include="ItemRepeaterNested2IRDemo.docx" />
     <EmbeddedResource Include="ItemRepeaterNested2IRDemoWithStaticText.docx" />
+    <EmbeddedResource Include="ItemRepeaterNested2IRDemoWithoutSeparator.docx" />
+    <EmbeddedResource Include="ItemRepeaterNested2IRDemoWithoutSeparatorAndParagraphs.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />
