@@ -157,16 +157,60 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     }
                     if (flagAdd)
                     {
-                        if (itemRepeaterElement.HasElements && (itemRepeaterElement.Elements.Any(ire => ire.IsItemRepeater) || itemRepeaterElement.Elements.Any(ire => ire.IsEndItemRepeater)) && itemRepeaterElement.XElement.Name.Equals(WordMl.ParagraphName))
+                        if (itemRepeaterElement.HasElements 
+                            && (itemRepeaterElement.Elements.Any(ire => ire.IsItemRepeater)  || itemRepeaterElement.Elements.Any(ire => ire.IsEndItemRepeater)) 
+                            && itemRepeaterElement.XElement.Name.Equals(WordMl.ParagraphName))
                         {
-                            repeaterElements.AddRange(
+                            /*repeaterElements.AddRange(
                                 itemRepeaterElement.Elements.Where(
                                     ire =>
-                                    /*ire.XElement.IsSdt() &&*/ !ire.XElement.IsTag("itemrepeater") &&
-                                    !ire.XElement.IsTag("enditemrepeater")));
+                                    /*ire.XElement.IsSdt() && !ire.XElement.IsTag("itemrepeater") &&
+                                    !ire.XElement.IsTag("enditemrepeater")));*/
+                            var nestedElements = itemRepeaterElement.Elements.ToList();
+                            var element = new XElement(itemRepeaterElement.XElement.Name);
+                            var dicBisect = new Dictionary<XElement, ItemRepeaterElement>();
+                            ItemRepeaterElement val;
+                            if (!nestedElements.Any(ne => ne.IsEndItemRepeater))
+                            {
+                                foreach (var nestedElement in nestedElements)
+                                {
+                                    element.Add(nestedElement.XElement);
+                                    if (nestedElement.IsBeforeNestedRepeater)
+                                    {
+                                        dicBisect.Add(nestedElement.XElement, new ItemRepeaterElement() { XElement = nestedElement.NextNestedRepeater.XElement });
+                                        break;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                var end = nestedElements.First(ne => ne.IsEndItemRepeater);
+                                var next = end.XElement;
+                                while ((next = next.NextElement()) != null)
+                                {
+                                    element.Add(next);
+                                }
+                            }
+                            var newItemRepeaterElement = MakeElementCallback(element);
+                            var elements = newItemRepeaterElement.Elements.ToList();
+
+                            foreach (var kv in dicBisect)
+                            {
+                                foreach (var repeaterElement in elements)
+                                {
+                                    if (XNode.DeepEquals(repeaterElement.XElement, kv.Key))
+                                    {
+                                        val = new ItemRepeaterElement { XElement = new XElement(kv.Value.XElement) };
+                                        repeaterElement.NextNestedRepeater = val;
+                                    }
+                                }
+                            }
+                            newItemRepeaterElement.Elements = elements;
+                            //newItemRepeaterElement.NextNestedRepeater = itemRepeaterElement.NextNestedRepeater;
+                            repeaterElements.Add(newItemRepeaterElement);
                         }
                         else
-                        {
+                        {                            
                             repeaterElements.Add(itemRepeaterElement);
                         }
                     }               
@@ -265,7 +309,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 {
                     if (!nestedRepeater.IsNotSeparatedRepeater)
                     {
+                        if (bisectElements.ElementAt(i).Parent.Name.Equals(WordMl.ParagraphName) && TraverseUtils.ElementsBetween(nestedRepeater.StartItemRepeater,nestedRepeater.EndItemRepeater).Any(el => el.))
+                        {
+                            
+                        }
                         current = bisectElements.ElementAt(i);
+                        
                         ++i;
                     }                    
                     current = this.RenderDataReaders(nestedRepeater, dataReader, current);
