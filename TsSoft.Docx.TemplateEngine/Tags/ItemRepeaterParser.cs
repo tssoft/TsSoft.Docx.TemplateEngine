@@ -207,7 +207,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                             }
                             newItemRepeaterElement.Elements = elements;
                             //newItemRepeaterElement.NextNestedRepeater = itemRepeaterElement.NextNestedRepeater;
-                            repeaterElements.Add(newItemRepeaterElement);
+                            if (element.HasElements)
+                            {
+                                repeaterElements.Add(newItemRepeaterElement);
+                            }
                         }
                         else
                         {                            
@@ -287,13 +290,51 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private XElement RenderDataReaders(ItemRepeaterTag tag, DataReader dataReader, XElement current)
         {            
             var elements = TraverseUtils.ElementsBetween(tag.StartItemRepeater,
-                                                         (tag.EndItemRepeater.Parent.Name == WordMl.ParagraphName) ? tag.EndItemRepeater.Parent : tag.EndItemRepeater).Select(MakeElementCallback)                                        
-                                        .ToList();
+                                                         ((tag.EndItemRepeater.Parent.Name == WordMl.ParagraphName) && (!tag.EndItemRepeater.Parent.Elements().Contains(tag.StartItemRepeater))) ? tag.EndItemRepeater.Parent : tag.EndItemRepeater).Select(MakeElementCallback)                                        
+                                                        .ToList();
+            IList<ItemRepeaterElement> processedElements = new List<ItemRepeaterElement>();            
+            if (elements.Count > 1)
+            {
+                XElement tmpContainer = null;
+                var tmpParent = elements[0].XElement.Parent; 
+                IList<XElement> tmpElements = new List<XElement>();
+                if (elements[0].XElement.Name.Equals(WordMl.ParagraphName))
+                {
+                    tmpElements.Add(elements[0].XElement);
+                }
+                else
+                {
+                    processedElements.Add(elements[0]);
+                }
+                for (var i = 1; i < elements.Count(); i++)
+                {
+                    if (!elements[i].XElement.Parent.Name.Equals(WordMl.ParagraphName))
+                    {
+                        processedElements.Add(elements[i]);
+                        continue;                        
+                    }
+                    if (elements[i].XElement.Parent.Equals(tmpParent))
+                    {
+                        tmpElements.Add(elements[i].XElement);
+                    }
+                    if (!elements[i].XElement.Parent.Equals(tmpParent) || (i == elements.Count - 1))
+                    {
+                        tmpContainer = new XElement(tmpParent.Name);
+                        tmpContainer.Add(tmpElements);
+                        processedElements.Add(MakeElementCallback(tmpContainer));
+                        tmpParent = elements[i].XElement.Parent;   
+                        tmpElements.Clear();              
+                    }
+                    
+                }
+                //processedElements.Add(MakeElementCallback(tmpContainer));
+            }            
             var dataReaders = dataReader.GetReaders(tag.Source).ToList();
             for (var index = 1; index <= dataReaders.Count; index++)
             {
                 ICollection<XElement> bisectElements;
-                current = this.ProcessElements(elements, dataReaders[index - 1], current, null, index, out bisectElements);
+                current = this.ProcessElements(processedElements, dataReaders[index - 1], current,
+                    null, index, out bisectElements);
             }
             return current;
                                   
@@ -309,10 +350,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 {
                     if (!nestedRepeater.IsNotSeparatedRepeater)
                     {
-                        if (bisectElements.ElementAt(i).Parent.Name.Equals(WordMl.ParagraphName) && TraverseUtils.ElementsBetween(nestedRepeater.StartItemRepeater,nestedRepeater.EndItemRepeater).Any(el => el.))
-                        {
-                            
-                        }
                         current = bisectElements.ElementAt(i);
                         
                         ++i;
@@ -348,15 +385,16 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
                                                           itemRepeaterElement.XElement.Parent,
                                                           index.ToString(CultureInfo.CurrentCulture),
-                                                          !nested);
+                                                          !nested
+                                                          );
                 }
                 else if (itemRepeaterElement.IsItem && itemRepeaterElement.HasExpression)
                 {
                     result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
                                                           itemRepeaterElement.XElement.Parent,
                                                           dataReader.ReadText(itemRepeaterElement.Expression),
-                                                          !nested
-                        );
+                                                          !nested                                                          
+                                                          );
                 }                
                 else
                 {                                    

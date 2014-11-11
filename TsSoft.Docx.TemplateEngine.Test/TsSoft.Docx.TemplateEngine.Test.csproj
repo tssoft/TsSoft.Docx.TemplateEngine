@@ -122,6 +122,7 @@
     <EmbeddedResource Include="ItemRepeaterNested2IRDemoWithoutSeparatorAndParagraphs.docx" />
     <EmbeddedResource Include="ItemRepeaterNestedDemoIRParagraph.docx" />
     <EmbeddedResource Include="ItemRepeaterNestedDemoIRAndItemIndexInOneParagraph.docx" />
+    <EmbeddedResource Include="ItemRepeaterNestedInOneParagraph.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />
