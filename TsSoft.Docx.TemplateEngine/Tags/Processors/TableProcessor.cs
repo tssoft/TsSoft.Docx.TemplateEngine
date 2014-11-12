@@ -11,8 +11,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
     {
         public TableTag TableTag { get; set; }
 
-        private ICollection<ItemRepeaterProcessor> itemRepeaterProcessors;
-
         public override void Process()
         {
             base.Process();

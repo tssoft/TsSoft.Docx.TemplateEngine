@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DocxGeneratorSettings.cs" />
+    <Compile Include="Tags\ItemRepeaterElement.cs" />
+    <Compile Include="Tags\ItemRepeaterTag.cs" />
     <Compile Include="MessageStrings.ru.Designer.cs">
       <DependentUpon>MessageStrings.ru.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -63,7 +65,6 @@
     <Compile Include="Tags\IfTag.cs" />
     <Compile Include="Tags\ITagParser.cs" />
     <Compile Include="Tags\ItemRepeaterParser.cs" />
-    <Compile Include="Tags\Processors\ItemRepeaterProcessor.cs" />
     <Compile Include="Tags\Processors\AbstractProcessor.cs" />
     <Compile Include="Tags\Processors\IfProcessor.cs" />
     <Compile Include="Tags\RepeaterElement.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="TextRunProperties.cs" />
     <Compile Include="WordMl.cs" />
     <Compile Include="XElementExtension.cs" />
+    <Compile Include="XmlMl.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MessageStrings.ru.resx">
