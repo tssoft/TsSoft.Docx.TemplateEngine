@@ -47,6 +47,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         {
             XElement result = null;
             XElement previous = start;
+
+
             foreach (var repeaterElement in elements)
             {
                 if (repeaterElement.IsIndex)

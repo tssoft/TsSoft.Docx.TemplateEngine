@@ -8,7 +8,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
     {
         public IEnumerable<RepeaterElement> Elements { get; set; }
 
-        public XElement XElement { get; set; }
+        public XElement XElement { get; set; }       
 
         public string Expression { get; set; }
 
@@ -31,5 +31,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         }
 
         public bool IsItem { get; set; }
+
+        public bool IsItemRepeater { get; set; }
+
+        public XElement StartTag { get; set; }
+
+        public XElement EndTag { get; set; }
     }
 }

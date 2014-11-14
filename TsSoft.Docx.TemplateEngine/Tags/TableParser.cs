@@ -34,6 +34,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
                 return tableElements;
             };
+         
 
         /// <summary>
         /// Do parsing
@@ -59,10 +60,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                               TagTable = startElement,
                               TagEndTable = endTableTag,
                               ItemsSource = itemsSource,
-                          };            
-
+                          };
+            tag.MakeTableElementCallback = MakeTableElementCallback;
             int? dynamicRow = null;
-            int rCount = 1;            
+            var rowCount = 1;            
             var between = TraverseUtils.ElementsBetween(startElement, endTableTag).Descendants(WordMl.TableRowName);
             foreach (var tableRow in between)
             {
@@ -72,9 +73,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     {
                         throw new Exception("Invalid template! Found several dynamic rows.");
                     }
-                    dynamicRow = rCount;                    
+                    dynamicRow = rowCount;                    
                 }
-                rCount++;
+                rowCount++;
             }
             var tableElement = startElement.NextSdt(WordMl.TableName).FirstOrDefault(element => element.IsBefore(endTableTag));
             if (tableElement != null)
@@ -83,8 +84,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             }
 
             tag.DynamicRow = dynamicRow;
-
-            tag.MakeTableElementCallback = MakeTableElementCallback;
 
             var processor = new TableProcessor { TableTag = tag };
 
@@ -115,7 +114,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 }
                 currentTagElement = TraverseUtils.NextTagElements(currentTagElement).FirstOrDefault();
             }
-
             return tableElements;
         }
 

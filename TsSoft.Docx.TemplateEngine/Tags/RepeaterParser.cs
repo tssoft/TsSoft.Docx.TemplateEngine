@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Xml.Linq;
 using TsSoft.Docx.TemplateEngine.Tags.Processors;
@@ -13,6 +14,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private const string EndTagName = "EndRepeater";
         private const string IndexTag = "ItemIndex";
         private const string ItemTag = "ItemText";
+
+        private const string ItemIfTag = "ItemIf";
+        private const string ItemRepeaterTag = "ItemRepeater";
 
         private static Func<XElement, RepeaterElement> MakeElementCallback = element =>
             {
@@ -63,6 +67,35 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             parentProcessor.AddProcessor(repeaterProcessor);
 
             return endRepeater;
+        }
+
+        private static XElement FindEndTag(XElement startTag, string startTagName, string endTagName)
+        {
+            var startTagsOpened = 1;
+            var current = startTag;
+            while (startTagsOpened > 0 && current != null)
+            {
+                var nextTagElements = TraverseUtils.NextTagElements(current, new Collection<string> { startTagName, endTagName }).ToList();
+                int index = -1;
+                while ((index < nextTagElements.Count) && (startTagsOpened != 0))
+                {
+                    index++;
+                    if (nextTagElements[index].IsTag(startTagName))
+                    {
+                        startTagsOpened++;
+                    }
+                    else
+                    {
+                        startTagsOpened--;
+                    }
+                }
+                current = nextTagElements[index];
+            }
+            if (current == null)
+            {
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, endTagName));
+            }
+            return current;
         }
 
         private bool GoDeeper(ITagProcessor parentProcessor, XElement element)

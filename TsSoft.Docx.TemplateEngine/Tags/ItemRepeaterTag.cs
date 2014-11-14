@@ -15,6 +15,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public bool IsNotSeparatedRepeater { get; set; }
 
+        public bool IsVisible { get; set; }
+
         public string Source { get; set; }
 
         public ICollection<ItemRepeaterTag> NestedRepeaters { get; set; }
