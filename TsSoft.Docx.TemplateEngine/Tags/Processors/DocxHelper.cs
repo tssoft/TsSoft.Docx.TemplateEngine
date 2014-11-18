@@ -8,6 +8,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 
     internal class DocxHelper
     {
+        private static readonly XNamespace OfficeRelType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
         private static readonly HashSet<XName> ValidTextRunContainers = new HashSet<XName>
                                                                                 {
                                                                                     WordMl.ParagraphName,
@@ -175,11 +176,20 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             return result;
         }
 
+        public static XElement CreateAltChunkElement(int altChunkId)
+        {
+            var formattedAltChunkId = string.Format("altChunkId{0}", altChunkId);
+            var altChunk = new XElement(WordMl.AltChunkName, new XAttribute(OfficeRelType + "id", formattedAltChunkId));
+            return altChunk;
+        }
+
         public static XElement CreateDynamicContentElement(IEnumerable<XElement> contentElements, XElement tagElement)
         {
             var tagId = tagElement.Element(WordMl.SdtPrName).Element(WordMl.IdName).Attribute(WordMl.ValAttributeName).Value;
             return CreateDynamicContentElement(contentElements, tagId);
         }
+
+
 
         public static XElement CreateDynamicContentElement(IEnumerable<XElement> contentElements, string id)
         {

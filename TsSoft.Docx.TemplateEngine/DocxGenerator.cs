@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 using TsSoft.Docx.TemplateEngine.Tags;
 using TsSoft.Docx.TemplateEngine.Tags.Processors;
@@ -125,6 +128,8 @@ namespace TsSoft.Docx.TemplateEngine
             this.GenerateDocx(templateStream, outputStream, reader, settings);
         }
 
+        
+
         private void GenerateDocx(Stream templateStream, Stream outputStream, DataReader reader, DocxGeneratorSettings settings)
         {
             var actualSettings = settings ?? this.GetDefaultSettings();
@@ -144,6 +149,8 @@ namespace TsSoft.Docx.TemplateEngine
             rootProcessor.DataReader = reader;
             rootProcessor.LockDynamicContent = actualSettings.LockDynamicContent;
             rootProcessor.Process();
+            
+            package.GenerateAltChunk();
 
             package.Save();
         }
@@ -155,6 +162,11 @@ namespace TsSoft.Docx.TemplateEngine
                     MissingDataMode = MissingDataMode.Ignore,
                     LockDynamicContent = false
                 };
+        }
+        
+        private void GenerateAltChunkElement(int altChunkId)
+        {
+            
         }
     }
 

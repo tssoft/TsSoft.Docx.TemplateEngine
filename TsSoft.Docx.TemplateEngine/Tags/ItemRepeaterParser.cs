@@ -108,7 +108,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                             var nestedElements = itemRepeaterElement.Elements.ToList();
                             var element = new XElement(itemRepeaterElement.XElement.Name);
                             var dicBisect = new Dictionary<XElement, ItemRepeaterElement>();
-                            ItemRepeaterElement val;
                             if (!nestedElements.Any(ne => ne.IsEndItemRepeater))
                             {
                                 foreach (var nestedElement in nestedElements)
@@ -137,12 +136,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                             {
                                 foreach (var repeaterElement in elements.Where(repeaterElement => XNode.DeepEquals(repeaterElement.XElement, kv.Key)))
                                 {
-                                    val = new ItemRepeaterElement { XElement = new XElement(kv.Value.XElement) };
+                                    var val = new ItemRepeaterElement { XElement = new XElement(kv.Value.XElement) };
                                     repeaterElement.NextNestedRepeater = val;
                                 }
                             }
                             newItemRepeaterElement.Elements = elements;
-
                             if (element.HasElements)
                             {
                                 repeaterElements.Add(newItemRepeaterElement);
@@ -278,6 +276,44 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return result;
         }
 
+        private IEnumerable<ItemRepeaterElement> CreateParagraphForInlineElements(IList<ItemRepeaterElement> elements)
+        {
+            var processedElements = new List<ItemRepeaterElement>();
+            elements = elements.ToList();
+            var tmpParent = elements[0].XElement.Parent;
+            IList<XElement> tmpElements = new List<XElement>();
+            if (tmpParent.Name.Equals(WordMl.ParagraphName))
+            {
+                tmpElements.Add(elements[0].XElement);
+            }
+            else
+            {
+                processedElements.Add(elements[0]);
+            }
+            for (var i = 1; i < elements.Count(); i++)
+            {
+                var parent = elements[i].XElement.Parent;
+                if (!parent.Name.Equals(WordMl.ParagraphName))
+                {
+                    processedElements.Add(elements[i]);
+                    continue;
+                }
+                if (parent.Equals(tmpParent))
+                {
+                    tmpElements.Add(elements[i].XElement);
+                }
+                if (!parent.Equals(tmpParent) || (i == elements.Count - 1))
+                {
+                    XElement tmpContainer = new XElement(tmpParent.Name);
+                    tmpContainer.Add(tmpElements);
+                    processedElements.Add(MakeElementCallback(tmpContainer));
+                    tmpParent = parent;
+                    tmpElements.Clear();
+                }
+            }
+            return processedElements;
+        }
+
         private XElement RenderDataReaders(ItemRepeaterTag tag, DataReader dataReader, XElement current)
         {
             var elements = TraverseUtils.ElementsBetween(tag.StartItemRepeater,
@@ -290,38 +326,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var processedElements = new List<ItemRepeaterElement>();
             if (elements.Count > 1)
             {
-                XElement tmpContainer = null;
-                var tmpParent = elements[0].XElement.Parent;
-                IList<XElement> tmpElements = new List<XElement>();
-                if (tmpParent.Name.Equals(WordMl.ParagraphName))
-                {
-                    tmpElements.Add(elements[0].XElement);
-                }
-                else
-                {
-                    processedElements.Add(elements[0]);
-                }
-                for (var i = 1; i < elements.Count(); i++)
-                {
-                    var parent = elements[i].XElement.Parent;
-                    if (!parent.Name.Equals(WordMl.ParagraphName))
-                    {
-                        processedElements.Add(elements[i]);
-                        continue;
-                    }
-                    if (parent.Equals(tmpParent))
-                    {
-                        tmpElements.Add(elements[i].XElement);
-                    }
-                    if (!parent.Equals(tmpParent) || (i == elements.Count - 1))
-                    {
-                        tmpContainer = new XElement(tmpParent.Name);
-                        tmpContainer.Add(tmpElements);
-                        processedElements.Add(MakeElementCallback(tmpContainer));
-                        tmpParent = parent;
-                        tmpElements.Clear();
-                    }
-                }
+                processedElements.AddRange(this.CreateParagraphForInlineElements(elements));
             }
             else
             {
@@ -339,7 +344,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     if (endItemRepeater != null)
                     {
                         flgWrapInline = elements.All(e => e.XElement.Parent.Elements().Contains(endItemRepeater));
-
                     }
                 }
             }
@@ -352,7 +356,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 processedElements = this.MarkInvisibleElements(processedElements, dataReaders[index - 1], ref ifCount, ref flg, index == dataReaders.Count).ToList();
                 if (ifCount != 1)
                 {
-                    throw new Exception("ItemIf error. Check REndIf count.");
+                    throw new Exception("RItemIf error. Check REndIf count.");
                 }
                 var inlineWrapping = (index > 1) && flgWrapInline;
                 if (inlineWrapping)
