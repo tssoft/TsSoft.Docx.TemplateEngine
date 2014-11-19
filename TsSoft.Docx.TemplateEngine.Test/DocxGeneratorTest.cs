@@ -575,7 +575,25 @@ namespace TsSoft.Docx.TemplateEngine.Test
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
         }
 
+        [TestMethod]
+        public void TestActualGenerationDoubleHtmlContent()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "DoubleHtmlContent.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException});
 
+            var package = new DocxPackage(output);
+            package.Load();            
+            Console.WriteLine(package.DocumentPartXml.ToString());
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+        }
         private void InitializeStubbedExecution()
         {
             this.docxPackageMock = new Mock<DocxPackage>();

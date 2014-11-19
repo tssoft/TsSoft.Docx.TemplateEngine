@@ -17,6 +17,7 @@ namespace TsSoft.Docx.TemplateEngine
         private const string OfficeDocumentRelType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
         private const string OfficeAfChunkRelType =
             "http://schemas.openxmlformats.org/officeDocument/2006/relationships/aFChunk";
+
         private Stream docxStream;
 
         public DocxPackage()
@@ -65,8 +66,8 @@ namespace TsSoft.Docx.TemplateEngine
         {
             // TODO Generating afchunk files and relationalship edit.
             var document = DocumentPartXml.Document;
-            var htmlTags = document.Root.Descendants().Where(el => el.IsTag("htmlcontent"));
-            var htmlChunks = new List<string>();
+            var htmlTags = document.Root.Descendants().Where(el => el.IsTag(HtmlContentProcessor.ProcessedHtmlContentTagName)).ToList();
+            var htmlChunks = new List<string>();            
             foreach (var htmlTag in htmlTags)
             {
                 var htmlString = htmlTag.GetExpression();
@@ -75,17 +76,14 @@ namespace TsSoft.Docx.TemplateEngine
                 {
                     htmlChunks.Add(htmlString);
                     htmlChunkIndex = htmlChunks.Count - 1;
+                    using (var package = Package.Open(this.docxStream, FileMode.Open, FileAccess.ReadWrite))
+                    {
+                        this.CreateAfChunkPart(package, htmlChunkIndex + 1, htmlString);
+                    }
                 }                                 
                 htmlTag.AddAfterSelf(DocxHelper.CreateAltChunkElement(htmlChunkIndex + 1));                
-                using (var package = Package.Open(this.docxStream, FileMode.Open, FileAccess.ReadWrite))
-                {
-                    this.CreateAfChunkPart(package, htmlChunkIndex + 1, htmlString);
-                }
-            }
-            for (int i = 0; i < htmlTags.Count(); i++ )
-            {
-                htmlTags.ElementAt(i).Remove();
-            }
+                htmlTag.Remove();
+            }            
         }
 
         private PackagePart GetDocumentPart(Package package)
@@ -110,10 +108,11 @@ namespace TsSoft.Docx.TemplateEngine
                     stringStream.Write(htmlString);
                 }
             }
-            docPart.CreateRelationship(new Uri(formattedAfChunk + ".dat", UriKind.Relative), TargetMode.Internal, OfficeAfChunkRelType, string.Format("altChunkId{0}", afChunkId));
-
-
+            docPart.CreateRelationship(
+                                       new Uri(formattedAfChunk + ".dat", UriKind.Relative), 
+                                       TargetMode.Internal,
+                                       OfficeAfChunkRelType,
+                                       string.Format("altChunkId{0}", afChunkId));
         }
-
     }
 }

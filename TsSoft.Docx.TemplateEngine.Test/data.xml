@@ -15,6 +15,35 @@
     <IssueDate>01.01.2011</IssueDate>
     <ExpireDate>01.01.2012</ExpireDate>
   </certificates>
+  <HtmlContentString>
+    &lt;html&gt;
+    &lt;head /&gt;
+    &lt;body&gt;
+    &lt;h1&gt;HtmlHeader&lt;/h1&gt;
+    &lt;p&gt;
+    Html Content in Data!
+    &lt;/p&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+  </HtmlContentString>
+  <HtmlTableString>
+    &lt;TABLE BORDER&gt;
+    &lt;TR&gt;
+    &lt;TH COLSPAN=2&gt;Head1&lt;/TH&gt;
+    &lt;TH COLSPAN=2&gt;Head2&lt;/TH&gt;
+    &lt;/TR&gt;
+    &lt;TR&gt;
+    &lt;TH&gt;Head 3&lt;/TH&gt; &lt;TH&gt;Head 4&lt;/TH&gt;
+    &lt;TH&gt;Head 5&lt;/TH&gt; &lt;TH&gt;Head 6&lt;/TH&gt;
+    &lt;/TR&gt;
+    &lt;TR&gt;
+    &lt;TD&gt;A&lt;/TD&gt; &lt;TD&gt;B&lt;/TD&gt; &lt;TD&gt;C&lt;/TD&gt; &lt;TD&gt;D&lt;/TD&gt;
+    &lt;/TR&gt;
+    &lt;TR&gt;
+    &lt;TD&gt;E&lt;/TD&gt; &lt;TD&gt;F&lt;/TD&gt; &lt;TD&gt;G&lt;/TD&gt; &lt;TD&gt;H&lt;/TD&gt;
+    &lt;/TR&gt;
+    &lt;/TABLE&gt;
+  </HtmlTableString>
   <TestText>It's test text</TestText>
   <TestText2>It's test text2</TestText2>
   <condition>true</condition>

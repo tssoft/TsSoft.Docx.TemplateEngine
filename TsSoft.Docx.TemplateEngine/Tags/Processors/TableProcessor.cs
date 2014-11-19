@@ -53,12 +53,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }
             dynamicRow.Remove();
         }
-
-        private void ProcessItemRepeaters(TableElement itemRepeaterElement)
-        {
-            
-        }
-
+   
         private void ProcessElements(IEnumerable<TableElement> tableElements, DataReader dataReader, int index, XElement start, bool isTopLevel)
         {
             var tableElementsList = tableElements.ToList();
@@ -113,7 +108,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 
         private void ProcessItemRepeaterElement(TableElement itemRepeaterElement, DataReader dataReader, int index,
                                                     XElement previous)
-        {
+        {            
             var expression = itemRepeaterElement.Expression;
             var readers = dataReader.GetReaders(expression);
             var itemRepeaterTag = GenerateItemRepeaterTag(itemRepeaterElement);         

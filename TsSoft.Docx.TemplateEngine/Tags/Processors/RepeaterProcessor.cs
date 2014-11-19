@@ -75,7 +75,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 }
                 if (previous != null)
                 {
-                    previous.AddAfterSelf(result);
+                    previous.AddAfterSelf(result);                    
                     previous = result;
                 }
                 else

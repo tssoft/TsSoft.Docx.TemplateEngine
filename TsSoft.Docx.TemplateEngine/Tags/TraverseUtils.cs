@@ -140,8 +140,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         }
 
         public static string GetExpression(this XElement self)
-        {
-            return self.IsSdt() ? self.Value : null;
+        {                        
+            return self.IsSdt() ? self.Value : null;            
         }
 
         private static Func<XElement, bool> MakeTagMatchingPredicate(ICollection<string> tagNames)

@@ -123,6 +123,7 @@
     <EmbeddedResource Include="ItemRepeaterNestedDemoIRParagraph.docx" />
     <EmbeddedResource Include="ItemRepeaterNestedDemoIRAndItemIndexInOneParagraph.docx" />
     <EmbeddedResource Include="ItemRepeaterNestedInOneParagraph.docx" />
+    <EmbeddedResource Include="DoubleHtmlContent.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />

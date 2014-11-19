@@ -21,7 +21,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 sdtElement = this.ParseSdt(parentProcessor, sdtElement);
                 sdtElement = TraverseUtils.NextTagElements(sdtElement).FirstOrDefault();
             }
-
             return startElement;
         }
 
@@ -29,7 +28,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         {
             ITagParser parser = null;
             switch (this.GetTagName(sdtElement).ToLower())
-            {
+            {                
+                case "htmlcontent":
+                    parser = new HtmlContentParser();
+                    break;
+
                 case "text":
                     parser = new TextParser();
                     break;
