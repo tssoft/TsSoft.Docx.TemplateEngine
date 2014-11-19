@@ -64,7 +64,6 @@ namespace TsSoft.Docx.TemplateEngine
 
         public virtual void GenerateAltChunk()
         {
-            // TODO Generating afchunk files and relationalship edit.
             var document = DocumentPartXml.Document;
             var htmlTags = document.Root.Descendants().Where(el => el.IsTag(HtmlContentProcessor.ProcessedHtmlContentTagName)).ToList();
             var htmlChunks = new List<string>();            
@@ -80,8 +79,21 @@ namespace TsSoft.Docx.TemplateEngine
                     {
                         this.CreateAfChunkPart(package, htmlChunkIndex + 1, htmlString);
                     }
-                }                                 
-                htmlTag.AddAfterSelf(DocxHelper.CreateAltChunkElement(htmlChunkIndex + 1));                
+                }
+                var parent = htmlTag.Parent;
+                var altChunkElement = DocxHelper.CreateAltChunkElement(htmlChunkIndex + 1);
+                if (!parent.Name.Equals(WordMl.ParagraphName))
+                {
+                    htmlTag.AddAfterSelf(altChunkElement);
+                }
+                else
+                {
+                    parent.AddAfterSelf(altChunkElement);
+                    if (parent.Elements().Count(el => !el.Name.Equals(WordMl.ParagraphPropertiesName)) == 1)
+                    {
+                        parent.Remove();
+                    }
+                }
                 htmlTag.Remove();
             }            
         }

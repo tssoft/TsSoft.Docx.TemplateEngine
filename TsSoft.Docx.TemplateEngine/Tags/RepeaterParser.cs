@@ -18,6 +18,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private const string ItemIfTag = "ItemIf";
         private const string ItemRepeaterTag = "ItemRepeater";
 
+        private const string ItemHtmlContentTag = "itemhtmlcontent";
+
         private static Func<XElement, RepeaterElement> MakeElementCallback = element =>
             {
                 var repeaterElement = new RepeaterElement
@@ -25,9 +27,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     Elements = element.Elements().Select(MakeElementCallback),
                     IsIndex = element.IsTag(IndexTag),
                     IsItem = element.IsTag(ItemTag),
+                    IsItemHtmlContent = element.IsTag(ItemHtmlContentTag),
                     XElement = element
                 };
-                if (repeaterElement.IsItem)
+                if (repeaterElement.IsItem || repeaterElement.IsItemHtmlContent)
                 {
                     repeaterElement.Expression = element.GetExpression();
                 }

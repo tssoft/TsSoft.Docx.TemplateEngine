@@ -47,11 +47,13 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         {
             XElement result = null;
             XElement previous = start;
-
-
             foreach (var repeaterElement in elements)
             {
-                if (repeaterElement.IsIndex)
+                if (repeaterElement.IsItemHtmlContent)
+                {
+                    result = HtmlContentProcessor.MakeHtmlContentProcessed(repeaterElement.XElement, dataReader.ReadText(repeaterElement.Expression));
+                }
+                else if (repeaterElement.IsIndex)
                 {
                     result = DocxHelper.CreateTextElement(repeaterElement.XElement, repeaterElement.XElement.Parent, index.ToString(CultureInfo.CurrentCulture));
                 }

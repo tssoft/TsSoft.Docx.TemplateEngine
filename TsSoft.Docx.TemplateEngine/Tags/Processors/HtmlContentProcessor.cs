@@ -13,11 +13,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 
         public HtmlContentTag HtmlTag { get; set; }
 
-        public static void MakeHtmlContentProcessed(XElement htmlContentElement, string htmlContent)
+        public static XElement MakeHtmlContentProcessed(XElement htmlContentElement, string htmlContent)
         {
             htmlContentElement.Element(WordMl.SdtPrName).Element(WordMl.TagName).Attribute(WordMl.ValAttributeName).SetValue(ProcessedHtmlContentTagName);
             htmlContent = HttpUtility.HtmlDecode(htmlContent);
             htmlContentElement.Element(WordMl.SdtContentName).Value = htmlContent;
+            return htmlContentElement;
         }
         
         public override void Process()

@@ -48,6 +48,7 @@ namespace TsSoft.Docx.TemplateEngine
         {
             return CreateReader(dataEntity);
         }
+
         private static void DocToLowerCase(XDocument doc)
         {
             foreach (var element in doc.Elements().DescendantsAndSelf())
