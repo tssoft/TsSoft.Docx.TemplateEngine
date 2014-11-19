@@ -65,6 +65,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Tags\GeneralParserTest.cs" />
+    <Compile Include="Tags\HtmlContentParserTest.cs" />
+    <Compile Include="Tags\Processors\HtmlContentProcessorTest.cs" />
     <Compile Include="Tags\Processors\TableProcessorTest.cs" />
     <Compile Include="Tags\Processors\AbstractProcessorTest.cs" />
     <Compile Include="Tags\Processors\IfProcessorTest.cs" />
@@ -221,6 +223,9 @@
     <EmbeddedResource Include="ItemRepeaterNested2IRDemoData.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\HtmlContentParserTest.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Xml.Linq;
 
 namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 {
@@ -11,14 +12,19 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         public static string ProcessedHtmlContentTagName = "processedhtmlcontent";
 
         public HtmlContentTag HtmlTag { get; set; }
+
+        public static void MakeHtmlContentProcessed(XElement htmlContentElement, string htmlContent)
+        {
+            htmlContentElement.Element(WordMl.SdtPrName).Element(WordMl.TagName).Attribute(WordMl.ValAttributeName).SetValue(ProcessedHtmlContentTagName);
+            htmlContent = HttpUtility.HtmlDecode(htmlContent);
+            htmlContentElement.Element(WordMl.SdtContentName).Value = htmlContent;
+        }
         
         public override void Process()
         {            
             base.Process();
             var element = this.HtmlTag.TagNode;
-            element.Element(WordMl.SdtPrName).Element(WordMl.TagName).Attribute(WordMl.ValAttributeName).SetValue(ProcessedHtmlContentTagName);
-            var htmlContent = HttpUtility.HtmlDecode(DataReader.ReadText(this.HtmlTag.Expression));            
-            element.Element(WordMl.SdtContentName).Value = htmlContent;
+            MakeHtmlContentProcessed(element, DataReader.ReadText(this.HtmlTag.Expression));
         }
     }
 }

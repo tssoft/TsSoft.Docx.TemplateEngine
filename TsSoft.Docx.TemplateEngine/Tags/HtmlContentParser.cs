@@ -18,6 +18,5 @@ namespace TsSoft.Docx.TemplateEngine.Tags
              return startElement;
          }
 
-    }
-    
+    }    
 }
