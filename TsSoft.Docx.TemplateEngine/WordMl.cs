@@ -33,5 +33,9 @@ namespace TsSoft.Docx.TemplateEngine
         public static readonly XName BookmarkStartName = WordMlNamespace + "bookmarkStart";
         public static readonly XName AltChunkName = WordMlNamespace + "altChunk";
 
+        public static readonly XName RsidRName = WordMlNamespace + "rsidR";
+        public static readonly XName RsidRPropertiesName = WordMlNamespace + "rsidRPr";
+        public static readonly XName RsidRDefaultName = WordMlNamespace + "rsidRDefault";
+        public static readonly XName RsidPName = WordMlNamespace + "rsidP";
     }
 }

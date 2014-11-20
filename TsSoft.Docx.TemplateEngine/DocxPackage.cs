@@ -65,7 +65,9 @@ namespace TsSoft.Docx.TemplateEngine
         public virtual void GenerateAltChunk()
         {
             var document = DocumentPartXml.Document;
-            var htmlTags = document.Root.Descendants().Where(el => el.IsTag(HtmlContentProcessor.ProcessedHtmlContentTagName)).ToList();
+            var htmlTags = document.Root.Descendants()
+                .Where(el => el.IsTag(HtmlContentProcessor.ProcessedHtmlContentTagName))
+                .ToList();
             var htmlChunks = new List<string>();            
             foreach (var htmlTag in htmlTags)
             {
@@ -88,11 +90,23 @@ namespace TsSoft.Docx.TemplateEngine
                 }
                 else
                 {
-                    parent.AddAfterSelf(altChunkElement);
+                    parent.AddAfterSelf(altChunkElement);                   
                     if (parent.Elements().Count(el => !el.Name.Equals(WordMl.ParagraphPropertiesName)) == 1)
                     {
                         parent.Remove();
                     }
+                }
+                if (altChunkElement.Parent.Name.Equals(WordMl.TableCellName) && (altChunkElement.NextElement() == null))
+                {
+                    const string RsidR = "0018462D";                    
+                    var rsidP = altChunkElement.Ancestors(WordMl.TableRowName)
+                                                .First()
+                                                .Attribute(WordMl.RsidRPropertiesName)
+                                                .Value;
+                    altChunkElement.AddAfterSelf(new XElement(WordMl.ParagraphName, 
+                                                new XAttribute(WordMl.RsidRName, RsidR),
+                                                new XAttribute(WordMl.RsidRPropertiesName, RsidR), new XAttribute(WordMl.RsidRDefaultName, RsidR),
+                                                new XAttribute(WordMl.RsidPName, rsidP)));
                 }
                 htmlTag.Remove();
             }            

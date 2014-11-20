@@ -17,7 +17,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         {
             htmlContentElement.Element(WordMl.SdtPrName).Element(WordMl.TagName).Attribute(WordMl.ValAttributeName).SetValue(ProcessedHtmlContentTagName);
             htmlContent = HttpUtility.HtmlDecode(htmlContent);
-            htmlContentElement.Element(WordMl.SdtContentName).Value = htmlContent;
+            htmlContentElement.Element(WordMl.SdtContentName).Value = htmlContent;            
             return htmlContentElement;
         }
         
