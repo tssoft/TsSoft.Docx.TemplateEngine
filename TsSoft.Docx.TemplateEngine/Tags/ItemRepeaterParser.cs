@@ -16,6 +16,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private const string ItemTag = "RItemText";
         private const string ItemIf = "RItemIf";
         private const string EndItemIf = "REndIf";
+        private const string ItemHtmlContentTag = "RItemHtmlContent";
         private static Func<XElement, ItemRepeaterElement> MakeElementCallback = element =>
             {
                 var itemRepeaterElement = new ItemRepeaterElement()
@@ -27,6 +28,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                         IsEndItemIf = element.IsTag(EndItemIf),
                         IsItemRepeater = element.IsTag("itemrepeater"),
                         IsEndItemRepeater = element.IsTag("enditemrepeater"),
+                        IsItemHtmlContent = element.IsTag(ItemHtmlContentTag),
                         XElement = element
                     };
                 if (itemRepeaterElement.IsItem || itemRepeaterElement.IsItemIf)
@@ -404,15 +406,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                         ++i;
                     }
                     current = this.RenderDataReaders(nestedRepeater, dataReader, current);
-                }
-                else
-                {
-                    /*
-                    this.ProcessNestedRepeaters(nestedRepeater, dataReader, currentElement);
-                    current = this.RenderDataReaders(nestedRepeater, dataReader, currentElement);
-                     */
-                }
-
+                }               
             }
             return current;
         }
@@ -427,8 +421,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 if (!itemRepeaterElement.IsVisible || itemRepeaterElement.IsItemIf || itemRepeaterElement.IsEndItemIf)
                 {
                     continue;
+                }                
+                if (itemRepeaterElement.IsItemHtmlContent)
+                {
+                    result = HtmlContentProcessor.MakeHtmlContentProcessed(itemRepeaterElement.XElement, dataReader.ReadText(itemRepeaterElement.Expression), true);
                 }
-                if (itemRepeaterElement.IsIndex)
+                else if (itemRepeaterElement.IsIndex)
                 {
                     result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
                                                           itemRepeaterElement.XElement.Parent,

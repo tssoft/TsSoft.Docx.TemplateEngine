@@ -77,44 +77,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             XDocument documentPartXml = package.DocumentPartXml;
             Assert.IsFalse(documentPartXml.Descendants(WordMl.SdtName).Any());
             Assert.IsNotNull(documentPartXml.Descendants(WordMl.TextRunName).Single(e => e.Value == DynamicText));
-        }
-        /*
-        [TestMethod]
-        public void TestActualGenerationJointActiviesOriginal()
-        {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "joint_activies_original.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "reportNote.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data);
-            var package = new DocxPackage(output);
-            package.Load();
-
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());            
-        }
-
-        [TestMethod]
-        public void TestActualGenerationJointActiviesVersion2()
-        {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "joint_activies_version2.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "reportNote.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data);
-            var package = new DocxPackage(output);
-            package.Load();
-            
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-        }
-        */
+        }       
 
         [TestMethod]
         public void TestActualGenerationRepeater()
@@ -244,6 +207,25 @@ namespace TsSoft.Docx.TemplateEngine.Test
             Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));         
+        }
+
+        [TestMethod]
+        public void TestActualGenerationItemHtmlContentInTable()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "ItemHtmlContentInTable.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.Ignore });
+            var package = new DocxPackage(output);
+            package.Load();
+//            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
         }
 
         [TestMethod]

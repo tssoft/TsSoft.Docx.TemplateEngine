@@ -62,7 +62,13 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             for (int listIndex = 0; listIndex < tableElementsList.Count; listIndex++)
             {
                 var currentTableElement = tableElementsList[listIndex];
-                if (currentTableElement.IsItemIf)
+                if (currentTableElement.IsItemHtmlContent)
+                {
+                    currentTableElement.StartTag = HtmlContentProcessor.MakeHtmlContentProcessed(currentTableElement.StartTag,
+                                                                             dataReader.ReadText(
+                                                                                 currentTableElement.Expression));                    
+                }
+                else if (currentTableElement.IsItemIf)
                 {
                     previous = this.ProcessItemIfElement(currentTableElement, dataReader, index, previous);
                 }
@@ -271,9 +277,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         }
 
         private void RemoveTags()
-        {
-            //this.CleanUp(TableTag.TagTable, TableTag.TagContent);
-            //this.CleanUp(TableTag.TagEndContent, TableTag.TagEndTable);
+        {            
             this.TableTag.TagTable.Remove();
             this.TableTag.TagEndTable.Remove();
         }

@@ -98,18 +98,25 @@ namespace TsSoft.Docx.TemplateEngine
                 }
                 if (altChunkElement.Parent.Name.Equals(WordMl.TableCellName) && (altChunkElement.NextElement() == null))
                 {
-                    const string RsidR = "0018462D";                    
-                    var rsidP = altChunkElement.Ancestors(WordMl.TableRowName)
-                                                .First()
-                                                .Attribute(WordMl.RsidRPropertiesName)
-                                                .Value;
-                    altChunkElement.AddAfterSelf(new XElement(WordMl.ParagraphName, 
-                                                new XAttribute(WordMl.RsidRName, RsidR),
-                                                new XAttribute(WordMl.RsidRPropertiesName, RsidR), new XAttribute(WordMl.RsidRDefaultName, RsidR),
-                                                new XAttribute(WordMl.RsidPName, rsidP)));
+                    this.AddEmptyParagraphAfterTableCell(altChunkElement);
                 }
                 htmlTag.Remove();
             }            
+        }
+
+        private void AddEmptyParagraphAfterTableCell(XElement altChunkElement)
+        {
+            const string RsidR = "0018462D";
+            var rsidP = altChunkElement.Ancestors(WordMl.TableRowName)
+                                        .First()
+                                        .Attribute(WordMl.RsidRPropertiesName)
+                                        .Value;
+            altChunkElement.AddAfterSelf(
+                                         new XElement(WordMl.ParagraphName,
+                                            new XAttribute(WordMl.RsidRName, RsidR),
+                                            new XAttribute(WordMl.RsidRPropertiesName, RsidR),
+                                            new XAttribute(WordMl.RsidRDefaultName, RsidR),
+                                            new XAttribute(WordMl.RsidPName, rsidP)));
         }
 
         private PackagePart GetDocumentPart(Package package)

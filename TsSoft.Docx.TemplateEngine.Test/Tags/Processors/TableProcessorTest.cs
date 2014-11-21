@@ -450,14 +450,6 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
 
                 rowIndex++;
             }
-            /*
-            var tagsBetween =
-                tableTag.TagTable.ElementsAfterSelf().Where(element => element.IsBefore(tableTag.TagContent));
-            Assert.IsFalse(tagsBetween.Any());
-
-            tagsBetween =
-                tableTag.TagEndContent.ElementsAfterSelf().Where(element => element.IsBefore(tableTag.TagEndTable));
-            Assert.IsFalse(tagsBetween.Any());*/
             this.ValidateTagsRemoved(root);
         }
 
@@ -618,8 +610,6 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                            ItemsSource = ItemsSource,
                            DynamicRow = dynamicRowValue,
                            TagTable = TraverseUtils.TagElement(root, "Table"),
-                         //  TagContent = TraverseUtils.TagElement(root, "Content"),
-                          // TagEndContent = TraverseUtils.TagElement(root, "EndContent"),
                            TagEndTable = TraverseUtils.TagElement(root, "EndTable"),
                        };
         }

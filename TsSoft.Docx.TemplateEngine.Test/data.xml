@@ -1,27 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <test>
   <certificates>
-    <Subject>Subject 1</Subject>
+    <testing>true</testing>
+    <Subject>Математика</Subject>
     <IssueDate>01.04.2014</IssueDate>
     <ExpireDate>01.10.2015</ExpireDate>
+    <ItemHtmlString>
+      &lt;html&gt;
+      &lt;head/&gt;
+      &lt;body&gt;
+      Html in repeater test
+      &lt;/body&gt;
+      &lt;/html&gt;
+    </ItemHtmlString>
   </certificates>
   <certificates>
-    <Subject>Subject2</Subject>
+    <testing>false</testing>
+    <Subject>Subject 2</Subject>
     <IssueDate>01.03.2014</IssueDate>
     <ExpireDate>01.09.2015</ExpireDate>
+    <ItemHtmlString>
+      &lt;html&gt;
+      &lt;head/&gt;
+      &lt;body&gt;
+      &lt;h1&gt;Number 2&lt;/h1&gt;
+      Html in repeater test
+      &lt;/body&gt;
+      &lt;/html&gt;
+    </ItemHtmlString>
   </certificates>
   <certificates>
+    <testing>true</testing>
     <Subject>Subject 3</Subject>
     <IssueDate>01.01.2011</IssueDate>
     <ExpireDate>01.01.2012</ExpireDate>
+    <ItemHtmlString>
+      &lt;html&gt;
+      &lt;head/&gt;
+      &lt;body&gt;
+      &lt;h1&gt;Number 3&lt;/h1&gt;
+      Html in repeater test
+      &lt;/body&gt;
+      &lt;/html&gt;
+    </ItemHtmlString>
   </certificates>
+  <TestText>It's test text</TestText>
+  <TestText2>It's test text2</TestText2>
+  <text>sometext</text>
+  <condition>true</condition>
+  <dEmoText>Some demo text</dEmoText>
   <HtmlContentString>
     &lt;html&gt;
     &lt;head /&gt;
     &lt;body&gt;
-    &lt;h1&gt;HtmlHeader&lt;/h1&gt;
     &lt;p&gt;
-    Html Content in Data!
+    Html &lt;span style=&quot;color:red;&quot;&gt;Content&lt;/span&gt; in Data!
     &lt;/p&gt;
     &lt;/body&gt;
     &lt;/html&gt;
@@ -44,8 +77,5 @@
     &lt;/TR&gt;
     &lt;/TABLE&gt;
   </HtmlTableString>
-  <TestText>It's test text</TestText>
-  <TestText2>It's test text2</TestText2>
-  <condition>true</condition>
   <falseCondition>false</falseCondition>
 </test>

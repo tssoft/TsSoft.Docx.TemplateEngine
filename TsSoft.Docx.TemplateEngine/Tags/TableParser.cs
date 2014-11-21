@@ -21,7 +21,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 {
                     var tableElement = ToTableElement(currentTagElement);
                     
-                    if (tableElement.IsItem || tableElement.IsIndex || tableElement.IsItemIf || tableElement.IsItemRepeater)
+                    if (tableElement.IsItem || tableElement.IsIndex || tableElement.IsItemIf || tableElement.IsItemRepeater || tableElement.IsItemHtmlContent)
                     {
                         tableElements.Add(tableElement);
                     }
@@ -104,7 +104,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             {
                 var tableElement = ToTableElement(currentTagElement);
 
-                if (tableElement.IsItem || tableElement.IsIndex || tableElement.IsItemIf || tableElement.IsItemRepeater)
+                if (tableElement.IsItem || tableElement.IsIndex || tableElement.IsItemIf || tableElement.IsItemRepeater || tableElement.IsItemHtmlContent)
                 {
                     tableElements.Add(tableElement);
                 }
@@ -125,17 +125,24 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     IsIndex = tagElement.IsTag("itemindex"),
                     IsItemIf = tagElement.IsTag("itemif"),
                     IsItemRepeater = tagElement.IsTag("itemrepeater"),
+                    IsItemHtmlContent = tagElement.IsTag("itemhtmlcontent"),
                     StartTag = tagElement,
                 };
-            if (tableElement.IsItem)
+            if (tableElement.IsItem || tableElement.IsItemHtmlContent)
             {
                 tableElement.Expression = tagElement.GetExpression();
             }
             else if (tableElement.IsItemIf || tableElement.IsItemRepeater)
             {
-                tableElement.EndTag = FindEndTag(tableElement.StartTag, tableElement.IsItemRepeater ? "itemrepeater" : "itemif", tableElement.IsItemRepeater ? "enditemrepeater" : "enditemif");
+                tableElement.EndTag = FindEndTag(tableElement.StartTag,
+                                                 tableElement.IsItemRepeater ? "itemrepeater" : "itemif",
+                                                 tableElement.IsItemRepeater ? "enditemrepeater" : "enditemif");
                 tableElement.Expression = tagElement.GetExpression();
                 tableElement.TagElements = MakeTableElement(tableElement.StartTag, tableElement.EndTag);
+            }
+            else if (tableElement.IsItemHtmlContent)
+            {
+                tableElement.Expression = tagElement.GetExpression();
             }
 
             return tableElement;
@@ -181,6 +188,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                         case "itemtext":
                         case "itemindex":
                         case "itemif":
+                        case "itemhtmlcontent":
                         case "itemrepeater":
                         case "enditemrepeater":
                         case "enditemif":

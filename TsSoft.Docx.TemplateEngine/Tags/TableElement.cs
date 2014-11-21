@@ -13,6 +13,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public bool IsItemIf { get; set; }
 
+        public bool IsItemHtmlContent { get; set; }
+
         public bool IsItemRepeater { get; set; }
 
         public IEnumerable<TableElement> TagElements { get; set; }

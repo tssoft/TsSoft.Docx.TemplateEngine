@@ -51,7 +51,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             {
                 if (repeaterElement.IsItemHtmlContent)
                 {
-                    result = HtmlContentProcessor.MakeHtmlContentProcessed(repeaterElement.XElement, dataReader.ReadText(repeaterElement.Expression));
+                    result = HtmlContentProcessor.MakeHtmlContentProcessed(repeaterElement.XElement, dataReader.ReadText(repeaterElement.Expression), true);
                 }
                 else if (repeaterElement.IsIndex)
                 {
