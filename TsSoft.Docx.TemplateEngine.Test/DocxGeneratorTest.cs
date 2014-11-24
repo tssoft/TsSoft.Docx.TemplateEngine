@@ -223,7 +223,6 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.Ignore });
             var package = new DocxPackage(output);
             package.Load();
-//            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
         }

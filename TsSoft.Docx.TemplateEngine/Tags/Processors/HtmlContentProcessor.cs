@@ -14,15 +14,27 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         public HtmlContentTag HtmlTag { get; set; }
 
         public static XElement MakeHtmlContentProcessed(XElement srcHtmlContentElement, string htmlContent, bool generateNewElement = false)
-        {
-            
+        {            
             var htmlContentElement = generateNewElement ? new XElement(srcHtmlContentElement) : srcHtmlContentElement ;
             htmlContentElement.Element(WordMl.SdtPrName)
                 .Element(WordMl.TagName)
                 .Attribute(WordMl.ValAttributeName)
                 .SetValue(ProcessedHtmlContentTagName);
-            htmlContent = HttpUtility.HtmlDecode(htmlContent);
-            htmlContentElement.Element(WordMl.SdtContentName).Value = htmlContent;            
+            htmlContent = HttpUtility.HtmlDecode(htmlContent);            
+            var tableCellElement = htmlContentElement.Descendants(WordMl.TableCellName).SingleOrDefault();
+            htmlContentElement.Element(WordMl.SdtContentName).Value = htmlContent; 
+            if (tableCellElement != null)
+            {
+                if (tableCellElement.Elements(WordMl.ParagraphName).Any())
+                {
+                    tableCellElement.Element(WordMl.ParagraphName).Remove();
+                }
+                tableCellElement.Add(htmlContentElement);
+                htmlContentElement.AddAfterSelf(tableCellElement);
+                htmlContentElement.Remove();
+                return tableCellElement;
+            }
+                       
             return htmlContentElement;
         }
         

@@ -98,13 +98,13 @@ namespace TsSoft.Docx.TemplateEngine
                 }
                 if (altChunkElement.Parent.Name.Equals(WordMl.TableCellName) && (altChunkElement.NextElement() == null))
                 {
-                    this.AddEmptyParagraphAfterTableCell(altChunkElement);
+                    this.AddEmptyParagraphInTableCell(altChunkElement);
                 }
                 htmlTag.Remove();
             }            
         }
 
-        private void AddEmptyParagraphAfterTableCell(XElement altChunkElement)
+        private void AddEmptyParagraphInTableCell(XElement altChunkElement)
         {
             const string RsidR = "0018462D";
             var rsidP = altChunkElement.Ancestors(WordMl.TableRowName)

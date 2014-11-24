@@ -63,7 +63,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             {
                 var currentTableElement = tableElementsList[listIndex];
                 if (currentTableElement.IsItemHtmlContent)
-                {
+                {                    
                     currentTableElement.StartTag = HtmlContentProcessor.MakeHtmlContentProcessed(currentTableElement.StartTag,
                                                                              dataReader.ReadText(
                                                                                  currentTableElement.Expression));                    
