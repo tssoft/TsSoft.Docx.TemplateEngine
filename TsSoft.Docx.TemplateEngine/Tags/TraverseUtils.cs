@@ -116,6 +116,16 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return self.Name.Equals(WordMl.SdtName);
         }
 
+        public static string GenerateRandomRsidR()
+        {
+            const int SixByteDecimalMax = 0x00FFFFFF;
+            const int SixByteDecimalMin = 0x00111111;
+            var resultString = "00";
+            var random = new Random();
+            resultString += random.Next(SixByteDecimalMin, SixByteDecimalMax).ToString("X");
+            return resultString;
+        } 
+
         /// <summary>
         /// If you imagine an XML tree so that the root is the upmost element, than you can say
         /// that this method recursively takes all descendant elements of "self" to the right of "element"
@@ -219,6 +229,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 parent = parent.Parent;
             }
             return result;
-        }
+        }               
+
     }
 }

@@ -7,8 +7,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
     using System.Linq;
 
     internal class DocxHelper
-    {
-        private static readonly XNamespace OfficeRelType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+    {        
         private static readonly HashSet<XName> ValidTextRunContainers = new HashSet<XName>
                                                                                 {
                                                                                     WordMl.ParagraphName,
@@ -179,9 +178,25 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         public static XElement CreateAltChunkElement(int altChunkId)
         {
             var formattedAltChunkId = string.Format("altChunkId{0}", altChunkId);
-            var altChunk = new XElement(WordMl.AltChunkName, new XAttribute(OfficeRelType + "id", formattedAltChunkId));
+            var altChunk = new XElement(WordMl.AltChunkName, new XAttribute(RelationshipMl.IdName, formattedAltChunkId));
             return altChunk;
         }
+
+        public static void AddEmptyParagraphInTableCell(XElement altChunkElement)
+        {
+            var rsidR = TraverseUtils.GenerateRandomRsidR();
+            var rsidP = altChunkElement.Ancestors(WordMl.TableRowName)
+                                        .First()
+                                        .Attribute(WordMl.RsidRPropertiesName)
+                                        .Value;
+            altChunkElement.AddAfterSelf(
+                                         new XElement(WordMl.ParagraphName,
+                                            new XAttribute(WordMl.RsidRName, rsidR),
+                                            new XAttribute(WordMl.RsidRPropertiesName, rsidR),
+                                            new XAttribute(WordMl.RsidRDefaultName, rsidR),
+                                            new XAttribute(WordMl.RsidPName, rsidP)));
+        }
+
 
         public static XElement CreateDynamicContentElement(IEnumerable<XElement> contentElements, XElement tagElement)
         {

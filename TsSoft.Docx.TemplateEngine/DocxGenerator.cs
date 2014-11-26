@@ -150,7 +150,7 @@ namespace TsSoft.Docx.TemplateEngine
             rootProcessor.LockDynamicContent = actualSettings.LockDynamicContent;
             rootProcessor.Process();
             
-            package.GenerateAltChunk();
+            package.ReplaceAltChunks();
 
             package.Save();
         }

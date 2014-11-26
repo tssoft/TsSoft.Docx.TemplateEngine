@@ -1,10 +1,13 @@
-﻿namespace TsSoft.Docx.TemplateEngine.Test
+﻿using System;
+using System.IO.Packaging;
+
+namespace TsSoft.Docx.TemplateEngine.Test
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.IO;
     using System.Linq;
     using System.Xml.Linq;
-    using TsSoft.Commons.Utils;
+    using TsSoft.Commons.Utils;    
 
     [TestClass]
     public class DocxPackageTest
@@ -50,6 +53,6 @@
                 Assert.AreEqual(expectedPackage.DocumentPartXml.Root.ToString().Trim(),
                                 actualPackage.DocumentPartXml.Root.ToString().Trim());
             }
-        }
+        }                
     }
 }

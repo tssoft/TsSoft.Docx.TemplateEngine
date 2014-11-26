@@ -119,5 +119,111 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                 .Value);
             Assert.AreEqual(HttpUtility.HtmlDecode(HtmlEscapedString), actualProcessedElement.Element(WordMl.SdtName).Element(WordMl.SdtContentName).Value);
         }
+
+        [TestMethod]
+        public void TestGenerateAltChunks()
+        {
+            const string ExpectedHtmlString = "<html>altchunks test</html>";
+            var htmlProcessedElement = new XElement(WordMl.SdtName,
+                                                    new XElement(WordMl.SdtPrName,
+                                                                 new XElement(WordMl.TagName,
+                                                                              new XAttribute(WordMl.ValAttributeName,
+                                                                                             HtmlContentProcessor
+                                                                                                 .ProcessedHtmlContentTagName))),
+                                                    new XElement(WordMl.SdtContentName, ExpectedHtmlString));
+            var root = new XElement(WordMl.BodyName, htmlProcessedElement);
+                        
+            var actualGeneratedChunks = HtmlContentProcessor.GenerateAltChunks(root);
+            var actualAltChunkElement = root.Elements(WordMl.AltChunkName).SingleOrDefault();
+            Assert.IsNotNull(actualAltChunkElement);
+
+            Assert.IsNotNull(actualGeneratedChunks);            
+            Assert.AreEqual(ExpectedHtmlString, actualGeneratedChunks[0]);
+            Assert.AreEqual(1, actualGeneratedChunks.Count);
+            Assert.IsFalse(root.Descendants().Any(el => el.IsSdt()));
+        }
+
+        [TestMethod]
+        public void TestGenerateAltChunksEqualHtml()
+        {
+            const string ExpectedHtmlString = "<html>altchunks test</html>";
+            var htmlProcessedElement = new XElement(WordMl.SdtName,
+                                                    new XElement(WordMl.SdtPrName,
+                                                                 new XElement(WordMl.TagName,
+                                                                              new XAttribute(WordMl.ValAttributeName,
+                                                                                             HtmlContentProcessor
+                                                                                                 .ProcessedHtmlContentTagName))),
+                                                    new XElement(WordMl.SdtContentName, ExpectedHtmlString));
+            var root = new XElement(WordMl.BodyName, htmlProcessedElement, htmlProcessedElement);
+
+            var actualGeneratedChunks = HtmlContentProcessor.GenerateAltChunks(root);
+            Assert.IsNotNull(actualGeneratedChunks);
+            var actualAltChunkElements =
+                root.Elements(WordMl.AltChunkName);
+            Assert.IsNotNull(actualAltChunkElements);
+            Assert.AreEqual(2, actualAltChunkElements.Count());
+            Assert.AreEqual(ExpectedHtmlString, actualGeneratedChunks[0]);
+            Assert.AreEqual(1, actualGeneratedChunks.Count);
+            Assert.IsFalse(root.Descendants().Any(el => el.IsSdt()));
+        }
+
+        [TestMethod]
+        public void TestGenerateAltChunksDeletingParagraph()
+        {
+            const string ExpectedHtmlString = "<html>altchunks test</html>";
+            var htmlProcessedElement = new XElement(WordMl.SdtName,
+                                                    new XElement(WordMl.SdtPrName,
+                                                                 new XElement(WordMl.TagName,
+                                                                              new XAttribute(WordMl.ValAttributeName,
+                                                                                             HtmlContentProcessor
+                                                                                                 .ProcessedHtmlContentTagName))),
+                                                    new XElement(WordMl.SdtContentName, ExpectedHtmlString));
+            var paragraph = new XElement(WordMl.ParagraphName, htmlProcessedElement);
+            var root = new XElement(WordMl.BodyName, paragraph);
+            var actualGeneratedChunks = HtmlContentProcessor.GenerateAltChunks(root);
+            Assert.IsNotNull(actualGeneratedChunks);
+            Assert.AreEqual(ExpectedHtmlString, actualGeneratedChunks[0]);
+            Assert.AreEqual(1, actualGeneratedChunks.Count);
+            Assert.IsFalse(root.Descendants().Any(el => el.IsSdt()));
+            Assert.IsFalse(root.Descendants().Any(el => el.Name.Equals(WordMl.ParagraphName)));
+        }
+
+        [TestMethod]
+        public void TestGenerateAltChunksAddingEmptyParagraphInTableCell()
+        {
+            const string ExpectedHtmlString = "<html>altchunks table cell test</html>";
+            const string rsidR = "00FFFFFF";
+            var htmlProcessedElement = new XElement(WordMl.SdtName,
+                                                    new XElement(WordMl.SdtPrName,
+                                                                 new XElement(WordMl.TagName,
+                                                                              new XAttribute(WordMl.ValAttributeName,
+                                                                                             HtmlContentProcessor
+                                                                                                 .ProcessedHtmlContentTagName))),
+                                                    new XElement(WordMl.SdtContentName, ExpectedHtmlString));
+            var tableCell = new XElement(WordMl.TableCellName, htmlProcessedElement);
+            var tableRow = new XElement(WordMl.TableRowName, new XAttribute(WordMl.RsidRPropertiesName, rsidR), tableCell);
+            var root = new XElement(WordMl.BodyName, new XElement(WordMl.TableName, tableRow));
+            var actualGeneratedChunks = HtmlContentProcessor.GenerateAltChunks(root);
+            var actualAltChunkElement =
+                root.Element(WordMl.TableName)
+                    .Element(WordMl.TableRowName)
+                    .Element(WordMl.TableCellName)
+                    .Elements()
+                    .SingleOrDefault(el => el.Name.Equals(WordMl.AltChunkName));
+            Assert.IsNotNull(actualAltChunkElement);
+            Assert.IsNotNull(actualGeneratedChunks);
+            Assert.AreEqual(ExpectedHtmlString, actualGeneratedChunks[0]);
+            Assert.AreEqual(1, actualGeneratedChunks.Count);
+            Assert.IsFalse(root.Descendants().Any(el => el.IsSdt()));
+            var actualLastElement =
+                root.Element(WordMl.TableName)
+                    .Element(WordMl.TableRowName)
+                    .Element(WordMl.TableCellName)
+                    .Elements()
+                    .Last();
+            Assert.IsNotNull(actualLastElement);
+            Assert.AreEqual(WordMl.ParagraphName, actualLastElement.Name);
+
+        }
     }
 }
