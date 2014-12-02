@@ -155,7 +155,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             while (startTagsOpened > 0 && current != null)
             {
                 var nextTagElements = TraverseUtils.NextTagElements(current, new Collection<string> { startTagName, endTagName }).ToList();
-                int index = -1;
+                var index = -1;
                 while ((index < nextTagElements.Count) && (startTagsOpened != 0))
                 {
                     index++;

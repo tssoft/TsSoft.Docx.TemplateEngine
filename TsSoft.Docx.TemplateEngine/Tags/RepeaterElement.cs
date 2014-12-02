@@ -8,7 +8,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
     {
         public IEnumerable<RepeaterElement> Elements { get; set; }
 
-        public XElement XElement { get; set; }       
+        public XElement XElement { get; set; }
+
+        public IEnumerable<RepeaterElement> TagElements { get; set; }
 
         public string Expression { get; set; }
 

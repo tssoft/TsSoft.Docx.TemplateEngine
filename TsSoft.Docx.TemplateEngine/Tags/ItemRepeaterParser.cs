@@ -39,20 +39,23 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             };
 
 
-        public void Parse(ItemRepeaterTag tag, IList<DataReader> dataReaders)
+        public XElement Parse(ItemRepeaterTag tag, IList<DataReader> dataReaders, XElement current = null)
         {
             var startElement = tag.StartItemRepeater;
             var endElement = tag.EndItemRepeater;
-
-            var itemRepeaterElements =
-                this.MarkLastElements(TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback).ToList()).ToList();
-
+            List<ItemRepeaterElement> itemRepeaterElements;            
+                itemRepeaterElements =
+                    this.MarkLastElements(
+                        TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback).ToList())
+                        .ToList();
+            
             var nestedRepeaters = this.MarkNotSeparatedRepeaters(this.GetAllNestedRepeaters(tag), itemRepeaterElements);
             if (startElement.Parent.Name == WordMl.ParagraphName)
             {
                 startElement = startElement.Parent;
             }
-            XElement current = startElement;
+            var flgDeleteStartEnd = current == null;
+            current = current ?? startElement;
             var repeaterElements = this.GetSiblingElements(itemRepeaterElements.ToList(), nestedRepeaters.ToList()).Where(sel => !(sel.XElement.IsTag("enditemrepeater") || sel.XElement.IsTag("itemrepeater")));
             XElement currentNested;
             for (var index = 1; index <= dataReaders.Count(); index++)
@@ -73,12 +76,16 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     current = currentNested;
                 }
             }
-            foreach (var itemRepeaterElement in itemRepeaterElements)
+            if (flgDeleteStartEnd)
             {
-                itemRepeaterElement.XElement.Remove();
+                foreach (var itemRepeaterElement in itemRepeaterElements)
+                {                
+                    itemRepeaterElement.XElement.Remove();                
+                }            
+                startElement.Remove();
+                endElement.Remove();
             }
-            startElement.Remove();
-            endElement.Remove();
+            return current;
         }
 
         private IEnumerable<ItemRepeaterElement> GetSiblingElements(

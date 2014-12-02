@@ -17,10 +17,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         private const string ItemIfTag = "ItemIf";
         private const string ItemRepeaterTag = "ItemRepeater";
+        private const string EndItemRepeaterTag = "EndItemRepeater";
 
         private const string ItemHtmlContentTag = "itemhtmlcontent";
 
-        private static Func<XElement, RepeaterElement> MakeElementCallback = element =>
+        public static Func<XElement, RepeaterElement> MakeElementCallback = element =>
             {
                 var repeaterElement = new RepeaterElement
                 {
@@ -28,11 +29,20 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     IsIndex = element.IsTag(IndexTag),
                     IsItem = element.IsTag(ItemTag),
                     IsItemHtmlContent = element.IsTag(ItemHtmlContentTag),
-                    XElement = element
+                    IsItemRepeater = element.IsTag(ItemRepeaterTag),
+                    XElement = element,
+                    StartTag = element                 
                 };
-                if (repeaterElement.IsItem || repeaterElement.IsItemHtmlContent)
+                if (repeaterElement.IsItem || repeaterElement.IsItemHtmlContent || repeaterElement.IsItemRepeater)
                 {
                     repeaterElement.Expression = element.GetExpression();
+                }
+                if (repeaterElement.IsItemRepeater)
+                {
+                    repeaterElement.EndTag = FindEndTag(repeaterElement.StartTag, ItemRepeaterTag, EndItemRepeaterTag);
+                    repeaterElement.TagElements = TraverseUtils.ElementsBetween(repeaterElement.StartTag,
+                                                                                repeaterElement.EndTag)
+                                                               .Select(MakeElementCallback);
                 }
                 return repeaterElement;
             };
@@ -61,7 +71,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 {
                     RepeaterTag = repeaterTag,
                 };
-
+            
             if (elementsBetween.Any())
             {
                 this.GoDeeper(repeaterProcessor, elementsBetween.First());

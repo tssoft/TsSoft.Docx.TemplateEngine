@@ -42,16 +42,55 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 this.RepeaterTag.EndRepeater.Remove();
             }
         }
+        private ItemRepeaterTag GenerateItemRepeaterTag(RepeaterElement itemRepeaterElement)
+        {
+            var tagResult = new ItemRepeaterTag()
+            {
+                StartItemRepeater = itemRepeaterElement.StartTag,
+                EndItemRepeater = itemRepeaterElement.EndTag,
+                NestedRepeaters = new List<ItemRepeaterTag>(),
+                Source = itemRepeaterElement.Expression
+            };
+            foreach (var element in itemRepeaterElement.TagElements.Where(element => element.IsItemRepeater))
+            {
+                tagResult.NestedRepeaters.Add(this.GenerateItemRepeaterTag(element));
+            }
+            return tagResult;
+        }
+
+        private void ProcessItemRepeaterElement(RepeaterElement itemRepeaterElement, DataReader reader, int index,
+                                                XElement previous)
+        {
+            var readers = reader.GetReaders(itemRepeaterElement.Expression);
+            var itemRepeaterTag = GenerateItemRepeaterTag(itemRepeaterElement);
+            var parser = new ItemRepeaterParser();
+            parser.Parse(itemRepeaterTag, readers.ToList());            
+        }
 
         private XElement ProcessElements(IEnumerable<RepeaterElement> elements, DataReader dataReader, XElement start, XElement parent, int index)
         {
             XElement result = null;
             XElement previous = start;
+            elements = elements.Where(el => !el.XElement.IsTag("ritemtext") && !el.XElement.IsTag("ritemindex") && !el.XElement.IsTag("enditemrepeater"));
             foreach (var repeaterElement in elements)
             {
                 if (repeaterElement.IsItemHtmlContent)
                 {
-                    result = HtmlContentProcessor.MakeHtmlContentProcessed(repeaterElement.XElement, dataReader.ReadText(repeaterElement.Expression), true);
+                    result = HtmlContentProcessor.MakeHtmlContentProcessed(repeaterElement.XElement, dataReader.ReadText(repeaterElement.Expression), true);                    
+                }
+                else if (repeaterElement.IsItemRepeater)
+                {                                        
+                    var itemRepeaterTag = new ItemRepeaterTag()
+                        {
+                            StartItemRepeater = repeaterElement.StartTag,
+                            EndItemRepeater = repeaterElement.EndTag,
+                            Source = repeaterElement.Expression,
+                            NestedRepeaters = new List<ItemRepeaterTag>()
+                        };                    
+                    var itemRepeaterParser = new ItemRepeaterParser();
+                    previous = itemRepeaterParser.Parse(itemRepeaterTag, dataReader.GetReaders(itemRepeaterTag.Source).ToList(), previous);
+                    result = null;
+                    continue;                    
                 }
                 else if (repeaterElement.IsIndex)
                 {
@@ -62,7 +101,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     result = DocxHelper.CreateTextElement(repeaterElement.XElement, repeaterElement.XElement.Parent, dataReader.ReadText(repeaterElement.Expression));
                 }
                 else
-                {
+                {                    
                     var element = new XElement(repeaterElement.XElement);
                     element.RemoveNodes();
                     result = element;
@@ -75,17 +114,20 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                         element.Value = repeaterElement.XElement.Value;
                     }
                 }
-                if (previous != null)
+                if (result != null)
                 {
-                    previous.AddAfterSelf(result);                    
-                    previous = result;
-                }
-                else
-                {
-                    parent.Add(result);
+                    if (previous != null)
+                    {
+                        previous.AddAfterSelf(result);
+                        previous = result;
+                    }
+                    else
+                    {
+                        parent.Add(result);
+                    }
                 }
             }
-            return result;
+            return result ?? previous;
         }
 
         private void ProcessDynamicContent()

@@ -83,7 +83,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         {
             if (startElement.Parent.Equals(endElement.Parent))
             {
-                return startElement.ElementsAfterSelf().Where(e => e.IsBefore(endElement));
+                return startElement.ElementsAfterSelf().Where(e => e.IsBefore(endElement));               
             }
             var commonParent = startElement.Ancestors().Intersect(endElement.Ancestors()).FirstOrDefault();
             if (commonParent == null)
