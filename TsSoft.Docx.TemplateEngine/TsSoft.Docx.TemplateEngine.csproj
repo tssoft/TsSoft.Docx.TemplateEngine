@@ -49,6 +49,7 @@
     <Compile Include="Tags\HtmlContentParser.cs" />
     <Compile Include="Tags\HtmlContentTag.cs" />
     <Compile Include="Tags\ItemRepeaterElement.cs" />
+    <Compile Include="Tags\ItemRepeaterGenerator.cs" />
     <Compile Include="Tags\ItemRepeaterTag.cs" />
     <Compile Include="MessageStrings.ru.Designer.cs">
       <DependentUpon>MessageStrings.ru.resx</DependentUpon>

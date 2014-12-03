@@ -14,12 +14,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private const string EndTagName = "EndRepeater";
         private const string IndexTag = "ItemIndex";
         private const string ItemTag = "ItemText";
-
         private const string ItemIfTag = "ItemIf";
         private const string ItemRepeaterTag = "ItemRepeater";
         private const string EndItemRepeaterTag = "EndItemRepeater";
-
-        private const string ItemHtmlContentTag = "itemhtmlcontent";
+        private const string ItemHtmlContentTag = "ItemHtmlContent";
 
         public static Func<XElement, RepeaterElement> MakeElementCallback = element =>
             {
@@ -42,7 +40,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     repeaterElement.EndTag = FindEndTag(repeaterElement.StartTag, ItemRepeaterTag, EndItemRepeaterTag);
                     repeaterElement.TagElements = TraverseUtils.ElementsBetween(repeaterElement.StartTag,
                                                                                 repeaterElement.EndTag)
-                                                               .Select(MakeElementCallback);
+                                                              .Select(MakeElementCallback);
                 }
                 return repeaterElement;
             };
@@ -110,7 +108,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             }
             return current;
         }
-
+        
         private bool GoDeeper(ITagProcessor parentProcessor, XElement element)
         {
             var endReached = false;

@@ -33,6 +33,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             get { return this.Elements != null && this.Elements.Any(); }
         }
 
+        public XElement StartTag { get; set; }
+
+        public XElement EndTag { get; set; }
+
         public bool IsItem { get; set; }
 
         public bool IsItemIf { get; set; }
