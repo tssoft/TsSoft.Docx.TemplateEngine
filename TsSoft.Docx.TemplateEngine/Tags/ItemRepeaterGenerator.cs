@@ -38,15 +38,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             {
                 itemRepeaterElement.Expression = element.GetExpression();
             }
+            itemRepeaterElement.StartTag = itemRepeaterElement.XElement;
             if (itemRepeaterElement.IsItemRepeater)
-            {
-                itemRepeaterElement.StartTag = itemRepeaterElement.XElement;
+            {                
                 itemRepeaterElement.EndTag = FindEndTag(itemRepeaterElement.StartTag, ItemRepeaterTagName,
                                                         EndItemRepeaterTagName);
             }
             return itemRepeaterElement;
-        };
-
+        };        
 
         public XElement Generate(ItemRepeaterTag tag, IEnumerable<DataReader> dataReaders, XElement previous = null)
         {
@@ -55,10 +54,20 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var itemRepeaterElements =
                 TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback).ToList();
             var flgCleanUpElements = previous == null;
-            var current = previous ?? startElement;
+            XElement current;
+            if (previous == null)
+            {
+                current = startElement.Parent.Name.Equals(WordMl.ParagraphName) ? startElement.Parent : startElement;
+            }
+            else
+            {
+                current = previous;
+            }
             for (var index = 1; index <= dataReaders.Count(); index++)
             {
-                
+                XElement tmp = null;
+                current = this.ProcessElements(itemRepeaterElements, dataReaders.ElementAt(index - 1), current, null,
+                                               index, ref tmp);
             }
             if (flgCleanUpElements)
             {
@@ -77,8 +86,20 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             XElement result = null;
             XElement previous = start;
             foreach (var itemRepeaterElement in elements)
-            {
-                if (itemRepeaterElement.IsItemHtmlContent)
+            {              
+                if (nestedRepeaterEndElement != null)
+                {
+                    if (TraverseUtils.ElementsBetween(elements.First().XElement, nestedRepeaterEndElement)
+                                     .Contains(itemRepeaterElement.XElement))
+                    {
+                        continue;
+                    }
+                }
+                if (itemRepeaterElement.IsEndItemRepeater && itemRepeaterElement.XElement == nestedRepeaterEndElement)
+                {
+                    nestedRepeaterEndElement = null;
+                }
+                else if (itemRepeaterElement.IsItemHtmlContent)
                 {
                     result = HtmlContentProcessor.MakeHtmlContentProcessed(itemRepeaterElement.XElement,
                                                                            dataReader.ReadText(itemRepeaterElement.Expression),
@@ -95,11 +116,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     var itemRepeaterGenerator = new ItemRepeaterGenerator();
                     previous = itemRepeaterGenerator.Generate(itemRepeaterTag,
                                                               dataReader.GetReaders(itemRepeaterTag.Source),
-                                                              previous);
+                                                              previous ?? parent);
                     nestedRepeaterEndElement = itemRepeaterTag.EndItemRepeater;
                     result = null;
                     continue;
-                }
+                }               
                 else if (itemRepeaterElement.IsIndex)
                 {
                     result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
@@ -119,7 +140,27 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     var element = new XElement(itemRepeaterElement.XElement);
                     element.RemoveNodes();
                     result = element;
-                }                            
+                    if (itemRepeaterElement.HasElements)
+                    {
+                        this.ProcessElements(itemRepeaterElement.Elements, dataReader, null, result, index, ref nestedRepeaterEndElement, true);
+                    }
+                    else
+                    {
+                        element.Value = itemRepeaterElement.XElement.Value;
+                    }
+                }
+                if (result != null)
+                {
+                    if (previous != null)
+                    {
+                        previous.AddAfterSelf(result);
+                        previous = result;
+                    }
+                    else
+                    {
+                        parent.Add(result);
+                    }
+                }            
             }            
             return result ?? previous;
         }
@@ -131,7 +172,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             while (startTagsOpened > 0 && current != null)
             {
                 var nextTagElements = TraverseUtils.NextTagElements(current, new Collection<string> { startTagName, endTagName }).ToList();
-                int index = -1;
+                var index = -1;
                 while ((index < nextTagElements.Count) && (startTagsOpened != 0))
                 {
                     index++;

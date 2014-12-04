@@ -120,9 +120,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             var expression = itemRepeaterElement.Expression;
             var readers = dataReader.GetReaders(expression);
             var itemRepeaterTag = GenerateItemRepeaterTag(itemRepeaterElement);         
-            var p = new ItemRepeaterParser();                        
-            p.Parse(itemRepeaterTag, readers.ToList());
-            
+            /*var p = new ItemRepeaterParser();     
+            p.Parse(itemRepeaterTag, readers.ToList());*/
+            var generator = new ItemRepeaterGenerator();
+            generator.Generate(itemRepeaterTag, readers.ToList());
+
         }
 
         private XElement ProcessItemIfElement(TableElement itemIfElement, DataReader dataReader, int index, XElement previous)
