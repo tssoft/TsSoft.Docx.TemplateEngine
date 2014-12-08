@@ -32,7 +32,7 @@ namespace TsSoft.Docx.TemplateEngine
             var packagePartAfChunk = package.CreatePart(partUriAfChunk, HtmlContentType);
             using (var afChunkStream = packagePartAfChunk.GetStream())
             {
-                using (var stringStream = new StreamWriter(afChunkStream))
+                using (var stringStream = new StreamWriter(afChunkStream, Encoding.UTF8))
                 {
                     stringStream.Write(htmlString);
                 }

@@ -6,12 +6,7 @@
     <IssueDate>01.04.2014</IssueDate>
     <ExpireDate>01.10.2015</ExpireDate>
     <ItemHtmlString>
-      &lt;html&gt;
-      &lt;head/&gt;
-      &lt;body&gt;
-      Html in repeater test
-      &lt;/body&gt;
-      &lt;/html&gt;
+      &lt;p&gt;&#1050;&#1080;&#1088;&#1080;&#1083;&#1083;&#1080;&#1094;&#1072;&lt;/p&gt;
     </ItemHtmlString>
   </certificates>
   <certificates>
@@ -20,13 +15,7 @@
     <IssueDate>01.03.2014</IssueDate>
     <ExpireDate>01.09.2015</ExpireDate>
     <ItemHtmlString>
-      &lt;html&gt;
-      &lt;head/&gt;
-      &lt;body&gt;
-      &lt;h1&gt;Number 2&lt;/h1&gt;
-      Html in repeater test
-      &lt;/body&gt;
-      &lt;/html&gt;
+      &lt;p&gt;&#1050;&#1080;&#1088;&#1080;&#1083;&#1083;&#1080;&#1094;&#1072;&lt;/p&gt;
     </ItemHtmlString>
   </certificates>
   <certificates>
@@ -35,13 +24,7 @@
     <IssueDate>01.01.2011</IssueDate>
     <ExpireDate>01.01.2012</ExpireDate>
     <ItemHtmlString>
-      &lt;html&gt;
-      &lt;head/&gt;
-      &lt;body&gt;
-      &lt;h1&gt;Number 3&lt;/h1&gt;
-      Html in repeater test
-      &lt;/body&gt;
-      &lt;/html&gt;
+      &lt;p&gt;&#1050;&#1080;&#1088;&#1080;&#1083;&#1083;&#1080;&#1094;&#1072;&lt;/p&gt;
     </ItemHtmlString>
   </certificates>
   <TestText>It's test text</TestText>

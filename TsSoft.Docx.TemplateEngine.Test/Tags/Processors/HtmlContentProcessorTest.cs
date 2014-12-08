@@ -57,6 +57,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
         [TestMethod]
         public void TestMakeHtmlContentProcessed()
         {
+            const string HtmlContent = @"&lt;p&gt;Html test&lt;/p&gt;";
             const string HtmlEscapedString = @"
                         &lt;html&gt;
                         &lt;head/&gt;
@@ -74,7 +75,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                 new XElement(
                     WordMl.SdtContentName, HtmlEscapedString));
             var body = new XElement(WordMl.BodyName, htmlContentTag);
-            var actualProcessedElement = HtmlContentProcessor.MakeHtmlContentProcessed(htmlContentTag, htmlContentTag.GetExpression());
+            var actualProcessedElement = HtmlContentProcessor.MakeHtmlContentProcessed(htmlContentTag, HtmlContent);
             Assert.IsNotNull(actualProcessedElement);
             Assert.AreEqual(HtmlContentProcessor.ProcessedHtmlContentTagName,
                             actualProcessedElement.Element(WordMl.SdtPrName)
@@ -89,6 +90,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
         [TestMethod]
         public void TestMakeHtmlContentProcessedInnerTableCell()
         {
+            const string HtmlContent = @"&lt;p&gt;Html test&lt;/p&gt;";
             const string HtmlEscapedString = @"
                         &lt;html&gt;
                         &lt;head/&gt;
@@ -107,7 +109,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                 new XElement(
                     WordMl.SdtContentName, tablecell));
             var document = new XElement(WordMl.BodyName, htmlContentTag);
-            var actualProcessedElement = HtmlContentProcessor.MakeHtmlContentProcessed(htmlContentTag, HtmlEscapedString);
+            var actualProcessedElement = HtmlContentProcessor.MakeHtmlContentProcessed(htmlContentTag, HtmlContent);
             Console.WriteLine(actualProcessedElement);
             Assert.AreEqual(tablecell.Name, actualProcessedElement.Name);
             Assert.IsNotNull(actualProcessedElement.Element(WordMl.SdtName));
