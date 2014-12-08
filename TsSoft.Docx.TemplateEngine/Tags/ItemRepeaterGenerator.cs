@@ -61,7 +61,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             }
             else
             {
-                current = previous;
+                //var tmpDoc = new XDocument();
+                //tmpDoc.Add(previous);
+                current = previous;                
             }
             for (var index = 1; index <= dataReaders.Count(); index++)
             {
@@ -116,7 +118,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     var itemRepeaterGenerator = new ItemRepeaterGenerator();
                     previous = itemRepeaterGenerator.Generate(itemRepeaterTag,
                                                               dataReader.GetReaders(itemRepeaterTag.Source),
-                                                              previous ?? parent);
+                                                              previous ?? new XElement(parent));
                     nestedRepeaterEndElement = itemRepeaterTag.EndItemRepeater;
                     result = null;
                     continue;
@@ -138,7 +140,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 else
                 {
                     var element = new XElement(itemRepeaterElement.XElement);
-                    element.RemoveNodes();
+                    element.RemoveNodes();                    
                     result = element;
                     if (itemRepeaterElement.HasElements)
                     {
@@ -153,7 +155,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 {
                     if (previous != null)
                     {
-                        previous.AddAfterSelf(result);
+                        if (false)
+                        {                            
+                            //previous.Elements().ToList().Add(result);
+                            var nElement = new XElement(previous);
+                            nElement.AddAfterSelf(previous);
+                        }
+                        else
+                        {
+                            previous.AddAfterSelf(result);
+                            var x = new XElement(previous);                                                        
+                        }
                         previous = result;
                     }
                     else

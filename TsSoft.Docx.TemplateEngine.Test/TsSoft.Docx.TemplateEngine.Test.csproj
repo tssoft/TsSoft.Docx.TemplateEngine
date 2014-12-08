@@ -131,6 +131,7 @@
     <EmbeddedResource Include="DoubleHtmlContent.docx" />
     <EmbeddedResource Include="ItemHtmlContentInTable.docx" />
     <EmbeddedResource Include="IRinRepeater.docx" />
+    <EmbeddedResource Include="badhtml.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />
@@ -231,6 +232,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Tags\HtmlContentParserTest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="badhtml_data.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
