@@ -185,16 +185,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         public static void AddEmptyParagraphInTableCell(XElement altChunkElement)
         {
             var rsidR = TraverseUtils.GenerateRandomRsidR();
-            /*var rsidP = altChunkElement.Ancestors(WordMl.TableRowName).First();
-            if (tableRowAncestor.Attribute(WordMl.RsidRPropertiesName) == null)
-            {
-                
-            }
-            else
-            {
-                
-            }
-             */
             var rsidRPrAttr = altChunkElement.Ancestors(WordMl.TableRowName)
                                              .First()
                                              .Attribute(WordMl.RsidRPropertiesName);
@@ -203,10 +193,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                                            .Attribute(WordMl.RsidRName);
             var rsidP = (rsidRPrAttr != null) ? rsidRPrAttr.Value : rsidRAttr.Value;
 
-            /*var rsidP = altChunkElement.Ancestors(WordMl.TableRowName)
-                                       .First()
-                                       .Attribute(WordMl.RsidRPropertiesName)
-                                       .Value;                                       */
             altChunkElement.AddAfterSelf(
                                          new XElement(WordMl.ParagraphName,
                                             new XAttribute(WordMl.RsidRName, rsidR),
