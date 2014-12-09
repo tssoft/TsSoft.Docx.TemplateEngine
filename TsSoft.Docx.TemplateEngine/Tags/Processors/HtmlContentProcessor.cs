@@ -16,21 +16,13 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         public HtmlContentTag HtmlTag { get; set; }
 
         public static XElement MakeHtmlContentProcessed(XElement srcHtmlContentElement, string htmlContent, bool generateNewElement = false)
-        {
-            const string htmlTemplateFormat = @"
-                                          <html>
-                                            <head/>
-                                            <body>
-                                                {0}
-                                            </body>
-                                          </html>
-                                         ";
-            var htmlContentElement = generateNewElement ? new XElement(srcHtmlContentElement) : srcHtmlContentElement ;
+        {            
+            var htmlContentElement = generateNewElement ? new XElement(srcHtmlContentElement) : srcHtmlContentElement;
             htmlContentElement.Element(WordMl.SdtPrName)
                 .Element(WordMl.TagName)
                 .Attribute(WordMl.ValAttributeName)
                 .SetValue(ProcessedHtmlContentTagName);
-            htmlContent = string.Format(htmlTemplateFormat, HttpUtility.HtmlDecode(htmlContent));                        
+            htmlContent = HttpUtility.HtmlDecode(htmlContent);                        
             var tableCellElement = htmlContentElement.Descendants(WordMl.TableCellName).SingleOrDefault();
             htmlContentElement.Element(WordMl.SdtContentName).Value = htmlContent;            
             if (tableCellElement != null)
@@ -43,8 +35,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 htmlContentElement.AddAfterSelf(tableCellElement);
                 htmlContentElement.Remove();
                 return tableCellElement;
-            }
-                       
+            }                       
             return htmlContentElement;
         }
         

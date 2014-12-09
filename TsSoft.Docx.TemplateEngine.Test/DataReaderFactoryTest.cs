@@ -1,4 +1,6 @@
-﻿namespace TsSoft.Docx.TemplateEngine.Test
+﻿using System;
+
+namespace TsSoft.Docx.TemplateEngine.Test
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Diagnostics.CodeAnalysis;
@@ -28,6 +30,16 @@
         public void TestCreateReaderNullArgument()
         {
             DataReaderFactory.CreateReader<DataReaderTestData>(null);
+        }
+    }
+
+    public class CustomAttribute : Attribute
+    {
+        public int SomeValue { get; set; }
+
+        public CustomAttribute(int someValue)
+        {
+            SomeValue = someValue;
         }
     }
 

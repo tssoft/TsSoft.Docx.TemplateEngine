@@ -23,7 +23,7 @@
                 throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "If"));
             }
 
-            var endTag = this.FindEndTag(startTag);
+            var endTag = this.FindEndTag(startTag, "if", "endif");
 
             var content = TraverseUtils.ElementsBetween(startTag, endTag);
             var expression = startTag.GetExpression();
@@ -45,7 +45,7 @@
 
             return endTag;
         }
-
+        /*
         private XElement FindEndTag(XElement startTag)
         {
             var ifTagsOpened = 1;
@@ -73,6 +73,34 @@
                 throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "EndIf"));
             }
             return current;
+        }*/
+        private XElement FindEndTag(XElement startTag, string startTagName, string endTagName)
+        {
+            var startTagsOpened = 1;
+            var current = startTag;
+            while (startTagsOpened > 0 && current != null)
+            {
+                var nextTagElements = TraverseUtils.NextTagElements(current, new Collection<string> { startTagName, endTagName }).ToList();
+                var index = -1;
+                while ((index < nextTagElements.Count) && (startTagsOpened != 0))
+                {
+                    index++;
+                    if (nextTagElements[index].IsTag(startTagName))
+                    {
+                        startTagsOpened++;
+                    }
+                    else
+                    {
+                        startTagsOpened--;
+                    }
+                }
+                current = nextTagElements[index];
+            }
+            if (current == null)
+            {
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, endTagName));
+            }
+            return current;
         }
 
         private bool GoDeeper(ITagProcessor parentProcessor, XElement element, XElement endElement)
@@ -97,5 +125,33 @@
             while (element != null && !endReached);
             return endReached;
         }
+        /*
+        private bool GoDeeper(ITagProcessor parentProcessor, XElement element)
+        {
+            var endReached = false;
+            do
+            {
+                if (element.IsSdt())
+                {
+                    switch (this.GetTagName(element).ToLower())
+                    {
+                        case "endif":
+                            return true;
+                        
+                        default:
+                            element = this.ParseSdt(parentProcessor, element);
+                            break;
+                    }
+                }
+                else if (element.HasElements)
+                {
+                    endReached = this.GoDeeper(parentProcessor, element.Elements().First());
+                }
+                element = element.NextElement();
+            }
+            while (element != null && !endReached);
+            return endReached;
+        }
+         */
     }
 }

@@ -93,23 +93,6 @@ namespace TsSoft.Docx.TemplateEngine
             }
         }
 
-        //public void GenerateDocx<E>(Stream templateStream, Stream outputStream, E dataEntity)
-        //{
-        //    this.GenerateDocx(templateStream, outputStream, dataEntity);
-        //}
-
-        //public void GenerateDocx(Stream templateStream, Stream outputStream, string dataXml)
-        //{
-        //    this.GenerateDocx(templateStream, outputStream, dataXml);
-
-        //}
-
-        //public void GenerateDocx(Stream templateStream, Stream outputStream, XDocument dataXml)
-        //{
-        //    this.GenerateDocx(templateStream, outputStream, dataXml);
-
-        //}
-
         public void GenerateDocx<E>(Stream templateStream, Stream outputStream, E dataEntity, DocxGeneratorSettings settings = null)
         {
             var reader = this.DataReaderFactory.CreateReader(dataEntity);

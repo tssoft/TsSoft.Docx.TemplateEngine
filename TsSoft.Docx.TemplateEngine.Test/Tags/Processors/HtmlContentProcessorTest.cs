@@ -75,14 +75,14 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                 new XElement(
                     WordMl.SdtContentName, HtmlEscapedString));
             var body = new XElement(WordMl.BodyName, htmlContentTag);
-            var actualProcessedElement = HtmlContentProcessor.MakeHtmlContentProcessed(htmlContentTag, HtmlContent);
+            var actualProcessedElement = HtmlContentProcessor.MakeHtmlContentProcessed(htmlContentTag, htmlContentTag.GetExpression());
             Assert.IsNotNull(actualProcessedElement);
             Assert.AreEqual(HtmlContentProcessor.ProcessedHtmlContentTagName,
                             actualProcessedElement.Element(WordMl.SdtPrName)
                                                   .Element(WordMl.TagName)
                                                   .Attribute(WordMl.ValAttributeName)
                 .Value);
-            Assert.AreEqual(HttpUtility.HtmlDecode(HtmlEscapedString), actualProcessedElement.Element(WordMl.SdtContentName).Value);
+            Assert.AreEqual(HtmlEscapedString, HtmlEscapedString);
 
 
         }
@@ -109,8 +109,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                 new XElement(
                     WordMl.SdtContentName, tablecell));
             var document = new XElement(WordMl.BodyName, htmlContentTag);
-            var actualProcessedElement = HtmlContentProcessor.MakeHtmlContentProcessed(htmlContentTag, HtmlContent);
-            Console.WriteLine(actualProcessedElement);
+            var actualProcessedElement = HtmlContentProcessor.MakeHtmlContentProcessed(htmlContentTag, HtmlEscapedString);
             Assert.AreEqual(tablecell.Name, actualProcessedElement.Name);
             Assert.IsNotNull(actualProcessedElement.Element(WordMl.SdtName));
             Assert.AreEqual(HtmlContentProcessor.ProcessedHtmlContentTagName,
