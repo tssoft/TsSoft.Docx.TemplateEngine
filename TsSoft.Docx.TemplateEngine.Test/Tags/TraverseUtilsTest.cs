@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Xml.Linq;
 using TsSoft.Commons.Utils;
@@ -136,7 +138,35 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             Assert.IsTrue(elements.Skip(16).Take(1).All(e => e.Name.Equals(WordMl.TextRunName)));
         }
 
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here."), TestMethod]
+        public void TestNextElementWithUpTransition()
+        {            
+            var firstParagraph = new XElement("FirstParagraph");
+            var fpElement1 = new XElement("FPElement1");
+            var fpElementStart = new XElement("FPElementStart");
+            var fpElement3 = new XElement("FPElement3");
 
+            firstParagraph.Add(fpElement1, fpElementStart, fpElement3);
 
+            var betweenParagraph = new XElement("BetweenParagraph");
+            var bpElement1 = new XElement("BPElement1");
+            var bpElement2 = new XElement("BPElement2");
+
+            betweenParagraph.Add(bpElement1, bpElement2);
+
+            var lastParagraph = new XElement("LastParagraph");
+            var lpElement1 = new XElement("LPElement1");
+            var lpElementEnd = new XElement("LPElementEnd");
+            var lpElement3 = new XElement("LpElementThree");
+
+            lastParagraph.Add(lpElement1, lpElementEnd, lpElement3);                     
+
+            var expectedDoc = new XDocument(new XElement("Root"));
+            expectedDoc.Root.Add(firstParagraph, betweenParagraph, lastParagraph);
+
+            var actualBetweenElements = TraverseUtils.ElementsBetween(fpElementStart, lpElementEnd);
+            var nextElement = actualBetweenElements.First().NextElementWithUpTransition();
+            Assert.AreSame(nextElement, betweenParagraph);
+        }
     }
 }

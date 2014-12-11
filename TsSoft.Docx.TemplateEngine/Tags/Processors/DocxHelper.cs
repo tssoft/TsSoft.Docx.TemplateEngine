@@ -167,7 +167,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             {
                 wrapTo.AddFirst(new XElement(WordMl.ParagraphPropertiesName, paragraphProperties));
             }
-            if ((!ValidTextRunContainers.Any(name => name.Equals(parent.Name))) || (wrapParagraphs && !(parent.Elements().Any(el => el.Name.Equals(WordMl.TextRunName)))))
+            if ((!ValidTextRunContainers.Any(name => name.Equals(parent.Name))) || (wrapParagraphs && !parent.Elements().Any(el => el.Name.Equals(WordMl.TextRunName))))
             {
                 wrapTo.Add(result);
                 result = wrapTo;

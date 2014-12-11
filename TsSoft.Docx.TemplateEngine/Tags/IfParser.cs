@@ -23,7 +23,7 @@
                 throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "If"));
             }
 
-            var endTag = this.FindEndTag(startTag, "if", "endif");
+            var endTag = this.FindEndTag(startTag);
 
             var content = TraverseUtils.ElementsBetween(startTag, endTag);
             var expression = startTag.GetExpression();
@@ -40,12 +40,12 @@
             if (content.FirstOrDefault() != null)
             {
                 this.GoDeeper(ifProcessor, content.First(), endTag);
-            }
+            }            
             parentProcessor.AddProcessor(ifProcessor);
 
             return endTag;
         }
-        /*
+        
         private XElement FindEndTag(XElement startTag)
         {
             var ifTagsOpened = 1;
@@ -73,7 +73,8 @@
                 throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "EndIf"));
             }
             return current;
-        }*/
+        }
+        /*
         private XElement FindEndTag(XElement startTag, string startTagName, string endTagName)
         {
             var startTagsOpened = 1;
@@ -102,7 +103,7 @@
             }
             return current;
         }
-
+        */
         private bool GoDeeper(ITagProcessor parentProcessor, XElement element, XElement endElement)
         {
             var endReached = false;
@@ -120,7 +121,7 @@
                 {
                     endReached = this.GoDeeper(parentProcessor, element.Elements().First(), endElement);
                 }
-                element = element.NextElement();
+                element = element.NextElementWithUpTransition();
             }
             while (element != null && !endReached);
             return endReached;

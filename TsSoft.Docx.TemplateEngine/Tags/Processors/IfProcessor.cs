@@ -46,6 +46,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 }
                 else
                 {
+                    //this.CleanUp(Tag.StartIf, Tag.EndIf);
                     this.Tag.StartIf.Remove();
                     this.Tag.EndIf.Remove();
                 }

@@ -453,7 +453,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             generator.GenerateDocx(
                 input,
                 output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException});
 
             var package = new DocxPackage(output);
             package.Load();

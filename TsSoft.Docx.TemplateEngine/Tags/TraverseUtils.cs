@@ -125,6 +125,15 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             resultString += random.Next(SixByteDecimalMin, SixByteDecimalMax).ToString("X");
             return resultString;
         } 
+        
+        public static XElement NextElementWithUpTransition(this XElement self)
+        {
+            var nextElement = self.NextElement();
+            return (nextElement == null && (self.Parent.NextElement() != null))
+                       ? self.Parent.NextElement()
+                       : nextElement;
+        }
+
 
         /// <summary>
         /// If you imagine an XML tree so that the root is the upmost element, than you can say

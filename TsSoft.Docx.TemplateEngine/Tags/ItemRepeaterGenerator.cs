@@ -97,7 +97,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                         continue;
                     }
                 }
-                if (itemRepeaterElement.IsEndItemRepeater && itemRepeaterElement.XElement == nestedRepeaterEndElement)
+                if (itemRepeaterElement.IsEndItemRepeater && itemRepeaterElement.XElement.Equals(nestedRepeaterEndElement))
                 {
                     nestedRepeaterEndElement = null;
                 }
