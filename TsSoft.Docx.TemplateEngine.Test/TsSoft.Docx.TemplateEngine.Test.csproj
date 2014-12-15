@@ -238,7 +238,9 @@
     <EmbeddedResource Include="badhtml_data.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ifinline_data.xml" />
+    <EmbeddedResource Include="ifinline_data.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

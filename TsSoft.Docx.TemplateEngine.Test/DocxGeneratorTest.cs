@@ -269,6 +269,16 @@ namespace TsSoft.Docx.TemplateEngine.Test
         }
 
         [TestMethod]
+        public void TestAddAfterXelement()
+        {
+            XElement element = new XElement("element", new XElement("temp"));
+            XElement afterelement = new XElement("afterelement");            
+            var tmpDoc = new XDocument(element);              
+            //tmpDoc.
+            Console.WriteLine(tmpDoc);            
+        }
+
+        [TestMethod]
         public void TestActualGenerationItemRepeaterNestedTwoRepeatersWithoutSeparator()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoWithoutSeparator.docx");
@@ -371,11 +381,9 @@ namespace TsSoft.Docx.TemplateEngine.Test
             var firstRow =
                 package.DocumentPartXml.Descendants(WordMl.TableRowName)
                        .First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1"));
-            Console.WriteLine(firstRow);
-            //Console.WriteLine(package.DocumentPartXml);
+            Console.WriteLine(firstRow);            
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            //Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());            
             Assert.IsFalse(firstRow.Elements().Last(el => el.Name.Equals(WordMl.TableCellName)).Elements().Any(el => el.Name.Equals(WordMl.TextRunName)));
         }
                

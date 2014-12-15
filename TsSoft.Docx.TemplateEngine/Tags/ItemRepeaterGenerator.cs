@@ -60,9 +60,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 current = startElement.Parent.Name.Equals(WordMl.ParagraphName) ? startElement.Parent : startElement;
             }
             else
-            {
-                //var tmpDoc = new XDocument();
-                //tmpDoc.Add(previous);
+            {                
                 current = previous;                
             }
             for (var index = 1; index <= dataReaders.Count(); index++)
@@ -118,7 +116,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     var itemRepeaterGenerator = new ItemRepeaterGenerator();
                     previous = itemRepeaterGenerator.Generate(itemRepeaterTag,
                                                               dataReader.GetReaders(itemRepeaterTag.Source),
-                                                              previous ?? new XElement(parent));
+                                                              previous ?? parent);                                        
                     nestedRepeaterEndElement = itemRepeaterTag.EndItemRepeater;
                     result = null;
                     continue;
@@ -138,13 +136,13 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                                                           !nestedParagraph);
                 }
                 else
-                {
+                {                    
                     var element = new XElement(itemRepeaterElement.XElement);
                     element.RemoveNodes();                    
                     result = element;
                     if (itemRepeaterElement.HasElements)
                     {
-                        this.ProcessElements(itemRepeaterElement.Elements, dataReader, null, result, index, ref nestedRepeaterEndElement, true);
+                        this.ProcessElements(itemRepeaterElement.Elements, dataReader, previous , result, index, ref nestedRepeaterEndElement, true);                        
                     }
                     else
                     {
@@ -153,20 +151,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 }
                 if (result != null)
                 {
-                    if (previous != null)
-                    {
-                        if (false)
-                        {                            
-                            //previous.Elements().ToList().Add(result);
-                            var nElement = new XElement(previous);
-                            nElement.AddAfterSelf(previous);
-                        }
-                        else
-                        {
-                            previous.AddAfterSelf(result);
-                            var x = new XElement(previous);                                                        
-                        }
-                        previous = result;
+                    //if (previous != null)
+                    if (!nestedParagraph)
+                    {                              
+                        previous.AddAfterSelf(result);                        
+                        previous = result;                        
                     }
                     else
                     {

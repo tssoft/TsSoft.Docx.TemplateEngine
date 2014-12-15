@@ -129,7 +129,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         public static XElement NextElementWithUpTransition(this XElement self)
         {
             var nextElement = self.NextElement();
-            return (nextElement == null && (self.Parent.NextElement() != null))
+            return (nextElement == null && (self.Parent != null) && (self.Parent.NextElement() != null))
                        ? self.Parent.NextElement()
                        : nextElement;
         }

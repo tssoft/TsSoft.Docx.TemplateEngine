@@ -119,7 +119,7 @@
                 }
                 else if (element.HasElements)
                 {
-                    endReached = this.GoDeeper(parentProcessor, element.Elements().First(), endElement);
+                    endReached = this.GoDeeper(parentProcessor, element.Elements().First(), endElement);                    
                 }
                 element = element.NextElementWithUpTransition();
             }
