@@ -138,6 +138,35 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             Assert.IsTrue(elements.Skip(16).Take(1).All(e => e.Name.Equals(WordMl.TextRunName)));
         }
 
+        [TestMethod]
+        public void TestElementsBetweenEndElementInNestedElement()
+        {
+            var startElement = new XElement("elementStart");
+            var secondElement = new XElement("element2");
+            var thirdElement = new XElement("element3");
+
+            var inclusiveElement = new XElement("elementInclusive");
+            var nestedElementFirst = new XElement("elementNested1");
+            var nestedElementSecond = new XElement("elementNested2");
+            var nestedElementEnd = new XElement("elementNestedEnd");                        
+            inclusiveElement.Add(nestedElementFirst, nestedElementSecond, nestedElementEnd);
+
+            var afterElementFirst = new XElement("elementAfter1");
+            var afterElementSecond = new XElement("elementAfter2");
+
+            var expectedDoc = new XDocument(new XElement("Root"));
+            expectedDoc.Root.Add(startElement, secondElement, thirdElement, inclusiveElement, afterElementFirst, afterElementSecond);
+
+            var betweenElements = TraverseUtils.ElementsBetween(startElement, nestedElementEnd);
+            foreach (var betweenElement in betweenElements)
+            {
+                Console.WriteLine(betweenElement);
+            }
+            Assert.AreEqual(4, betweenElements.Count());
+
+
+        }
+
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here."), TestMethod]
         public void TestNextElementWithUpTransition()
         {            

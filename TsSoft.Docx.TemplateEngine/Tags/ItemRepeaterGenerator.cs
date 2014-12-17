@@ -61,7 +61,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             }
             else
             {                
-                current = previous;                
+                current = previous;
+                itemRepeaterElements =
+                    itemRepeaterElements.Where(ire => !ire.XElement.Name.Equals(WordMl.ParagraphPropertiesName)).ToList();
             }
             for (var index = 1; index <= dataReaders.Count(); index++)
             {
@@ -81,7 +83,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return current;
         }
 
-        private XElement ProcessElements(IEnumerable<ItemRepeaterElement> elements, DataReader dataReader, XElement start, XElement parent, int index, ref XElement nestedRepeaterEndElement, bool nestedParagraph = false)
+        private XElement ProcessElements(IEnumerable<ItemRepeaterElement> elements, DataReader dataReader, XElement start, XElement parent, int index, ref XElement nestedRepeaterEndElement, bool nestedElement = false)
         {
             XElement result = null;
             XElement previous = start;
@@ -116,7 +118,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     var itemRepeaterGenerator = new ItemRepeaterGenerator();
                     previous = itemRepeaterGenerator.Generate(itemRepeaterTag,
                                                               dataReader.GetReaders(itemRepeaterTag.Source),
-                                                              previous ?? parent);                                        
+                                                              previous);                                        
                     nestedRepeaterEndElement = itemRepeaterTag.EndItemRepeater;
                     result = null;
                     continue;
@@ -126,14 +128,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
                                                           itemRepeaterElement.XElement.Parent,
                                                           index.ToString(CultureInfo.CurrentCulture),
-                                                          !nestedParagraph);
+                                                          !nestedElement);
                 }
                 else if (itemRepeaterElement.IsItem)
                 {
                     result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
                                                           itemRepeaterElement.XElement.Parent,
                                                           dataReader.ReadText(itemRepeaterElement.Expression),
-                                                          !nestedParagraph);
+                                                          !nestedElement);
                 }
                 else
                 {                    
@@ -141,8 +143,13 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     element.RemoveNodes();                    
                     result = element;
                     if (itemRepeaterElement.HasElements)
-                    {
-                        this.ProcessElements(itemRepeaterElement.Elements, dataReader, previous , result, index, ref nestedRepeaterEndElement, true);                        
+                    {                        
+                        var parsedLastElement = this.ProcessElements(itemRepeaterElement.Elements, dataReader, previous,
+                                                                     result, index, ref nestedRepeaterEndElement, true);
+                        if (itemRepeaterElement.Elements.Any(ire => ire.IsItemRepeater))
+                        {
+                            previous = parsedLastElement;
+                        }
                     }
                     else
                     {
@@ -151,8 +158,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 }
                 if (result != null)
                 {
-                    //if (previous != null)
-                    if (!nestedParagraph)
+                    if (!nestedElement)
                     {                              
                         previous.AddAfterSelf(result);                        
                         previous = result;                        
