@@ -71,6 +71,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 else if (currentTableElement.IsItemIf)
                 {
                     previous = this.ProcessItemIfElement(currentTableElement, dataReader, index, previous);
+
+                    //TODO: this if need testing
+                    if (firstCell == null)
+                    {
+                        firstCell = previous;
+                    }
                 }
                 else if (currentTableElement.IsItemRepeater)
                 {                   
