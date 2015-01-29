@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -96,6 +97,39 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var between = ElementsBetween(startElementFirstLevel, endElementFirstLevel);
             var beforeEnd = endElementFirstLevel.DescendantsBefore(endElement);
             return afterStart.Union(between).Union(beforeEnd);
+        }
+
+        /*
+         * <inclusive>
+         *   <i1>
+         * 
+         */
+
+        public static IEnumerable<XElement> SecondElementsBetween(XElement startElement, XElement endElement, bool nested = false)
+        {
+            if (startElement.Parent.Equals(endElement.Parent))
+            {
+                var oneLevelElements = new List<XElement>();
+                if (nested)
+                {
+                    oneLevelElements.Add(startElement);
+                }
+                oneLevelElements.AddRange(startElement.ElementsAfterSelf().Where(e => e.IsBefore(endElement)));                
+                return oneLevelElements.AsEnumerable();               
+            }
+            XElement currentElement = startElement.NextElementWithUpTransition();
+            var elements = new List<XElement>();
+            while ((currentElement != null) && (currentElement != endElement))
+            {
+                if (currentElement.HasElements && currentElement.Descendants().Contains(endElement))
+                {
+                    elements.AddRange(SecondElementsBetween(currentElement.Elements().First(), endElement, true));
+                    break;                    
+                }
+                elements.Add(currentElement);
+                currentElement = currentElement.NextElementWithUpTransition();
+            }
+            return elements;
         }
 
         public static XElement TagElement(XElement root, string tagName)

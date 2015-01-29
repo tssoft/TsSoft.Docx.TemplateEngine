@@ -124,7 +124,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var endIf =
                 this.documentRoot.Descendants(WordMl.SdtName).Single(d => d.Descendants(WordMl.TagName).Any(t => t.Attribute(WordMl.ValAttributeName).Value == "EndIf"));
 
-            var elements = TraverseUtils.ElementsBetween(startIf, endIf).ToList();
+            var elements = TraverseUtils.SecondElementsBetween(startIf, endIf).ToList();
 
             Assert.AreEqual(17, elements.Count());
             Assert.IsTrue(elements.Take(6).All(e => e.Name.Equals(WordMl.TextRunName)));
@@ -144,27 +144,60 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             var startElement = new XElement("elementStart");
             var secondElement = new XElement("element2");
             var thirdElement = new XElement("element3");
-
+            
             var inclusiveElement = new XElement("elementInclusive");
             var nestedElementFirst = new XElement("elementNested1");
             var nestedElementSecond = new XElement("elementNested2");
-            var nestedElementEnd = new XElement("elementNestedEnd");                        
-            inclusiveElement.Add(nestedElementFirst, nestedElementSecond, nestedElementEnd);
+            var nestedElementEnd = new XElement("elementNestedEnd");
+            var nestedElementThird = new XElement("elementNested3");    
+            inclusiveElement.Add(nestedElementFirst, nestedElementSecond, nestedElementEnd, nestedElementThird);
 
             var afterElementFirst = new XElement("elementAfter1");
             var afterElementSecond = new XElement("elementAfter2");
 
             var expectedDoc = new XDocument(new XElement("Root"));
             expectedDoc.Root.Add(startElement, secondElement, thirdElement, inclusiveElement, afterElementFirst, afterElementSecond);
-
-            var betweenElements = TraverseUtils.ElementsBetween(startElement, nestedElementEnd);
+            /*foreach (var ancestor in nestedElementFirst.Ancestors())
+            {
+                Console.WriteLine(ancestor);
+            }*/
+            Console.WriteLine("Source document:");
+            Console.WriteLine(expectedDoc);
+            Console.WriteLine("--------");
+            var betweenElements = TraverseUtils.SecondElementsBetween(startElement, nestedElementEnd);
             foreach (var betweenElement in betweenElements)
             {
                 Console.WriteLine(betweenElement);
-            }
+            }            
             Assert.AreEqual(4, betweenElements.Count());
+        }
 
+        [TestMethod]
+        public void TestElementsBetweenStartElementInNestedElement()
+        {
+            var startParagraph = new XElement("startParagraph");
+            var firstElement = new XElement("elementFirst");
+            var startElement = new XElement("elementStart");
+            var thirdElement = new XElement("elementThird");
+            var fourthElement = new XElement("elementFourth");
+            startParagraph.Add(firstElement, startElement, thirdElement, fourthElement);
 
+            var outerFirstElement = new XElement("outerElementFirst");
+            var outerSecondElement = new XElement("outerElementSecond");
+            var outerEndElement = new XElement("outerElementEnd");
+            var outerFourthElement = new XElement("outerElementFourth");
+
+            var expectedDoc = new XDocument(new XElement("Root"));
+            expectedDoc.Root.Add(startParagraph, outerFirstElement, outerSecondElement, outerEndElement, outerFourthElement);
+
+            var actualBetweenElements = TraverseUtils.SecondElementsBetween(startElement, outerEndElement);
+
+            
+            foreach (var actualBetweenElement in actualBetweenElements)
+            {
+                Console.WriteLine(actualBetweenElement);
+            }
+            Assert.AreEqual(4, actualBetweenElements.Count());
         }
 
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here."), TestMethod]
@@ -192,9 +225,8 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
 
             var expectedDoc = new XDocument(new XElement("Root"));
             expectedDoc.Root.Add(firstParagraph, betweenParagraph, lastParagraph);
-
-            var actualBetweenElements = TraverseUtils.ElementsBetween(fpElementStart, lpElementEnd);
-            var nextElement = actualBetweenElements.First().NextElementWithUpTransition();
+            var actualBetweenElements = TraverseUtils.SecondElementsBetween(fpElementStart, lpElementEnd);
+            var nextElement = actualBetweenElements.First().NextElementWithUpTransition();            
             Assert.AreSame(nextElement, betweenParagraph);
         }
     }

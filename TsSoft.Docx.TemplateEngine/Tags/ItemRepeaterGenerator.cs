@@ -52,7 +52,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var startElement = tag.StartItemRepeater;
             var endElement = tag.EndItemRepeater;
             var itemRepeaterElements =
-                TraverseUtils.ElementsBetween(startElement, endElement).Select(MakeElementCallback).ToList();
+                TraverseUtils.SecondElementsBetween(startElement, endElement).Select(MakeElementCallback).ToList();
             var flgCleanUpElements = previous == null;
             XElement current;
             if (previous == null)
@@ -91,7 +91,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             {              
                 if (nestedRepeaterEndElement != null)
                 {
-                    if (TraverseUtils.ElementsBetween(elements.First().XElement, nestedRepeaterEndElement)
+                    if (TraverseUtils.SecondElementsBetween(elements.First().XElement, nestedRepeaterEndElement)
                                      .Contains(itemRepeaterElement.XElement))
                     {
                         continue;
