@@ -98,6 +98,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return startElement.Parent.Equals(endElement.Parent);
         }
 
+        
         private XElement ProcessElements(IEnumerable<ItemRepeaterElement> elements, DataReader dataReader, XElement start, XElement parent, int index, ref XElement nestedRepeaterEndElement, bool nestedElement = false)
         {
             XElement result = null;
@@ -116,8 +117,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 }
                 if (itemRepeaterElement.IsEndItemRepeater && itemRepeaterElement.XElement.Equals(nestedRepeaterEndElement))
                 {
-                    nestedRepeaterEndElement = null;              
-                 //   continue; 
+                    nestedRepeaterEndElement = null;
+                    continue;
+                    
+                }
+                else if (itemRepeaterElement.IsItemIf)
+                {
                     
                 }
                 else if (itemRepeaterElement.IsItemHtmlContent)
@@ -165,11 +170,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     {
                         var parsedLastElement = this.ProcessElements(itemRepeaterElement.Elements, dataReader, previous,
                                                                      result, index, ref nestedRepeaterEndElement, true);                        
-                        if (itemRepeaterElement.Elements.Any(ire => ire.IsItemRepeater))
+                        if (itemRepeaterElement.Elements.Any(ire => ire.IsItemRepeater && !this.CheckInlineWrappingMode(ire.StartTag, ire.EndTag)))
                         {
                             previous = parsedLastElement;
-                        }
-                        
+                        }                        
                     }
                     else
                     {
