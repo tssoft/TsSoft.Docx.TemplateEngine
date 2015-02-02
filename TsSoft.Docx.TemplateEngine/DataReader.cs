@@ -13,6 +13,8 @@ namespace TsSoft.Docx.TemplateEngine
         private readonly XElement rootElement;
         private MissingDataMode missingDataModeSettings;
 
+        public bool IsLast { get; private set; }
+
         public DataReader()
         {
            
@@ -60,6 +62,7 @@ namespace TsSoft.Docx.TemplateEngine
             {
                 var dataReader = new DataReader(newElement);
                 dataReader.MissingDataModeSettings = this.missingDataModeSettings;
+                dataReader.IsLast = true;
                 return dataReader;
             }
             return null;
@@ -80,7 +83,8 @@ namespace TsSoft.Docx.TemplateEngine
                 return Enumerable.Empty<DataReader>();
             }
             var newElements = this.rootElement.XPathSelectElements(path.ToLower());
-            IEnumerable<DataReader> readers = newElements.Select(element => new DataReader(element)).ToList();            
+            IEnumerable<DataReader> readers = newElements.Select(element => new DataReader(element)).ToList();
+            readers.Last().IsLast = true;
             foreach (var dataReader in readers)
             {
                 dataReader.MissingDataModeSettings = this.missingDataModeSettings;

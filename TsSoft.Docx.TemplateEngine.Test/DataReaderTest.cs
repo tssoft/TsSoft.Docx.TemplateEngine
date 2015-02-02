@@ -63,6 +63,8 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 Assert.AreEqual(expectedReader, dataReadersEnumerator.Current);
             }
 
+            Assert.AreEqual(true, readers.Last().IsLast);
+
             const string WrongPath = "/Test/Documents/Document";
             var wrongPathReaders = dataReader.GetReaders(WrongPath);
 

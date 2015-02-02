@@ -98,13 +98,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             var beforeEnd = endElementFirstLevel.DescendantsBefore(endElement);
             return afterStart.Union(between).Union(beforeEnd);
         }
-
-        /*
-         * <inclusive>
-         *   <i1>
-         * 
-         */
-
+        // TODO make one second elements between       
         public static IEnumerable<XElement> SecondElementsBetween(XElement startElement, XElement endElement, bool nested = false)
         {
             if (startElement.Parent.Equals(endElement.Parent))
