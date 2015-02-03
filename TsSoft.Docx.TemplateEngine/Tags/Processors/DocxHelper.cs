@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Xml.Linq;
 
 namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 {
@@ -173,6 +174,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 result = wrapTo;
             }
             return result;
+        }
+
+        public static bool IsEmptyParagraph(XElement paragraph)
+        {
+            if (!paragraph.Name.Equals(WordMl.ParagraphName))
+            {
+                throw new Exception("Element is not paragraph!");
+            }
+            return (paragraph.IsEmpty ||
+                    ((paragraph.Elements().Count() == 1) &&
+                     paragraph.Elements().Single().Name.Equals(WordMl.ParagraphPropertiesName)));
         }
 
         public static XElement CreateAltChunkElement(int altChunkId)

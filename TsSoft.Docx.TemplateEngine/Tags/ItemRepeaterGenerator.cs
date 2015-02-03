@@ -71,9 +71,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 else
                 {
                     current = previous;
-                    itemRepeaterElements =
-                        itemRepeaterElements.Where(ire => !ire.XElement.Name.Equals(WordMl.ParagraphPropertiesName))
-                                            .ToList();
+                    //itemRepeaterElements =
+                      //  itemRepeaterElements.Where(ire => !ire.XElement.Name.Equals(WordMl.ParagraphPropertiesName))
+                        //                    .ToList();
                 }
             }
             for (var index = 1; index <= dataReaders.Count(); index++)
@@ -87,7 +87,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                                                (inlineWrapping && (parent != null)) ? parent : null,
                                                index,
                                                ref nestedRepeaterEndElementTmp,
-                                               ref endIfElementTmp,
+                                               ref endIfElementTmp,                                               
                                                inlineWrapping && (parent != null)
                 );
             }
@@ -112,7 +112,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         {
             const string IsNotLastElementCondition = "isnotlastelement";
             const string IsLastElementCondition = "islastelement";
-
+            
             var expression = ifElement.Expression;
             if (expression.Equals(IsNotLastElementCondition) || expression.Equals(IsLastElementCondition))
             {
@@ -129,7 +129,63 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 {
                     endIfElement = ifElement.EndTag;
                 }
+                
             }                                
+        }
+
+
+        private bool CheckNestedElementForContinue(ItemRepeaterElement firstItemRepeaterElement,
+                                                   ItemRepeaterElement currentItemRepeaterElement,
+                                                   XElement nestedRepeaterEndElement)
+        {
+            if (nestedRepeaterEndElement != null)
+            {
+                return
+                    TraverseUtils.SecondElementsBetween(firstItemRepeaterElement.XElement, nestedRepeaterEndElement)
+                                 .Contains(currentItemRepeaterElement.XElement);
+            }
+            return false;
+        }
+
+        private bool CheckAndProcessEndItemRepeaterElementForContinue(ItemRepeaterElement currentItemRepeaterElement,
+                                                            ref XElement nestedRepeaterEndElement)
+        {
+            if (currentItemRepeaterElement.IsEndItemRepeater &&
+                currentItemRepeaterElement.XElement.Equals(nestedRepeaterEndElement))
+            {
+                nestedRepeaterEndElement = null;
+                return true;                
+            }
+            return false;
+        }
+
+        private bool CheckAndProcessStartIfElementForContinue(ItemRepeaterElement currentItemRepeaterElement,
+                                                              DataReader dataReader,
+                                                              ref XElement endIfElement)
+        {
+            if (currentItemRepeaterElement.IsItemIf)
+            {
+                this.ProcessIfElement(currentItemRepeaterElement, dataReader, ref endIfElement);
+                return true;
+            }
+            return false;
+        }
+
+        private bool CheckNestedConditionElementForContinue(ItemRepeaterElement currentItemRepeaterElement,
+                                                            XElement endIfElement)
+        {
+            return (endIfElement != null) && !currentItemRepeaterElement.XElement.Name.Equals(WordMl.ParagraphName);
+        }
+
+        private bool CheckAndProcessEndIfElementForContinue(ItemRepeaterElement currentItemRepeaterElement,
+                                                  ref XElement endIfElement)
+        {
+            if (currentItemRepeaterElement.IsEndItemIf && currentItemRepeaterElement.XElement.Equals(endIfElement))
+            {
+                endIfElement = null;
+                return true;
+            }
+            return false;
         }
         
         private XElement ProcessElements(IEnumerable<ItemRepeaterElement> elements, DataReader dataReader, XElement start, XElement parent, int index, ref XElement nestedRepeaterEndElement, ref XElement endIfElement, bool nestedElement = false)
@@ -137,103 +193,114 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             XElement result = null;
             XElement previous = start;
 
-            //bool inline
             foreach (var itemRepeaterElement in elements)
-            {              
-                if (nestedRepeaterEndElement != null)
-                {
-                    if (TraverseUtils.SecondElementsBetween(elements.First().XElement, nestedRepeaterEndElement)
-                                     .Contains(itemRepeaterElement.XElement))
-                    {                       
-                        continue; 
-                    }
-                }
-                if (itemRepeaterElement.IsEndItemIf && itemRepeaterElement.XElement.Equals(endIfElement))
-                {
-                    endIfElement = null;
-                    continue;
-                }   
-                if ((endIfElement != null) && !itemRepeaterElement.XElement.Name.Equals(WordMl.ParagraphName))
+            {               
+                var flgStucturedElementProcessed = this.CheckAndProcessStartIfElementForContinue(itemRepeaterElement,
+                                                                                                  dataReader,
+                                                                                                  ref endIfElement)
+                                                    ||
+                                                    this.CheckAndProcessEndIfElementForContinue(itemRepeaterElement,
+                                                                                                ref endIfElement)
+                                                    ||
+                                                    this.CheckAndProcessEndItemRepeaterElementForContinue(
+                                                        itemRepeaterElement, ref nestedRepeaterEndElement);                                                                                
+                if (!flgStucturedElementProcessed)
                 {                    
-                    continue;    
-                }                             
-                if (itemRepeaterElement.IsEndItemRepeater && itemRepeaterElement.XElement.Equals(nestedRepeaterEndElement))
-                {
-                    nestedRepeaterEndElement = null;
-                    continue;                    
-                }
-                if (itemRepeaterElement.IsItemIf)
-                {
-                    this.ProcessIfElement(itemRepeaterElement, dataReader, ref endIfElement);
-                    continue;
-                }
-                if (itemRepeaterElement.IsItemHtmlContent)
-                {
-                    result = HtmlContentProcessor.MakeHtmlContentProcessed(itemRepeaterElement.XElement,
-                                                                           dataReader.ReadText(itemRepeaterElement.Expression),
-                                                                           true);
-                }
-                else if (itemRepeaterElement.IsItemRepeater)
-                {
-                    var itemRepeaterTag = new ItemRepeaterTag()
+                    var flgNestedElementCheckedForContinue = this.CheckNestedConditionElementForContinue(
+                                                              itemRepeaterElement, endIfElement)
+                                                              ||
+                                                              this.CheckNestedElementForContinue(elements.First(),
+                                                                                                 itemRepeaterElement,
+                                                                                                 nestedRepeaterEndElement);
+                    if (!flgNestedElementCheckedForContinue)
+                    {
+                        if (itemRepeaterElement.IsItemHtmlContent)
                         {
-                            StartItemRepeater = itemRepeaterElement.StartTag,
-                            EndItemRepeater = itemRepeaterElement.EndTag,
-                            Source = itemRepeaterElement.Expression
-                        };
-                    var itemRepeaterGenerator = new ItemRepeaterGenerator();
-                    previous = itemRepeaterGenerator.Generate(itemRepeaterTag,
-                                                              dataReader.GetReaders(itemRepeaterTag.Source),
-                                                              previous, parent);                                        
-                    nestedRepeaterEndElement = itemRepeaterTag.EndItemRepeater;
-                    result = null;
-                    continue;
-                }               
-                else if (itemRepeaterElement.IsIndex)
-                {
-                    result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
-                                                          itemRepeaterElement.XElement.Parent,
-                                                          index.ToString(CultureInfo.CurrentCulture),
-                                                          !nestedElement);
-                }
-                else if (itemRepeaterElement.IsItem)
-                {
-                    result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
-                                                          itemRepeaterElement.XElement.Parent,
-                                                          dataReader.ReadText(itemRepeaterElement.Expression),
-                                                          !nestedElement);
+                            result = HtmlContentProcessor.MakeHtmlContentProcessed(itemRepeaterElement.XElement,
+                                                                                   dataReader.ReadText(
+                                                                                       itemRepeaterElement.Expression),
+                                                                                   true);
+                        }
+                        else if (itemRepeaterElement.IsItemRepeater)
+                        {
+                            var itemRepeaterTag = new ItemRepeaterTag()
+                                {
+                                    StartItemRepeater = itemRepeaterElement.StartTag,
+                                    EndItemRepeater = itemRepeaterElement.EndTag,
+                                    Source = itemRepeaterElement.Expression
+                                };
+                            var itemRepeaterGenerator = new ItemRepeaterGenerator();
+                            previous = itemRepeaterGenerator.Generate(itemRepeaterTag,
+                                                                      dataReader.GetReaders(itemRepeaterTag.Source),
+                                                                      previous, parent);
+                            nestedRepeaterEndElement = itemRepeaterTag.EndItemRepeater;
+                            result = null;
+                        }
+                        else if (itemRepeaterElement.IsIndex)
+                        {
+                            result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
+                                                                  itemRepeaterElement.XElement.Parent,
+                                                                  index.ToString(CultureInfo.CurrentCulture),
+                                                                  !nestedElement);
+                        }
+                        else if (itemRepeaterElement.IsItem)
+                        {
+                            result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
+                                                                  itemRepeaterElement.XElement.Parent,
+                                                                  dataReader.ReadText(itemRepeaterElement.Expression),
+                                                                  !nestedElement);
+                        }
+                        else
+                        {
+                            var element = new XElement(itemRepeaterElement.XElement);
+                            element.RemoveNodes();
+                            result = element;
+                            if (itemRepeaterElement.HasElements)
+                            {
+                                var parsedLastElement = this.ProcessElements(itemRepeaterElement.Elements, dataReader,
+                                                                             previous,
+                                                                             result, index, ref nestedRepeaterEndElement,
+                                                                             ref endIfElement, true);
+                                if (itemRepeaterElement.Elements.Any(ire => ire.XElement.IsSdt()) && DocxHelper.IsEmptyParagraph(result))
+                                {
+                                    result = null;
+                                }
+                                if (
+                                    itemRepeaterElement.Elements.Any(
+                                        ire =>
+                                        ire.IsItemRepeater && !this.CheckInlineWrappingMode(ire.StartTag, ire.EndTag)))
+                                {
+                                    previous = parsedLastElement;
+                                }
+                                
+                            }
+                            else
+                            {
+                                element.Value = itemRepeaterElement.XElement.Value;
+                            }
+                        }
+                        if (result != null)
+                        {
+                            if (!nestedElement)
+                            {
+                                previous.AddAfterSelf(result);
+                                previous = result;
+                            }
+                            else
+                            {
+                                parent.Add(result);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        result = null;
+                    }
                 }
                 else
                 {
-                    var element = new XElement(itemRepeaterElement.XElement);
-                    element.RemoveNodes();                    
-                    result = element;
-                    if (itemRepeaterElement.HasElements)
-                    {
-                        var parsedLastElement = this.ProcessElements(itemRepeaterElement.Elements, dataReader, previous,
-                                                                     result, index, ref nestedRepeaterEndElement, ref endIfElement, true);                        
-                        if (itemRepeaterElement.Elements.Any(ire => ire.IsItemRepeater && !this.CheckInlineWrappingMode(ire.StartTag, ire.EndTag)))
-                        {
-                            previous = parsedLastElement;
-                        }                        
-                    }
-                    else
-                    {
-                        element.Value = itemRepeaterElement.XElement.Value;
-                    }
+                    result = null;
                 }
-                if (result != null)
-                { 
-                    if (!nestedElement)
-                    {                              
-                        previous.AddAfterSelf(result);                        
-                        previous = result;                        
-                    }
-                    else
-                    {
-                        parent.Add(result);
-                    }
-                }            
             }            
             return result ?? previous;
         }
