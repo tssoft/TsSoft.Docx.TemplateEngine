@@ -27,19 +27,30 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }
             foreach (var repeaterElement in repeaterElements)
             {
+                // TODO one
+                /*if (repeaterElement.HasElements &&
+                    repeaterElement.Elements.Any(re => ItemRepeaterGenerator.IsItemRepeaterElement(re.XElement)))
+                {
+                    continue;
+                }*/
                 repeaterElement.XElement.Remove();
+                
             }
 
             if (this.LockDynamicContent)
             {
-                var innerElements = TraverseUtils.ElementsBetween(this.RepeaterTag.StartRepeater, this.RepeaterTag.EndRepeater).ToList();
+                var innerElements =
+                    TraverseUtils.ElementsBetween(this.RepeaterTag.StartRepeater, this.RepeaterTag.EndRepeater).ToList();
                 innerElements.Remove();
-                this.RepeaterTag.StartRepeater.AddBeforeSelf(DocxHelper.CreateDynamicContentElement(innerElements, this.RepeaterTag.StartRepeater));
+                this.RepeaterTag.StartRepeater.AddBeforeSelf(DocxHelper.CreateDynamicContentElement(innerElements,
+                                                                                                    this.RepeaterTag
+                                                                                                        .StartRepeater));
                 this.CleanUp(this.RepeaterTag.StartRepeater, this.RepeaterTag.EndRepeater);
             }
             else
             {
                 this.RepeaterTag.StartRepeater.Remove();
+
                 this.RepeaterTag.EndRepeater.Remove();
             }
         }
@@ -84,7 +95,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             XElement result = null;
             XElement previous = start; 
             elements = elements.Where(el => !el.XElement.IsTag(ItemRepeaterTags.ItemTag) && !el.XElement.IsTag(ItemRepeaterTags.ItemIf) && !el.XElement.IsTag(ItemRepeaterTags.EndItemIf) && !el.XElement.IsTag(ItemRepeaterTags.EndItemRepeaterTagName) && !el.XElement.IsTag(ItemRepeaterTags.IndexTag));            
-            foreach (var repeaterElement in elements)//.Where(repeaterElement => !ItemRepeaterGenerator.IsItemRepeaterElement(repeaterElement.XElement)))
+            foreach (var repeaterElement in elements)
             { 
                 if (repeaterElement.IsEndItemIf && repeaterElement.Equals(endIfElement))
                 {
@@ -110,11 +121,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                         {
                             StartItemRepeater = repeaterElement.StartTag,
                             EndItemRepeater = repeaterElement.EndTag,
-                            Source = repeaterElement.Expression,
-                            NestedRepeaters = new List<ItemRepeaterTag>()
+                            Source = repeaterElement.Expression                            
                         };                    
-                    var itemRepeaterParser = new ItemRepeaterParser();
-                    previous = itemRepeaterParser.Parse(itemRepeaterTag, dataReader.GetReaders(itemRepeaterTag.Source).ToList(), previous);
+                   // var itemRepeaterParser = new ItemRepeaterParser();                    
+                    //previous = itemRepeaterParser.Parse(itemRepeaterTag, dataReader.GetReaders(itemRepeaterTag.Source).ToList(), previous);
+                    var itemRepeaterGenerator = new ItemRepeaterGenerator();
+                    previous = itemRepeaterGenerator.Generate(itemRepeaterTag,
+                                                              dataReader.GetReaders(repeaterElement.Expression),
+                                                              previous, parent, true);
                     result = null;
                     continue;                    
                 }
@@ -133,7 +147,13 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     result = element;
                     if (repeaterElement.HasElements)
                     {
-                        this.ProcessElements(repeaterElement.Elements, dataReader, null, result, index, ref endIfElement);
+                        
+                        var parsedLastElement = this.ProcessElements(repeaterElement.Elements, dataReader, null, result, index, ref endIfElement);
+                        if (repeaterElement.Elements.Any(re => re.IsItemRepeater))
+                        {
+                            previous = parsedLastElement;
+                        }
+
                     }
                     else
                     {

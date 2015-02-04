@@ -385,31 +385,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());            
             Assert.IsFalse(firstRow.Elements().Last(el => el.Name.Equals(WordMl.TableCellName)).Elements().Any(el => el.Name.Equals(WordMl.TextRunName)));
-        }
-
-        [TestMethod]
-        public void TestActualGenerationItemRepeaterInOneParagraph()
-        {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterInOneParagraph.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoData.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
-
-            var package = new DocxPackage(output);
-            package.Load();
-            var firstRow =
-                package.DocumentPartXml.Descendants(WordMl.TableRowName)
-                       .First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1"));
-            Console.WriteLine(firstRow);
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(firstRow.Elements().Last(el => el.Name.Equals(WordMl.TableCellName)).Elements().Any(el => el.Name.Equals(WordMl.TextRunName)));
-        }
+        }     
                
         [TestMethod]
         public void TestActualGenerationItemRepeaterNestedTwoRepeatersWithStaticText()

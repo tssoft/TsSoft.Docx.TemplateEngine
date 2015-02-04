@@ -90,7 +90,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             while (startTagsOpened > 0 && current != null)
             {
                 var nextTagElements = TraverseUtils.NextTagElements(current, new Collection<string> { startTagName, endTagName }).ToList();
-                int index = -1;
+                var index = -1;
                 while ((index < nextTagElements.Count) && (startTagsOpened != 0))
                 {
                     index++;
@@ -123,6 +123,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     {
                         case "endrepeater":
                             return true;
+                        case "itemrepeater":
                         case "itemtext":
                         case "itemif":
                         case "endif": 
@@ -130,7 +131,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                         case "itemindex":
                             break;
                         default:
-                            element = this.ParseSdt(parentProcessor, element);
+                            if (!ItemRepeaterGenerator.IsItemRepeaterElement(element))
+                            {
+                                element = this.ParseSdt(parentProcessor, element);
+                            }
                             break;
                     }
                 }

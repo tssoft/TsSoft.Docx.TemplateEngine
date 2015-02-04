@@ -51,10 +51,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public static bool IsItemRepeaterElement(XElement element)
         {
-            return element.IsSdt() && (element.GetTagName().First().Equals('r') || element.GetTagName().Equals(EndItemRepeaterTagName));
+            return element.IsSdt() &&
+                   (element.IsTag(IndexTag) || element.IsTag(ItemHtmlContentTag) || element.IsTag(ItemTag) ||
+                    element.IsTag(ItemIf) || element.IsTag(EndItemIf) || element.IsTag(EndItemRepeaterTagName));
         }
 
-        public XElement Generate(ItemRepeaterTag tag, IEnumerable<DataReader> dataReaders, XElement previous = null, XElement parent = null)
+        public XElement Generate(ItemRepeaterTag tag, IEnumerable<DataReader> dataReaders, XElement previous = null, XElement parent = null, bool forcedElementSave = false)
         {
             var startElement = tag.StartItemRepeater;
             var endElement = tag.EndItemRepeater;
@@ -75,10 +77,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 }
                 else
                 {
-                    current = previous;
-                    //itemRepeaterElements =
-                      //  itemRepeaterElements.Where(ire => !ire.XElement.Name.Equals(WordMl.ParagraphPropertiesName))
-                        //                    .ToList();
+                    current = previous;                    
                 }
             }
             for (var index = 1; index <= dataReaders.Count(); index++)
@@ -96,14 +95,15 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                                                inlineWrapping && (parent != null)
                 );
             }
-            if (flgCleanUpElements)
+            if (flgCleanUpElements && !forcedElementSave)
             {
                 foreach (var itemRepeaterElement in itemRepeaterElements)
                 {
                     itemRepeaterElement.XElement.Remove();
-                }
-                startElement.Remove();
+                }                                
+                startElement.Remove();                
                 endElement.Remove();
+                
             }            
             return current;
         }       

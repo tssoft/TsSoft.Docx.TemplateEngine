@@ -101,8 +101,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         // TODO make one second elements between       
         public static IEnumerable<XElement> SecondElementsBetween(XElement startElement, XElement endElement, bool nested = false)
         {
-            if (startElement.Parent.Equals(endElement.Parent))
+            if (startElement.Equals(endElement))
             {
+                return Enumerable.Empty<XElement>();
+            }
+            if (startElement.Parent.Equals(endElement.Parent))
+            {                
                 var oneLevelElements = new List<XElement>();
                 if (nested)
                 {
