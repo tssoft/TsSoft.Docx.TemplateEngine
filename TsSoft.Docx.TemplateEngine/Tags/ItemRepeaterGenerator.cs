@@ -19,7 +19,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private const string ItemIf = "RItemIf";
         private const string EndItemIf = "REndIf";
         private const string ItemHtmlContentTag = "RItemHtmlContent";
-
+       
         private static Func<XElement, ItemRepeaterElement> MakeElementCallback = element =>
         {
             var itemRepeaterElement = new ItemRepeaterElement()
@@ -48,6 +48,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             }
             return itemRepeaterElement;
         };        
+
+        public static bool IsItemRepeaterElement(XElement element)
+        {
+            return element.IsSdt() && (element.GetTagName().First().Equals('r') || element.GetTagName().Equals(EndItemRepeaterTagName));
+        }
 
         public XElement Generate(ItemRepeaterTag tag, IEnumerable<DataReader> dataReaders, XElement previous = null, XElement parent = null)
         {
@@ -128,8 +133,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 if (!condition)
                 {
                     endIfElement = ifElement.EndTag;
-                }
-                
+                }                
             }                                
         }
 

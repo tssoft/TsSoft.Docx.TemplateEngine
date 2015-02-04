@@ -34,6 +34,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public bool IsItem { get; set; }
 
+        public bool IsItemIf { get; set; }
+
+        public bool IsEndItemIf { get; set; }
+
         public bool IsItemRepeater { get; set; }
 
         public bool IsItemHtmlContent { get; set; }

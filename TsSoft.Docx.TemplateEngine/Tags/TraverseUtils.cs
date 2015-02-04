@@ -138,6 +138,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     .Equals(tagName.ToLower(CultureInfo.CurrentCulture))) != null
                 : false;
         }
+        public static string GetTagName(this XElement self)
+        {
+            if (!self.IsSdt())
+            {
+                throw new Exception(string.Format("This ({0}) tag is not sdt!", self.Name));
+            }
+            return
+                self.Elements(WordMl.SdtPrName)
+                    .Elements(WordMl.TagName)
+                    .SingleOrDefault().Attribute(WordMl.ValAttributeName).Value;
+        }
 
         public static bool IsSdt(this XElement self)
         {

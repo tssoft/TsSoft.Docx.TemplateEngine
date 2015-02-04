@@ -71,6 +71,7 @@
     <Compile Include="Tags\IfTag.cs" />
     <Compile Include="Tags\ITagParser.cs" />
     <Compile Include="Tags\ItemRepeaterParser.cs" />
+    <Compile Include="Tags\ItemRepeaterTags.cs" />
     <Compile Include="Tags\Processors\AbstractProcessor.cs" />
     <Compile Include="Tags\Processors\HtmlContentProcessor.cs" />
     <Compile Include="Tags\Processors\IfProcessor.cs" />

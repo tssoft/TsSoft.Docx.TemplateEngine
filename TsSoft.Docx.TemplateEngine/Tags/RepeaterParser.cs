@@ -15,6 +15,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private const string IndexTag = "ItemIndex";
         private const string ItemTag = "ItemText";
         private const string ItemIfTag = "ItemIf";
+        private const string EndItemIfTag = "EndIf";
         private const string ItemRepeaterTag = "ItemRepeater";
         private const string EndItemRepeaterTag = "EndItemRepeater";
         private const string ItemHtmlContentTag = "ItemHtmlContent";
@@ -26,18 +27,20 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     Elements = element.Elements().Select(MakeElementCallback),
                     IsIndex = element.IsTag(IndexTag),
                     IsItem = element.IsTag(ItemTag),
+                    IsItemIf = element.IsTag(ItemIfTag),                    
+                    IsEndItemIf = element.IsTag(EndItemIfTag),
                     IsItemHtmlContent = element.IsTag(ItemHtmlContentTag),
                     IsItemRepeater = element.IsTag(ItemRepeaterTag),
                     XElement = element,
                     StartTag = element                 
                 };
-                if (repeaterElement.IsItem || repeaterElement.IsItemHtmlContent || repeaterElement.IsItemRepeater)
+                if (repeaterElement.IsItem || repeaterElement.IsItemHtmlContent || repeaterElement.IsItemRepeater || repeaterElement.IsItemIf)
                 {
                     repeaterElement.Expression = element.GetExpression();
                 }
-                if (repeaterElement.IsItemRepeater)
+                if (repeaterElement.IsItemRepeater || repeaterElement.IsItemIf)
                 {
-                    repeaterElement.EndTag = FindEndTag(repeaterElement.StartTag, ItemRepeaterTag, EndItemRepeaterTag);
+                    repeaterElement.EndTag = FindEndTag(repeaterElement.StartTag, (repeaterElement.IsItemRepeater) ? ItemRepeaterTag : ItemIfTag, (repeaterElement.IsItemRepeater) ? EndItemRepeaterTag : EndItemIfTag);
                     repeaterElement.TagElements = TraverseUtils.ElementsBetween(repeaterElement.StartTag,
                                                                                 repeaterElement.EndTag)
                                                               .Select(MakeElementCallback);
@@ -121,6 +124,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                         case "endrepeater":
                             return true;
                         case "itemtext":
+                        case "itemif":
+                        case "endif": 
+                        case "itemhtmlcontent":
                         case "itemindex":
                             break;
                         default:

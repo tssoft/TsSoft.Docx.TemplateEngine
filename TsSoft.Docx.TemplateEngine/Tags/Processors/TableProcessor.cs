@@ -110,13 +110,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         private ItemRepeaterTag GenerateItemRepeaterTag(TableElement itemRepeaterElement)
         {
             var tagResult = new ItemRepeaterTag()
-            {StartItemRepeater = itemRepeaterElement.StartTag,
+            {   StartItemRepeater = itemRepeaterElement.StartTag,
                 EndItemRepeater = itemRepeaterElement.EndTag,
-                NestedRepeaters = new List<ItemRepeaterTag>(), Source = itemRepeaterElement.Expression};
-            foreach (var element in itemRepeaterElement.TagElements.Where(element => element.IsItemRepeater))
-            {
-                tagResult.NestedRepeaters.Add(GenerateItemRepeaterTag(element));
-            }
+                NestedRepeaters = new List<ItemRepeaterTag>(),
+                Source = itemRepeaterElement.Expression
+            };            
             return tagResult;
         }
 
@@ -128,7 +126,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             var itemRepeaterTag = GenerateItemRepeaterTag(itemRepeaterElement);         
             var generator = new ItemRepeaterGenerator();
             generator.Generate(itemRepeaterTag, readers.ToList());
-
         }
 
         private XElement ProcessItemIfElement(TableElement itemIfElement, DataReader dataReader, int index, XElement previous)
