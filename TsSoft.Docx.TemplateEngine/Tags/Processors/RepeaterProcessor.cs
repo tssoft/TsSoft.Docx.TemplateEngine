@@ -90,12 +90,20 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }                                
         }
 
-        private XElement ProcessElements(IEnumerable<RepeaterElement> elements, DataReader dataReader, XElement start, XElement parent, int index, ref XElement endIfElement)
+        private bool IsItemRepeaterElement(XElement element)
+        {
+            return element.Name.Equals(WordMl.ParagraphName)
+                       ? element.Elements().Any(el => ItemRepeaterGenerator.IsItemRepeaterElement(el))
+                       : ItemRepeaterGenerator.IsItemRepeaterElement(element);
+        }
+
+        private XElement ProcessElements(IEnumerable<RepeaterElement> elements, DataReader dataReader, XElement start, XElement parent, int index, ref XElement endIfElement, bool nested = false)
         {
             XElement result = null;
-            XElement previous = start; 
-            elements = elements.Where(el => !el.XElement.IsTag(ItemRepeaterTags.ItemTag) && !el.XElement.IsTag(ItemRepeaterTags.ItemIf) && !el.XElement.IsTag(ItemRepeaterTags.EndItemIf) && !el.XElement.IsTag(ItemRepeaterTags.EndItemRepeaterTagName) && !el.XElement.IsTag(ItemRepeaterTags.IndexTag));            
-            foreach (var repeaterElement in elements)
+            XElement previous = start;
+            elements = elements.Where(el => !this.IsItemRepeaterElement(el.XElement)).ToList();
+            //elements = elements.Where(el => !el.XElement.IsTag(ItemRepeaterTags.ItemTag) && !el.XElement.IsTag(ItemRepeaterTags.ItemIf) && !el.XElement.IsTag(ItemRepeaterTags.EndItemIf) && !el.XElement.IsTag(ItemRepeaterTags.EndItemRepeaterTagName) && !el.XElement.IsTag(ItemRepeaterTags.IndexTag));            
+            foreach (var repeaterElement in elements.Where(el => !this.IsItemRepeaterElement(el.XElement)).ToList())
             { 
                 if (repeaterElement.IsEndItemIf && repeaterElement.Equals(endIfElement))
                 {
@@ -128,7 +136,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     var itemRepeaterGenerator = new ItemRepeaterGenerator();
                     previous = itemRepeaterGenerator.Generate(itemRepeaterTag,
                                                               dataReader.GetReaders(repeaterElement.Expression),
-                                                              previous, parent, true);
+                                                              previous, parent, true);                    
                     result = null;
                     continue;                    
                 }
@@ -148,10 +156,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     if (repeaterElement.HasElements)
                     {
                         
-                        var parsedLastElement = this.ProcessElements(repeaterElement.Elements, dataReader, null, result, index, ref endIfElement);
+                        var parsedLastElement = this.ProcessElements(repeaterElement.Elements, dataReader, previous, result, index, ref endIfElement, true);
                         if (repeaterElement.Elements.Any(re => re.IsItemRepeater))
                         {
                             previous = parsedLastElement;
+                            result = null;
                         }
 
                     }
@@ -162,7 +171,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 }
                 if (result != null)
                 {
-                    if (previous != null)
+                    if (!nested)
                     {
                         previous.AddAfterSelf(result);
                         previous = result;

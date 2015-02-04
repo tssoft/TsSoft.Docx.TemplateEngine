@@ -171,19 +171,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
             }            
             Assert.AreEqual(4, betweenElements.Count());
             //-------------
-            Console.WriteLine("=========");
-            var s1 = new XElement("elementStart");
-            var s2 = new XElement("element2");
-            var inclusive = new XElement("elementInclusive");
-            var s3 = new XElement("elementEnd");
-            inclusive.Add(s3);
-            var doc2 = new XDocument(new XElement("Root"));
-            doc2.Root.Add(s1, s2, inclusive);                        
-            var els = TraverseUtils.SecondElementsBetween(s1, s3);
-            foreach (var element in els)
-            {
-                Console.WriteLine(element);
-            }
+            
         }
 
         [TestMethod]
