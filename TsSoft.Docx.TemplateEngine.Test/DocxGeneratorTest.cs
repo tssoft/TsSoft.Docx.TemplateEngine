@@ -93,7 +93,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 data);
             var package = new DocxPackage(output);
             package.Load();
-
+            Console.WriteLine(package.DocumentPartXml);
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
         }
 

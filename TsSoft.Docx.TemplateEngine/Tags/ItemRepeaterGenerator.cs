@@ -60,7 +60,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         {
             var startElement = tag.StartItemRepeater;
             var endElement = tag.EndItemRepeater;
-            var inlineWrapping = this.CheckInlineWrappingMode(startElement, endElement);
+            var inlineWrapping = CheckInlineWrappingMode(startElement, endElement);
             var itemRepeaterElements =
                 TraverseUtils.SecondElementsBetween(startElement, endElement).Select(MakeElementCallback).ToList();
             var flgCleanUpElements = previous == null;
@@ -108,7 +108,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return current;
         }       
 
-        private bool CheckInlineWrappingMode(XElement startElement, XElement endElement)
+        public static bool CheckInlineWrappingMode(XElement startElement, XElement endElement)
         {
             return startElement.Parent.Equals(endElement.Parent);
         }
@@ -272,7 +272,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                                 if (
                                     itemRepeaterElement.Elements.Any(
                                         ire =>
-                                        ire.IsItemRepeater && !this.CheckInlineWrappingMode(ire.StartTag, ire.EndTag)))
+                                        ire.IsItemRepeater && !CheckInlineWrappingMode(ire.StartTag, ire.EndTag)))
                                 {
                                     previous = parsedLastElement;
                                 }

@@ -18,7 +18,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             var current = RepeaterTag.StartRepeater;
             var dataReaders = DataReader.GetReaders(RepeaterTag.Source).ToList();
             var repeaterElements =
-                TraverseUtils.ElementsBetween(RepeaterTag.StartRepeater, RepeaterTag.EndRepeater)
+                TraverseUtils.SecondElementsBetween(RepeaterTag.StartRepeater, RepeaterTag.EndRepeater)
                              .Select(RepeaterTag.MakeElementCallback).ToList();
             for (var index = 0; index < dataReaders.Count; index++)
             {
@@ -93,7 +93,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         private bool IsItemRepeaterElement(XElement element)
         {
             return element.Name.Equals(WordMl.ParagraphName)
-                       ? element.Elements().Any(el => ItemRepeaterGenerator.IsItemRepeaterElement(el))
+                       ? element.Elements().All(el => ItemRepeaterGenerator.IsItemRepeaterElement(el))
                        : ItemRepeaterGenerator.IsItemRepeaterElement(element);
         }
 
@@ -136,9 +136,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     var itemRepeaterGenerator = new ItemRepeaterGenerator();
                     previous = itemRepeaterGenerator.Generate(itemRepeaterTag,
                                                               dataReader.GetReaders(repeaterElement.Expression),
-                                                              previous, parent, true);                    
-                    result = null;
-                    continue;                    
+                                                              previous, parent, true);
+                    result = null;           
+                      
                 }
                 else if (repeaterElement.IsIndex)
                 {
@@ -157,7 +157,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     {
                         
                         var parsedLastElement = this.ProcessElements(repeaterElement.Elements, dataReader, previous, result, index, ref endIfElement, true);
-                        if (repeaterElement.Elements.Any(re => re.IsItemRepeater))
+                        if (repeaterElement.Elements.Any(re => re.IsItemRepeater && !ItemRepeaterGenerator.CheckInlineWrappingMode(re.StartTag, re.EndTag)))
                         {
                             previous = parsedLastElement;
                             result = null;
