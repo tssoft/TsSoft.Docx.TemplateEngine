@@ -17,6 +17,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public bool IsItemRepeater { get; set; }
 
+        public bool IsItemTable { get; set; }
+
         public IEnumerable<TableElement> TagElements { get; set; }
 
         public string Expression { get; set; }

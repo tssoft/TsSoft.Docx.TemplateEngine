@@ -1,0 +1,36 @@
+<demo>
+	<Budget>
+		<FiscalYear>2007</FiscalYear>
+		<BudgetType>Type1</BudgetType>
+		<FiscalSum>974K</FiscalSum>
+		<Kbk>
+			<field1>field1</field1>
+			<field2>field2</field2>
+		</Kbk>
+		<Kbk>
+			<field1>field3</field1>
+			<field2>field4</field2>
+		</Kbk>
+		<Kbk>
+			<field1>field5</field1>
+			<field2>field6</field2>
+		</Kbk>		
+	</Budget>	
+	<Budget>
+		<FiscalYear>2008</FiscalYear>
+		<BudgetType>Type2</BudgetType>
+		<FiscalSum>1600K</FiscalSum>
+		<Kbk>
+			<field1>field7</field1>
+			<field2>field8</field2>
+		</Kbk>
+		<Kbk>
+			<field1>field9</field1>
+			<field2>field10</field2>
+		</Kbk>
+		<Kbk>
+			<field1>field11</field1>
+			<field2>field12</field2>
+		</Kbk>		
+	</Budget>
+</demo>

@@ -59,14 +59,19 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             var tableElementsList = tableElements.ToList();
             XElement previous = start;
             XElement firstCell = null;
-            for (int listIndex = 0; listIndex < tableElementsList.Count; listIndex++)
+            foreach (var currentTableElement in tableElementsList)
             {
-                var currentTableElement = tableElementsList[listIndex];
-                if (currentTableElement.IsItemHtmlContent)
+                if (currentTableElement.IsItemTable)
+                {
+                    var itemTableGenerator = new ItemTableGenerator();
+                    itemTableGenerator.Generate(currentTableElement.StartTag, currentTableElement.EndTag, dataReader);
+                    
+                }
+                else if (currentTableElement.IsItemHtmlContent)
                 {                    
                     currentTableElement.StartTag = HtmlContentProcessor.MakeHtmlContentProcessed(currentTableElement.StartTag,
-                                                                             dataReader.ReadText(
-                                                                                 currentTableElement.Expression));                    
+                                                                                                 dataReader.ReadText(
+                                                                                                     currentTableElement.Expression));                    
                 }
                 else if (currentTableElement.IsItemIf)
                 {
@@ -79,16 +84,15 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     }
                 }
                 else if (currentTableElement.IsItemRepeater)
-                {                   
-                    // TODO ItemRepeater Processing
+                {                                       
                     this.ProcessItemRepeaterElement(currentTableElement, dataReader, index, previous);
 
                 }
                 else if (currentTableElement.IsItem || currentTableElement.IsIndex)
                 {
                     var resultText = currentTableElement.IsIndex
-                                     ? index.ToString(CultureInfo.CurrentCulture)
-                                     : dataReader.ReadText(currentTableElement.Expression);
+                                         ? index.ToString(CultureInfo.CurrentCulture)
+                                         : dataReader.ReadText(currentTableElement.Expression);
 
                     previous = this.ProcessCell(currentTableElement, previous, resultText);
                     if (firstCell == null)

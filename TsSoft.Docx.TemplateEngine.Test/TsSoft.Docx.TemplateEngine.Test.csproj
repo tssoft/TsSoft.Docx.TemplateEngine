@@ -134,6 +134,7 @@
     <EmbeddedResource Include="badhtml.docx" />
     <EmbeddedResource Include="ifinline.docx" />
     <EmbeddedResource Include="ItemRepeaterInOneParagraph.docx" />
+    <EmbeddedResource Include="ItemTableDemo.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />
@@ -242,6 +243,9 @@
     <EmbeddedResource Include="ifinline_data.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ItemTableDemoData.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

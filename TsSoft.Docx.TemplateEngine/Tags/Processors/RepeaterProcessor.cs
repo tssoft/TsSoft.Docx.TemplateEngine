@@ -101,8 +101,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         {
             XElement result = null;
             XElement previous = start;
-            elements = elements.Where(el => !this.IsItemRepeaterElement(el.XElement)).ToList();
-            //elements = elements.Where(el => !el.XElement.IsTag(ItemRepeaterTags.ItemTag) && !el.XElement.IsTag(ItemRepeaterTags.ItemIf) && !el.XElement.IsTag(ItemRepeaterTags.EndItemIf) && !el.XElement.IsTag(ItemRepeaterTags.EndItemRepeaterTagName) && !el.XElement.IsTag(ItemRepeaterTags.IndexTag));            
+            elements = elements.Where(el => !this.IsItemRepeaterElement(el.XElement)).ToList();            
             foreach (var repeaterElement in elements.Where(el => !this.IsItemRepeaterElement(el.XElement)).ToList())
             { 
                 if (repeaterElement.IsEndItemIf && repeaterElement.Equals(endIfElement))
@@ -130,9 +129,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                             StartItemRepeater = repeaterElement.StartTag,
                             EndItemRepeater = repeaterElement.EndTag,
                             Source = repeaterElement.Expression                            
-                        };                    
-                   // var itemRepeaterParser = new ItemRepeaterParser();                    
-                    //previous = itemRepeaterParser.Parse(itemRepeaterTag, dataReader.GetReaders(itemRepeaterTag.Source).ToList(), previous);
+                        };                                       
                     var itemRepeaterGenerator = new ItemRepeaterGenerator();
                     previous = itemRepeaterGenerator.Generate(itemRepeaterTag,
                                                               dataReader.GetReaders(repeaterElement.Expression),
