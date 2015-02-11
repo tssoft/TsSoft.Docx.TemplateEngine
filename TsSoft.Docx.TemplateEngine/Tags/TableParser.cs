@@ -52,13 +52,16 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 if (element.IsSdt())
                 {
                     switch (this.GetTagName(element).ToLower())
-                    {
+                    {                                                
                         case "itemtext":
                         case "itemindex":
                         case "itemif":
                         case "itemhtmlcontent":
                         case "itemrepeater":
                         case "enditemrepeater":
+                        case "titemtext":
+                        case "itemtable":
+                        case "enditemtable":
                         case "enditemif":
                             break;
                         default:

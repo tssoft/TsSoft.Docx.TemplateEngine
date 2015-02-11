@@ -38,11 +38,22 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 RemoveTags();
             }
         }
+        
+        private void EqualizeNestedTableSize(XElement dynamicRow)
+        {
+            var tableCells = dynamicRow.Elements(WordMl.TableCellName);
+            var cellNum = 0;
+            foreach (var tableCell in tableCells)
+            {
+                var itemTableTags = tableCell.Descendants().Where(el => el.IsTag("itemtable"));
+                ++cellNum;
+            }
+        }
 
         private void ReplaceValues(XElement dynamicRow)
         {
             var readers = DataReader.GetReaders(TableTag.ItemsSource).ToList();
-            for (int index = 0; index < readers.Count(); index++)
+            for (var index = 0; index < readers.Count(); index++)
             {
                 var currentRow = new XElement(dynamicRow);
                 var tableElements = TableTag.MakeTableElementCallback(currentRow);
@@ -53,7 +64,34 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }
             dynamicRow.Remove();
         }
-   
+
+        private int GetCellWidth(XElement tableCell)
+        {
+            return
+                int.Parse(
+                    tableCell.Element(WordMl.TableCellPropertiesName)
+                             .Element(WordMl.TableCellWidthName)
+                             .Attribute(WordMl.WidthAttributeName)
+                             .Value);
+        }
+
+        private int GetTableColumnsCount(XElement tableElement)
+        {
+            return tableElement.Element(WordMl.TableRowName).Descendants(WordMl.TableCellName).Count();            
+        }
+
+        private void SetTableWidth(XElement tableElement, int averageWidth)
+        {
+            var tableRows = tableElement.Elements(WordMl.TableRowName);
+            foreach (var tableCell in tableRows.SelectMany(tableRow => tableRow.Descendants(WordMl.TableCellName)))
+            {
+                tableCell.Element(WordMl.TableCellPropertiesName)
+                         .Element(WordMl.TableCellWidthName)
+                         .Attribute(WordMl.WidthAttributeName)
+                         .SetValue(averageWidth);
+            }
+        }
+
         private void ProcessElements(IEnumerable<TableElement> tableElements, DataReader dataReader, int index, XElement start, bool isTopLevel)
         {
             var tableElementsList = tableElements.ToList();
@@ -62,9 +100,25 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             foreach (var currentTableElement in tableElementsList)
             {
                 if (currentTableElement.IsItemTable)
-                {
+                {                    
+                    var tableCell = currentTableElement.StartTag.Ancestors(WordMl.TableCellName).Last();
+                    
+                    var tableElement = TraverseUtils.SecondElementsBetween(currentTableElement.StartTag,
+                                                                           currentTableElement.EndTag)
+                                                    .SingleOrDefault(el => el.Name.Equals(WordMl.TableName));  
+                    int averageWidth = GetCellWidth(tableCell)/GetTableColumnsCount(tableElement);               
+                    SetTableWidth(tableElement, averageWidth);
+                    XElement parentElement = null;
+                    if (currentTableElement.StartTag.Parent.Name.Equals(WordMl.ParagraphName))
+                    {
+                        parentElement = currentTableElement.StartTag.Parent;
+                    }
                     var itemTableGenerator = new ItemTableGenerator();
                     itemTableGenerator.Generate(currentTableElement.StartTag, currentTableElement.EndTag, dataReader);
+                    if (parentElement != null)
+                    {
+                        parentElement.Remove();
+                    }
                     
                 }
                 else if (currentTableElement.IsItemHtmlContent)
@@ -76,7 +130,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 else if (currentTableElement.IsItemIf)
                 {
                     previous = this.ProcessItemIfElement(currentTableElement, dataReader, index, previous);
-
                     //TODO: this if need testing
                     if (firstCell == null)
                     {
@@ -86,7 +139,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 else if (currentTableElement.IsItemRepeater)
                 {                                       
                     this.ProcessItemRepeaterElement(currentTableElement, dataReader, index, previous);
-
                 }
                 else if (currentTableElement.IsItem || currentTableElement.IsIndex)
                 {
@@ -180,7 +232,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     parentRow.Add(currentCell);
                 }
             }
-
             return currentCell;
         }
 

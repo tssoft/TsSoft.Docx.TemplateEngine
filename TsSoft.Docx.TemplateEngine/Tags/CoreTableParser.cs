@@ -44,20 +44,13 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 IsItemIf = tagElement.IsTag("itemif") || tagElement.IsTag("titemif"),
                 IsItemRepeater = tagElement.IsTag("itemrepeater"),
                 IsItemHtmlContent = tagElement.IsTag("itemhtmlcontent") || tagElement.IsTag("titemhtmlcontent"),
+                IsItemTable = tagElement.IsTag("itemtable"),
                 StartTag = tagElement,
             };
             if (tableElement.IsItem || tableElement.IsItemHtmlContent)
             {
                 tableElement.Expression = tagElement.GetExpression();
-            }
-           /* else if (tableElement.IsItemIf || tableElement.IsItemRepeater)
-            {
-                tableElement.EndTag = FindEndTag(tableElement.StartTag,
-                                                 tableElement.IsItemRepeater ? "itemrepeater" : "itemif",
-                                                 tableElement.IsItemRepeater ? "enditemrepeater" : "enditemif");
-                tableElement.Expression = tagElement.GetExpression();
-                tableElement.TagElements = MakeTableElement(tableElement.StartTag, tableElement.EndTag);
-            }*/            
+            }          
             else if (tableElement.IsItemHtmlContent)
             {
                 tableElement.Expression = tagElement.GetExpression();

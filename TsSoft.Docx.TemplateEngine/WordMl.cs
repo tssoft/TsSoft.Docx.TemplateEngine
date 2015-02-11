@@ -16,6 +16,8 @@ namespace TsSoft.Docx.TemplateEngine
         public static readonly XName TableCellName = WordMlNamespace + "tc";
         public static readonly XName TableRowName = WordMlNamespace + "tr";
         public static readonly XName TableCellPropertiesName = WordMlNamespace + "tcPr";
+        public static readonly XName TableCellWidthName = WordMlNamespace + "tcW";
+        public static readonly XName WidthAttributeName = WordMlNamespace + "w";
         public static readonly XName TagName = WordMlNamespace + "tag";
         public static readonly XName ValAttributeName = WordMlNamespace + "val";
         public static readonly XName TextRunName = WordMlNamespace + "r";
@@ -31,7 +33,7 @@ namespace TsSoft.Docx.TemplateEngine
         public static readonly XName MoveToName = WordMlNamespace + "moveTo";
         public static readonly XName ProofingErrorAnchorName = WordMlNamespace + "proofErr";
         public static readonly XName BookmarkStartName = WordMlNamespace + "bookmarkStart";
-        public static readonly XName AltChunkName = WordMlNamespace + "altChunk";
+        public static readonly XName AltChunkName = WordMlNamespace + "altChunk";          
 
         public static readonly XName RsidRName = WordMlNamespace + "rsidR";
         public static readonly XName RsidRPropertiesName = WordMlNamespace + "rsidRPr";
