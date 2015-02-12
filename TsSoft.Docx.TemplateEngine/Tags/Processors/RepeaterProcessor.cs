@@ -151,8 +151,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     element.RemoveNodes();
                     result = element;
                     if (repeaterElement.HasElements)
-                    {
-                        
+                    {                        
                         var parsedLastElement = this.ProcessElements(repeaterElement.Elements, dataReader, previous, result, index, ref endIfElement, true);
                         if (repeaterElement.Elements.Any(re => re.IsItemRepeater && !ItemRepeaterGenerator.CheckInlineWrappingMode(re.StartTag, re.EndTag)))
                         {

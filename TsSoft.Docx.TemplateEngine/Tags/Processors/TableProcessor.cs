@@ -80,16 +80,19 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             return tableElement.Element(WordMl.TableRowName).Descendants(WordMl.TableCellName).Count();            
         }
 
-        private void SetTableWidth(XElement tableElement, int averageWidth)
+        private void SetTableWidth(XElement tableElement, int tableWidth)
         {
-            var tableRows = tableElement.Elements(WordMl.TableRowName);
-            foreach (var tableCell in tableRows.SelectMany(tableRow => tableRow.Descendants(WordMl.TableCellName)))
-            {
-                tableCell.Element(WordMl.TableCellPropertiesName)
-                         .Element(WordMl.TableCellWidthName)
-                         .Attribute(WordMl.WidthAttributeName)
-                         .SetValue(averageWidth);
-            }
+            const string dxaType = "dxa";
+            const string centerAlignment = "center";
+            var tablePropertiesElement = tableElement.Element(WordMl.TablePropertiesName);
+            var tableWidthElement = tablePropertiesElement.Element(WordMl.TableWidthName);
+            tableWidthElement
+                .Attribute(WordMl.WidthAttributeName)
+                .SetValue(tableWidth);
+            tableWidthElement.Attribute(WordMl.TypeAttribute).SetValue(dxaType);
+            var tableAlignmentElement = new XElement(WordMl.TableAlignmentName,
+                                                     new XAttribute(WordMl.ValAttributeName, centerAlignment));
+            tablePropertiesElement.Add(tableAlignmentElement);
         }
 
         private void ProcessElements(IEnumerable<TableElement> tableElements, DataReader dataReader, int index, XElement start, bool isTopLevel)
@@ -105,9 +108,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     
                     var tableElement = TraverseUtils.SecondElementsBetween(currentTableElement.StartTag,
                                                                            currentTableElement.EndTag)
-                                                    .SingleOrDefault(el => el.Name.Equals(WordMl.TableName));  
-                    int averageWidth = GetCellWidth(tableCell)/GetTableColumnsCount(tableElement);               
-                    SetTableWidth(tableElement, averageWidth);
+                                                    .SingleOrDefault(el => el.Name.Equals(WordMl.TableName));
+                    var parentCellWidth = GetCellWidth(tableCell);
+                    SetTableWidth(tableElement, parentCellWidth);
                     XElement parentElement = null;
                     if (currentTableElement.StartTag.Parent.Name.Equals(WordMl.ParagraphName))
                     {

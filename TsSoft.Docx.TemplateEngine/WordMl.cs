@@ -17,6 +17,10 @@ namespace TsSoft.Docx.TemplateEngine
         public static readonly XName TableRowName = WordMlNamespace + "tr";
         public static readonly XName TableCellPropertiesName = WordMlNamespace + "tcPr";
         public static readonly XName TableCellWidthName = WordMlNamespace + "tcW";
+        public static readonly XName TablePropertiesName = WordMlNamespace + "tblPr";
+        public static readonly XName TableWidthName = WordMlNamespace + "tblW";
+        public static readonly XName TableAlignmentName = WordMlNamespace + "jc";
+        public static readonly XName TypeAttribute = WordMlNamespace + "type";
         public static readonly XName WidthAttributeName = WordMlNamespace + "w";
         public static readonly XName TagName = WordMlNamespace + "tag";
         public static readonly XName ValAttributeName = WordMlNamespace + "val";
