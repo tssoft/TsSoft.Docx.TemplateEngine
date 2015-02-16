@@ -19,6 +19,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private const string ItemIf = "RItemIf";
         private const string EndItemIf = "REndIf";
         private const string ItemHtmlContentTag = "RItemHtmlContent";
+        private const string ItemTableTag = "RItemTable";
+        private const string EndItemTableTag = "REndItemTable";
        
         private static Func<XElement, ItemRepeaterElement> MakeElementCallback = element =>
         {
@@ -31,20 +33,28 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 IsEndItemIf = element.IsTag(EndItemIf),
                 IsItemRepeater = element.IsTag(ItemRepeaterTagName),
                 IsEndItemRepeater = element.IsTag(EndItemRepeaterTagName),
-                IsItemHtmlContent = element.IsTag(ItemHtmlContentTag),                
+                IsItemHtmlContent = element.IsTag(ItemHtmlContentTag),           
+                IsItemTable = element.IsTag(ItemTableTag),
+                IsEndItemTable = element.IsTag(EndItemTableTag),
                 XElement = element
             };
-            if (itemRepeaterElement.IsItem || itemRepeaterElement.IsItemIf || itemRepeaterElement.IsItemRepeater)
+            if (itemRepeaterElement.IsItem || itemRepeaterElement.IsItemIf || itemRepeaterElement.IsItemRepeater || itemRepeaterElement.IsItemTable)
             {
                 itemRepeaterElement.Expression = element.GetExpression();
             }
-            itemRepeaterElement.StartTag = itemRepeaterElement.XElement;
-            if (itemRepeaterElement.IsItemRepeater || itemRepeaterElement.IsItemIf)
-            {                
-                itemRepeaterElement.EndTag = FindEndTag(itemRepeaterElement.StartTag,
-                    (itemRepeaterElement.IsItemRepeater) ? ItemRepeaterTagName : ItemIf,
-                    (itemRepeaterElement.IsItemRepeater) ? EndItemRepeaterTagName : EndItemIf
-                );
+            itemRepeaterElement.StartTag = itemRepeaterElement.XElement;           
+            if (itemRepeaterElement.IsItemRepeater)
+            {
+                itemRepeaterElement.EndTag = FindEndTag(itemRepeaterElement.StartTag, ItemRepeaterTagName,
+                                                        EndItemRepeaterTagName);
+            }
+            else if (itemRepeaterElement.IsItemTable)
+            {
+                itemRepeaterElement.EndTag = FindEndTag(itemRepeaterElement.StartTag, ItemTableTag, EndItemTableTag);
+            }
+            else if (itemRepeaterElement.IsItemIf)
+            {
+                itemRepeaterElement.EndTag = FindEndTag(itemRepeaterElement.StartTag, ItemIf, EndItemIf);
             }
             return itemRepeaterElement;
         };        
@@ -53,7 +63,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         {
             return element.IsSdt() &&
                    (element.IsTag(IndexTag) || element.IsTag(ItemHtmlContentTag) || element.IsTag(ItemTag) ||
-                    element.IsTag(ItemIf) || element.IsTag(EndItemIf) || element.IsTag(EndItemRepeaterTagName));
+                    element.IsTag(ItemIf) || element.IsTag(EndItemIf) || element.IsTag(EndItemRepeaterTagName) ||
+                    element.IsTag(ItemTableTag) || element.IsTag(EndItemTableTag));
         }
 
         public XElement Generate(ItemRepeaterTag tag, IEnumerable<DataReader> dataReaders, XElement previous = null, XElement parent = null, bool forcedElementSave = false)
@@ -191,6 +202,13 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             }
             return false;
         }
+
+        private bool CheckTableElementForContinue(ItemRepeaterElement currentItemRepeaterElement)
+        {
+            return !(currentItemRepeaterElement.IsEndItemTable ||
+                   (currentItemRepeaterElement.XElement.Name.Equals(WordMl.TableName) &&
+                    currentItemRepeaterElement.XElement.Descendants().Any(el => el.IsSdt())));
+        }
         
         private XElement ProcessElements(IEnumerable<ItemRepeaterElement> elements, DataReader dataReader, XElement start, XElement parent, int index, ref XElement nestedRepeaterEndElement, ref XElement endIfElement, bool nestedElement = false)
         {
@@ -207,15 +225,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                                                                                                 ref endIfElement)
                                                     ||
                                                     this.CheckAndProcessEndItemRepeaterElementForContinue(
-                                                        itemRepeaterElement, ref nestedRepeaterEndElement);                                                                                
+                                                        itemRepeaterElement, ref nestedRepeaterEndElement)
+                                                        || this.CheckTableElementForContinue(itemRepeaterElement);                                                                                
                 if (!flgStucturedElementProcessed)
-                {                    
+                {
                     var flgNestedElementCheckedForContinue = this.CheckNestedConditionElementForContinue(
-                                                              itemRepeaterElement, endIfElement)
-                                                              ||
-                                                              this.CheckNestedElementForContinue(elements.First(),
-                                                                                                 itemRepeaterElement,
-                                                                                                 nestedRepeaterEndElement);
+                                                             itemRepeaterElement, endIfElement)
+                                                             ||
+                                                             this.CheckNestedElementForContinue(elements.First(),
+                                                                                                itemRepeaterElement,
+                                                                                                nestedRepeaterEndElement);                                                              
+                                                              
                     if (!flgNestedElementCheckedForContinue)
                     {
                         if (itemRepeaterElement.IsItemHtmlContent)
@@ -254,6 +274,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                                                                   dataReader.ReadText(itemRepeaterElement.Expression),
                                                                   !nestedElement);
                         }
+                        else if (itemRepeaterElement.IsItemTable)
+                        {
+                            result = ItemTableGenerator.ProcessItemTableElement(itemRepeaterElement.StartTag, itemRepeaterElement.EndTag,
+                                                                        dataReader);
+                            if (nestedElement)
+                            {
+                                previous.AddAfterSelf(result);
+                                previous = result;
+                                result = null;
+                            }           
+                        }
                         else
                         {
                             var element = new XElement(itemRepeaterElement.XElement);
@@ -269,7 +300,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                                 {
                                     result = null;
                                 }
-                                if (
+                                if (itemRepeaterElement.Elements.Any(ire => ire.IsItemTable) ||
                                     itemRepeaterElement.Elements.Any(
                                         ire =>
                                         ire.IsItemRepeater && !CheckInlineWrappingMode(ire.StartTag, ire.EndTag)))

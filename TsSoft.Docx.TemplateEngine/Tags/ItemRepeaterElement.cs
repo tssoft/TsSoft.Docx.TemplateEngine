@@ -50,5 +50,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         public bool IsItemRepeater { get; set; }
 
         public bool IsEndItemRepeater { get; set; }
+
+        public bool IsItemTable { get; set; }
+
+        public bool IsEndItemTable { get; set; }
     }   
 }

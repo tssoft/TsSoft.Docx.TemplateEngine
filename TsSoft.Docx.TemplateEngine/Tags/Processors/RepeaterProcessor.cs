@@ -127,24 +127,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 }
                 else if (repeaterElement.IsItemTable)
                 {
-                    var tableElement = TraverseUtils.SecondElementsBetween(repeaterElement.StartTag,
-                                                                           repeaterElement.EndTag)
-                                                    .SingleOrDefault(re => re.Name.Equals(WordMl.TableName));                                          
-                    var tableContainer = new XElement("TempContainerElement");
-                    tableContainer.Add(repeaterElement.StartTag);
-                    tableContainer.Add(tableElement);
-                    tableContainer.Add(repeaterElement.EndTag);
-                    var itemTableGenerator = new ItemTableGenerator();
-                    itemTableGenerator.Generate(tableContainer.Elements().First(), tableContainer.Elements().Last(), dataReader);
-                    result = new XElement(tableContainer.Elements().SingleOrDefault());
+                    result = ItemTableGenerator.ProcessItemTableElement(repeaterElement.StartTag, repeaterElement.EndTag,
+                                                                        dataReader);
                     if (nested)
                     {
                         previous.AddAfterSelf(result);
                         previous = result;
-                        result = null;
-                        continue;
+                        result = null;                        
                     }                    
-
                 }
                 else if (repeaterElement.IsItemRepeater)
                 {                                        
@@ -177,7 +167,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     if (repeaterElement.HasElements)
                     {                        
                         var parsedLastElement = this.ProcessElements(repeaterElement.Elements, dataReader, previous, result, index, ref endIfElement, true);
-                        if (repeaterElement.Elements.Any(re => re.IsItemRepeater && !ItemRepeaterGenerator.CheckInlineWrappingMode(re.StartTag, re.EndTag)))
+                        if (repeaterElement.Elements.Any(re => re.IsItemTable) || repeaterElement.Elements.Any(re => re.IsItemRepeater && !ItemRepeaterGenerator.CheckInlineWrappingMode(re.StartTag, re.EndTag)))
                         {
                             previous = parsedLastElement;
                             result = null;
@@ -201,7 +191,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                         parent.Add(result);
                     }
                 }
-            }
+            }            
             return result ?? previous;
         }
 
