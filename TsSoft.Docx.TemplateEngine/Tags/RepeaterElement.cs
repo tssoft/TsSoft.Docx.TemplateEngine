@@ -42,6 +42,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public bool IsItemHtmlContent { get; set; }
 
+        public bool IsItemTable { get; set; }
+
+        public bool IsEndItemTable { get; set; }
+
         public XElement StartTag { get; set; }
 
         public XElement EndTag { get; set; }

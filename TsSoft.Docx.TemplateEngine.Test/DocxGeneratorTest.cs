@@ -316,10 +316,10 @@ namespace TsSoft.Docx.TemplateEngine.Test
             var package = new DocxPackage(output);
             package.Load();
             //Console.WriteLine(package.DocumentPartXml.Descendants(package.DocumentPartXml.Root.Elements(WordMl.TableRowName).Skip(2).Take(1).ToString()));
-            //Console.WriteLine(package.DocumentPartXml);
+            Console.WriteLine(package.DocumentPartXml);
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
-
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants(WordMl.TableName).Any());
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));            
         }
 
         [TestMethod]

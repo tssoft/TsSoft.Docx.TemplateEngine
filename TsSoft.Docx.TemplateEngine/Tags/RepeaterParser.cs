@@ -19,6 +19,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private const string ItemRepeaterTag = "ItemRepeater";
         private const string EndItemRepeaterTag = "EndItemRepeater";
         private const string ItemHtmlContentTag = "ItemHtmlContent";
+        private const string ItemTableTag = "ItemTable";
+        private const string EndItemTableTag = "EndItemTable";
+
+
 
         public static Func<XElement, RepeaterElement> MakeElementCallback = element =>
             {
@@ -31,19 +35,26 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     IsEndItemIf = element.IsTag(EndItemIfTag),
                     IsItemHtmlContent = element.IsTag(ItemHtmlContentTag),
                     IsItemRepeater = element.IsTag(ItemRepeaterTag),
+                    IsItemTable = element.IsTag(ItemTableTag),
+                    IsEndItemTable = element.IsTag(EndItemTableTag),
                     XElement = element,
                     StartTag = element                 
                 };
-                if (repeaterElement.IsItem || repeaterElement.IsItemHtmlContent || repeaterElement.IsItemRepeater || repeaterElement.IsItemIf)
+                if (repeaterElement.IsItem || repeaterElement.IsItemHtmlContent || repeaterElement.IsItemRepeater || repeaterElement.IsItemIf || repeaterElement.IsItemTable)
                 {
                     repeaterElement.Expression = element.GetExpression();
                 }
-                if (repeaterElement.IsItemRepeater || repeaterElement.IsItemIf)
+                if (repeaterElement.IsItemRepeater)
+                {                    
+                    ParseStructuredElement(repeaterElement, ItemRepeaterTag, EndItemRepeaterTag);
+                }
+                else if (repeaterElement.IsItemTable)
                 {
-                    repeaterElement.EndTag = FindEndTag(repeaterElement.StartTag, (repeaterElement.IsItemRepeater) ? ItemRepeaterTag : ItemIfTag, (repeaterElement.IsItemRepeater) ? EndItemRepeaterTag : EndItemIfTag);
-                    repeaterElement.TagElements = TraverseUtils.ElementsBetween(repeaterElement.StartTag,
-                                                                                repeaterElement.EndTag)
-                                                              .Select(MakeElementCallback);
+                    ParseStructuredElement(repeaterElement, ItemTableTag, EndItemTableTag);
+                }
+                else if (repeaterElement.IsItemIf)
+                {
+                    ParseStructuredElement(repeaterElement, ItemIfTag, EndItemIfTag);
                 }
                 return repeaterElement;
             };
@@ -81,6 +92,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             parentProcessor.AddProcessor(repeaterProcessor);
 
             return endRepeater;
+        }
+
+        private static void ParseStructuredElement(RepeaterElement repeaterElement, string startTag, string endTag)
+        {
+            repeaterElement.EndTag = FindEndTag(repeaterElement.StartTag, startTag, endTag);
+            repeaterElement.TagElements = TraverseUtils.SecondElementsBetween(repeaterElement.StartTag,
+                                                                              repeaterElement.EndTag)
+                                                       .Select(MakeElementCallback);
         }
 
         private static XElement FindEndTag(XElement startTag, string startTagName, string endTagName)
@@ -124,9 +143,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                         case "endrepeater":
                             return true;
                         case "itemrepeater":
+                        case "itemtable":
                         case "itemtext":
                         case "itemif":
                         case "endif": 
+                        case "enditemtable":
                         case "itemhtmlcontent":
                         case "itemindex":
                             break;

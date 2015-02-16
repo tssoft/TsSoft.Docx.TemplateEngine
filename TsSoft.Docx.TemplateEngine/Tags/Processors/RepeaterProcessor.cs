@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
@@ -26,15 +27,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 current = this.ProcessElements(repeaterElements, dataReaders[index], current, null, index + 1, ref endIfElementTmp);
             }
             foreach (var repeaterElement in repeaterElements)
-            {
-                // TODO one
-                /*if (repeaterElement.HasElements &&
-                    repeaterElement.Elements.Any(re => ItemRepeaterGenerator.IsItemRepeaterElement(re.XElement)))
-                {
-                    continue;
-                }*/
-                repeaterElement.XElement.Remove();
-                
+            {           
+                repeaterElement.XElement.Remove();                
             }
 
             if (this.LockDynamicContent)
@@ -97,6 +91,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                        : ItemRepeaterGenerator.IsItemRepeaterElement(element);
         }
 
+        private XElement ProcessItemTableElement()
+        {
+            throw new NotImplementedException();
+        }
+
         private XElement ProcessElements(IEnumerable<RepeaterElement> elements, DataReader dataReader, XElement start, XElement parent, int index, ref XElement endIfElement, bool nested = false)
         {
             XElement result = null;
@@ -118,9 +117,34 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     this.ProcessItemIfElement(repeaterElement, dataReader, ref endIfElement);
                     continue;                    
                 }                
+                if (repeaterElement.IsEndItemTable || (repeaterElement.XElement.Name.Equals(WordMl.TableName) && repeaterElement.XElement.Descendants().Any(el => el.IsSdt())))
+                {
+                    continue;                    
+                }
                 if (repeaterElement.IsItemHtmlContent)
                 {
                     result = HtmlContentProcessor.MakeHtmlContentProcessed(repeaterElement.XElement, dataReader.ReadText(repeaterElement.Expression), true);                    
+                }
+                else if (repeaterElement.IsItemTable)
+                {
+                    var tableElement = TraverseUtils.SecondElementsBetween(repeaterElement.StartTag,
+                                                                           repeaterElement.EndTag)
+                                                    .SingleOrDefault(re => re.Name.Equals(WordMl.TableName));                                          
+                    var tableContainer = new XElement("TempContainerElement");
+                    tableContainer.Add(repeaterElement.StartTag);
+                    tableContainer.Add(tableElement);
+                    tableContainer.Add(repeaterElement.EndTag);
+                    var itemTableGenerator = new ItemTableGenerator();
+                    itemTableGenerator.Generate(tableContainer.Elements().First(), tableContainer.Elements().Last(), dataReader);
+                    result = new XElement(tableContainer.Elements().SingleOrDefault());
+                    if (nested)
+                    {
+                        previous.AddAfterSelf(result);
+                        previous = result;
+                        result = null;
+                        continue;
+                    }                    
+
                 }
                 else if (repeaterElement.IsItemRepeater)
                 {                                        

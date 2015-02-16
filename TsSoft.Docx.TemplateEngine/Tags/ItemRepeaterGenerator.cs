@@ -31,7 +31,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 IsEndItemIf = element.IsTag(EndItemIf),
                 IsItemRepeater = element.IsTag(ItemRepeaterTagName),
                 IsEndItemRepeater = element.IsTag(EndItemRepeaterTagName),
-                IsItemHtmlContent = element.IsTag(ItemHtmlContentTag),
+                IsItemHtmlContent = element.IsTag(ItemHtmlContentTag),                
                 XElement = element
             };
             if (itemRepeaterElement.IsItem || itemRepeaterElement.IsItemIf || itemRepeaterElement.IsItemRepeater)

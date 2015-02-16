@@ -37,18 +37,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             {
                 RemoveTags();
             }
-        }
-        
-        private void EqualizeNestedTableSize(XElement dynamicRow)
-        {
-            var tableCells = dynamicRow.Elements(WordMl.TableCellName);
-            var cellNum = 0;
-            foreach (var tableCell in tableCells)
-            {
-                var itemTableTags = tableCell.Descendants().Where(el => el.IsTag("itemtable"));
-                ++cellNum;
-            }
-        }
+        }                
 
         private void ReplaceValues(XElement dynamicRow)
         {
@@ -121,8 +110,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     if (parentElement != null)
                     {
                         parentElement.Remove();
-                    }
-                    
+                    }                    
                 }
                 else if (currentTableElement.IsItemHtmlContent)
                 {                    
