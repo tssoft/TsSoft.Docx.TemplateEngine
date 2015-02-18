@@ -29,7 +29,7 @@ namespace TsSoft.Docx.TemplateEngine
             var formattedAfChunkPartPath = string.Format("word/{0}.dat", formattedAfChunk);
             var docPart = GetDocumentPart(package);
             var partUriAfChunk = PackUriHelper.CreatePartUri(new Uri(formattedAfChunkPartPath, UriKind.Relative));
-            var packagePartAfChunk = package.CreatePart(partUriAfChunk, HtmlContentType);
+            var packagePartAfChunk = package.CreatePart(partUriAfChunk, HtmlContentType);            
             using (var afChunkStream = packagePartAfChunk.GetStream())
             {
                 using (var stringStream = new StreamWriter(afChunkStream, Encoding.UTF8))

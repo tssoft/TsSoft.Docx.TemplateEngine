@@ -9,22 +9,19 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 {
     internal class CoreTableParser
     {
-        private string ItemIndexTagName;
-        private string ItemTextTagName;
-        private string ItemIfTagName;
-        private string EndItemIfTagName;
-        private string ItemHtmlContentTagName;
-
-        private bool IsItemElement;
-
+        public static readonly string ItemIndexTagName = "ItemIndex";
+        public static readonly string ItemTextTagName = "ItemText";
+        public static readonly string ItemIfTagName = "ItemIf";
+        public static readonly string EndItemIfTagName = "EndItemIf";
+        public static readonly string ItemHtmlContentTagName = "ItemHtmlContent";
+        public static readonly string ItemRepeaterTagName = "ItemRepeater";
+        public static readonly string EndItemRepeaterTagName = "EndItemRepeater";
+        public static readonly string ItemTableTagName = "ItemTable";
+        public static readonly string EndItemTableTagName = "EndItemTable";
+        
         public CoreTableParser(bool IsItemElement)
         {
-            this.ItemIndexTagName = IsItemElement ? "titemindex" : "itemindex" ;
-            this.ItemTextTagName = IsItemElement ? "titemtext" : "itemtext";
-            this.ItemIfTagName = IsItemElement ? "titemif" : "itemif";
-            this.EndItemIfTagName = IsItemElement ? "tenditemif" : "enditemif";
-            this.ItemHtmlContentTagName = IsItemElement ? "titemhtmlcontent" : "itemhtmlcontent";
-            this.IsItemElement = IsItemElement;
+          
         }
 
         private static void ParseStructuredTableElement(TableElement tableElement, string startTagName, string endTagName)
@@ -39,12 +36,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             //TODO Make field constants
             var tableElement = new TableElement
             {
-                IsItem = tagElement.IsTag("itemtext") || tagElement.IsTag("titemtext"),
-                IsIndex = tagElement.IsTag("itemindex") || tagElement.IsTag("titemindex"),
-                IsItemIf = tagElement.IsTag("itemif") || tagElement.IsTag("titemif"),
-                IsItemRepeater = tagElement.IsTag("itemrepeater"),
-                IsItemHtmlContent = tagElement.IsTag("itemhtmlcontent") || tagElement.IsTag("titemhtmlcontent"),
-                IsItemTable = tagElement.IsTag("itemtable"),
+                IsItem = tagElement.IsTag(ItemTextTagName),
+                IsIndex = tagElement.IsTag(ItemIndexTagName),
+                IsItemIf = tagElement.IsTag(ItemIfTagName),
+                IsItemRepeater = tagElement.IsTag(ItemRepeaterTagName),
+                IsItemHtmlContent = tagElement.IsTag(ItemHtmlContentTagName),
+                IsItemTable = tagElement.IsTag(ItemTableTagName),
                 StartTag = tagElement,
             };
             if (tableElement.IsItem || tableElement.IsItemHtmlContent)
@@ -57,15 +54,15 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             }
             else if (tableElement.IsItemIf)
             {
-                ParseStructuredTableElement(tableElement, "itemif", "enditemif");
+                ParseStructuredTableElement(tableElement, ItemIfTagName, EndItemIfTagName);
             }
             else if (tableElement.IsItemRepeater)
             {
-                ParseStructuredTableElement(tableElement, "itemrepeater", "enditemrepeater");
+                ParseStructuredTableElement(tableElement, ItemRepeaterTagName, EndItemRepeaterTagName);
             }
             else if (tableElement.IsItemTable)
             {
-                ParseStructuredTableElement(tableElement, "itemtable", "enditemtable");
+                ParseStructuredTableElement(tableElement, ItemTableTagName, EndItemTableTagName);
             }
             return tableElement;
         }
@@ -113,22 +110,29 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             tag.MakeTableElementCallback = MakeTableElementCallback;
             int? dynamicRow = null;
             var rowCount = 1;
-            var between = TraverseUtils.ElementsBetween(startElement, endTableTag).Descendants(WordMl.TableRowName);
-            // TODO Make several dynamic rows support
+            //var between = TraverseUtils.SecondElementsBetween(startElement, endTableTag);
+            var tableElement = startElement.NextSdt(WordMl.TableName).FirstOrDefault(element => element.IsBefore(endTableTag));
+            var rows = TraverseUtils.SecondElementsBetween(startElement, endTableTag).Descendants(WordMl.TableRowName).Where(tr => tr.Parent.Equals(tableElement));
+            //var tableElement = startElement.NextSdt(WordMl.TableName).FirstOrDefault(element => element.IsBefore(endTableTag));
             // TODO Extend sdt names in loop
-            foreach (var tableRow in between)
+            foreach (var tableRow in rows)
             {
-                if (tableRow.Descendants().Any(el => el.IsTag(this.ItemIndexTagName) || el.IsTag(this.ItemTextTagName)))
+                if (
+                    tableRow.Descendants()
+                            .Any(
+                                el =>
+                                el.IsTag(ItemIndexTagName) || el.IsTag(ItemTextTagName) || el.IsTag(ItemIfTagName) ||
+                                el.IsTag(ItemHtmlContentTagName) || el.IsTag(ItemRepeaterTagName))) 
                 {
                     if (dynamicRow != null)
                     {
-                        throw new Exception("Invalid template! Found several dynamic rows.");
+                        throw new Exception("Invalid template! Found several dynamic rows. (Or none dynamic rows)");
                     }
                     dynamicRow = rowCount;
                 }
                 rowCount++;
             }
-            var tableElement = startElement.NextSdt(WordMl.TableName).FirstOrDefault(element => element.IsBefore(endTableTag));
+            
             if (tableElement != null)
             {
                 tag.Table = tableElement;

@@ -205,9 +205,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         private bool CheckTableElementForContinue(ItemRepeaterElement currentItemRepeaterElement)
         {
-            return !(currentItemRepeaterElement.IsEndItemTable ||
+            return currentItemRepeaterElement.IsEndItemTable ||
                    (currentItemRepeaterElement.XElement.Name.Equals(WordMl.TableName) &&
-                    currentItemRepeaterElement.XElement.Descendants().Any(el => el.IsSdt())));
+                    currentItemRepeaterElement.XElement.Descendants().Any(el => el.IsSdt()));
         }
         
         private XElement ProcessElements(IEnumerable<ItemRepeaterElement> elements, DataReader dataReader, XElement start, XElement parent, int index, ref XElement nestedRepeaterEndElement, ref XElement endIfElement, bool nestedElement = false)
@@ -257,7 +257,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                             previous = itemRepeaterGenerator.Generate(itemRepeaterTag,
                                                                       dataReader.GetReaders(itemRepeaterTag.Source),
                                                                       previous, parent);
-                            nestedRepeaterEndElement = itemRepeaterTag.EndItemRepeater;
+                            nestedRepeaterEndElement = itemRepeaterTag.EndItemRepeater;                            
                             result = null;
                         }
                         else if (itemRepeaterElement.IsIndex)

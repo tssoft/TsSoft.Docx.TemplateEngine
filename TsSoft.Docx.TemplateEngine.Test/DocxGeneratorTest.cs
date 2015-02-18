@@ -269,6 +269,27 @@ namespace TsSoft.Docx.TemplateEngine.Test
         }
 
         [TestMethod]
+        public void TestActualGenerationRepeaterItemRepeaterItemTableItemTable()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "RepeaterSimplifiedDemo.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "DemoSampleData.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+
+            var package = new DocxPackage(output);
+            package.Load();
+            //Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));            
+            Console.WriteLine(package.DocumentPartXml);
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+        }
+
+        [TestMethod]
         public void TestAddAfterXelement()
         {
             XElement element = new XElement("element", new XElement("temp"));
@@ -299,7 +320,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
 
         }
-
+        /*
         [TestMethod]
         public void TestActualGenerationItemTableInTable()
         {
@@ -320,7 +341,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants(WordMl.TableName).Any());
             Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));            
-        }
+        }*/
 
         [TestMethod]
         public void TestActualGenerationItemRepeaterNestedOneRepeaterWithEndItemRepeaterAndItemIndexInOneParagraph()

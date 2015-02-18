@@ -24,7 +24,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             for (var index = 0; index < dataReaders.Count; index++)
             {
                 XElement endIfElementTmp = null;
-                current = this.ProcessElements(repeaterElements, dataReaders[index], current, null, index + 1, ref endIfElementTmp);
+                XElement endRepeaterElementTmp = null;
+                current = this.ProcessElements(repeaterElements, dataReaders[index], current, null, index + 1,
+                                               ref endIfElementTmp, ref endRepeaterElementTmp);
             }
             foreach (var repeaterElement in repeaterElements)
             {           
@@ -96,13 +98,21 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             throw new NotImplementedException();
         }
 
-        private XElement ProcessElements(IEnumerable<RepeaterElement> elements, DataReader dataReader, XElement start, XElement parent, int index, ref XElement endIfElement, bool nested = false)
+        private XElement ProcessElements(IEnumerable<RepeaterElement> elements, DataReader dataReader, XElement start, XElement parent, int index, ref XElement endIfElement, ref XElement nestedRepeaterEndElement, bool nested = false)
         {
             XElement result = null;
             XElement previous = start;
             elements = elements.Where(el => !this.IsItemRepeaterElement(el.XElement)).ToList();            
             foreach (var repeaterElement in elements.Where(el => !this.IsItemRepeaterElement(el.XElement)).ToList())
             { 
+                if (nestedRepeaterEndElement != null)
+                {
+                    if (repeaterElement.Equals(nestedRepeaterEndElement))
+                    {
+                        nestedRepeaterEndElement = null;
+                    }
+                    continue;
+                }
                 if (repeaterElement.IsEndItemIf && repeaterElement.Equals(endIfElement))
                 {
                     endIfElement = null;
@@ -148,8 +158,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     previous = itemRepeaterGenerator.Generate(itemRepeaterTag,
                                                               dataReader.GetReaders(repeaterElement.Expression),
                                                               previous, parent, true);
-                    result = null;           
-                      
+                    result = null;
+                    nestedRepeaterEndElement = repeaterElement.EndTag;
                 }
                 else if (repeaterElement.IsIndex)
                 {
@@ -166,13 +176,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     result = element;
                     if (repeaterElement.HasElements)
                     {                        
-                        var parsedLastElement = this.ProcessElements(repeaterElement.Elements, dataReader, previous, result, index, ref endIfElement, true);
+                        var parsedLastElement = this.ProcessElements(repeaterElement.Elements, dataReader, previous, result, index, ref endIfElement, ref nestedRepeaterEndElement, true);
                         if (repeaterElement.Elements.Any(re => re.IsItemTable) || repeaterElement.Elements.Any(re => re.IsItemRepeater && !ItemRepeaterGenerator.CheckInlineWrappingMode(re.StartTag, re.EndTag)))
                         {
                             previous = parsedLastElement;
                             result = null;
                         }
-
                     }
                     else
                     {

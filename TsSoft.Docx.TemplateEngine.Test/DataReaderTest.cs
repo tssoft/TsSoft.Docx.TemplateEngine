@@ -10,7 +10,8 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
     [TestClass]
     public class DataReaderTest
-    {
+    {        
+
         [TestMethod]
         public void TestReadText()
         {

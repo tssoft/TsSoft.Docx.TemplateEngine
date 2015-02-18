@@ -4,7 +4,7 @@
     <Certificate>
       <Subject>Subject 1</Subject>
       <IssueDate>01.04.2014</IssueDate>
-      <ExpireDate>01.10.2015</ExpireDate>
+      <ExpireDate>01.10.2015</ExpireDate>      
     </Certificate>
     <Certificate>
       <Subject>Subject 2</Subject>
@@ -16,5 +16,5 @@
       <IssueDate>01.01.2011</IssueDate>
       <ExpireDate>01.01.2012</ExpireDate>
     </Certificate>
-  </Certificates>
+  </Certificates>  
 </Test>

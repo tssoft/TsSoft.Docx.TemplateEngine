@@ -11,32 +11,27 @@ namespace TsSoft.Docx.TemplateEngine
     {
         private const string PathArgumentName = "path";
         private readonly XElement rootElement;
-        private MissingDataMode missingDataModeSettings;
-
-        public bool IsLast { get; private set; }
 
         public DataReader()
         {
-           
+
         }
-        
+
         public DataReader(XElement rootElement)
         {
-            this.rootElement = rootElement;            
+            this.rootElement = rootElement;
         }
-        
-        public MissingDataMode MissingDataModeSettings
-        {
-            get { return this.missingDataModeSettings; }
-            set { this.missingDataModeSettings = value; }            
-        }
+
+        public bool IsLast { get; private set; }        
+
+        public MissingDataMode MissingDataModeSettings { get; set; }
 
         public string ReadText(string expression)
         {
             var textElement = this.rootElement.XPathSelectElement(expression.ToLower());
             if (textElement == null)
             {
-                switch (this.missingDataModeSettings)
+                switch (this.MissingDataModeSettings)
                 {
                     case MissingDataMode.Ignore:
                         return " ";
@@ -61,7 +56,7 @@ namespace TsSoft.Docx.TemplateEngine
             if (newElement != null)
             {
                 var dataReader = new DataReader(newElement);
-                dataReader.MissingDataModeSettings = this.missingDataModeSettings;
+                dataReader.MissingDataModeSettings = this.MissingDataModeSettings;
                 dataReader.IsLast = true;
                 return dataReader;
             }
@@ -76,7 +71,7 @@ namespace TsSoft.Docx.TemplateEngine
             }
             if (this.rootElement.XPathSelectElement(path.ToLower()) == null)
             {
-                if (this.missingDataModeSettings == MissingDataMode.ThrowException)
+                if (this.MissingDataModeSettings == MissingDataMode.ThrowException)
                 {
                     throw new MissingDataException(path);
                 }
@@ -87,7 +82,7 @@ namespace TsSoft.Docx.TemplateEngine
             readers.Last().IsLast = true;
             foreach (var dataReader in readers)
             {
-                dataReader.MissingDataModeSettings = this.missingDataModeSettings;
+                dataReader.MissingDataModeSettings = this.MissingDataModeSettings;
             }
             return readers;
         }

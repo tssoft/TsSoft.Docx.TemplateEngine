@@ -64,10 +64,6 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                              .Value);
         }
 
-        private int GetTableColumnsCount(XElement tableElement)
-        {
-            return tableElement.Element(WordMl.TableRowName).Descendants(WordMl.TableCellName).Count();            
-        }
 
         private void SetTableWidth(XElement tableElement, int tableWidth)
         {
@@ -110,7 +106,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     if (parentElement != null)
                     {
                         parentElement.Remove();
-                    }                    
+                    }
+             
                 }
                 else if (currentTableElement.IsItemHtmlContent)
                 {                    
