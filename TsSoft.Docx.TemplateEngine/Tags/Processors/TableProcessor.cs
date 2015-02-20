@@ -26,11 +26,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 
             ReplaceValues(dynamicRow);
 
-            if (this.LockDynamicContent)
+            if (this.CreateDynamicContentTags)
             {
                 var innerElements = TraverseUtils.ElementsBetween(this.TableTag.TagTable, this.TableTag.TagEndTable).ToList();
                 innerElements.Remove();
-                this.TableTag.TagTable.AddBeforeSelf(DocxHelper.CreateDynamicContentElement(innerElements, this.TableTag.TagTable));
+                this.TableTag.TagTable.AddBeforeSelf(DocxHelper.CreateDynamicContentElement(innerElements, this.TableTag.TagTable, this.DynamicContentLockingType));
                 this.CleanUp(this.TableTag.TagTable, this.TableTag.TagEndTable);
             }
             else

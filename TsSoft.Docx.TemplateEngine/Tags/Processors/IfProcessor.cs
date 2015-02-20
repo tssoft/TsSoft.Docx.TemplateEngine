@@ -29,19 +29,19 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             }
             if (!truthful)
             {
-                if (this.LockDynamicContent)
+                if (this.CreateDynamicContentTags)
                 {
-                    this.Tag.StartIf.AddBeforeSelf(DocxHelper.CreateDynamicContentElement(Enumerable.Empty<XElement>(), this.Tag.StartIf));
+                    this.Tag.StartIf.AddBeforeSelf(DocxHelper.CreateDynamicContentElement(Enumerable.Empty<XElement>(), this.Tag.StartIf, this.DynamicContentLockingType));
                 }
                 this.CleanUp(this.Tag.StartIf, this.Tag.EndIf);
             }
             else
             {
-                if (this.LockDynamicContent)
+                if (this.CreateDynamicContentTags)
                 {
                     var innerElements = TraverseUtils.ElementsBetween(this.Tag.StartIf, this.Tag.EndIf).ToList();
                     innerElements.Remove();
-                    this.Tag.StartIf.AddBeforeSelf(DocxHelper.CreateDynamicContentElement(innerElements, this.Tag.StartIf));
+                    this.Tag.StartIf.AddBeforeSelf(DocxHelper.CreateDynamicContentElement(innerElements, this.Tag.StartIf, this.DynamicContentLockingType));
                     this.CleanUp(this.Tag.StartIf, this.Tag.EndIf);
                 }
                 else

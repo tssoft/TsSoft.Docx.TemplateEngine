@@ -19,8 +19,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 parent = element.Element(WordMl.SdtContentName).Element(WordMl.TableCellName);
             }
             var textElement = DocxHelper.CreateTextElement(element, parent, text);
-            var result = this.LockDynamicContent
-                             ? DocxHelper.CreateDynamicContentElement(new[] { textElement }, this.TextTag.TagNode)
+            var result = this.CreateDynamicContentTags
+                             ? DocxHelper.CreateDynamicContentElement(new[] { textElement }, this.TextTag.TagNode, this.DynamicContentLockingType)
                              : textElement;
             if (element.Parent.Name != WordMl.TableRowName)
             {

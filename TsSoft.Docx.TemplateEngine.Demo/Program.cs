@@ -48,13 +48,14 @@ namespace TsSoft.Docx.TemplateEngine.Demo
                     {
                         settings = new DocxGeneratorSettings
                                        {
-                                           LockDynamicContent = options.LockDynamicContent
+                                           CreateDynamicContentTags = options.LockDynamicContent
                                        };
                     }
                     else
                     {
-                        settings.LockDynamicContent = options.LockDynamicContent;
+                        settings.CreateDynamicContentTags = options.LockDynamicContent;
                     }
+
                     generator.GenerateDocx(templateStream, destinationStream, dataDocument, settings);
                 }
                 catch (Exception exception)

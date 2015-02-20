@@ -31,14 +31,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 repeaterElement.XElement.Remove();                
             }
 
-            if (this.LockDynamicContent)
+            if (this.CreateDynamicContentTags)
             {
                 var innerElements =
                     TraverseUtils.ElementsBetween(this.RepeaterTag.StartRepeater, this.RepeaterTag.EndRepeater).ToList();
                 innerElements.Remove();
-                this.RepeaterTag.StartRepeater.AddBeforeSelf(DocxHelper.CreateDynamicContentElement(innerElements,
-                                                                                                    this.RepeaterTag
-                                                                                                        .StartRepeater));
+                this.RepeaterTag.StartRepeater.AddBeforeSelf(
+                    DocxHelper.CreateDynamicContentElement(
+                        innerElements, this.RepeaterTag.StartRepeater, this.DynamicContentLockingType));
                 this.CleanUp(this.RepeaterTag.StartRepeater, this.RepeaterTag.EndRepeater);
             }
             else

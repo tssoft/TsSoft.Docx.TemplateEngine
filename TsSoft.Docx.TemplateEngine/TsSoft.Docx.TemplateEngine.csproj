@@ -47,6 +47,7 @@
     <Compile Include="DocxPartResolver.cs" />
     <Compile Include="RelationshipMl.cs" />
     <Compile Include="Tags\CoreTableParser.cs" />
+    <Compile Include="Tags\DynamicContentLocker.cs" />
     <Compile Include="Tags\HtmlContentParser.cs" />
     <Compile Include="Tags\HtmlContentTag.cs" />
     <Compile Include="Tags\ItemRepeaterElement.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Tags\ItemRepeaterParser.cs" />
     <Compile Include="Tags\ItemRepeaterTags.cs" />
     <Compile Include="Tags\ItemTableGenerator.cs" />
+    <Compile Include="Tags\LockValueAttribute.cs" />
     <Compile Include="Tags\Processors\AbstractProcessor.cs" />
     <Compile Include="Tags\Processors\HtmlContentProcessor.cs" />
     <Compile Include="Tags\Processors\IfProcessor.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="Tags\RepeaterParser.cs" />
     <Compile Include="Tags\Processors\RepeaterProcessor.cs" />
     <Compile Include="Tags\RepeaterTag.cs" />
+    <Compile Include="SdtTagLockingType.cs" />
     <Compile Include="Tags\TableElement.cs" />
     <Compile Include="Tags\TableParser.cs" />
     <Compile Include="Tags\TextParser.cs" />

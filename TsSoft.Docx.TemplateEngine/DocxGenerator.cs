@@ -130,7 +130,8 @@ namespace TsSoft.Docx.TemplateEngine
             reader.MissingDataModeSettings = actualSettings.MissingDataMode;
 
             rootProcessor.DataReader = reader;
-            rootProcessor.LockDynamicContent = actualSettings.LockDynamicContent;
+            rootProcessor.CreateDynamicContentTags = actualSettings.CreateDynamicContentTags;
+            rootProcessor.DynamicContentLockingType = actualSettings.DynamicContentLockingType;
             rootProcessor.Process();
             
             package.ReplaceAltChunks();
@@ -143,7 +144,7 @@ namespace TsSoft.Docx.TemplateEngine
             return new DocxGeneratorSettings
                 {
                     MissingDataMode = MissingDataMode.Ignore,
-                    LockDynamicContent = false
+                    CreateDynamicContentTags = false
                 };
         }
         
