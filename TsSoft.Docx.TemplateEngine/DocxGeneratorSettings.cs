@@ -9,7 +9,9 @@ namespace TsSoft.Docx.TemplateEngine
     {
         public MissingDataMode MissingDataMode { get; set; }
 
-        public bool LockDynamicContent { get; set; }
+        public bool CreateDynamicContentTags { get; set; }
+
+        public SdtTagLockingType DynamicContentLockingType { get; set; }
     }
 
     internal class MissingDataException : Exception

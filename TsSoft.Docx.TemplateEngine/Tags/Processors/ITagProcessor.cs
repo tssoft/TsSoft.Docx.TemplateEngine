@@ -6,7 +6,9 @@
     {
         DataReader DataReader { get; set; }
 
-        bool LockDynamicContent { get; set; }
+        bool CreateDynamicContentTags { get; set; }
+
+        SdtTagLockingType DynamicContentLockingType { get; set; }
 
         ICollection<ITagProcessor> Processors { get; }
 

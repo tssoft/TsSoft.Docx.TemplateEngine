@@ -163,7 +163,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
                 EndRepeater = this.endRepeater,
                 MakeElementCallback = MakeElementCallback
             };
-            processor.LockDynamicContent = true;
+            processor.CreateDynamicContentTags = true;
 
             processor.Process();
 

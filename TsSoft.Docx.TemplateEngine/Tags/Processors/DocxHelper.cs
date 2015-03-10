@@ -214,16 +214,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         }
 
 
-        public static XElement CreateDynamicContentElement(IEnumerable<XElement> contentElements, XElement tagElement)
+        public static XElement CreateDynamicContentElement(IEnumerable<XElement> contentElements, XElement tagElement, SdtTagLockingType lockingType = SdtTagLockingType.Unlocked)
         {
             var tagId = tagElement.Element(WordMl.SdtPrName).Element(WordMl.IdName).Attribute(WordMl.ValAttributeName).Value;
-            return CreateDynamicContentElement(contentElements, tagId);
+            return CreateDynamicContentElement(contentElements, tagId, lockingType);
         }
 
 
 
-        public static XElement CreateDynamicContentElement(IEnumerable<XElement> contentElements, string id)
+        public static XElement CreateDynamicContentElement(IEnumerable<XElement> contentElements, string id, SdtTagLockingType lockingType = SdtTagLockingType.Unlocked)
         {
+            var locker = new DynamicContentLocker();
             return new XElement(
                 WordMl.SdtName,
                 new XElement(
@@ -233,8 +234,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     new XElement(
                         WordMl.TagName, new XAttribute(WordMl.ValAttributeName, "DynamicContent")),
                     new XElement(WordMl.IdName, new XAttribute(WordMl.ValAttributeName, id)),
-                    new XElement(
-                        WordMl.WordMlNamespace + "lock", new XAttribute(WordMl.ValAttributeName, "sdtContentLocked"))),
+                    //new XElement(
+                    //    WordMl.WordMlNamespace + "lock", new XAttribute(WordMl.ValAttributeName, "sdtContentLocked"))),
+                    locker.GetLockingElement(lockingType)),
                 new XElement(WordMl.SdtContentName, contentElements));
         }
 

@@ -77,7 +77,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
         public void TestProcessTrueWithLock()
         {
             var processor = this.MakeProcessor("TruthfulElement");
-            processor.LockDynamicContent = true;
+            processor.CreateDynamicContentTags = true;
 
             Console.WriteLine(this.body);
 
@@ -125,7 +125,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
         public void TestProcessFalseWithLock()
         {
             var processor = this.MakeProcessor("FalsyElement");
-            processor.LockDynamicContent = true;
+            processor.CreateDynamicContentTags = true;
 
             Console.WriteLine(this.body);
 
@@ -159,7 +159,7 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags.Processors
             this.body = new XElement("Body", this.startIf, dynamicContentTag, this.endIf);
 
             var processor = this.MakeProcessor("TruthfulElement");
-            processor.LockDynamicContent = true;
+            processor.CreateDynamicContentTags = true;
             processor.Tag.IfContent = new List<XElement> { dynamicContentTag };
 
             Console.WriteLine(this.body);

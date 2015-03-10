@@ -11,7 +11,9 @@ namespace TsSoft.Docx.TemplateEngine.Test.Tags
 
         public DataReader DataReader { get; set; }
 
-        public bool LockDynamicContent { get; set; }
+        public bool CreateDynamicContentTags { get; set; }
+
+        public SdtTagLockingType DynamicContentLockingType { get; set; }
 
         public ICollection<ITagProcessor> Processors { get; private set; }
 
