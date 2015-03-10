@@ -1,0 +1,514 @@
+<DocxModel xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Unperformed>
+    <ResponsibleWithTasks>
+      <Responsible>Минтранс России</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>6</TaskNumber>
+          <Deadline>31.01.2015</Deadline>
+          <Responsibles />
+          <Content>Прошу 6</Content>
+          <Status>Не выполнено</Status>
+          <ExecutionLog>&lt;h4&gt;Докладная записка от 25.12.2014 №3-П9-37590 (пункт 3): &lt;/h4&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Поручено Минкрыму России, Минэкономразвития России, Минпромторгу России и Совету министров Республики Крым проработать вопрос налаживания кооперационных связей внутри региона&lt;/p&gt;</ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+    <ResponsibleWithTasks>
+      <Responsible>Минпромторг России</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>33</TaskNumber>
+          <Deadline>10.03.2015</Deadline>
+          <Responsibles> ,Минтранс России</Responsibles>
+          <Content>ё3431ццвпе2</Content>
+          <Status>Не выполнено</Status>
+          <ExecutionLog>
+	                
+	            </ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+    <ResponsibleWithTasks>
+      <Responsible>Министерство иностранных дел Российской Федерации</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>21331</TaskNumber>
+          <Deadline>15.03.2015</Deadline>
+          <Responsibles>МИД России</Responsibles>
+          <Content>sdf</Content>
+          <Status>Не выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>13.03.2015</Deadline>
+          <Responsibles>МИД России</Responsibles>
+          <Content>asd</Content>
+          <Status>Не выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+  </Unperformed>
+  <InProcess>
+    <ResponsibleWithTasks>
+      <Responsible>Министерство Российской Федерации по делам Крыма</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>ДК-П9-2602 от 16.04.2014</TaskNumber>
+          <Deadline>15.03.2015</Deadline>
+          <Responsibles> ,Минпромторг России ,Министерство Российской Федерации по делам Крыма</Responsibles>
+          <Content>Прошу проработать совместно с ОАО "РЖД" и руководством Республики КРым поставленные в обращении председателя профкома ООО "Керченский стрелочный завод " Г.А. Волковой вопросы и доложить в Правтиельствой Роосссиикйийй Федерации ипредложения в озможных мерах поддержки предприятия</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>&lt;h2&gt;Уран&lt;/h2&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://ru.wikipedia.org/wiki/%D0%9F%D0%BB%D0%B0%D0%BD%D0%B5%D1%82%D0%B0" title="Планета" style="color: rgb(11, 0, 128);"&gt;планета&lt;/a&gt;&lt;span style="color: rgb(37, 37, 37);float: none;background-color: rgb(255, 255, 255);"&gt;&lt;span class="Apple-converted-space"&gt; &lt;/span&gt;&lt;/span&gt;&lt;a href="https://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%BB%D0%BD%D0%B5%D1%87%D0%BD%D0%B0%D1%8F_%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0" title="Солнечная система" style="color: rgb(11, 0, 128);"&gt;Солнечной системы&lt;/a&gt;&lt;span style="color: rgb(37, 37, 37);float: none;background-color: rgb(255, 255, 255);"&gt;, седьмая по удалённости от&lt;span class="Apple-converted-space"&gt; &lt;/span&gt;&lt;/span&gt;&lt;a href="https://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%BB%D0%BD%D1%86%D0%B5" title="Солнце" style="color: rgb(11, 0, 128);"&gt;Солнца&lt;/a&gt;&lt;span style="color: rgb(37, 37, 37);float: none;background-color: rgb(255, 255, 255);"&gt;, третья по диаметру и четвёртая по массе. Была открыта в&lt;span class="Apple-converted-space"&gt; &lt;/span&gt;&lt;/span&gt;&lt;a href="https://ru.wikipedia.org/wiki/1781_%D0%B3%D0%BE%D0%B4" title="1781 год" style="color: rgb(11, 0, 128);"&gt;1781 году&lt;/a&gt;&lt;span style="color: rgb(37, 37, 37);float: none;background-color: rgb(255, 255, 255);"&gt;&lt;span class="Apple-converted-space"&gt; &lt;/span&gt;английским астрономом&lt;span class="Apple-converted-space"&gt; &lt;/span&gt;&lt;/span&gt;&lt;a href="https://ru.wikipedia.org/wiki/%D0%93%D0%B5%D1%80%D1%88%D0%B5%D0%BB%D1%8C,_%D0%A3%D0%B8%D0%BB%D1%8C%D1%8F%D0%BC" title="Гершель, Уильям" style="color: rgb(11, 0, 128);"&gt;Уильямом Гершелем&lt;/a&gt;&lt;span style="color: rgb(37, 37, 37);float: none;background-color: rgb(255, 255, 255);"&gt;&lt;span class="Apple-converted-space"&gt; &lt;/span&gt;и названа в честь греческого бога неба&lt;span class="Apple-converted-space"&gt; &lt;/span&gt;&lt;/span&gt;&lt;a href="https://ru.wikipedia.org/wiki/%D0%A3%D1%80%D0%B0%D0%BD_(%D0%BC%D0%B8%D1%84%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F)" title="Уран (мифология)" style="color: rgb(11, 0, 128);"&gt;Урана&lt;/a&gt;&lt;span style="color: rgb(37, 37, 37);float: none;background-color: rgb(255, 255, 255);"&gt;, отца&lt;span class="Apple-converted-space"&gt; &lt;/span&gt;&lt;/span&gt;&lt;a href="https://ru.wikipedia.org/wiki/%D0%9A%D1%80%D0%BE%D0%BD%D0%BE%D1%81" title="Кронос" class="mw-redirect" style="color: rgb(11, 0, 128);"&gt;Кроноса&lt;/a&gt;&lt;span style="color: rgb(37, 37, 37);float: none;background-color: rgb(255, 255, 255);"&gt;&lt;span class="Apple-converted-space"&gt; &lt;/span&gt;(в&lt;span class="Apple-converted-space"&gt; &lt;/span&gt;&lt;/span&gt;&lt;a href="https://ru.wikipedia.org/wiki/%D0%94%D1%80%D0%B5%D0%B2%D0%BD%D0%B5%D1%80%D0%B8%D0%BC%D1%81%D0%BA%D0%B0%D1%8F_%D1%80%D0%B5%D0%BB%D0%B8%D0%B3%D0%B8%D1%8F" title="Древнеримская религия" class="mw-redirect" style="color: rgb(11, 0, 128);"&gt;римской мифологии&lt;/a&gt;&lt;span style="color: rgb(37, 37, 37);float: none;background-color: rgb(255, 255, 255);"&gt;&lt;span class="Apple-converted-space"&gt; &lt;/span&gt;&lt;/span&gt;&lt;a href="https://ru.wikipedia.org/wiki/%D0%A1%D0%B0%D1%82%D1%83%D1%80%D0%BD_(%D0%BC%D0%B8%D1%84%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F)" title="Сатурн (мифология)" style="color: rgb(11, 0, 128);"&gt;Сатурна&lt;/a&gt;&lt;span style="color: rgb(37, 37, 37);float: none;background-color: rgb(255, 255, 255);"&gt;) и, соответственно, деда&lt;span class="Apple-converted-space"&gt; &lt;/span&gt;&lt;/span&gt;&lt;a href="https://ru.wikipedia.org/wiki/%D0%97%D0%B5%D0%B2%D1%81" title="Зевс" style="color: rgb(11, 0, 128);"&gt;Зевса&lt;/a&gt;&lt;span style="color: rgb(37, 37, 37);float: none;background-color: rgb(255, 255, 255);"&gt;&lt;span class="Apple-converted-space"&gt; &lt;/span&gt;(у римлян —&lt;span class="Apple-converted-space"&gt; &lt;/span&gt;&lt;/span&gt;&lt;a href="https://ru.wikipedia.org/wiki/%D0%AE%D0%BF%D0%B8%D1%82%D0%B5%D1%80_(%D0%BC%D0%B8%D1%84%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F)" title="Юпитер (мифология)" style="color: rgb(11, 0, 128);"&gt;Юпитер&lt;/a&gt;&lt;span style="color: rgb(37, 37, 37);float: none;background-color: rgb(255, 255, 255);"&gt;).&lt;/span&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;</ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+    <ResponsibleWithTasks>
+      <Responsible>Минпромторг России</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>2</TaskNumber>
+          <Deadline>31.03.2015</Deadline>
+          <Responsibles> ,Министерство Российской Федерации по делам Крыма ,Минтранс России</Responsibles>
+          <Content>Прошу 222</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>&lt;h4&gt;Докладная записка от 25.12.2014 №3-П9-37590 (пункт 3): &lt;/h4&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Поручено Минкрыму России, Минэкономразвития России, Минпромторгу России и Совету министров Республики Крым проработать вопрос налаживания кооперационных связей внутри региона&lt;/p&gt;</ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>1</TaskNumber>
+          <Deadline>28.03.2015</Deadline>
+          <Responsibles />
+          <Content>1234</Content>
+          <Status>В работе</Status>
+          <ExecutionLog />
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>1</TaskNumber>
+          <Deadline>28.03.2015</Deadline>
+          <Responsibles> ,Минтранс России ,Минэкономразвития России</Responsibles>
+          <Content>1234</Content>
+          <Status>В работе</Status>
+          <ExecutionLog />
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>1</TaskNumber>
+          <Deadline>28.03.2015</Deadline>
+          <Responsibles> ,Минтранс России ,Минэкономразвития России</Responsibles>
+          <Content>1234</Content>
+          <Status>В работе</Status>
+          <ExecutionLog />
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>От Путина 2</TaskNumber>
+          <Deadline>03.03.2015</Deadline>
+          <Responsibles> ,Минздрав России</Responsibles>
+          <Content>123123</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>&lt;p&gt;asd&lt;/p&gt;</ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>От Путина</TaskNumber>
+          <Deadline>02.03.2015</Deadline>
+          <Responsibles> ,Минздрав России</Responsibles>
+          <Content>впв пва вапвапав</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>
+	                
+	            </ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+    <ResponsibleWithTasks>
+      <Responsible>Минтранс России</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>3</TaskNumber>
+          <Deadline>30.01.2015</Deadline>
+          <Responsibles> ,Министерство Российской Федерации по делам Крыма ,Минтранс России</Responsibles>
+          <Content>Прошу 3</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>&lt;h4&gt;Докладная записка от 25.12.2014 №3-П9-37590 (пункт 3): &lt;/h4&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Поручено Минкрыму России, Минэкономразвития России, Минпромторгу России и Совету министров Республики Крым проработать вопрос налаживания кооперационных связей внутри региона&lt;/p&gt;</ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+    <ResponsibleWithTasks>
+      <Responsible>Министерство иностранных дел Российской Федерации</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>234234</TaskNumber>
+          <Deadline>02.03.2015</Deadline>
+          <Responsibles>МИД России ,Конституционный суд ,ГФС России</Responsibles>
+          <Content>afasf</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>&lt;h2&gt;asdasd&lt;/h2&gt;</ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123123</TaskNumber>
+          <Deadline>07.03.2015</Deadline>
+          <Responsibles>МИД России ,Верховный Суд</Responsibles>
+          <Content>12312</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+    <ResponsibleWithTasks>
+      <Responsible>Министерство внутренних дел Российской Федерации</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>123123l</TaskNumber>
+          <Deadline>06.03.2015</Deadline>
+          <Responsibles>МВД России ,ГФС России ,МЧС России ,ГУСП Президента РФ ,Верховный Суд ,МВД России ,Казначейство России</Responsibles>
+          <Content>asdasd</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>&lt;p&gt;asdad&lt;/p&gt;</ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+    <ResponsibleWithTasks>
+      <Responsible>Министерство Российской Федерации по делам гражданской обороны, чрезвычайным ситуациям и ликвидации последствий стихийных бедствий</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>12321</TaskNumber>
+          <Deadline>07.03.2015</Deadline>
+          <Responsibles>МЧС России</Responsibles>
+          <Content>asdasd</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>06.03.2015</Deadline>
+          <Responsibles>МЧС России</Responsibles>
+          <Content>asdasd</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>06.03.2015</Deadline>
+          <Responsibles>МЧС России</Responsibles>
+          <Content>asdasd</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>06.03.2015</Deadline>
+          <Responsibles>МЧС России</Responsibles>
+          <Content>asdasd</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>06.03.2015</Deadline>
+          <Responsibles>МЧС России</Responsibles>
+          <Content>asdasd</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>06.03.2015</Deadline>
+          <Responsibles>МЧС России</Responsibles>
+          <Content>asdasd</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>13.03.2015</Deadline>
+          <Responsibles>МЧС России</Responsibles>
+          <Content>1123</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123123</TaskNumber>
+          <Deadline>29.03.2015</Deadline>
+          <Responsibles>МЧС России</Responsibles>
+          <Content>asdasd</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>1232</TaskNumber>
+          <Deadline>12.03.2015</Deadline>
+          <Responsibles>МЧС России ,Банк России (Центральный банк РФ) ,Казначейство России ,Конституционный суд</Responsibles>
+          <Content>фывфывфыв</Content>
+          <Status>В работе</Status>
+          <ExecutionLog>&lt;p&gt;&lt;b&gt;фывфывфыв&lt;/b&gt;&lt;/p&gt;</ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+  </InProcess>
+  <Performed>
+    <ResponsibleWithTasks>
+      <Responsible>Министерство Российской Федерации по делам Крыма</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>4</TaskNumber>
+          <Deadline>30.01.2015</Deadline>
+          <Responsibles />
+          <Content>Прошу 4</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>&lt;h4&gt;Докладная записка от 25.12.2014 №3-П9-37590 (пункт 3): &lt;/h4&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Поручено Минкрыму России, Минэкономразвития России, Минпромторгу России и Совету министров Республики Крым проработать вопрос налаживания кооперационных связей внутри региона&lt;/p&gt;</ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>04.03.2015</Deadline>
+          <Responsibles> ,Минпромторг России ,Минэкономразвития России</Responsibles>
+          <Content>1123</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>&lt;h2&gt;312&lt;/h2&gt;</ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+    <ResponsibleWithTasks>
+      <Responsible>Минпромторг России</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>ДК №123-5</TaskNumber>
+          <Deadline>30.01.2015</Deadline>
+          <Responsibles />
+          <Content>Прошу 5</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>&lt;h4&gt;Докладная записка от 25.12.2014 №3-П9-37590 (пункт 3): &lt;/h4&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Поручено Минкрыму России, Минэкономразвития России, Минпромторгу России и Совету министров Республики Крым проработать вопрос налаживания кооперационных связей внутри региона&lt;/p&gt;</ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123456</TaskNumber>
+          <Deadline>03.03.2015</Deadline>
+          <Responsibles> ,Минтранс России ,Минэкономразвития России</Responsibles>
+          <Content>123456</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+	                
+	            </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123456</TaskNumber>
+          <Deadline>03.03.2015</Deadline>
+          <Responsibles> ,Минтранс России ,Минэкономразвития России</Responsibles>
+          <Content>123456</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+	                
+	            </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>Новый номер</TaskNumber>
+          <Deadline>03.03.2015</Deadline>
+          <Responsibles />
+          <Content>Проверка</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>&lt;span style="color: rgb(85, 85, 85);float: none;background-color: rgb(255, 255, 255);"&gt;123&lt;/span&gt;                            </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>Новый номер</TaskNumber>
+          <Deadline>03.03.2015</Deadline>
+          <Responsibles> ,Минтранс России</Responsibles>
+          <Content>Проверка</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>&lt;span style="color: rgb(85, 85, 85);float: none;background-color: rgb(255, 255, 255);"&gt;123&lt;/span&gt;                            </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123123</TaskNumber>
+          <Deadline>04.03.2015</Deadline>
+          <Responsibles> ,Минпромторг России ,Минтранс России</Responsibles>
+          <Content>яяя</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>&lt;p&gt;asdadsasd&lt;/p&gt;</ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+    <ResponsibleWithTasks>
+      <Responsible>Минтранс России</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>123123</TaskNumber>
+          <Deadline>04.03.2015</Deadline>
+          <Responsibles />
+          <Content>123</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>&lt;h4&gt;12123&lt;/h4&gt;</ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+    <ResponsibleWithTasks>
+      <Responsible>Министерство внутренних дел Российской Федерации</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>123123</TaskNumber>
+          <Deadline>07.03.2015</Deadline>
+          <Responsibles>МВД России ,МЧС России ,МИД России ,Россотрудничество</Responsibles>
+          <Content>asdasd</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>&lt;p&gt;sadasd&lt;/p&gt;</ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+    <ResponsibleWithTasks>
+      <Responsible>Федеральное агентство по делам Содружества Независимых Государств, соотечественников, проживающих за рубежом, и по международному гуманитарному сотрудничеству</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>213</TaskNumber>
+          <Deadline>05.03.2015</Deadline>
+          <Responsibles>Россотрудничество</Responsibles>
+          <Content>123</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>213</TaskNumber>
+          <Deadline>08.03.2015</Deadline>
+          <Responsibles>Россотрудничество ,Верховный Суд ,Казначейство России</Responsibles>
+          <Content>123</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>13.03.2015</Deadline>
+          <Responsibles>Россотрудничество</Responsibles>
+          <Content>asd</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>15.03.2015</Deadline>
+          <Responsibles>Россотрудничество</Responsibles>
+          <Content>asd</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>05.03.2015</Deadline>
+          <Responsibles>Россотрудничество</Responsibles>
+          <Content>asd</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+    <ResponsibleWithTasks>
+      <Responsible>Министерство иностранных дел Российской Федерации</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>13</TaskNumber>
+          <Deadline>27.03.2015</Deadline>
+          <Responsibles>МИД России ,ГФС России</Responsibles>
+          <Content>awda</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123123</TaskNumber>
+          <Deadline>07.03.2015</Deadline>
+          <Responsibles>МИД России</Responsibles>
+          <Content>4124124124</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>21312</TaskNumber>
+          <Deadline>13.03.2015</Deadline>
+          <Responsibles>МИД России</Responsibles>
+          <Content>asdasd</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>14.03.2015</Deadline>
+          <Responsibles>МИД России</Responsibles>
+          <Content>asd</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>08.03.2015</Deadline>
+          <Responsibles>МИД России</Responsibles>
+          <Content>asd</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>2123</TaskNumber>
+          <Deadline>12.03.2015</Deadline>
+          <Responsibles>МИД России</Responsibles>
+          <Content>123123</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+    <ResponsibleWithTasks>
+      <Responsible>Министерство Российской Федерации по делам гражданской обороны, чрезвычайным ситуациям и ликвидации последствий стихийных бедствий</Responsible>
+      <Tasks>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>12.03.2015</Deadline>
+          <Responsibles>МЧС России</Responsibles>
+          <Content>asd</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>13.03.2015</Deadline>
+          <Responsibles>МЧС России</Responsibles>
+          <Content>as</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>14.03.2015</Deadline>
+          <Responsibles>МЧС России</Responsibles>
+          <Content>asd</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+        <TaskDocx>
+          <TaskNumber>123</TaskNumber>
+          <Deadline>14.03.2015</Deadline>
+          <Responsibles>МЧС России</Responsibles>
+          <Content>asd</Content>
+          <Status>Выполнено</Status>
+          <ExecutionLog>
+                </ExecutionLog>
+        </TaskDocx>
+      </Tasks>
+    </ResponsibleWithTasks>
+  </Performed>
+</DocxModel>
