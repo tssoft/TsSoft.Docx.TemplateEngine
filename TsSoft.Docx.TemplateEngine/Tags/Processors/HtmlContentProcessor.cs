@@ -22,7 +22,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 .Element(WordMl.TagName)
                 .Attribute(WordMl.ValAttributeName)
                 .SetValue(ProcessedHtmlContentTagName);
-            htmlContent = HttpUtility.HtmlDecode(htmlContent);                        
+            htmlContent = HttpUtility.HtmlDecode(htmlContent);         
             var tableCellElement = htmlContentElement.Descendants(WordMl.TableCellName).SingleOrDefault();
             htmlContentElement.Element(WordMl.SdtContentName).Value = htmlContent;            
             if (tableCellElement != null)

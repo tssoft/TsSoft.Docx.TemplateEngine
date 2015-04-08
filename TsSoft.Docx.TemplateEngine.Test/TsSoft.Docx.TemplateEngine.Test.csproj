@@ -135,6 +135,7 @@
     <EmbeddedResource Include="ifinline.docx" />
     <EmbeddedResource Include="ItemRepeaterInOneParagraph.docx" />
     <EmbeddedResource Include="ItemTableDemo.docx" />
+    <EmbeddedResource Include="Template3.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />
@@ -148,7 +149,7 @@
     <EmbeddedResource Include="textintable2.docx" />
     <EmbeddedResource Include="Template.docx" />
     <EmbeddedResource Include="Template2.docx" />
-    <EmbeddedResource Include="Template3.docx" />
+    <EmbeddedResource Include="HTMLLat1Content.docx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Tags\Processors\TableProcessorTemplateTest.xml" />
@@ -256,6 +257,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Template.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="HTMLLat1ContentData.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

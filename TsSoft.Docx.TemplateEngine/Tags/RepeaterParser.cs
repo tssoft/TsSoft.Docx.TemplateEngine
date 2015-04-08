@@ -102,7 +102,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                                                        .Select(MakeElementCallback);
         }
 
-        private static XElement FindEndTag(XElement startTag, string startTagName, string endTagName)
+        public static XElement FindEndTag(XElement startTag, string startTagName, string endTagName)
         {
             var startTagsOpened = 1;
             var current = startTag;

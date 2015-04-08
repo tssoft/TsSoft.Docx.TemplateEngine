@@ -107,11 +107,11 @@ namespace TsSoft.Docx.TemplateEngine
 
         public void GenerateDocx(Stream templateStream, Stream outputStream, XDocument dataXml, DocxGeneratorSettings settings = null)
         {
-            var reader = this.DataReaderFactory.CreateReader(dataXml);
+
+            var reader = this.DataReaderFactory.CreateReader(dataXml);            
             this.GenerateDocx(templateStream, outputStream, reader, settings);
         }
 
-        
 
         private void GenerateDocx(Stream templateStream, Stream outputStream, DataReader reader, DocxGeneratorSettings settings)
         {
@@ -121,7 +121,7 @@ namespace TsSoft.Docx.TemplateEngine
             templateStream.CopyTo(outputStream);
 
             var package = this.PackageFactory.Create(outputStream);
-            package.Load();
+            package.Load();            
 
             var parser = this.ParserFactory.Create();
             var rootProcessor = this.ProcessorFactory.Create();

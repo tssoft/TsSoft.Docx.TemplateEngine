@@ -24,6 +24,9 @@ namespace TsSoft.Docx.TemplateEngine
         
         public static DataReader CreateReader(string dataXml)
         {
+            //var xDocument = new XDocument();
+            var xDocumentType = new XDocumentType("names", null, null, "<!ENTITY laquo \"&#171;\">");
+            dataXml = dataXml.Insert(0, xDocumentType.ToString());
             var doc = XDocument.Parse(dataXml);
             return CreateReader(doc);
         }

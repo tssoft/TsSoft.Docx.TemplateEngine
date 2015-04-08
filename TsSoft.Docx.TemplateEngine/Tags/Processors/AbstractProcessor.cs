@@ -34,6 +34,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 processor.DynamicContentLockingType = this.DynamicContentLockingType;
                 processor.Process();
             }
+
         }
 
         public void AddProcessor(ITagProcessor processor)

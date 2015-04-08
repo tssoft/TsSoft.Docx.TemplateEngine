@@ -31,6 +31,15 @@ namespace TsSoft.Docx.TemplateEngine.Test
         {
             DataReaderFactory.CreateReader<DataReaderTestData>(null);
         }
+
+        [TestMethod]
+        public void TestCreateReaderStringXml()
+        {
+            const string xml = "<entities>test</entities>";
+            var reader = DataReaderFactory.CreateReader(xml);
+            
+
+        }
     }
 
     public class CustomAttribute : Attribute
