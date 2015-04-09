@@ -1,18 +1,36 @@
 <test>
   <data>
-    <sometext>sometext</sometext>
+    <Title>1. Группа</Title>
     <names>
-      <name>gdfgd</name>
-      <name>gdfgsdfhdfs</name>
-      <name>gsdfg</name>
+      <name>Сыроежкин Петр Павлович</name>
+      <condition>false</condition>
     </names>
+    <names>
+      <name>Сероглазов Максим Александрович</name>
+      <condition>false</condition>
+    </names>
+    <aftertext>aftertext</aftertext>
   </data>
   <data>
-    <sometext>sometext2</sometext>
+    <Title>2. Группа</Title>
     <names>
-      <name>gdfgd</name>
-      <name>gdfgsdfhdfs</name>
-      <name>gsdfg</name>
+      <name>Сыроежкин Петр 2Павлович</name>
+      <condition>false</condition>
     </names>
+    <names>
+      <name>Сероглазов Максим Александрович</name>
+      <condition>true</condition>
+    </names>
+    <aftertext>aftertext</aftertext>
+  </data>
+  <data>
+    <Title>3. Группа</Title>
+    <names>
+      <name>Сыроежкин Петр 3Павлович</name>
+    </names>
+    <names>
+      <name>Сероглазов Максим Александрович</name>
+    </names>
+    <aftertext>aftertext</aftertext>
   </data>
 </test>

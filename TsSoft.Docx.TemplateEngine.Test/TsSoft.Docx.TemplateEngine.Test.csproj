@@ -149,7 +149,6 @@
     <EmbeddedResource Include="textintable2.docx" />
     <EmbeddedResource Include="Template.docx" />
     <EmbeddedResource Include="Template2.docx" />
-    <EmbeddedResource Include="HTMLLat1Content.docx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Tags\Processors\TableProcessorTemplateTest.xml" />
@@ -257,9 +256,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Template.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="HTMLLat1ContentData.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

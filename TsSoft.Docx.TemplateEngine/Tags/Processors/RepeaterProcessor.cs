@@ -90,8 +90,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
         private bool IsItemRepeaterElement(XElement element)
         {
             return element.Name.Equals(WordMl.ParagraphName)
-                       ? element.Elements().All(el => ItemRepeaterGenerator.IsItemRepeaterElement(el))
-                       : ItemRepeaterGenerator.IsItemRepeaterElement(element);
+                       ? element.Elements().All(el => ItemRepeaterGenerator.IsItemRepeaterElement(el) && !el.IsTag("enditemrepeater"))
+                       : ItemRepeaterGenerator.IsItemRepeaterElement(element) && !element.IsTag("enditemrepeater");
         }
 
         private XElement ProcessItemTableElement()
@@ -146,8 +146,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                                                                     "enditemtable");*/
                     currentEndItemTable = repeaterElement.EndTag;
                 }
-               /* 
-                if (repeaterElement.IsEndItemTable/* || (repeaterElement.XElement.Name.Equals(WordMl.TableName) && repeaterElement.XElement.Descendants().Any(el => el.IsSdt())))
+                /*
+                if (repeaterElement.IsEndItemTable /*|| (repeaterElement.XElement.Name.Equals(WordMl.TableName) && repeaterElement.XElement.Descendants().Any(el => el.IsSdt())))
                 {
                     continue;                    
                 }*/
