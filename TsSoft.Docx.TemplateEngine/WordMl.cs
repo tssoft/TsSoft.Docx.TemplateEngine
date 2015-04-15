@@ -37,7 +37,11 @@ namespace TsSoft.Docx.TemplateEngine
         public static readonly XName MoveToName = WordMlNamespace + "moveTo";
         public static readonly XName ProofingErrorAnchorName = WordMlNamespace + "proofErr";
         public static readonly XName BookmarkStartName = WordMlNamespace + "bookmarkStart";
-        public static readonly XName AltChunkName = WordMlNamespace + "altChunk";          
+        public static readonly XName AltChunkName = WordMlNamespace + "altChunk";
+
+        public static readonly XName ShadingName = WordMlNamespace + "shd";
+        public static readonly XName ColorName = WordMlNamespace + "color";
+        public static readonly XName FillName = WordMlNamespace + "fill";
 
         public static readonly XName RsidRName = WordMlNamespace + "rsidR";
         public static readonly XName RsidRPropertiesName = WordMlNamespace + "rsidRPr";

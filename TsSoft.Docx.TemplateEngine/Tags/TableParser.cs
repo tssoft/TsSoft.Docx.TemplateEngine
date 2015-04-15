@@ -18,6 +18,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         private static readonly string ItemIfTagName = "itemif";
         private static readonly string EndItemIfTagName = "enditemif";
         private static readonly string ItemHtmlContentTagName = "itemhtmlcontent";
+        private static readonly string CellColor = "cellcolor";
               
         /// <summary>
         /// Do parsing
@@ -61,6 +62,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                         case "enditemrepeater":
                         case "titemtext":
                         case "itemtable":
+                        case "cellcolor":
                         case "enditemtable":
                         case "enditemif":
                             break;

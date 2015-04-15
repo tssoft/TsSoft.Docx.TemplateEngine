@@ -19,6 +19,8 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public bool IsItemTable { get; set; }
 
+        public bool IsCellColor { get; set; }
+
         public IEnumerable<TableElement> TagElements { get; set; }
 
         public string Expression { get; set; }

@@ -80,6 +80,26 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             tablePropertiesElement.Add(tableAlignmentElement);
         }
 
+        private void SetCellColor(XElement tableCellElement, string colorValue)
+        {
+            if (!colorValue.Equals(string.Empty))
+            {
+                var tableCellProperties = tableCellElement.Element(WordMl.TableCellPropertiesName);
+                XElement shadingElement = tableCellProperties.Element(WordMl.ShadingName);
+                if (shadingElement != null)
+                {
+                    shadingElement.Remove();
+                }
+                shadingElement = new XElement(WordMl.ShadingName);
+
+                var valueAttribute = new XAttribute(WordMl.ValAttributeName, "clear");
+                var colorAttribute = new XAttribute(WordMl.ColorName, "auto");
+                var fillAttribute = new XAttribute(WordMl.FillName, colorValue);
+                shadingElement.Add(valueAttribute, colorAttribute, fillAttribute);
+                tableCellProperties.Add(shadingElement);
+            }
+        }
+
         private void ProcessElements(IEnumerable<TableElement> tableElements, DataReader dataReader, int index, XElement start, bool isTopLevel)
         {
             var tableElementsList = tableElements.ToList();
@@ -87,7 +107,12 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             XElement firstCell = null;
             foreach (var currentTableElement in tableElementsList)
             {
-                if (currentTableElement.IsItemTable)
+                if (currentTableElement.IsCellColor)
+                {
+                    this.SetCellColor(currentTableElement.StartTag.Ancestors(WordMl.TableCellName).First(), dataReader.ReadText(currentTableElement.Expression));
+                    currentTableElement.StartTag.Remove();
+                }
+                else if (currentTableElement.IsItemTable)
                 {                    
                     var tableCell = currentTableElement.StartTag.Ancestors(WordMl.TableCellName).Last();
                     

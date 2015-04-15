@@ -18,6 +18,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         public static readonly string EndItemRepeaterTagName = "EndItemRepeater";
         public static readonly string ItemTableTagName = "ItemTable";
         public static readonly string EndItemTableTagName = "EndItemTable";
+        public static readonly string CellColorTagName = "CellColor";
         
         public CoreTableParser(bool IsItemElement)
         {
@@ -42,10 +43,11 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 IsItemRepeater = tagElement.IsTag(ItemRepeaterTagName),
                 IsItemHtmlContent = tagElement.IsTag(ItemHtmlContentTagName),
                 IsItemTable = tagElement.IsTag(ItemTableTagName),
+                IsCellColor = tagElement.IsTag(CellColorTagName),
                 StartTag = tagElement,
             };
-            if (tableElement.IsItem || tableElement.IsItemHtmlContent)
-            {
+            if (tableElement.IsItem || tableElement.IsItemHtmlContent || tableElement.IsCellColor)
+            {                
                 tableElement.Expression = tagElement.GetExpression();
             }          
             else if (tableElement.IsItemHtmlContent)
@@ -78,7 +80,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                     var tableElement = ToTableElement(currentTagElement);
 
                     if (tableElement.IsItem || tableElement.IsIndex || tableElement.IsItemIf ||
-                        tableElement.IsItemRepeater || tableElement.IsItemHtmlContent || tableElement.IsItemTable)
+                        tableElement.IsItemRepeater || tableElement.IsItemHtmlContent || tableElement.IsItemTable || tableElement.IsCellColor)
                     {
                         tableElements.Add(tableElement);
                     }
@@ -150,7 +152,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             {
                 var tableElement = ToTableElement(currentTagElement);
 
-                if (tableElement.IsItem || tableElement.IsIndex || tableElement.IsItemIf || tableElement.IsItemRepeater || tableElement.IsItemHtmlContent)
+                if (tableElement.IsItem || tableElement.IsIndex || tableElement.IsItemIf || tableElement.IsItemRepeater || tableElement.IsItemHtmlContent || tableElement.IsCellColor)
                 {
                     tableElements.Add(tableElement);
                 }

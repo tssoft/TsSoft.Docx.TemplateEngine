@@ -1,0 +1,10 @@
+<test>
+	<hypertext>	    
+		&lt;html&gt;
+		&lt;head /&gt;
+		&lt;body&gt;
+		&lt;p&gt; Text is  &laquo;gfdgfdg &lt;/p&gt;
+		&lt;/body&gt;
+		&lt;/html&gt;
+	</hypertext>
+</test>
