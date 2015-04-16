@@ -187,7 +187,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                 }
                 else if (repeaterElement.IsItem && repeaterElement.HasExpression)
                 {
-                    result = DocxHelper.CreateTextElement(repeaterElement.XElement, repeaterElement.XElement.Parent, dataReader.ReadText(repeaterElement.Expression));                    
+                    result = DocxHelper.CreateTextElement(repeaterElement.XElement, repeaterElement.XElement.Parent, dataReader.ReadText(repeaterElement.Expression), dataReader.ReadAttribute(repeaterElement.Expression, "style"));                    
                 }
                 else
                 {                    

@@ -126,7 +126,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
 
         public static XElement CreateTextElement(XElement self, XElement parent, string text, bool wrapParagraphs = false)
         {
-            return CreateTextElement(self, parent, text, new XElement(WordMl.ParagraphName), wrapParagraphs);
+            return CreateTextElement(self, parent, text, new XElement(WordMl.ParagraphName), string.Empty, wrapParagraphs);
         }
 
         public static XElement CreateTextElement(XElement self, XElement parent, string text, XName wrapTo, bool wrapParagraphs = false)
@@ -134,7 +134,25 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             return CreateTextElement(self, parent, text, new XElement(wrapTo), wrapParagraphs);
         }
 
-        public static XElement CreateTextElement(XElement self, XElement parent, string text, XElement wrapTo, bool wrapParagraphs = false)
+        public static XElement CreateTextElement(XElement self, XElement parent, string text, string styleName, bool wrapParagraphs = false)
+        {
+            return CreateTextElement(self, parent, text, new XElement(WordMl.ParagraphName), styleName, wrapParagraphs);
+        }
+
+
+        public static XElement CreateTextElement(XElement self, XElement parent, string text, XName wrapTo, string styleName, bool wrapParagraphs = false)
+        {
+            return CreateTextElement(self, parent, text, new XElement(wrapTo), styleName, wrapParagraphs);
+        }
+
+
+        public static XElement CreateTextElement(XElement self, XElement parent, string text, XElement wrapTo,
+                                                 bool wrapParagraphs = false)
+        {
+            return CreateTextElement(self, parent, text, wrapTo, string.Empty, wrapParagraphs);
+        }
+
+        public static XElement CreateTextElement(XElement self, XElement parent, string text, XElement wrapTo, string styleName, bool wrapParagraphs = false)
         {
             var result = new XElement(WordMl.TextRunName, new XElement(WordMl.TextName, text));
             IEnumerable<XElement> paragraphProperties = null;
@@ -145,7 +163,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     .Elements()
                     .Where(e => TextPropertiesNames.Contains(e.Name))
                     .Distinct(new NameComparer());
-                result.AddFirst(new XElement(WordMl.TextRunPropertiesName, properties));
+                var textRunProperties = new XElement(WordMl.TextRunPropertiesName, properties);
+
+                if (!(styleName.Equals(string.Empty) || properties.Any(p => p.Name.Equals(WordMl.ParagraphStyleName))))
+                {
+                    textRunProperties.Add(new XElement(TextRunProperties.ReferenceStyleName, new XAttribute(WordMl.ValAttributeName, styleName + "0")));
+                }
+
+                result.AddFirst(textRunProperties);
                 if (self.Element(WordMl.SdtContentName).Elements(WordMl.ParagraphName).Any())
                 {
                     paragraphProperties =
@@ -163,10 +188,18 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                           .Elements()
                           .Where(e => ParagraphPropertiesNames.Contains(e.Name))
                           .Distinct(new NameComparer());
-            }
+            }            
+
             if (paragraphProperties != null)
             {
-                wrapTo.AddFirst(new XElement(WordMl.ParagraphPropertiesName, paragraphProperties));
+                var paragraphPropertiesElement = new XElement(WordMl.ParagraphPropertiesName, paragraphProperties);
+
+                if (!(styleName.Equals(string.Empty) || paragraphProperties.Any(p => p.Name.Equals(WordMl.ParagraphStyleName))))
+                {
+                    paragraphPropertiesElement.Add(new XElement(WordMl.ParagraphStyleName, new XAttribute(WordMl.ValAttributeName, styleName)));
+                }
+
+                wrapTo.AddFirst(paragraphPropertiesElement);
             }
             if ((!ValidTextRunContainers.Any(name => name.Equals(parent.Name))) || (wrapParagraphs && !parent.Elements().Any(el => el.Name.Equals(WordMl.TextRunName))))
             {

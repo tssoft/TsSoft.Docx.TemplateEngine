@@ -44,6 +44,17 @@ namespace TsSoft.Docx.TemplateEngine
             return textElement.Value;            
         }
 
+        public string ReadAttribute(string expression, string attributeName)
+        {
+            var textElement = this.rootElement.XPathSelectElement(expression.ToLower());
+            if (textElement != null)
+            {
+                var attribute = textElement.Attribute(attributeName);
+                return attribute != null ? attribute.Value : string.Empty;
+            }
+            return string.Empty;
+        }
+
         public DataReader GetReader(string path)
         {
             if (path == null)

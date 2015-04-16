@@ -75,6 +75,16 @@ namespace TsSoft.Docx.TemplateEngine.Test
         }
 
         [TestMethod]
+        public void TestGetAttribute()
+        {
+            var dataReader = DataReaderFactory.CreateReader(this.GetXmlDocument());
+            const string expectedStyleAttrValue = "TestStyle";
+
+            var actualStyleAttrValue = dataReader.ReadAttribute("//Test/StyleTag", "style");
+            Assert.AreEqual(expectedStyleAttrValue, actualStyleAttrValue);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(System.ArgumentNullException))]
         public void TestGetReaderNullPath()
         {

@@ -87,6 +87,33 @@ namespace TsSoft.Docx.TemplateEngine.Test
         }
 
         [TestMethod]
+        public void TestAddTextElementWithEmptyStyle()
+        {
+            var textElement = new XElement("Text");
+            const string TextValue = "Some text";
+            var body = new XElement(WordMl.BodyName, textElement);
+
+            var created = DocxHelper.CreateTextElement(textElement, textElement.Parent, TextValue, WordMl.SmartTagName, string.Empty);
+            Console.WriteLine(created);
+        }
+
+        [TestMethod]
+        public void TestAddTextElementWithStyle()
+        {
+            var textElement = new XElement(WordMl.SdtName,
+                                           new XElement(WordMl.SdtPrName, new XElement(WordMl.SdtName, "TagWidthStyle")),
+                                           new XElement(WordMl.SdtContentName, new XElement(WordMl.TextRunName, "text")));
+            const string TextValue = "Text with style";
+            const string expectedStyleId = "SomeStyle";
+            var body = new XElement(WordMl.BodyName, textElement);
+
+            var created = DocxHelper.CreateTextElement(textElement, textElement.Parent, TextValue, expectedStyleId);
+            Console.WriteLine(created);
+            var textRunProperties = created.Element(WordMl.TextRunName).Element(WordMl.TextRunPropertiesName);
+            Assert.IsNotNull(textRunProperties);
+        }
+
+        [TestMethod]
         public void TestAddEmptyParagraphInTableCell()
         {
             const string ExpectedRsidP = "00FF12FF";

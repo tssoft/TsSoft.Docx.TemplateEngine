@@ -272,6 +272,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                             result = DocxHelper.CreateTextElement(itemRepeaterElement.XElement,
                                                                   itemRepeaterElement.XElement.Parent,
                                                                   dataReader.ReadText(itemRepeaterElement.Expression),
+                                                                  dataReader.ReadAttribute(itemRepeaterElement.Expression, "style"),
                                                                   !nestedElement);
                         }
                         else if (itemRepeaterElement.IsItemTable)

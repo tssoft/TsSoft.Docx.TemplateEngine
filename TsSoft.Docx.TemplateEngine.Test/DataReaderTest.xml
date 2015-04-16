@@ -16,5 +16,6 @@
       <IssueDate>01.01.2011</IssueDate>
       <ExpireDate>01.01.2012</ExpireDate>
     </Certificate>
-  </Certificates>  
+  </Certificates>
+  <StyleTag style="TestStyle">Sometext</StyleTag>
 </Test>
