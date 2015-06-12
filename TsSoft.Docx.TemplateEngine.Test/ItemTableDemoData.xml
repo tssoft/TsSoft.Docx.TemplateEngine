@@ -1,6 +1,7 @@
 <test>
   <data>
     <Title>1. Группа</Title>
+    <SomeText>somerandomtext</SomeText>
     <names>
       <name>Сыроежкин Петр Павлович</name>
       <condition>false</condition>
@@ -13,6 +14,7 @@
   </data>
   <data>
     <Title>2. Группа</Title>
+    <SomeText>somerandomtext</SomeText>
     <names>
       <name>Сыроежкин Петр 2Павлович</name>
       <condition>false</condition>
@@ -25,6 +27,7 @@
   </data>
   <data>
     <Title>3. Группа</Title>
+    <SomeText>somerandomtext</SomeText>
     <names>
       <name>Сыроежкин Петр 3Павлович</name>
     </names>
