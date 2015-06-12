@@ -136,6 +136,7 @@
     <EmbeddedResource Include="ItemRepeaterInOneParagraph.docx" />
     <EmbeddedResource Include="ItemTableDemo.docx" />
     <EmbeddedResource Include="Template3.docx" />
+    <EmbeddedResource Include="HTMLLat1Content.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />
