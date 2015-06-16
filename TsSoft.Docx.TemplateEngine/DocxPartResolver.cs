@@ -11,14 +11,40 @@ namespace TsSoft.Docx.TemplateEngine
     internal class DocxPartResolver
     {
         private const string OfficeDocumentRelType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
-        private const string OfficeAfChunkRelType =
-            "http://schemas.openxmlformats.org/officeDocument/2006/relationships/aFChunk";
+        private const string HeaderRelationshipType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/header";
+        private const string FooterRelationshipType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer";
+        private const string OfficeAfChunkRelType = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/aFChunk";
 
         public static PackagePart GetDocumentPart(Package package)
         {
             PackageRelationship relationship = package.GetRelationshipsByType(OfficeDocumentRelType).FirstOrDefault();
             Uri docUri = PackUriHelper.ResolvePartUri(new Uri("/", UriKind.Relative), relationship.TargetUri);
             return package.GetPart(docUri);
+        }
+
+        public static IEnumerable<PackagePart> GetHeaderParts(Package package)
+        {
+            var documentPart = GetDocumentPart(package);
+            var headerRelationships = documentPart.GetRelationshipsByType(HeaderRelationshipType);
+            foreach (var relationship in headerRelationships)
+            {
+                yield return package.GetPart(PackUriHelper.ResolvePartUri(documentPart.Uri, relationship.TargetUri));
+            }
+        }
+
+        public static IEnumerable<PackagePart> GetFooterParts(Package package)
+        {
+            var documentPart = GetDocumentPart(package);
+            var footerRelationships = documentPart.GetRelationshipsByType(FooterRelationshipType);
+            foreach (var relationship in footerRelationships)
+            {
+                yield return package.GetPart(PackUriHelper.ResolvePartUri(documentPart.Uri, relationship.TargetUri));
+            }
+        }
+
+        public static PackagePart GetPart(Package package, Uri uri)
+        {
+            return package.GetPart(uri);
         }
 
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]

@@ -10,12 +10,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
     {
         public virtual XElement Parse(ITagProcessor parentProcessor, XElement startElement)
         {
-            var body = startElement.Element(WordMl.BodyName);
-            if (body == null)
-            {
-                throw new Exception(string.Format(MessageStrings.MalforedDocumentMissingTag, WordMl.BodyName));
-            }
-            var sdtElement = body.Descendants(WordMl.SdtName).FirstOrDefault();
+            var sdtElement = startElement.Descendants(WordMl.SdtName).FirstOrDefault();
             while (sdtElement != null)
             {
                 sdtElement = this.ParseSdt(parentProcessor, sdtElement);

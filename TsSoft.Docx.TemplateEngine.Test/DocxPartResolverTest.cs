@@ -23,7 +23,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 docxStream.Seek(0, SeekOrigin.Begin);
                 docxStream.CopyTo(memoryStream);
-                var testPackage = new DocxPackage(memoryStream);
+                var testPackage = new DocxPackagePart(memoryStream);
 
                 const int ExpectedAfChunkId = 10;
                 const string ExpectedHtmlString = "<html><head/><body>Test AfChunk Generator</body></html>";
