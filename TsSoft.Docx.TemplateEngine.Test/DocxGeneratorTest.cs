@@ -20,6 +20,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
     {
         private DocxGenerator docxGenerator;
         private Mock<DocxPackage> docxPackageMock;
+        private Mock<DocxPackagePart> docxPackagePartMock;
         private Mock<ITagParser> parserMock;
         private Mock<AbstractProcessor> processorMock;
         private Mock<DataReader> stringDataReaderMock;
@@ -31,6 +32,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
         private Stream outputStream;
 
         private XElement root;
+
 
         [TestMethod]
         public void StubbedTestGenerateDocxString()
@@ -76,7 +78,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             var package = new DocxPackage(output);
             package.Load();
 
-            XDocument documentPartXml = package.DocumentPartXml;
+            XDocument documentPartXml = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
             Assert.IsFalse(documentPartXml.Descendants(WordMl.SdtName).Any());
             Assert.IsNotNull(documentPartXml.Descendants(WordMl.TextRunName).Single(e => e.Value == DynamicText));
         }       
@@ -119,8 +121,9 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 data);
             var package = new DocxPackage(output);
             package.Load();
-            Console.WriteLine(package.DocumentPartXml);
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart);
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
         }
 
         [TestMethod]
@@ -138,7 +141,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             var package = new DocxPackage(output);
             package.Load();
 
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml.Descendants(WordMl.SdtName).Any());
         }
 
         [TestMethod]
@@ -156,7 +159,8 @@ namespace TsSoft.Docx.TemplateEngine.Test
             var package = new DocxPackage(output);
             package.Load();
 
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
         }
         /* NOT REVELANT
         [TestMethod]
@@ -174,7 +178,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 );
             var package = new DocxPackage(output);
             package.Load();
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
         }
         */
         [TestMethod]
@@ -192,7 +196,8 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 );
             var package = new DocxPackage(output);
             package.Load();
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
         }
       
         [TestMethod]
@@ -210,9 +215,10 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Console.WriteLine(package.DocumentPartXml);
-            Assert.IsTrue(package.DocumentPartXml.Root.Descendants(WordMl.TableCellName).All(element => element.Elements().All(el => el.Name != WordMl.TextRunName)));
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Console.WriteLine(documentPart);
+            Assert.IsTrue(documentPart.Root.Descendants(WordMl.TableCellName).All(element => element.Elements().All(el => el.Name != WordMl.TextRunName)));
             
         }
 
@@ -230,9 +236,10 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
             var package = new DocxPackage(output);
             package.Load();
-            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));         
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));         
         }
 
         /*[TestMethod]
@@ -253,9 +260,9 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
             var package = new DocxPackage(output);
             package.Load();
-            Console.WriteLine(package.DocumentPartXml);
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+            Console.WriteLine(documentPart);
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
 
         }*/
 
@@ -294,10 +301,11 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 output.Seek(0, SeekOrigin.Begin);
                 output.CopyTo(fileStream);
             }
-            
-            Console.WriteLine(package.DocumentPartXml);
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart);
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
 
         }
 
@@ -315,8 +323,10 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.Ignore });
             var package = new DocxPackage(output);
             package.Load();
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
         }
 
         [TestMethod]
@@ -334,9 +344,11 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Console.WriteLine(package.DocumentPartXml.ToString());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());   
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));         
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart.ToString());
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());   
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));         
         }
 
         [TestMethod]
@@ -354,10 +366,12 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
-            //Console.WriteLine(package.DocumentPartXml);
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
+            //Console.WriteLine(documentPart);
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
         }
 
         [TestMethod]
@@ -375,10 +389,12 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            //Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));            
-            Console.WriteLine(package.DocumentPartXml);
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            //Console.WriteLine(documentPart.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));            
+            Console.WriteLine(documentPart);
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
         }
 
         [TestMethod]
@@ -406,10 +422,12 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
-            //Console.WriteLine(package.DocumentPartXml);
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
+            //Console.WriteLine(documentPart);
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
 
         }
         
@@ -428,11 +446,13 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            //Console.WriteLine(package.DocumentPartXml.Descendants(package.DocumentPartXml.Root.Elements(WordMl.TableRowName).Skip(2).Take(1).ToString()));
-            Console.WriteLine(package.DocumentPartXml);
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants(WordMl.TableName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));            
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            //Console.WriteLine(documentPart.Descendants(documentPart.Root.Elements(WordMl.TableRowName).Skip(2).Take(1).ToString()));
+            Console.WriteLine(documentPart);
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants(WordMl.TableName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));            
         }
 
 
@@ -451,10 +471,12 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-           // Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
-            Console.WriteLine(package.DocumentPartXml);           
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+           // Console.WriteLine(documentPart.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
+            Console.WriteLine(documentPart);           
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
         }   
 
         [TestMethod]
@@ -472,10 +494,12 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
-            //Console.WriteLine(package.DocumentPartXml);
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
+            //Console.WriteLine(documentPart);
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
         }
 
         [TestMethod]
@@ -492,10 +516,12 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
 
             var package = new DocxPackage(output);
-            package.Load();            
-            //Console.WriteLine(package.DocumentPartXml);
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+            package.Load();
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            //Console.WriteLine(documentPart);
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
         }
         
         [TestMethod]
@@ -513,11 +539,13 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
-            //Console.WriteLine(package.DocumentPartXml);
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.TableCellName).Elements(WordMl.ParagraphName).Any(el => el.Name.Equals(WordMl.TextRunName)));
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
+            //Console.WriteLine(documentPart);
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+            Assert.IsFalse(documentPart.Descendants(WordMl.TableCellName).Elements(WordMl.ParagraphName).Any(el => el.Name.Equals(WordMl.TextRunName)));
         }
 
         [TestMethod]
@@ -535,12 +563,14 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
             var firstRow =
-                package.DocumentPartXml.Descendants(WordMl.TableRowName)
+                documentPart.Descendants(WordMl.TableRowName)
                        .First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1"));
             Console.WriteLine(firstRow);            
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());            
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());            
             Assert.IsFalse(firstRow.Elements().Last(el => el.Name.Equals(WordMl.TableCellName)).Elements().Any(el => el.Name.Equals(WordMl.TextRunName)));
         }     
                
@@ -559,10 +589,12 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
-            //Console.WriteLine(package.DocumentPartXml);
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
+            //Console.WriteLine(documentPart);
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
         }
 
         [TestMethod]
@@ -580,10 +612,12 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
-            //Console.WriteLine(package.DocumentPartXml);
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
+            //Console.WriteLine(documentPart);
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
         }
 
 
@@ -602,9 +636,11 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "тестовое ЭА мероприятие")));
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));         
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "тестовое ЭА мероприятие")));
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));         
         }        
 
         [TestMethod]
@@ -622,9 +658,11 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Console.WriteLine(package.DocumentPartXml.ToString());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart.ToString());
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
         }
 
         [TestMethod]
@@ -642,9 +680,11 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "тестовое ЭА мероприятие")));
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "тестовое ЭА мероприятие")));
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
         }
 
         [TestMethod]
@@ -663,8 +703,10 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Console.WriteLine(package.DocumentPartXml.ToString());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());                        
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart.ToString());
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());                        
         }
         [TestMethod]
         public void TestActualGenerationTextInTable()
@@ -681,10 +723,12 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-           // package.DocumentPartXml.Descendants(WordMl.ParagraphName).Remove();
-            Console.WriteLine(package.DocumentPartXml.Descendants(WordMl.TableName).First());
-            Assert.IsTrue(package.DocumentPartXml.Descendants(WordMl.TableRowName).All(element => element.Elements().All(el => el.Name != WordMl.ParagraphName)));
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+           // documentPart.Descendants(WordMl.ParagraphName).Remove();
+            Console.WriteLine(documentPart.Descendants(WordMl.TableName).First());
+            Assert.IsTrue(documentPart.Descendants(WordMl.TableRowName).All(element => element.Elements().All(el => el.Name != WordMl.ParagraphName)));
 
         }
         [TestMethod]
@@ -702,7 +746,9 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
         }
 
         [TestMethod]
@@ -720,7 +766,9 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
         }
 
         [TestMethod]
@@ -738,7 +786,9 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
         }
 
         [TestMethod]
@@ -756,7 +806,9 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
             var package = new DocxPackage(output);
             package.Load();
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
         }
  
         [TestMethod]
@@ -775,7 +827,8 @@ namespace TsSoft.Docx.TemplateEngine.Test
             var package = new DocxPackage(output);
             package.Load();
 
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
         }
 
         [TestMethod]
@@ -792,20 +845,28 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException});
 
             var package = new DocxPackage(output);
-            package.Load();            
-            Console.WriteLine(package.DocumentPartXml.ToString());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(package.DocumentPartXml.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+            package.Load();
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart.ToString());
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
         }
         private void InitializeStubbedExecution()
         {
             this.docxPackageMock = new Mock<DocxPackage>();
+            this.docxPackageMock.Setup(p => p.Load()).Verifiable();
+            this.docxPackageMock.Setup(p => p.Save()).Verifiable();
+
+            this.docxPackagePartMock = new Mock<DocxPackagePart>();
             var document = new XDocument();
             this.root = document.Root;
 
-            this.docxPackageMock.SetupGet(p => p.DocumentPartXml).Returns(document);
-            this.docxPackageMock.Setup(p => p.Load()).Verifiable();
-            this.docxPackageMock.Setup(p => p.Save()).Verifiable();
+            this.docxPackagePartMock.SetupGet(p => p.PartXml).Returns(document);
+            this.docxPackagePartMock.Setup(p => p.Save()).Verifiable();
+
+            var packageParts = new List<DocxPackagePart> { this.docxPackagePartMock.Object };
+            this.docxPackageMock.SetupGet(x => x.Parts).Returns(packageParts);
 
             var packageFactoryMock = new Mock<IDocxPackageFactory>();
             packageFactoryMock.Setup(f => f.Create(It.IsAny<Stream>())).Returns(this.docxPackageMock.Object);

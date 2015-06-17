@@ -7,7 +7,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
     using System.IO;
     using System.Linq;
     using System.Xml.Linq;
-    using TsSoft.Commons.Utils;    
+    using TsSoft.Commons.Utils;
 
     [TestClass]
     public class DocxPackageTest
@@ -24,7 +24,9 @@ namespace TsSoft.Docx.TemplateEngine.Test
                 Stream expectedDocStream = AssemblyResourceHelper.GetResourceStream(this, "DocxPackageTest_document.xml");
                 var expectedDocument = XDocument.Load(expectedDocStream);
 
-                Assert.AreEqual(expectedDocument.ToString().Trim(), testPackage.DocumentPartXml.Root.ToString().Trim());
+                var documentPart = testPackage.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+
+                Assert.AreEqual(expectedDocument.ToString().Trim(), documentPart.Root.ToString().Trim());
             }
         }
 
@@ -41,17 +43,18 @@ namespace TsSoft.Docx.TemplateEngine.Test
 
                 testPackage.Load();
 
-                XElement sdt = testPackage.DocumentPartXml.Descendants(WordMl.SdtName).First();
+                var documentPart = testPackage.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+                XElement sdt = documentPart.Descendants(WordMl.SdtName).First();
                 sdt.Remove();
 
                 testPackage.Save();
 
                 var expectedDocumentStream = AssemblyResourceHelper.GetResourceStream(this, "DocxPackageTest_save.docx");
 
-                DocxPackage expectedPackage = new DocxPackage(expectedDocumentStream).Load();
-                DocxPackage actualPackage = new DocxPackage(memoryStream).Load();
-                Assert.AreEqual(expectedPackage.DocumentPartXml.Root.ToString().Trim(),
-                                actualPackage.DocumentPartXml.Root.ToString().Trim());
+                DocxPackage expectedPackagePart = new DocxPackage(expectedDocumentStream).Load();
+                DocxPackage actualPackagePart = new DocxPackage(memoryStream).Load();
+                Assert.AreEqual(expectedPackagePart.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml.Root.ToString().Trim(),
+                                actualPackagePart.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml.Root.ToString().Trim());
             }
         }                
     }

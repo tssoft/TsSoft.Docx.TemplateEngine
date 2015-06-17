@@ -1,0 +1,75 @@
+﻿<w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 wp14">
+  <w:body>
+    <w:p w:rsidR="0099783A" w:rsidRDefault="00051F56" />
+    <w:p w:rsidR="008F2852" w:rsidRDefault="008F2852" w:rsidP="008F2852">
+      <w:pPr>
+        <w:pStyle w:val="Header" />
+      </w:pPr>
+      <w:r>
+        <w:t xml:space="preserve">Some </w:t>
+      </w:r>
+      <w:r>
+        <w:t>document</w:t>
+      </w:r>
+      <w:r>
+        <w:t xml:space="preserve"> text</w:t>
+      </w:r>
+    </w:p>
+    <w:p w:rsidR="008F2852" w:rsidRDefault="008F2852" w:rsidP="008F2852">
+      <w:pPr>
+        <w:pStyle w:val="Header" />
+      </w:pPr>
+    </w:p>
+    <w:sdt>
+      <w:sdtPr>
+        <w:tag w:val="Text" />
+        <w:id w:val="2049875136" />
+        <w:placeholder>
+          <w:docPart w:val="164F66E5DA274FD79778B85787273F4B" />
+        </w:placeholder>
+        <w:text />
+      </w:sdtPr>
+      <w:sdtContent>
+        <w:p w:rsidR="008F2852" w:rsidRDefault="008F2852" w:rsidP="008F2852">
+          <w:pPr>
+            <w:pStyle w:val="Header" />
+          </w:pPr>
+          <w:r>
+            <w:t>//test/text</w:t>
+          </w:r>
+        </w:p>
+      </w:sdtContent>
+    </w:sdt>
+    <w:p w:rsidR="008F2852" w:rsidRDefault="008F2852" w:rsidP="008F2852">
+      <w:pPr>
+        <w:pStyle w:val="Header" />
+      </w:pPr>
+    </w:p>
+    <w:p w:rsidR="008F2852" w:rsidRPr="007F46A2" w:rsidRDefault="008F2852" w:rsidP="008F2852">
+      <w:pPr>
+        <w:pStyle w:val="Header" />
+      </w:pPr>
+      <w:r>
+        <w:t xml:space="preserve">Some more </w:t>
+      </w:r>
+      <w:r>
+        <w:t>document</w:t>
+      </w:r>
+      <w:r>
+        <w:t xml:space="preserve"> text</w:t>
+      </w:r>
+    </w:p>
+    <w:p w:rsidR="008F2852" w:rsidRDefault="008F2852">
+      <w:bookmarkStart w:id="0" w:name="_GoBack" />
+      <w:bookmarkEnd w:id="0" />
+    </w:p>
+    <w:sectPr w:rsidR="008F2852">
+      <w:headerReference w:type="default" r:id="rId6" />
+      <w:footerReference w:type="default" r:id="rId7" />
+      <w:pgSz w:w="11906" w:h="16838" />
+      <w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="708" w:footer="708" w:gutter="0" />
+      <w:cols w:space="708" />
+      <w:docGrid w:linePitch="360" />
+    </w:sectPr>
+  </w:body>
+</w:document>

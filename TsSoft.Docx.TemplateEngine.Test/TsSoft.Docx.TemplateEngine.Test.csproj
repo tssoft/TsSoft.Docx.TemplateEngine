@@ -66,6 +66,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="TextTagInHeaderFooterAndDocumentTest.cs" />
+    <Compile Include="DocxPackageHeaderAndFooterTest.cs" />
     <Compile Include="DocxPartResolverTest.cs" />
     <Compile Include="Tags\GeneralParserTest.cs" />
     <Compile Include="Tags\HtmlContentParserTest.cs" />
@@ -137,6 +139,8 @@
     <EmbeddedResource Include="ItemTableDemo.docx" />
     <EmbeddedResource Include="Template3.docx" />
     <EmbeddedResource Include="HTMLLat1Content.docx" />
+    <EmbeddedResource Include="DocxPackageHeaderFooterTest.docx" />
+    <EmbeddedResource Include="DocxPackageHeaderFooterTest_saved.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />
@@ -257,6 +261,28 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Template.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocxPackageHeaderFooterTest_document.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocxPackageHeaderFooterTest_header.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocxPackageHeaderFooterTest_footer.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\TextParserTest_footer.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tags\TextParserTest_header.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DocxPackageHeaderFooterTest_data.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

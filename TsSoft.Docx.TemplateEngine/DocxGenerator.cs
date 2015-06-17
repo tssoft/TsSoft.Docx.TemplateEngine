@@ -121,11 +121,19 @@ namespace TsSoft.Docx.TemplateEngine
             templateStream.CopyTo(outputStream);
 
             var package = this.PackageFactory.Create(outputStream);
-            package.Load();            
+            package.Load();
+            foreach (var part in package.Parts)
+            {
+                ProcessPackage(reader, part, actualSettings);
+            }
+            package.Save();
+        }
 
+        private void ProcessPackage(DataReader reader, DocxPackagePart package, DocxGeneratorSettings actualSettings)
+        {
             var parser = this.ParserFactory.Create();
             var rootProcessor = this.ProcessorFactory.Create();
-            parser.Parse(rootProcessor, package.DocumentPartXml.Root);
+            parser.Parse(rootProcessor, package.PartXml.Root);
 
             reader.MissingDataModeSettings = actualSettings.MissingDataMode;
 
@@ -133,10 +141,8 @@ namespace TsSoft.Docx.TemplateEngine
             rootProcessor.CreateDynamicContentTags = actualSettings.CreateDynamicContentTags;
             rootProcessor.DynamicContentLockingType = actualSettings.DynamicContentLockingType;
             rootProcessor.Process();
-            
-            package.ReplaceAltChunks();
 
-            package.Save();
+            package.ReplaceAltChunks();
         }
 
         private DocxGeneratorSettings GetDefaultSettings()
