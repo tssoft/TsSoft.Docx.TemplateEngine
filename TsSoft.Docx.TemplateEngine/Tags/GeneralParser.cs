@@ -98,6 +98,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         protected string GetTagName(XElement startElement)
         {
+            if (startElement == null)
+            {
+                throw new ArgumentNullException(string.Format("Argument {0} cannot be null", "startElement"));
+            }
             var tagElement = startElement.Descendants(WordMl.TagName).SingleOrDefault();
             if (tagElement == null)
             {

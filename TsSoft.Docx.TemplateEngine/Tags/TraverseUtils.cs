@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
-
-namespace TsSoft.Docx.TemplateEngine.Tags
+﻿namespace TsSoft.Docx.TemplateEngine.Tags
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
+    using System.Xml.Linq;
 
     internal static class TraverseUtils
     {
@@ -53,26 +51,38 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public static IEnumerable<XElement> NextTagElements(XElement startElement, IEnumerable<string> tagNames)
         {
-            var namesList = tagNames.Select(s => s.ToLower()).ToList();
-            var nextTagsInnerElements = GoDeeper(startElement, namesList);
-            if (nextTagsInnerElements.FirstOrDefault() == null)
+            if (startElement == null)
             {
-                var nextTagElements = startElement.ElementsAfterSelf(WordMl.SdtName).Where(MakeTagMatchingPredicate(namesList));
-                return nextTagElements.FirstOrDefault() != null ? nextTagElements : GoUp(startElement, namesList);
+                throw new ArgumentNullException(string.Format("Argument {0} cannot be null", "startElement"));
             }
-            return nextTagsInnerElements;
+            if (tagNames == null)
+            {
+                throw new ArgumentNullException(string.Format("Argument {0} cannot be null", "tagNames"));
+            }
+            var namesList = tagNames.Select(s => s.ToLower()).ToList();
+            var nextTagsInnerElements = GoDeeper(startElement, namesList).ToList();
+            if (nextTagsInnerElements.Any())
+            {
+                return nextTagsInnerElements;
+            }
+            var nextTagElements = startElement.ElementsAfterSelf(WordMl.SdtName).Where(MakeTagMatchingPredicate(namesList)).ToList();
+            return nextTagElements.Any() ? nextTagElements : GoUp(startElement, namesList);
         }
 
         public static IEnumerable<XElement> NextSdtElements(XElement startElement, IEnumerable<XName> names)
         {
             var namesList = names.ToList();
-            var nextTagsInnerElements = GoDeeper(startElement, namesList);
-            if (nextTagsInnerElements.FirstOrDefault() == null)
+            var nextTagsInnerElements = GoDeeper(startElement, namesList).ToList();
+            if (nextTagsInnerElements.Any())
             {
-                var nextTagElements = startElement.ElementsAfterSelf().Where(MakeSdtMatchingPredicate(namesList));
-                return nextTagElements.FirstOrDefault() != null ? nextTagElements : GoUp(startElement, namesList);
+                return nextTagsInnerElements;
             }
-            return nextTagsInnerElements;
+            if (startElement == null)
+            {
+                throw new ArgumentNullException("startElement");
+            }
+            var nextTagElements = startElement.ElementsAfterSelf().Where(MakeSdtMatchingPredicate(namesList)).ToList();
+            return nextTagElements.Any() ? nextTagElements : GoUp(startElement, namesList);
         }
 
         public static IEnumerable<XElement> TagElementsBetween(XElement startElement, XElement endElement, string tagName)
@@ -82,6 +92,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public static IEnumerable<XElement> ElementsBetween(XElement startElement, XElement endElement)
         {
+            if (startElement == null)
+            {
+                throw new ArgumentNullException("startElement");
+            }
+            if (endElement == null)
+            {
+                throw new ArgumentNullException("endElement");
+            }
             if (startElement.Parent.Equals(endElement.Parent))
             {
                 return startElement.ElementsAfterSelf().Where(e => e.IsBefore(endElement));               
@@ -101,6 +119,14 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         // TODO make one second elements between       
         public static IEnumerable<XElement> SecondElementsBetween(XElement startElement, XElement endElement, bool nested = false)
         {
+            if (startElement == null)
+            {
+                throw new ArgumentNullException("startElement");
+            }
+            if (endElement == null)
+            {
+                throw new ArgumentNullException("endElement");
+            }
             if (startElement.Equals(endElement))
             {
                 return Enumerable.Empty<XElement>();
@@ -115,7 +141,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
                 oneLevelElements.AddRange(startElement.ElementsAfterSelf().Where(e => e.IsBefore(endElement)));                
                 return oneLevelElements.AsEnumerable();               
             }
-            XElement currentElement = startElement.NextElementWithUpTransition();
+            var currentElement = startElement.NextElementWithUpTransition();
             var elements = new List<XElement>();
             while ((currentElement != null) && (currentElement != endElement))
             {
@@ -132,6 +158,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         public static XElement TagElement(XElement root, string tagName)
         {
+            if (root == null)
+            {
+                throw new ArgumentNullException("root");
+            }
             return root.Descendants(WordMl.SdtName).First(element => element.Element(WordMl.SdtPrName).Element(WordMl.TagName).Attribute(WordMl.ValAttributeName).Value == tagName);
         }
 
@@ -208,6 +238,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         private static Func<XElement, bool> MakeTagMatchingPredicate(ICollection<string> tagNames)
         {
+            if (tagNames == null)
+            {
+                throw new ArgumentNullException(string.Format("Argument {0} cannot be null", "tagNames"));
+            }
             Func<XElement, bool> func;
             if (!tagNames.Any())
             {
@@ -221,6 +255,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         }
         private static Func<XElement, bool> MakeSdtMatchingPredicate(ICollection<XName> names)
         {
+            if (names == null)
+            {
+                throw new ArgumentNullException("names");
+            }
             Func<XElement, bool> func;
             if (!names.Any())
             {
@@ -235,23 +273,38 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         private static IEnumerable<XElement> GoDeeper(XElement startElement, ICollection<string> tagNames)
         {
-            var tagsElements = startElement.Descendants(WordMl.SdtName).Where(MakeTagMatchingPredicate(tagNames));
-            bool IsAnyTagsElement = tagsElements.Any();
+            if (startElement == null)
+            {
+                throw new ArgumentNullException("startElement");
+            }
+            if (tagNames == null)
+            {
+                throw new ArgumentNullException("tagNames");
+            }
+            var tagsElements = startElement.Descendants(WordMl.SdtName).Where(MakeTagMatchingPredicate(tagNames)).ToList();
+            var isAnyTagsElement = tagsElements.Any();
 
-            return IsAnyTagsElement
+            return isAnyTagsElement
                        ? tagsElements
                        : startElement.ElementsAfterSelf()
                                      .DescendantsAndSelf(WordMl.SdtName)
                                      .Where(MakeTagMatchingPredicate(tagNames));
-
         }
 
         private static IEnumerable<XElement> GoDeeper(XElement startElement, ICollection<XName> names)
         {
-            var tagsElements = startElement.Descendants().Where(MakeSdtMatchingPredicate(names));
-            bool IsAnyTagsElement = tagsElements.Any();
+            if (startElement == null)
+            {
+                throw new ArgumentNullException("startElement");
+            }
+            if (names == null)
+            {
+                throw new ArgumentNullException("names");
+            }
+            var tagsElements = startElement.Descendants().Where(MakeSdtMatchingPredicate(names)).ToList();
+            var isAnyTagsElement = tagsElements.Any();
 
-            return IsAnyTagsElement
+            return isAnyTagsElement
                        ? tagsElements
                        : startElement.ElementsAfterSelf()
                                      .DescendantsAndSelf()
@@ -261,9 +314,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         private static IEnumerable<XElement> GoUp(XElement startElement, ICollection<string> tagNames)
         {
-            IEnumerable<XElement> result = Enumerable.Empty<XElement>();
+            if (startElement == null)
+            {
+                throw new ArgumentNullException("startElement");
+            }
+            if (tagNames == null)
+            {
+                throw new ArgumentNullException("tagNames");
+            }
+            var result = Enumerable.Empty<XElement>();
             var parent = startElement.Parent;
-            while (parent != null && result.FirstOrDefault() == null && !parent.Name.Equals(WordMl.BodyName))
+            while (parent != null && !result.Any() && !parent.Name.Equals(WordMl.BodyName))
             {
                 result = parent.ElementsAfterSelf().DescendantsAndSelf(WordMl.SdtName).Where(MakeTagMatchingPredicate(tagNames));
                 parent = parent.Parent;
@@ -273,9 +334,17 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         private static IEnumerable<XElement> GoUp(XElement startElement, ICollection<XName> names)
         {
-            IEnumerable<XElement> result = Enumerable.Empty<XElement>();
+            if (startElement == null)
+            {
+                throw new ArgumentNullException("startElement");
+            }
+            if (names == null)
+            {
+                throw new ArgumentNullException("names");
+            }
+            var result = Enumerable.Empty<XElement>();
             var parent = startElement.Parent;
-            while (parent != null && result.FirstOrDefault() == null && !parent.Name.Equals(WordMl.BodyName))
+            while (parent != null && !result.Any() && !parent.Name.Equals(WordMl.BodyName))
             {
                 result = parent.ElementsAfterSelf().DescendantsAndSelf().Where(MakeSdtMatchingPredicate(names));
                 parent = parent.Parent;

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-
-namespace TsSoft.Docx.TemplateEngine.Tags
+﻿namespace TsSoft.Docx.TemplateEngine.Tags
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Xml.Linq;
+
     internal class CoreTableParser
     {
         public static readonly string ItemIndexTagName = "ItemIndex";
@@ -27,6 +26,10 @@ namespace TsSoft.Docx.TemplateEngine.Tags
 
         private static void ParseStructuredTableElement(TableElement tableElement, string startTagName, string endTagName)
         {
+            if (tableElement == null)
+            {
+                throw new NullReferenceException("TableElement cannot be null!");
+            }
             tableElement.EndTag = FindEndTag(tableElement.StartTag, startTagName, endTagName);
             tableElement.Expression = tableElement.StartTag.GetExpression();
             tableElement.TagElements = MakeTableElement(tableElement.StartTag, tableElement.EndTag);
@@ -69,7 +72,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             return tableElement;
         }
 
-        private Func<XElement, IEnumerable<TableElement>> MakeTableElementCallback = parentElement =>
+        private readonly Func<XElement, IEnumerable<TableElement>> MakeTableElementCallback = parentElement =>
         {
             ICollection<TableElement> tableElements = new Collection<TableElement>();
             var currentTagElement = TraverseUtils.NextTagElements(parentElement).FirstOrDefault();
@@ -98,9 +101,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags
         public TableTag Parse(XElement startElement, XElement endTableTag)
         {
             var itemsSource = startElement.Value;
-            if (String.IsNullOrEmpty(itemsSource))
+            if (string.IsNullOrEmpty(itemsSource))
             {
-                throw new Exception(String.Format(MessageStrings.TagNotFoundOrEmpty, "Items"));
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, "Items"));
             }
 
             var tag = new TableTag
@@ -189,7 +192,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags
             }
             if (current == null)
             {
-                throw new Exception(String.Format(MessageStrings.TagNotFoundOrEmpty, endTagName));
+                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, endTagName));
             }
             return current;
         }

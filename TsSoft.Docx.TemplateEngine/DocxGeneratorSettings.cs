@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace TsSoft.Docx.TemplateEngine
+﻿namespace TsSoft.Docx.TemplateEngine
 {
+    using System;
+
     public class DocxGeneratorSettings
     {
         public MissingDataMode MissingDataMode { get; set; }

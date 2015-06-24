@@ -1,7 +1,6 @@
 ﻿namespace TsSoft.Docx.TemplateEngine.Tags
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Xml.Linq;
@@ -25,7 +24,7 @@
 
             var endTag = this.FindEndTag(startTag);
 
-            var content = TraverseUtils.ElementsBetween(startTag, endTag);
+            var content = TraverseUtils.ElementsBetween(startTag, endTag).ToList();
             var expression = startTag.GetExpression();
 
             var ifTag = new IfTag
@@ -37,7 +36,7 @@
                             };
 
             var ifProcessor = new IfProcessor { Tag = ifTag };
-            if (content.FirstOrDefault() != null)
+            if (content.Any())
             {
                 this.GoDeeper(ifProcessor, content.First(), endTag);
             }            
@@ -74,36 +73,7 @@
             }
             return current;
         }
-        /*
-        private XElement FindEndTag(XElement startTag, string startTagName, string endTagName)
-        {
-            var startTagsOpened = 1;
-            var current = startTag;
-            while (startTagsOpened > 0 && current != null)
-            {
-                var nextTagElements = TraverseUtils.NextTagElements(current, new Collection<string> { startTagName, endTagName }).ToList();
-                var index = -1;
-                while ((index < nextTagElements.Count) && (startTagsOpened != 0))
-                {
-                    index++;
-                    if (nextTagElements[index].IsTag(startTagName))
-                    {
-                        startTagsOpened++;
-                    }
-                    else
-                    {
-                        startTagsOpened--;
-                    }
-                }
-                current = nextTagElements[index];
-            }
-            if (current == null)
-            {
-                throw new Exception(string.Format(MessageStrings.TagNotFoundOrEmpty, endTagName));
-            }
-            return current;
-        }
-        */
+
         private bool GoDeeper(ITagProcessor parentProcessor, XElement element, XElement endElement)
         {
             var endReached = false;
@@ -126,33 +96,5 @@
             while (element != null && !endReached);
             return endReached;
         }
-        /*
-        private bool GoDeeper(ITagProcessor parentProcessor, XElement element)
-        {
-            var endReached = false;
-            do
-            {
-                if (element.IsSdt())
-                {
-                    switch (this.GetTagName(element).ToLower())
-                    {
-                        case "endif":
-                            return true;
-                        
-                        default:
-                            element = this.ParseSdt(parentProcessor, element);
-                            break;
-                    }
-                }
-                else if (element.HasElements)
-                {
-                    endReached = this.GoDeeper(parentProcessor, element.Elements().First());
-                }
-                element = element.NextElement();
-            }
-            while (element != null && !endReached);
-            return endReached;
-        }
-         */
     }
 }
