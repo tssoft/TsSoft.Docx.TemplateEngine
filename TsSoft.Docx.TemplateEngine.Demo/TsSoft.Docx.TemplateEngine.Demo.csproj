@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Examples\WorkTasksTemplate.docx" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

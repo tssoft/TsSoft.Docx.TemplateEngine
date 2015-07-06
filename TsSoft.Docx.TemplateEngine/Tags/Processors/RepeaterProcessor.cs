@@ -125,8 +125,9 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     }
                     continue;
                 }
-                if (repeaterElement.IsEndItemIf && repeaterElement.Equals(endIfElement))
+                if (repeaterElement.IsEndItemIf && repeaterElement.XElement.Equals(endIfElement))
                 {
+                    endIfElement.Remove();
                     endIfElement = null;
                     continue;
                 }
@@ -207,7 +208,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     {
                         element.Value = repeaterElement.XElement.Value;
                     }
-                }
+                } 
                 if (result != null)
                 {
                     if (!nested)
