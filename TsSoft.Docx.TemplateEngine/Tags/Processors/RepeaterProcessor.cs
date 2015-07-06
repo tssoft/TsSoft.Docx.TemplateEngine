@@ -15,7 +15,7 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
             base.Process();
 
             this.ProcessDynamicContent();
-
+            
             var current = RepeaterTag.StartRepeater;
             var dataReaders = DataReader.GetReaders(RepeaterTag.Source).ToList();
             var repeaterElements =
@@ -125,10 +125,13 @@ namespace TsSoft.Docx.TemplateEngine.Tags.Processors
                     }
                     continue;
                 }
-                if (repeaterElement.IsEndItemIf && repeaterElement.XElement.Equals(endIfElement))
+                if (repeaterElement.IsEndItemIf /*&& repeaterElement.XElement.Equals(endIfElement)*/)
                 {
-                    endIfElement.Remove();
-                    endIfElement = null;
+                    //endIfElement = null;
+                    if (repeaterElement.XElement.Equals(endIfElement))
+                    {
+                        endIfElement = null;
+                    }
                     continue;
                 }
                 if ((endIfElement != null) && !repeaterElement.XElement.Name.Equals(WordMl.ParagraphName))

@@ -594,6 +594,29 @@ namespace TsSoft.Docx.TemplateEngine.Test
             Console.WriteLine(documentPart.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
             //Console.WriteLine(documentPart);
             Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));                
+        }
+
+        [TestMethod]
+        public void TestActualGenerationItemIfInRepeater()
+        {
+            var input = AssemblyResourceHelper.GetResourceStream(this, "FaultItemIf.docx");
+            var output = new MemoryStream();
+            var generator = new DocxGenerator();
+            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "FaultItemIfData.xml");
+            var data = XDocument.Load(dataStream);
+            generator.GenerateDocx(
+                input,
+                output,
+                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+
+            var package = new DocxPackage(output);
+            package.Load();
+
+            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+            Console.WriteLine(documentPart);
+            //Console.WriteLine(documentPart);
+            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
             Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
         }
 

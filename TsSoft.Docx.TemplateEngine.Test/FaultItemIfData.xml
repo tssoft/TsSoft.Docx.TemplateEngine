@@ -1,0 +1,36 @@
+<demo>
+	<test>
+		<data>
+			<OrganizationRecipient>OrgRec</OrganizationRecipient>
+			<PersonRecipient>PersRec</PersonRecipient>
+			<RecipientAddress>someAddr</RecipientAddress>
+			<HasPhone>true</HasPhone>
+			<RecipientPhone>210 68 03</RecipientPhone>		
+			<PsedNumber>PsedNum</PsedNumber>
+		</data>
+		<data>
+			<OrganizationRecipient>OrgRec</OrganizationRecipient>
+			<PersonRecipient>PersRec</PersonRecipient>
+			<RecipientAddress>someAddr</RecipientAddress>
+			<HasPhone>false</HasPhone>
+			<RecipientPhone>210 68 03</RecipientPhone>
+			<PsedNumber>PsedNum</PsedNumber>
+		</data>
+		<data>
+			<OrganizationRecipient>OrgRec</OrganizationRecipient>
+			<PersonRecipient>PersRec</PersonRecipient>
+			<RecipientAddress>someAddr</RecipientAddress>
+			<HasPhone>true</HasPhone>
+			<RecipientPhone>210 68 03</RecipientPhone>			
+			<PsedNumber>PsedNum</PsedNumber>
+		</data>
+		<data>
+			<OrganizationRecipient>OrgRec</OrganizationRecipient>
+			<PersonRecipient>PersRec</PersonRecipient>
+			<RecipientAddress>someAddr</RecipientAddress>
+			<HasPhone>false</HasPhone>
+			<RecipientPhone>210 68 03</RecipientPhone>			
+			<PsedNumber>PsedNum</PsedNumber>
+		</data>
+	</test>
+</demo>

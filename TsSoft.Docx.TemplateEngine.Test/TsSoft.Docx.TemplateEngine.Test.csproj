@@ -141,6 +141,7 @@
     <EmbeddedResource Include="HTMLLat1Content.docx" />
     <EmbeddedResource Include="DocxPackageHeaderFooterTest.docx" />
     <EmbeddedResource Include="DocxPackageHeaderFooterTest_saved.docx" />
+    <EmbeddedResource Include="FaultItemIf.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="DocxPackageTest.docx" />
     <EmbeddedResource Include="Repeater.docx" />
@@ -283,6 +284,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DocxPackageHeaderFooterTest_data.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FaultItemIfData.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
