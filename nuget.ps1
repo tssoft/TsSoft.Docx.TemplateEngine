@@ -15,8 +15,8 @@ function SetNodeValue([xml]$xml, [string]$xpath, [string]$value)
 	}
 }
 
-Remove-Item .\TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine\bin -Recurse 
-Remove-Item .\TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine\obj -Recurse
+Remove-Item .\TsSoft.Docx.TemplateEngine\*\bin -Recurse 
+Remove-Item .\TsSoft.Docx.TemplateEngine\*\obj -Recurse
 
 $build = "c:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe ""TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine.csproj"" /p:Configuration=Release" 
 Invoke-Expression $build
