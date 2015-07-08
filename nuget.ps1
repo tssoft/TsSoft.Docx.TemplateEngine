@@ -35,14 +35,31 @@ function CopyMetadata([xml]$source, [xml]$destination, [string]$name)
 	return $null;
 }
 
+echo 'funcs declared'
+
 CopyMetadata $srcxml $destxml 'version'
+
+echo 'version copied'
+
 CopyMetadata $srcxml $destxml 'description'
+
+echo 'description copied'
+
 CopyMetadata $srcxml $destxml 'copyright'
+
+echo 'copyright copied'
+
 $destxml.Save($TargetSpecification)
+
+echo 'saved'
 
 .nuget\nuget pack $TargetSpecification
 
+echo 'packed'
+
 del *.nuspec
 del .\TsSoft.Docx.TemplateEngine\bin\Release\*.nuspec
+
+echo 'deleted'
 
 exit
