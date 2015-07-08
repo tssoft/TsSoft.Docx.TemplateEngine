@@ -1,7 +1,13 @@
-del TsSoft.Docx.TemplateEngine.*.nupkg
-del *.nuspec
-del .\TsSoft.Docx.TemplateEngine\*\bin\*.nuspec
+function Get-CurrentLineNumber { 
+    $MyInvocation.ScriptLineNumber 
+}
 
+del TsSoft.Docx.TemplateEngine.*.nupkg
+echo Get-CurrentLineNumber
+del *.nuspec
+echo Get-CurrentLineNumber
+del .\TsSoft.Docx.TemplateEngine\*\bin\*.nuspec
+echo Get-CurrentLineNumber
 function GetNodeValue([xml]$xml, [string]$xpath)
 {
 	return $xml.SelectSingleNode($xpath).'#text'
@@ -16,10 +22,13 @@ function SetNodeValue([xml]$xml, [string]$xpath, [string]$value)
 }
 
 Remove-Item .\TsSoft.Docx.TemplateEngine\*\bin -Recurse 
+echo Get-CurrentLineNumber
 Remove-Item .\TsSoft.Docx.TemplateEngine\*\obj -Recurse
+echo Get-CurrentLineNumber
 
 $build = "c:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe ""TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine.csproj"" /p:Configuration=Release" 
 Invoke-Expression $build
+echo Get-CurrentLineNumber
 
 $Artifact = (resolve-path ".\TsSoft.Docx.TemplateEngine\bin\Release\TsSoft.Docx.TemplateEngine.dll").path
 
