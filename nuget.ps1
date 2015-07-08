@@ -8,17 +8,31 @@ Remove-Item .\TsSoft.Docx.TemplateEngine\*\obj -Recurse
 $build = "c:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe ""TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine.csproj"" /p:Configuration=Release" 
 Invoke-Expression $build
 
+echo 'build'
+
 $Artifact = (resolve-path ".\TsSoft.Docx.TemplateEngine\bin\Release\TsSoft.Docx.TemplateEngine.dll").path
 
 .nuget\nuget spec -F -A $Artifact
 
 Copy-Item TsSoft.Docx.TemplateEngine.nuspec.xml .\TsSoft.Docx.TemplateEngine\bin\Release\TsSoft.Docx.TemplateEngine.nuspec
 
+echo 'copy nuspec'
+
 $GeneratedSpecification = (resolve-path ".\TsSoft.Docx.TemplateEngine.nuspec").path
+
+echo 'GeneratedSpecification resolved'
+
 $TargetSpecification = (resolve-path ".\TsSoft.Docx.TemplateEngine\bin\Release\TsSoft.Docx.TemplateEngine.nuspec").path
 
+echo 'TargetSpecification resolved'
+
 [xml]$srcxml = Get-Content $GeneratedSpecification
+
+echo 'srcxml get-content'
+
 [xml]$destxml = Get-Content $TargetSpecification
+
+echo 'destxml get-content'
 
 function EnsureMetadataNodeExists([xml]$destination, [string]$name)
 {
