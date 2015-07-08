@@ -1,6 +1,6 @@
 del TsSoft.Docx.TemplateEngine.*.nupkg
 del *.nuspec
-del .\TsSoft.Docx.TemplateEngine\bin\*.nuspec
+del .\TsSoft.Docx.TemplateEngine\*\bin\*.nuspec
 
 function GetNodeValue([xml]$xml, [string]$xpath)
 {
