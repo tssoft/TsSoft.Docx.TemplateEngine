@@ -3,11 +3,8 @@ function Get-CurrentLineNumber {
 }
 
 del TsSoft.Docx.TemplateEngine.*.nupkg
-echo Get-CurrentLineNumber
 del *.nuspec
-echo Get-CurrentLineNumber
 del .\TsSoft.Docx.TemplateEngine\*\bin\*.nuspec
-echo Get-CurrentLineNumber
 function GetNodeValue([xml]$xml, [string]$xpath)
 {
 	return $xml.SelectSingleNode($xpath).'#text'
@@ -22,14 +19,16 @@ function SetNodeValue([xml]$xml, [string]$xpath, [string]$value)
 }
 
 
-
+echo before
 $build = "c:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe ""TsSoft.Docx.TemplateEngine\TsSoft.Docx.TemplateEngine.csproj"" /p:Configuration=Release" 
+echo atatat
 Invoke-Expression $build
-echo Get-CurrentLineNumber
+echo build
 
 $Artifact = (resolve-path ".\TsSoft.Docx.TemplateEngine\bin\Release\TsSoft.Docx.TemplateEngine.dll").path
 
 .nuget\nuget spec -F -A $Artifact
+echo nuget
 
 Copy-Item TsSoft.Docx.TemplateEngine.nuspec.xml .\TsSoft.Docx.TemplateEngine\bin\Release\TsSoft.Docx.TemplateEngine.nuspec
 
