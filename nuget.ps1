@@ -1,7 +1,3 @@
-function Get-CurrentLineNumber { 
-    $MyInvocation.ScriptLineNumber 
-}
-
 del TsSoft.Docx.TemplateEngine.*.nupkg
 del *.nuspec
 del .\TsSoft.Docx.TemplateEngine\*\bin\*.nuspec
@@ -24,25 +20,24 @@ $TargetSpecification = (resolve-path ".\TsSoft.Docx.TemplateEngine\bin\Release\T
 [xml]$srcxml = Get-Content $GeneratedSpecification
 [xml]$destxml = Get-Content $TargetSpecification
 
-function GetNodeValue([xml]$xml, [string]$xpath)
+function EnsureMetadataNodeExists([xml]$destination, [string]$name)
 {
-	return $xml.SelectSingleNode($xpath).'#text'
-}
-
-function SetNodeValue([xml]$xml, [string]$xpath, [string]$value)
-{
-	$node = $xml.SelectSingleNode($xpath)
-	if ($node) {
-		$node.'#text' = $value
+	if (!$destination.package.metadata.$name)
+	{
+		$destination.package.metadata.AppendChild($destination.CreateElement($name))
 	}
 }
 
-$value = GetNodeValue $srcxml "//version"
-SetNodeValue $destxml "//version" $value;
-$value = GetNodeValue $srcxml "//description"
-SetNodeValue $destxml "//description" $value;
-$value = GetNodeValue $srcxml "//copyright"
-SetNodeValue $destxml "//copyright" $value;
+function CopyMetadata([xml]$source, [xml]$destination, [string]$name) 
+{
+	EnsureMetadataNodeExists $destination $name
+	$destination.package.metadata.$name = $source.package.metadata.$name
+	return $null;
+}
+
+CopyMetadata $srcxml $destxml 'version'
+CopyMetadata $srcxml $destxml 'description'
+CopyMetadata $srcxml $destxml 'copyright'
 $destxml.Save($TargetSpecification)
 
 .nuget\nuget pack $TargetSpecification
