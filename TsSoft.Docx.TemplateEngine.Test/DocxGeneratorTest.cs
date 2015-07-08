@@ -40,6 +40,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             this.InitializeStubbedExecution();
             this.docxGenerator.GenerateDocx(this.templateStream, this.outputStream, "whatever");
             this.MakeAssertions(this.stringDataReaderMock);
+            this.templateStream.Dispose();
         }
 
         [TestMethod]
@@ -48,6 +49,7 @@ namespace TsSoft.Docx.TemplateEngine.Test
             this.InitializeStubbedExecution();
             this.docxGenerator.GenerateDocx(this.templateStream, this.outputStream, new XDocument());
             this.MakeAssertions(this.documentDataReaderMock);
+            this.templateStream.Dispose();
         }
 
         [TestMethod]
@@ -56,31 +58,36 @@ namespace TsSoft.Docx.TemplateEngine.Test
             this.InitializeStubbedExecution();
             this.docxGenerator.GenerateDocx(this.templateStream, this.outputStream, new A());
             this.MakeAssertions(this.entityDataReaderMock);
+            this.templateStream.Dispose();
         }
 
         [TestMethod]
         public void TestActualGeneration()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "DocxPackageTest.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            const string DynamicText = "My anaconda don't";
-            generator.GenerateDocx(
-                input,
-                output,
-                new SomeEntityWrapper
+            using (input)
+            {
+                var output = new MemoryStream();
+                var generator = new DocxGenerator();
+                const string DynamicText = "My anaconda don't";
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    new SomeEntityWrapper
                     {
                         Test = new SomeEntity
-                            {
-                                Text = DynamicText
-                            }
+                        {
+                            Text = DynamicText
+                        }
                     });
-            var package = new DocxPackage(output);
-            package.Load();
+                var package = new DocxPackage(output);
+                package.Load();
 
-            XDocument documentPartXml = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
-            Assert.IsFalse(documentPartXml.Descendants(WordMl.SdtName).Any());
-            Assert.IsNotNull(documentPartXml.Descendants(WordMl.TextRunName).Single(e => e.Value == DynamicText));
+                XDocument documentPartXml = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+                Assert.IsFalse(documentPartXml.Descendants(WordMl.SdtName).Any());
+                Assert.IsNotNull(documentPartXml.Descendants(WordMl.TextRunName).Single(e => e.Value == DynamicText));
+            }
+          
         }       
 
         [TestMethod]
@@ -111,161 +118,156 @@ namespace TsSoft.Docx.TemplateEngine.Test
         public void TestActualGenerationRepeater()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "Repeater.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data);
-            var package = new DocxPackage(output);
-            package.Load();
-            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
-            Console.WriteLine(documentPart);
-            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            using (input)
+            {
+                var output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data);
+                var package = new DocxPackage(output);
+                package.Load();
+                var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+                Console.WriteLine(documentPart);
+                Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            }
         }
 
         [TestMethod]
         public void TestActualGenerationRepeaterInIf()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "RepeaterInIf.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "dataRepeaterInIf.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data);
-            var package = new DocxPackage(output);
-            package.Load();
+            using (input)
+            {
+                var output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "dataRepeaterInIf.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data);
+                var package = new DocxPackage(output);
+                package.Load();
 
-            Assert.IsFalse(package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml.Descendants(WordMl.SdtName).Any());
+                Assert.IsFalse(package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml.Descendants(WordMl.SdtName).Any());
+            }
         }
 
         [TestMethod]
         public void TestActualGenerationDoubleIfAndText()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "IfText2.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data);
-            var package = new DocxPackage(output);
-            package.Load();
+            using (input)
+            {
+                var output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data);
+                var package = new DocxPackage(output);
+                package.Load();
 
-            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
-            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+                var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+                Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            }
         }
-        /* NOT REVELANT
-        [TestMethod]
-        public void TestActualGenerationItemsAfterEndContent()
-        {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "RepeaterItemsAfterEndContent.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "dataItemsAfterEndContent.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data
-                );
-            var package = new DocxPackage(output);
-            package.Load();
-            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
-        }
-        */
+
         [TestMethod]
         public void TestActualGenerationIfWithParagraphs()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "if.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data
-                );
-            var package = new DocxPackage(output);
-            package.Load();
-            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
-            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            using (input)
+            {
+                var output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data
+                    );
+                var package = new DocxPackage(output);
+                package.Load();
+                var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+                Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+            }
         }
       
         [TestMethod]
         public void TestActualGenerationStaticTextAfterTag()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "corruptedDocxx.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "DemoData2.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data);
+            using (input)
+            {
+                var output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "DemoData2.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data);
 
-            var package = new DocxPackage(output);
-            package.Load();
-            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
-            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
-            Console.WriteLine(documentPart);
-            Assert.IsTrue(documentPart.Root.Descendants(WordMl.TableCellName).All(element => element.Elements().All(el => el.Name != WordMl.TextRunName)));
+                var package = new DocxPackage(output);
+                package.Load();
+                var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+                Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+                Console.WriteLine(documentPart);
+                Assert.IsTrue(documentPart.Root.Descendants(WordMl.TableCellName).All(element => element.Elements().All(el => el.Name != WordMl.TextRunName)));
             
+            }
         }
 
         [TestMethod]
         public void TestActualGenerationItemRepeaterNested()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedDemo.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedDemoData.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
-            var package = new DocxPackage(output);
-            package.Load();
-            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
-            Console.WriteLine(documentPart.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
-            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));         
+            using (input)
+            {
+                var output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedDemoData.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+                var package = new DocxPackage(output);
+                package.Load();
+                var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+                Console.WriteLine(documentPart.Descendants(WordMl.TableRowName).First(tr => tr.Descendants().Any(el => el.Value == "Certificate 1")));
+                Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+                Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));         
+            }
         }
 
-        /*[TestMethod]
-        public void TestActualTextGenerationHTMLLat1Content()
-        {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "HTMLLat1Content.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "HTMLLat1ContentData.xml");
-
-            var streamReader = new StreamReader(dataStream);
-
-            var data = streamReader.ReadToEnd();
-
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
-            var package = new DocxPackage(output);
-            package.Load();
-            Console.WriteLine(documentPart);
-            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
-
-        }*/
-
+    
         [TestMethod]
         public void TestActualXDocumentGenerationHTMLLat1Content()
         {
@@ -278,34 +280,37 @@ namespace TsSoft.Docx.TemplateEngine.Test
 		        &lt;/html&gt;
             ";
             var input = AssemblyResourceHelper.GetResourceStream(this, "HTMLLat1Content.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();            
-
-            var data = new XDocument();
-            data.Add(
-                    new XElement("test", new XElement(
-                        "hypertext", htmlContentText 
-                        )
-                    )
-            );
-
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
-            var package = new DocxPackage(output);
-            package.Load();
-
-            using (var fileStream = File.Create("C:\\xdochtmlcontent.docx"))
+            using (input)
             {
-                output.Seek(0, SeekOrigin.Begin);
-                output.CopyTo(fileStream);
-            }
+                var output = new MemoryStream();
+                var generator = new DocxGenerator();
 
-            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
-            Console.WriteLine(documentPart);
-            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+                var data = new XDocument();
+                data.Add(
+                        new XElement("test", new XElement(
+                            "hypertext", htmlContentText
+                            )
+                        )
+                );
+
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+                var package = new DocxPackage(output);
+                package.Load();
+
+                using (var fileStream = File.Create("C:\\xdochtmlcontent.docx"))
+                {
+                    output.Seek(0, SeekOrigin.Begin);
+                    output.CopyTo(fileStream);
+                }
+
+                var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+                Console.WriteLine(documentPart);
+                Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+                Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+            }
 
         }
 
@@ -313,56 +318,74 @@ namespace TsSoft.Docx.TemplateEngine.Test
         public void TestActualGenerationItemHtmlContentInTable()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "ItemHtmlContentInTable.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.Ignore });
-            var package = new DocxPackage(output);
-            package.Load();
+            using (input)
+            {
+                var output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.Ignore });
+                var package = new DocxPackage(output);
+                package.Load();
 
-            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
-            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
-            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+                var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+                Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+                Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));
+            }
         }
 
         [TestMethod]
         public void TestActualGenerationItemRepeater()
         {
             var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterDemo.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterDemoData.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException});
+            using (input)
+            {
+                var output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterDemoData.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
 
-            var package = new DocxPackage(output);
-            package.Load();
+                var package = new DocxPackage(output);
+                package.Load();
 
-            var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
-            Console.WriteLine(documentPart.ToString());
-            Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());   
-            Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));         
+                var documentPart = package.Parts.Single(p => p.PartUri.OriginalString.Contains("document.xml")).PartXml;
+                Console.WriteLine(documentPart.ToString());
+                Assert.IsFalse(documentPart.Descendants(WordMl.SdtName).Any());
+                Assert.IsFalse(documentPart.Descendants(WordMl.ParagraphName).Descendants().Any(el => el.Name == WordMl.ParagraphName));         
+            }
         }
 
         [TestMethod]
         public void TestActualGenerationItemRepeaterNestedTwoRepeaters()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemo.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoData.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemo.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoData.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -377,15 +400,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationRepeaterItemRepeaterItemTableItemTable()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "RepeaterSimplifiedDemo.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "DemoSampleData.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "RepeaterSimplifiedDemo.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "DemoSampleData.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -410,15 +439,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationItemRepeaterNestedTwoRepeatersWithoutSeparator()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoWithoutSeparator.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoData.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoWithoutSeparator.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoData.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -434,15 +469,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationItemTableInTable()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "ItemTableDemo.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemTableDemoData.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "ItemTableDemo.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemTableDemoData.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -459,15 +500,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationTemplate2()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "Template3.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemTableDemoData.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "Template3.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemTableDemoData.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -482,15 +529,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationItemRepeaterNestedOneRepeaterWithEndItemRepeaterAndItemIndexInOneParagraph()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedDemo20.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoData.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedDemo20.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoData.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -505,15 +558,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationItemHtmlContentInTble()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "badhtml.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "badhtml_data.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "badhtml.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "badhtml_data.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -527,15 +586,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationItemRepeaterNestedDemoIRInParagraph()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedDemoIRParagraph.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoData.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedDemoIRParagraph.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoData.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -551,15 +616,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationItemRepeaterNestedInOneParagraph()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedInOneParagraph.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoData.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedInOneParagraph.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoData.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -577,15 +648,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationItemRepeaterNestedTwoRepeatersWithStaticText()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoWithStaticText.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoData.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoWithStaticText.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNested2IRDemoData.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -600,15 +677,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationItemIfInRepeater()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "FaultItemIf.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "FaultItemIfData.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "FaultItemIf.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "FaultItemIfData.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -623,15 +706,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationItemRepeaterNestedElementsAfterEndItemRepeater()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedDemo20.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedDemoData.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedDemo20.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterNestedDemoData.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -647,15 +736,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationItemRepeaterElementsInParagraphs()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "nowbadplan_one.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "PlanDocx.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "nowbadplan_one.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "PlanDocx.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -669,15 +764,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationItemRepeaterInRepeater()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "IRinRepeater.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterDemoData.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException});
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "IRinRepeater.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ItemRepeaterDemoData.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException});
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -691,15 +792,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationItemRepeaterElementsInParagraphs2()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "badplan.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "PlanDocx.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "badplan.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "PlanDocx.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -713,16 +820,22 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationDoubleItemIfWithItemText()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "corruptedDoc.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "DemoData2.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, 
-                new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "corruptedDoc.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "DemoData2.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, 
+                    new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException });
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -734,15 +847,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationTextInTable()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "textintable.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data);
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "textintable.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data);
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -757,15 +876,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationIfWithTableWithParagraphs()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "ifTtable1.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data);
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "ifTtable1.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data);
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -777,15 +902,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationRepeaterWithTextWithParagraphs()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "repeatertext1.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data);
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "repeatertext1.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data);
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -797,15 +928,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationDoubleIf()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "DoubleIf.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data);
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "DoubleIf.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data);
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -817,15 +954,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationIfInline()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "ifinline.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ifinline_data.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data);
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "ifinline.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "ifinline_data.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data);
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -837,15 +980,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationDoubleRepeater()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "DoubleRepeater.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data);
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "DoubleRepeater.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data);
+            }
 
             var package = new DocxPackage(output);
             package.Load();
@@ -857,15 +1006,21 @@ namespace TsSoft.Docx.TemplateEngine.Test
         [TestMethod]
         public void TestActualGenerationDoubleHtmlContent()
         {
-            var input = AssemblyResourceHelper.GetResourceStream(this, "DoubleHtmlContent.docx");
-            var output = new MemoryStream();
-            var generator = new DocxGenerator();
-            var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml");
-            var data = XDocument.Load(dataStream);
-            generator.GenerateDocx(
-                input,
-                output,
-                data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException});
+            MemoryStream output;
+            using (var input = AssemblyResourceHelper.GetResourceStream(this, "DoubleHtmlContent.docx"))
+            {
+                output = new MemoryStream();
+                var generator = new DocxGenerator();
+                XDocument data;
+                using (var dataStream = AssemblyResourceHelper.GetResourceStream(this, "data.xml"))
+                {
+                    data = XDocument.Load(dataStream);
+                }
+                generator.GenerateDocx(
+                    input,
+                    output,
+                    data, new DocxGeneratorSettings() { MissingDataMode = MissingDataMode.ThrowException});
+            }
 
             var package = new DocxPackage(output);
             package.Load();
